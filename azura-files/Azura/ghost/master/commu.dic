@@ -1,0 +1,1705 @@
+//---------------------------Communication--------------------------
+
+//I'm going to level with you, I don't really get a lot of what's going on in this .dic file. I'm pretty sure it's related to having ghosts talk to each other, or acknowledge each other's presence in some way, but I don't really know. If someone else knows more about this than I do, I'd love to hear about it, but for now, leave it all alone except for a few lines near the bottom.
+
+
+//communicate would be what says to Azura if she can communicate with a ghost or not, 0 is not, 1 is yes.
+
+
+
+//Only check Azura's status. If a ghost try to communicate, this would check her status to know if she can respond immediatly or not.
+OnCheckStatus
+{
+	//SAVEVAR
+	communicate = 0
+	
+	if ASEARCH("Status",var.req.key) != -1
+	{
+		//If there is the word balloon is Azura's status, that means one is opened so that she is speaking with the user
+		currentstatus = var.req.value[ASEARCH("Status",var.req.key)]
+		if "balloon" _in_ currentstatus
+		{
+			communicate = 0
+		}
+		else
+		{
+			communicate = 1
+		}
+	}
+	else
+	{
+		//If the status isn't found, there isn't any balloon opened
+		communicate = 1
+	}
+}
+
+OnCommunicate
+ {
+	if reference0 == "user" || reference0 == "User"
+ 	{
+		//---- 사용자로부터의 이야기에 대답
+ 		ReplyToUser
+	}
+ 	else
+	{
+ 		//---- 유령로부터의 이야기에 대답
+		//Check if Azura can respond
+		OnCheckStatus
+		--
+		if conversation[1] != reference0
+		{
+			nbconv = 0
+		}
+		conversation[1] = "%(reference0)"
+		//If yes, she would respond immediately
+ 		if communicate == 1
+		{
+			ghostcommunicated = IARRAY
+			if nbconv < 1
+			{
+				res_reference0 = reference0
+				if reference1[0] == conversation[2]
+				{
+					nbconv++
+				}
+				else
+				{
+					truc = reference1[0]
+					retruc =conversation[2]
+				}
+				conversation[1] = "%(reference0)"
+				conversation[2] = "%(reference1)"
+				speech = TOLOWER("%(reference1)")
+				ReplyToGhost				
+			}
+			else
+			{
+				conversation[0] = IARRAY
+				conversation[0] = "ready"
+			}			
+		}
+		//If she was already speaking, it stocks the name of the ghost who communicated to respond to him later, when the balloon would be closed
+		else
+		{
+			ghostcommunicated = IARRAY
+			ghostcommunicated[0] = "%(reference0)"
+			ghostcommunicated[1] = "%(reference1)"
+			
+			//This variable will be checked in OnBalloonClose and in OnBalloonBreak, so if a ghost tried to communicate, Azura would respond to him back when she finish to talk with the user.
+		}
+ 	}
+	SAVEVAR
+}
+
+ReplyToUser
+{
+	TalkToUser
+}
+
+
+//Azura responding to other ghosts
+ReplyToGhost
+{
+	if asleep != 1
+	{
+		"%(lsto)"
+		--
+		if conversation[1] == "MVSans"
+		{
+			if conversation[0] != "started"
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					"* Howdy.\w7\n"
+					"* Hello.\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					"* I'm Azura,\w5 the player from an alternative timeline.\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					"* I'm fine. \w7And how are you too ?\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech
+				{
+					"* I'm glad you do.\w7\n"
+					conversation[0] = "ready"
+				}
+				if conversation[0] != "ready"
+				{
+					"* Hum,\w5 I didn't understand a lot.\w7\n"
+					"* Alright."
+					"* Ok."
+					"%(lsta)%(conversation[1]) lost her attention.%(lsto)"
+					"%(lsta)She looks satisfied.%(lsto)"
+					nbconv++
+					
+				}
+				conversation[0] =  "ready"
+			}
+			else
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					"* How are you ?\w7\n"
+					conversation[0] = "started"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech
+				{
+					"* I'm glad you do.\w7\n"
+					conversation[0] = "started"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					"* I'm Azura,\w5 the player from an alternative timeline.\w7\n"
+					conversation[0] = "started"
+				}
+				
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					"* I'm fine.\w7\n"
+					conversation[0] = "started"
+				}
+				if conversation[0] != "started"
+				{
+					"* Hum,\w5 I didn't understand a lot.\w7\n"
+					"* Alright."
+					"* Ok."
+					"%(lsta)%(conversation[1]) lost her attention.%(lsto)"
+					"%(lsta)She looks satisfied.%(lsto)"
+					nbconv++
+				}
+				conversation[0] =  "started"
+			}
+		}
+		elseif "flowey" _in_ TOLOWER(conversation[1])
+		{
+			if conversation[0] != "started"
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					"* Howdy Flowey.\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					"* I'm Azura,\w5 the player from an alternative timeline.\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					"* I'm fine. \w7And how are you too ?\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech
+				{
+					"* I'm glad you do.\w7\n"
+					conversation[0] = "ready"
+				}
+				if conversation[0] != "ready"
+				{
+					"* Hum,\w5 I didn't understand a lot.\w7\n"
+					"* Alright."
+					"* Ok."
+					"%(lsta)%(conversation[1]) lost her attention.%(lsto)"
+					"%(lsta)She looks satisfied.%(lsto)"
+					nbconv++
+					
+				}
+				conversation[0] =  "ready"
+			}
+			else
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					"* How are you ?\w7\n"
+					conversation[0] = "started"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech
+				{
+					"* I'm glad you do.\w7\n"
+					conversation[0] = "started"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					"* I'm Azura,\w5 the player from an alternative timeline.\w7\n"
+					conversation[0] = "started"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					"* I'm fine.\w7\n"
+					conversation[0] = "started"
+				}
+				
+				if conversation[0] != "started"
+				{
+					"* Hum,\w5 I didn't understand a lot.\w7\n"
+					"* Alright."
+					"* Ok."
+					"%(lsta)%(conversation[1]) lost her attention.%(lsto)"
+					"%(lsta)She looks satisfied.%(lsto)"
+					nbconv++
+					
+				}
+				conversation[0] =  "started"
+			}
+		}
+		elseif conversation[1] == "Ralsei"
+		{
+			if conversation[0] != "started"
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					"* Hello,\w5 fluffy boy.\w7\n"
+					"* Hi,\w5 fluffy boy.\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					"* I'm Azura, \w5I come from an alternative timeline.\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					"* I'm fine. \w7And how are you too ?\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech
+				{
+					"* I'm glad you do.\w7\n"
+					conversation[0] = "ready"
+				}
+				if conversation[0] != "ready"
+				{
+					"* Hum,\w5 I didn't understand a lot.\w7\n"
+					"* Alright."
+					"* Ok."
+					"%(lsta)%(conversation[1]) lost her attention.%(lsto)"
+					"%(lsta)She looks satisfied.%(lsto)"
+					nbconv++
+				}
+				conversation[0] =  "ready"
+			}
+			else
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					"* How are you ?\w7\n"
+					conversation[0] = "started"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech
+				{
+					"* I'm glad you do.\w7\n"
+					conversation[0] = "started"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					"* I'm Azura, \w5I come from an alternative timeline.\w7\n"
+					conversation[0] = "started"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					"* I'm fine.\w7\n"
+					conversation[0] = "started"
+				}
+				
+				if conversation[0] != "started"
+				{
+					"* Hum,\w5 I didn't understand a lot.\w7\n"
+					"* Alright."
+					"* Ok."
+					"%(lsta)%(conversation[1]) lost her attention.%(lsto)"
+					"%(lsta)She looks satisfied.%(lsto)"
+					nbconv++
+				}
+				conversation[0] =  "started"
+			}
+		}
+		elseif conversation[1] == "Gaster"
+		{
+			if conversation[0] != "started"
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					"* Hello Dr. Gaster.\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					"* I'm a human coming from an alternative timeline,\w5 my name's Azura.\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					"* I'm fine. \w7And how are you too ?\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech  
+				{
+					"* I'm glad you do.\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "he ignores" _in_ speech
+				{
+					"* Ignoring people is rude,\w5 you know ?\w7\n"
+					conversation[0] = "ready"
+				}
+				if conversation[0] != "ready"
+				{
+					"* Hum,\w5 I didn't understand a lot.\w7\n"
+					"* Alright."
+					"* Ok."
+					"%(lsta)%(conversation[1]) lost her attention.%(lsto)"
+					"%(lsta)She looks satisfied.%(lsto)"
+					nbconv++
+				}
+				conversation[0] =  "ready"
+			}
+			else{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					"* How are you ?\w7\n"
+					conversation[0] = "started"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech  
+				{
+					"* I'm glad you do.\w7\n"
+					conversation[0] = "started"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					"* I'm a human coming from an alternative timeline,\w5 my name's Azura.\w7\n"
+					conversation[0] = "started"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					"* I'm fine.\w7\n"
+					conversation[0] = "started"
+				}
+				
+				--
+				if "he ignores" _in_ speech
+				{
+					"* Ignoring people is rude,\w5 you know ?\w7\n"
+					conversation[0] = "started"
+				}
+				if conversation[0] != "started"
+				{
+					"* Hum,\w5 I didn't understand a lot.\w7\n"
+					"* Alright."
+					"* Ok."
+					"%(lsta)%(conversation[1]) lost her attention.%(lsto)"
+					"%(lsta)She looks satisfied.%(lsto)"
+					nbconv++
+				}
+				conversation[0] =  "started"
+			}
+		}
+		elseif conversation[1] == "Jockey"
+		{
+			if conversation[0] != "started"
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					"* Hi\i[10].\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					"* I'm Azura.\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					"* I'm fine. \w7And how are you too ?\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech 
+				{
+					"* I'm glad you do.\w7\n"
+					conversation[0] = "ready"
+				}
+				if conversation[0] != "ready"
+				{
+					"* Hum,\w5 I didn't understand a lot.\w7\n"
+					"* Alright."
+					"* Ok."
+					"%(lsta)%(conversation[1]) lost her attention.%(lsto)"
+					"%(lsta)She looks satisfied.%(lsto)"
+					nbconv++
+				}
+				conversation[0] =  "ready"
+			}
+			else
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					"* How are you ?\w7\n"
+					conversation[0] = "started"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech 
+				{
+					"* I'm glad you do.\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					"* I'm Azura.\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					"* I'm fine.\w7\n"
+					conversation[0] = "started"
+				}
+				
+				if conversation[0] != "started"
+				{
+					"* Hum,\w5 I didn't understand a lot.\w7\n"
+					"* Alright."
+					"* Ok."
+					"%(lsta)%(conversation[1]) lost her attention.%(lsto)"
+					"%(lsta)She looks satisfied.%(lsto)"
+					nbconv++
+				}
+				conversation[0] =  "started"
+			}
+		}
+		elseif conversation[1] == "Hunter and Smoker Beta" || res_reference0 == "Smoker"
+		{
+			if conversation[0] != "started"
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					"* Hello.\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					"* I'm comming from an AU too,\w5 I'm Azura.\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					"* I'm fine. \w7And how are you too ?\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech 
+				{
+					"* I'm glad you do.\w7\n"
+					conversation[0] = "ready"
+				}
+				if conversation[0] != "ready"
+				{
+					"* Hum,\w5 I didn't understand a lot.\w7\n"
+					"* Alright."
+					"* Ok."
+					"%(lsta)%(conversation[1]) lost her attention.%(lsto)"
+					"%(lsta)She looks satisfied.%(lsto)"
+					nbconv++
+				}
+				conversation[0] =  "ready"
+			}
+			else
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					"* How are you ?\w7\n"
+					conversation[0] = "started"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech 
+				{
+					"* I'm glad you do.\w7\n"
+					conversation[0] = "started"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					"* I'm comming from an AU too,\w5 I'm Azura.\w7\n"
+					conversation[0] = "started"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					"* I'm fine.\w7\n"
+					conversation[0] = "started"
+				}
+				
+				if conversation[0] != "started"
+				{
+					"* Hum,\w5 I didn't understand a lot.\w7\n"
+					"* Alright."
+					"* Ok."
+					"%(lsta)%(conversation[1]) lost her attention.%(lsto)"
+					"%(lsta)She looks satisfied.%(lsto)"
+					nbconv++
+				}
+				conversation[0] =  "started"
+			}
+		}
+		elseif conversation[1] == "Wheatley"
+		{
+			if conversation[0] != "started"
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					"* Hi.\w7\n"
+					"* Hello.\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					"* I'm Azura.\n\w7"
+					conversation[0] = "ready"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					"* I'm fine. \w7And how are you too ?\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech 
+				{
+					"* I'm glad you do.\w7\n"
+					conversation[0] = "ready"
+				}
+				if conversation[0] != "ready"
+				{
+					"* Hum,\w5 I didn't understand a lot.\w7\n"
+					"* Alright."
+					"* Ok."
+					"%(lsta)%(conversation[1]) lost her attention.%(lsto)"
+					"%(lsta)She looks satisfied.%(lsto)"
+					nbconv++
+				}
+				conversation[0] =  "ready"
+			}
+			else
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					"* How are you ?\w7\n"
+					conversation[0] = "started"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech 
+				{
+					"* I'm glad you do.\w7\n"
+					conversation[0] = "started"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					"* I'm Azura.\n\w7"
+					conversation[0] = "started"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					"* I'm fine.\w7\n"
+					conversation[0] = "started"
+				}
+				
+				
+				if conversation[0] != "started"
+				{
+					"* Hum,\w5 I didn't understand a lot.\w7\n"
+					"* Alright."
+					"* Ok."
+					"%(lsta)%(conversation[1]) lost her attention.%(lsto)"
+					"%(lsta)She looks satisfied.%(lsto)"
+					nbconv++
+				}
+				conversation[0] =  "started"
+			}
+		}
+		elseif conversation[1] == "CheeryBot"
+		{
+			if conversation[0] != "started"
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					"* Hello.\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					"* I'm an happy girl called Azura.\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					"* I'm fine. \w7And how are you too ?\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech 
+				{
+					"* I'm glad you do.\w7\n"
+					conversation[0] = "ready"
+				}
+				if conversation[0] != "ready"
+				{
+					"* Hum,\w5 I didn't understand a lot.\w7\n"
+					"* Alright."
+					"* Ok."
+					"%(lsta)%(conversation[1]) lost her attention.%(lsto)"
+					"%(lsta)She looks satisfied.%(lsto)"
+					nbconv++
+				}
+				conversation[0] =  "ready"
+			}
+			else
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					"* How are you ?\w7\n"
+					conversation[0] = "started"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech 
+				{
+					"* I'm glad you do.\w7\n"
+					conversation[0] = "started"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					"* I'm an happy girl called Azura.\w7\n"
+					conversation[0] = "started"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					"* I'm fine.\w7\n"
+					conversation[0] = "started"
+				}
+				
+				if conversation[0] != "started"
+				{
+					"* Hum,\w5 I didn't understand a lot.\w7\n"
+					"* Alright."
+					"* Ok."
+					"%(lsta)%(conversation[1]) lost her attention.%(lsto)"
+					"%(lsta)She looks satisfied.%(lsto)"
+					nbconv++
+				}
+				conversation[0] =  "started"
+			}
+		}
+		elseif conversation[1] == "Mettaton"
+		{
+			if conversation[0] != "started"
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					"* Howdy.\w7\n"
+					"* Hello,\w5 Mettaton.\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					"* I'm Azura,\w5 I come from an alternative timeline.\n\w7"
+					conversation[0] = "ready"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					"* I'm fine. \w7And how are you too ?\w7\n"
+					conversation[0] = "ready"
+				}
+				if speech == "HELLO AZURA.\e"
+				{
+					"* How are you ?\e"
+					conversation[0] = "ready"
+				}
+				if speech == "FINE AND YOU ?\e"
+				{
+					"* I'm fine.\e"
+					conversation[0] = "ready"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech 
+				{
+					"* I'm glad you do.\w7\n"
+					conversation[0] = "ready"
+				}
+				if conversation[0] != "ready"
+				{
+					"* Hum,\w5 I didn't understand a lot.\w7\n"
+					"* Alright."
+					"* Ok."
+					"%(lsta)%(conversation[1]) lost her attention.%(lsto)"
+					"%(lsta)She looks satisfied.%(lsto)"
+					nbconv++
+				}
+				conversation[0] =  "ready"
+			}
+			else
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					"* How are you ?\w7\n"
+					conversation[0] = "started"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech 
+				{
+					"* I'm glad you do.\w7\n"
+					conversation[0] = "started"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					"* I'm Azura,\w5 I come from an alternative timeline.\n\w7"
+					conversation[0] = "started"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					"* I'm fine.\w7\n"
+					conversation[0] = "started"
+				}
+				
+				if conversation[0] != "started"
+				{
+					"* Hum,\w5 I didn't understand a lot.\w7\n"
+					"* Alright."
+					"* Ok."
+					"%(lsta)%(conversation[1]) lost her attention.%(lsto)"
+					"%(lsta)She looks satisfied.%(lsto)"
+					nbconv++
+				}
+				conversation[0] =  "started"
+			}
+		}
+		elseif conversation[1] == "Dusk_Dawn"
+		{
+			if conversation[0] != "started"
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					"* Hello. \n\w7"
+					conversation[0] = "ready"
+				}
+				
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					"* I'm fine. \w7And how are you ?\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech 
+				{
+					"* I'm glad you do.\w7\n"
+					conversation[0] = "ready"
+				}
+				elseif "i'm" _in_ speech && "she is" _in_ speech && "dusk" _in_ speech && "dawn" _in_ speech
+				{
+					"* I'm glad to meet you.\n\w7"
+					durk_dawn_encounter = 1
+					conversation[0] = "ready"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					"* I'm Azura,\w5 I come from an other universe.\n\w7"
+					--
+					if dusk_dawn_encounter == 0
+					{
+						"* I don't think we already talked each other.\w7 Who are you ?"
+					}
+					conversation[0] = "ready"
+				}
+				--
+				if conversation[0] != "ready"
+				{
+					//"* Hum,\w5 I didn't understand a lot.\w7\n"
+					"* Alright."
+					"* Ok."
+					//"%(lsta)%(conversation[1]) lost her attention.%(lsto)"
+					//"%(lsta)She looks satisfied.%(lsto)"
+					nbconv++
+				}
+				conversation[0] =  "ready"
+			}		
+			else
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					"* How are you ?\w7\n"
+					conversation[0] = "started"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech 
+				{
+					"* I'm glad you do.\w7\n"
+					conversation[0] = "started"
+				}
+				
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					"* I'm fine.\w7\n"
+					conversation[0] = "started"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					"* I'm Azura,\w5 I come from an other universe.\n\w7"
+					--
+					if dusk_dawn_encounter == 0
+					{
+						"* I don't think we already talked each other.\w7 Who are you ?"
+					}
+					conversation[0] = "started"
+				}
+				if conversation[0] != "started"
+				{
+					//"* Hum,\w5 I didn't understand a lot.\w7\n"
+					"* Alright."
+					"* Ok."
+					//"%(lsta)%(conversation[1]) lost her attention.%(lsto)"
+					//"%(lsta)She looks satisfied.%(lsto)"
+					nbconv++
+				}
+				conversation[0] =  "started"
+			}
+		}
+		elseif conversation[1] == "Dusty and Obsidian" || conversation[1] == "Dusty" || conversation[1] == "Obsidian"
+		{
+			if "canyouholdobsidian? 0" _in_ speech //Respond to Dusty's ping
+			{
+				res_reference0 = ""
+				if nowshell != "Old shell"
+				{
+					"\![get,property,OnAzuraYPos,ghostlist(Obsidian).scope(1).y]\e"
+				}
+				
+				//"\e ICanHoldObsidian,0"
+			}
+			elseif "azurapickupobsidian02" _in_ speech //Actually picking her up
+			{
+				holdobsidian = 1
+				if issat != 1
+				{
+					azpose = "\0\s[12]%(smile)"
+				}
+				else
+				{
+					azpose = "\0\s[17]%(smile)"
+				}
+				if sawobsidian != 1
+				{
+					sawobsidian = 1
+					
+					
+					"\0%(lsto)%(azpose)* Oh\w5 hello you.\w7 You're Obsidian,\w5 isn'it ?\e AzuraPickupObsidian03"
+				}
+				else
+				{
+					"\0%(lsto)%(azpose)* Hello Obsidian.\e AzuraPickupObsidian03"
+					"\0%(lsto)%(azpose)* Wanna a hug,\w5 Obsidian ?\e AzuraPickupObsidian03"
+					//"\0%(lsto)* "
+				}
+				//"\0Aw, hello Obsidian.\w8\w8\e AzuraPickupObsidian03"
+			}
+			elseif "azurapickupobsidian04" _in_ speech //Response to Dusty's comment
+			{
+				
+				res_reference0 = ""
+				"\0%(lsta)She is too absorbed petting Obsidian.\e"
+				"\0%(lsta)She is delighted.\e"
+				"\0%(lsta)She is carefully holding Obsidian.\e"
+				"\0%(lsta)Lil cat.\e"
+				//"\0She's so cute, I don't mind.\e"
+			}
+			elseif "azura,0obsijumpdown01" _in_ speech //|| "azuraobsijumpdown03" _in_ speech//Commenting on Obsidian leaving
+			{
+				res_reference0 = ""
+				//"\![]"
+				"\![get,property,OnObsidianJump,currentghost.scope(0).rect]"
+			}
+			elseif  "azuraobsijumpdown03" _in_ speech
+			{
+				res_reference0 = ""
+				
+			}
+			elseif "dustyminimizedazura 0" _in_ speech //Dusty was minimized
+			{
+				res_reference0 = ""
+				holdingObsidian = 0
+				if issat != 1
+				{
+					azpose = "\0\s[10]%(smile)"
+				}
+				else
+				{
+					azpose = "\0\s[15]%(smile)"
+				}
+				"\0\![127]%(lsto)* See ya.\n\n[half]%(lsta)%(azpose)%(arms)Obsidian disappears into the taskbar with Dusty.\e"
+			}
+			elseif conversation[0] != "started"
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					"* Hello.\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					"* I'm Azura,\w5 I come from an Undertale AU.\n\w7"
+					conversation[0] = "ready"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					"* I'm fine. \w7And how are you too ?\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech 
+				{
+					"* I'm glad you do.\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "what are you doing" _in_ speech
+				{
+					if isplayed == 1
+					{
+						if songplayed[1]==""
+						{
+							_i = SAORI("saori\KI.dll","ExtractMP3","%(songplayed[0])","GetTrack")
+							if (ASEARCH(_i,'id3 tag(v1) is not found','Target Not Found','204 No Content','arg0 is error','arg1 is error','arg2 is error')) != -1 {_i= "Unknown"}
+							"* I'm currently playing %((SPLITPATH(songplayed[0]))[2]).\w7\n\e%(_i)"
+						}
+						else
+						{
+							_i = SAORI("saori\KI.dll","ExtractMP3","%(songplayed[0])","GetTrack")
+							if (ASEARCH(_i,'id3 tag(v1) is not found','Target Not Found','204 No Content','arg0 is error','arg1 is error','arg2 is error')) != -1 {_i= "Unknown"}
+							"%(lsto)* I'm currently playing %(songplayed[1]).\w7\n\e%(_i)"
+						}
+							
+					}
+					else
+					{
+						"%(lsto)* Nothing in particular.\w7\n"
+					}
+					conversation[0] = "ready"
+				}
+				if conversation[0] != "ready"
+				{
+					"%(lsto)* Hum,\w5 I didn't understand a lot.\w7\n"
+					"%(lsto)* Alright."
+					"%(lsto)* Ok."
+					"%(lsta)%(conversation[1]) lost her attention."
+					"%(lsta)She looks satisfied."
+					nbconv++
+				}
+				conversation[0] =  "ready"
+			}
+			else
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					"* How are you ?\w7\n"
+					conversation[0] = "started"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech 
+				{
+					"* I'm glad you do.\w7\n"
+					conversation[0] = "started"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					"* I'm Azura,\w5 I come from an Undertale AU.\n\w7"
+					conversation[0] = "started"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					"* I'm fine.\w7\n"
+					conversation[0] = "started"
+				}
+				--
+				if "what are you doing" _in_ speech
+				{
+					if isplayed == 1
+					{
+						if songplayed[1]==""
+						{
+							_i = SAORI("saori\KI.dll","ExtractMP3","%(songplayed[0])","GetTrack")
+							if (ASEARCH(_i,'id3 tag(v1) is not found','Target Not Found','204 No Content','arg0 is error','arg1 is error','arg2 is error')) != -1 {_i= "Unknown"}
+							"* I'm currently playing %((SPLITPATH(songplayed[0]))[2]).\w7\n\e%(_i)"
+						}
+						else
+						{
+							_i = SAORI("saori\KI.dll","ExtractMP3","%(songplayed[0])","GetTrack")
+							if (ASEARCH(_i,'id3 tag(v1) is not found','Target Not Found','204 No Content','arg0 is error','arg1 is error','arg2 is error')) != -1 {_i= "Unknown"}
+							"* I'm currently playing %(songplayed[1]).\w7\n\e%(_i)"
+						}
+						
+					}
+					else
+					{
+						"* Nothing in particular.\w7\n"
+					}
+					conversation[0] = "ready"
+				}
+				
+				if conversation[0] != "started"
+				{
+					"* Hum,\w5 I didn't understand a lot.\w7\n"
+					"* Alright."
+					"* Ok."
+					"%(lsta)%(conversation[1]) lost her attention.%(lsto)"
+					"%(lsta)She looks satisfied.%(lsto)"
+					nbconv++
+				}
+				if ASEARCH("Dusty",ghostsencountered)
+				{
+					ghostsencountered ,= "Dusty"
+				}
+				conversation[0] =  "started"
+			}
+		}
+		elseif conversation[1] == "MiniDev" && "minidevouftit,1" _in_ speech
+		{
+			"%(lsto)\i[10]* Hehe,\w5 you look like me.\e MiniDevUnlock"
+		}
+		else
+		{
+			if conversation[0] != "started"
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					"* Hello.\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					"* I'm Azura,\w5 I come from an Undertale AU.\n\w7"
+					conversation[0] = "ready"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					"* I'm fine. \w7And how are you too ?\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech 
+				{
+					"* I'm glad you do.\w7\n"
+					conversation[0] = "ready"
+				}
+				--
+				if "what are you doing" _in_ speech
+				{
+					if isplayed == 1
+					{
+						if songplayed[1]==""
+						{
+							_i = SAORI("saori\KI.dll","ExtractMP3","%(songplayed[0])","GetTrack")
+							if (ASEARCH(_i,'id3 tag(v1) is not found','Target Not Found','204 No Content','arg0 is error','arg1 is error','arg2 is error')) != -1 {_i= "Unknown"}
+							"* I'm currently playing %((SPLITPATH(songplayed[0]))[2]).\w7\n\e%(_i)"
+						}
+						else
+						{
+							_i = SAORI("saori\KI.dll","ExtractMP3","%(songplayed[0])","GetTrack")
+							if (ASEARCH(_i,'id3 tag(v1) is not found','Target Not Found','204 No Content','arg0 is error','arg1 is error','arg2 is error')) != -1 {_i= "Unknown"}
+							"%(lsto)* I'm currently playing %(songplayed[1]).\w7\n\e%(_i)"
+						}
+						
+					}
+					else
+					{
+						"%(lsto)* Nothing in particular.\w7\n"
+					}
+					conversation[0] = "ready"
+				}
+				if conversation[0] != "ready"
+				{
+					"%(lsto)* Hum,\w5 I didn't understand a lot.\w7\n"
+					"%(lsto)* Alright."
+					"%(lsto)* Ok."
+					"%(lsta)%(conversation[1]) lost her attention."
+					"%(lsta)She looks satisfied."
+					nbconv++
+				}
+				conversation[0] =  "ready"
+			}
+			else
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					"* How are you ?\w7\n"
+					conversation[0] = "started"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech 
+				{
+					"* I'm glad you do.\w7\n"
+					conversation[0] = "started"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					"* I'm Azura,\w5 I come from an Undertale AU.\n\w7"
+					conversation[0] = "started"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					"* I'm fine.\w7\n"
+					conversation[0] = "started"
+				}
+				--
+				if "what are you doing" _in_ speech
+				{
+					if isplayed == 1
+					{
+						if songplayed[1]==""
+						{
+							_i = SAORI("saori\KI.dll","ExtractMP3","%(songplayed[0])","GetTrack")
+							if (ASEARCH(_i,'id3 tag(v1) is not found','Target Not Found','204 No Content','arg0 is error','arg1 is error','arg2 is error')) != -1 {_i= "Unknown"}
+							"* I'm currently playing %((SPLITPATH(songplayed[0]))[2]).\w7\n\e%(_i)"
+						}
+						else
+						{
+							_i = SAORI("saori\KI.dll","ExtractMP3","%(songplayed[0])","GetTrack")
+							if (ASEARCH(_i,'id3 tag(v1) is not found','Target Not Found','204 No Content','arg0 is error','arg1 is error','arg2 is error')) != -1 {_i= "Unknown"}
+							"* I'm currently playing %(songplayed[1]).\w7\n\e%(_i)"
+						}
+						
+					}
+					else
+					{
+						"* Nothing in particular.\w7\n"
+					}
+					conversation[0] = "ready"
+				}
+				
+				if conversation[0] != "started"
+				{
+					"* Hum,\w5 I didn't understand a lot.\w7\n"
+					"* Alright."
+					"* Ok."
+					"%(lsta)%(conversation[1]) lost her attention.%(lsto)"
+					"%(lsta)She looks satisfied.%(lsto)"
+					nbconv++
+				}
+				conversation[0] =  "started"
+			}
+			
+		}
+	}
+	else
+	{
+		"\0%(lsto)* Zzzz...."
+	}
+	--
+	"\e"
+	ghostcommunicated = IARRAY
+}
+
+
+//The closing balloon functions
+OnBalloonBreak
+{
+	communicate = 0
+	if ARRAYSIZE(ghostcommunicated) >= 2
+	{
+		
+		if nbconv < 1
+		{
+			res_reference0 = "%(ghostcommunicated[0])"
+			if ghostcommunicated[1][0] == conversation[2]
+			{
+				nbconv++
+			}
+			else
+			{
+				truc = ghostcommunicated[1]
+				retruc =conversation[2]
+			}
+			conversation[1] = "%(ghostcommunicated[0])"
+			conversation[2] = "%(ghostcommunicated[1])"
+			speech = TOLOWER("%(ghostcommunicated[1])")
+			ReplyToGhost
+		}
+		else
+		{
+			conversation = "ready"
+		}
+		ghostcommunicated = IARRAY
+		
+	}
+	elseif conversation[0] == "interrupting"
+	{
+		
+		res_reference0 = "%(conversation[1])"
+		"%(conversation[2])"
+		conversation = IARRAY
+		conversation = "started"
+		
+	}
+}
+
+OnBalloonClose
+{
+	communicate = 0
+	if ARRAYSIZE(ghostcommunicated) >= 2
+	{
+		if nbconv < 1
+		{
+			res_reference0 = "%(ghostcommunicated[0])"
+			if ghostcommunicated[1][0] == conversation[2]
+			{
+				nbconv++
+			}
+			else
+			{
+				truc = ghostcommunicated[1]
+				retruc =conversation[2]
+			}
+			conversation[1] = "%(ghostcommunicated[0])"
+			conversation[2] = "%(ghostcommunicated[1])"
+			speech = TOLOWER("%(ghostcommunicated[1])")
+		
+			ReplyToGhost
+		}
+		else
+		{
+			conversation = "ready"
+		}
+		ghostcommunicated = IARRAY
+	}
+	elseif conversation[0] == "interrupting"
+	{
+		
+		res_reference0 = "%(conversation[1])"
+		"%(conversation[2])"
+		conversation = IARRAY
+		conversation = "started"
+		
+	}
+}
+
+OnBalloonTimeout
+{
+	communicate = 0
+	if ARRAYSIZE(ghostcommunicated) >= 2
+	{
+		
+		if nbconv < 1
+		{
+			res_reference0 = "%(ghostcommunicated[0])"
+			if ghostcommunicated[1][0] == conversation[2]
+			{
+				nbconv++
+			}
+			else
+			{
+				truc = ghostcommunicated[1]
+				retruc =conversation[2]
+			}
+			conversation[1] = "%(ghostcommunicated[0])"
+			conversation[2] = "%(ghostcommunicated[1])"
+			speech = TOLOWER("%(ghostcommunicated[1])")
+			ReplyToGhost
+		}
+		else
+		{
+			conversation = "ready"
+		}
+		ghostcommunicated = IARRAY
+	}
+	elseif conversation[0] == "interrupting"
+	{
+		
+		res_reference0 = "%(conversation[1])"
+		"%(conversation[2])"
+		conversation = IARRAY
+		conversation = "started"
+		
+	}
+}
+
+OnObsidianYPos
+{
+	obspos = reference0
+	"\![get,property,OnAzuraYPos,currentghost.scope(0).rect]\e"
+	
+}
+OnAzuraYPos
+{
+	//_obypos = reference0
+	res_reference0 = "Dusty"
+	oncomputer = 0
+	isdrawing = 0
+	"\e ICanHoldObsidian,0"
+	_dist = _obypos - ypos
+	if _dist < 0
+	{
+		_dist = 0 -_dist
+	}
+	if _dist <= (reference2-reference0)*2/3
+	{
+		res_reference0 = "Dusty"
+		"\e ICanHoldObsidian,0"
+	}
+	
+}
+
+OnObsidianJump
+{
+	_xpos = (TOINT(reference0[2]) - TOINT(reference0[0]))/2 + TOINT(reference0[0]) - 120
+	_ypos = TOINT(reference0[3])
+	res_reference0 ="Dusty"
+	holdobsidian = 0
+	if issat != 1
+	{
+		azpose = "\0\s[10]%(smile)"
+	}
+	else
+	{
+		azpose = "\0\s[15]%(smile)"
+	}
+	"\0%(lsto)\i[127]* Well,\w5 bye Obsidian.%(azpose)%(arms)\e AzuraObsiJumpDown02,%(_xpos),%(_ypos)"
+	"\0%(lsto)\i[127]* Having enough hugs ?%(azpose)%(arms)\e AzuraObsiJumpDown02,%(_xpos),%(_ypos)"
+	"\0%(lsto)\i[127]* Having enough of staying in my arms ?%(azpose)%(azpose)%(arms)\e AzuraObsiJumpDown02,%(_xpos),%(_ypos)"
+}
+
+//The function Azura would use to see if she can communicate with a ghost
+Select.azcheck
+{
+	//Here is the ghost we want to communicate with
+	ghosttocontact = "z_gaster"
+	communicate = 0
+	//To look into a file, Azura needs to open it and asks the OS a right on this file, here it's "r", for read, so Azura can read the file but couldn't write into it.
+	_f = FOPEN("..\..\..\%(ghosttocontact)\ghost\master\aya5_variable.cfg","r")
+	_text = 0
+	_i= 0
+	
+	//It would check all the variables of a ghost until the end (when _text = -1).
+	while _i <= 1000 && _text != -1
+	{
+		_i = _i + 1
+		// _text would be each line written in the file, it's here that you see the most the similarities between AYA and C, each line would guid to the next so FREAD just go to the next line.
+		//The path is a relativ one, it's here the path to any ghost's variables from Azura.
+		_text = FREAD("..\..\..\%(ghosttocontact)\ghost\master\aya5_variable.cfg")
+		//Checking if the ghost is currently speaking
+		if "var.req.value" _in_ _text
+		{
+			if "balloon" _in_ _text
+			{
+				communicate = 0
+			}
+			else
+			{
+				communicate = 1
+			}
+		}
+	}
+	
+	--
+	//After opening a file, we always must close it.
+	_f = FCLOSE("..\..\..\%(ghosttocontact)\ghost\master\aya5_variable.cfg")
+}
+
+//The second option to interact with a ghost, no need anymore.
+Onproperty
+{
+	message = reference0
+	--
+	//truc = _arg0
+	--
+/* 	if "balloon" _in_ truc
+	{
+		"I want %(truc)"
+	}
+	else
+	{
+		"I want %(truc)"
+		--
+		"I success"
+	}
+	-- */
+}
+
+
+//The functions to put in an other ghost to allow Azura to interact with him, no need of them anymore because it worked with the second function that has been replaced by the first.
+/* Onaproperty
+{
+	//the value of message means Azura want to interract.
+	message = reference0
+	--
+	//Onanother
+}
+Onanother
+{
+	//"It works"
+	--
+	//The problem of notify is getting the status of the ghost. For that, we need the sakura script, that notify keeps from work. That's why I'm using OnSecondChang to call it.
+	"\![get,property,Onproperty,currentghost.status]"
+}
+
+Onproperty
+{
+	message = reference0
+	--
+	//And finally we send to Azura the status of the other ghost. message is now the status of the other ghost.
+	"\![notifyother,Azura,Onproperty,%(message)]"
+	--
+	//Bringing back message to its default value to say it's over, so OnSecondChange wouldn't run all of this again.
+	message = 1
+}
+
+//Bit of code to put into OnSecondChange to notify Azura about if the ghost is ready or not.
+{	--
+	if message != 1
+	{
+		Onanother
+	}
+}
+ */
+ 
+OnOtherGhostTalk
+{
+	OnCheckStatus
+	--
+	if communicate == 1 && asleep == 0
+	{
+		case reference0
+		{
+			when "Dr. W.D. Gaster"
+			{
+				
+				case reference3
+				{
+					when "OnSecondChange"
+					{
+						if "cigarettes " _in_ "%(reference4)" || " cigarettes" _in_ "%(reference4)" || " cigarette..." _in_ "%(reference4)"
+						{
+							"%(lsto)"
+							--
+							"\w9\w9\w9\w9\w9\0\i[18]* I think Gaster want a cigarette.\e"
+							"\w9\w9\w9\w9\w9\0\i[18]* Poor Gaster,\w5 he wants a cigarette.\e"
+							"\w9\w9\w9\w9\w9\0\i[18]* I think you should give Gaster a cigarette.\e"
+							"\w9\w9\w9\w9\w9\0\i[18]* Gaster and his cigarette addiction.\e"
+						}
+					}
+					when "OnMouseDoubleClick"
+					{
+						if "Face" _in_ "%(reference4)"
+						{
+							if gpunched == 0
+							{
+								if issat == 1
+								{
+									OnChangePose
+								}
+								oncomputer = 0
+								isdrawing = 0
+								--
+								//\i[68] before * huh
+								"\0\i[18]%(lsto)* NOOO !\i[40]\i[11]\i[69]\n\n[half]\w9\w9* Huh\w9.\w9 I'm sorry,\w5 I shouldn't be concerned by what you do with Gaster.\w9\w9\i[18] But\i[40] I don't like violence.\w9\i[13] I know what he did and I don't approve but.\w1.\w1.\w4\i[18]\w1 t\i[40]\i[11]hat's not a reason to be mean with him.\w6\i[18]\w1 He\i[40]\i[12] just wants to save the ones he loves even if he isn't using the better way to do it. \w7\i[18] And I'm pretty sure that he loves the brothers even if he doesn't want to.\n\n[half]* Undertale is a game that incites to show mercy and I think Gaster deserves some mercy.\e"
+							}
+							else
+							{
+								//\i[68] beginning for three
+								"\0\i[18]\i[2001]\f[italic,true]She doesn't seems comfortable.\e"
+								"\0\i[18]\i[2001]\f[italic,true]You know she doesn't like violence when you punch him.\e"
+								"\0\i[18]\i[2001]\f[italic,true]She is trying to look away.\e"
+							}
+							useraffection -= 1
+						}
+					}
+					when "OnChoiceSelect"
+					{
+						if "givegoogly" _in_ reference5 
+						{
+							"\0%(lsta)\i[10]\i[50]She starts giggling."
+							azfeel += 3
+						}
+					}
+					others
+					{}
+				}
+				
+			}
+			when "Jockey"
+			{
+				case reference3
+				{
+					when "OnMouseDoubleClick"
+					{
+						if "Face" _in_ "%(reference4)"
+						{
+							"\0%(lsto)* Why do you hurt her ?\w7 She is a very nice girl,\w5 she doesn't deserve violence.\e"
+						}
+						useraffection -= 1
+					}
+					when "OnSecondChange"
+					{
+						if "hug" _in_ "%(reference4)"
+						{
+							"\0\w9\w9\w9%(lsto)* Someone said hug ?\e"
+						}
+					}
+				}
+			}
+			when "Multiverse Sans"
+			{
+				if "knock knock" _in_ "%(reference4)"
+				{
+					"\0\w9\w9\w9%(lsto)* A knock knock joke ?\w7 Nice.\e"
+				}	
+			}
+			when "MVSans"
+			{
+				if "knock knock" _in_ "%(reference4)"
+				{
+					"\0\w9\w9\w9%(lsto)* A knock knock joke ?\w7 Nice.\e"
+				}
+			}
+			when "Dusk_Dawn"
+			{
+				if "la la la la" _in_ "%(reference4)" || "are singing" _in_ "%(reference4)"
+				{
+					conversation[0] = "interrupting"
+					conversation[1] = "Dusk_Dawn"
+					conversation[2] = "\e\0* You sing pretty good.\e"
+					"\0%(lsto)* You sing pretty good.\e"
+				}
+			}
+			when "S the Skeleton"
+			{
+				if "cinnamon" _in_ "%(reference4)"
+				{
+					"\0%(lsto)\i[18]* Cinnamon ?\w7 Where ?"
+				}
+			}
+			others {}
+			
+		}
+	}
+	communicate = 0
+}
+
+OnOtherGhostChanged
+{
+	if holdobsidian == 1
+	{
+		if reference0 == "Dusty"
+		{
+			holdobsidian = 0
+			if issat != 1
+			{
+				azpose = "\0\s[10]%(smile)"
+			}
+			else
+			{
+				azpose = "\0\s[15]%(smile)"
+			}
+			"\0\i[127]* Time to go home,\w5 Obsidian.%(azpose)%(arms)\e"
+			"\0\i[127]* Bye Obsidian.%(azpose)%(arms)\e"
+		}
+	}
+}
+
+OnOtherGhostClosed
+{
+	if holdobsidian == 1
+	{
+		if reference0 == "Dusty"
+		{
+			holdobsidian = 0
+			if issat != 1
+			{
+				azpose = "\0\s[10]%(smile)"
+			}
+			else
+			{
+				azpose = "\0\s[15]%(smile)"
+			}
+			"\0\i[127]* Time to go home,\w5 Obsidian.%(azpose)%(arms)\e"
+			"\0\i[127]* Bye Obsidian.%(azpose)%(arms)\e"
+		}
+	}
+}

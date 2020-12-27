@@ -1,0 +1,1212 @@
+//Here is all the vocabulary Azura knows. The user will add to it its own vocabulary to extend this lists of definitions.
+
+//List of functions, DetermineWord, IsNoun, IsVerb, IsAdjectif, IsModal, ReturnGN, DeterminePluriel, DetermineSing, DetectTense, DetectNextVerb, NounTheir, NounThem, NounThey, CheckWordUse (possesif, singular), APositiveThing, ANegativeThing
+
+
+
+Select.findvocabulary
+{
+	"* Which word do you want to search ?\![open,inputbox,OnFindWord,-1]"
+}
+
+OnFindWord
+{
+	
+	if isupdating != 1
+	{
+		wordsearched = "%(reference0)"
+	}
+	_word = DetermineWord(wordsearched)
+	if _word[0] == "name" 
+	{
+		"* It's a name, its index is %(_word[1])."
+	}
+	elseif _word[0] == "adjectif"
+	{
+		"* It's an adjective, its index is %(_word[1])."
+	}
+	elseif _word[0] == "verb"
+	{
+		"* It's a verb, its index is %(_word[1])."
+	}
+	elseif _word[0] == "complement"
+	{
+		"* It's a complement."
+	}
+	elseif _word[0] == "determinant"
+	{
+		"* It's a determinant."
+	}
+	elseif _word[0] == "preposition"
+	{
+		"* It's a preposition."
+	}
+	else
+	{
+		"* I don't know this word."
+	}
+	--
+	"%(_word)\e"
+	
+}
+
+DetermineWord
+{
+	_wordsearched = ChangeLastOccur("%(_argv[0])","n't","")
+	_index = 0
+	_type = 0
+	found = 0
+	_i = 0
+	if ASEARCH(_wordsearched,"today","yesterday","monday","tuesday","wednesday","thursday","friday","saturday","sunday","yet","still","already","otherwise","anyway","even","either","neither","however","hello","hi","howdy","suddenly","too","forever","ever","yikes","yum","eh","ah","ok","alright","goodbye","byebye","much","very") != -1
+	{
+		_type = "complement"
+		found = 1
+	}
+	if ASEARCH(_wordsearched,"a","an","the","my","their","her","his","its","this","your","our") != -1
+	{
+		_type = "determinant"
+		found = 1
+	}
+	if ASEARCH(_wordsearched,"for","of","at","to","with","from","in","as","that","how","what","where","when","why","who","but","and","through","despite") != -1
+	{
+		_type = "preposition"
+		found = 1
+	}
+	_size = ARRAYSIZE(adjectiveslib)
+	while _i < _size && found != 1
+	{
+		if "%(adjectiveslib[_i][0])" == "%(_wordsearched)" && "%(adjectiveslib[_i][0])" != ""
+		{
+			_type += " adjectif"
+			_index += " %(_i)"
+		}
+		_i += 1
+	}
+	_i = 0
+	_size = ARRAYSIZE(nameslib)
+	while _i < _size && found != 1
+	{
+		_name= ChangeLastOccur("%(_wordsearched)","'s","")
+		_name= ChangeLastOccur("%(_name)","'","")
+		if ("%(_name)" == "%(nameslib[_i][0])" || DeterminePluriel("%(_name)")== "%(nameslib[_i][0])"|| DetermineSing("%(_name)")== "%(nameslib[_i][0])") && "%(nameslib[_i][0])" != "" && "%(nameslib[_i][0])" != "i"
+		//if "%(nameslib[_i][0])" _in_ "%(_wordsearched)" && ((STRSTR("%(_wordsearched)","s",STRLEN("%(_wordsearched)")-1) >= (STRLEN("%(_wordsearched)")-1) && STRLEN("%(nameslib[_i][0])") >= (STRLEN("%(_wordsearched)")-3)) || STRSTR("%(_wordsearched)","'",0) == (STRLEN("%(_wordsearched)")-1) || "%(nameslib[_i][0])" == "%(_wordsearched)") && "%(nameslib[_i][0])" != "" && "%(nameslib[_i][0])" != "i"
+		{
+			_type += " name"
+			_index += " %(_i)"
+		}
+		elseif _wordsearched == "i" && "%(nameslib[_i][0])" == "i"
+		{
+			_type += " name"
+			_index += " %(_i)"
+			
+			//found = 1
+		}
+		_i += 1
+	}
+	_i = 0
+	_size = ARRAYSIZE(verbslib)
+	while _i < _size && found != 1 
+	{
+		_wordsearched= ChangeLastOccur("%(_wordsearched)","'s","")
+		_wordsearched= ChangeLastOccur("%(_wordsearched)","'","")
+		_tempb = IARRAY
+		_tempp = IARRAY
+		_tempb = SPLIT(verbslib[_i][0],"-")
+		_tempp= SPLIT(verbslib[_i][1],"-")
+		if (ASEARCH("%(_wordsearched)",_tempb,_tempp) != -1 || ASEARCH(DetermineSing("%(_wordsearched)"),_tempb,_tempp) != -1 || "%(_wordsearched)" == "%(verbslib[_i][2])" || "%(_wordsearched)" == "%(verbslib[_i][3])") && "%(_wordsearched)" != ""
+		{
+			
+			_type += " verb"
+			_index += " %(_i)"
+			
+			//found = 1
+		}
+		else
+		{
+			if "ing" == CheckWordUse(_wordsearched)[1]
+			{
+				_word = ChangeLastOccur(_wordsearched,"ing","")
+				if _word == verbslib[_i][0]
+				{
+					_type += " verb"
+					_index += " %(_i)"
+				}
+			}
+			elseif STRSTR("%(_wordsearched)","ed",STRLEN("%(_wordsearched)")-2) >= (STRLEN("%(_wordsearched)")-2) && _wordsearched!=""
+			{
+				_word = ChangeLastOccur(_wordsearched,"ed","")
+				if _word == verbslib[_i][0]
+				{
+					_type += " verb"
+					_index += " %(_i)"
+				}
+			}
+		}
+		if "%(verbslib[_i][2])" == "been" && wordsearched != "i"
+		{
+			if ("%(_wordsearched)" _in_ "%(verbslib[_i][0])" || "%(_wordsearched)" _in_ "%(verbslib[_i][1])" || "%(_wordsearched)" == "%(verbslib[_i][2])") && found != 1 && "%(_wordsearched)" != ""
+			{	
+				_type += " verb"
+				_index += " %(_i)"
+			
+				//found = 1
+			}
+		}
+		_i++
+	}
+
+	if found != 1 && isupdating != 1
+	{
+		
+	}
+	--
+	"%(_type),%(_index)"
+}
+
+IsNoun
+{
+	_word = _argv[0]
+	_result = -1
+	for _i=0; _i < ARRAYSIZE(nameslib) && _result == -1; _i++
+	{
+		if _word == nameslib[_i]
+		{
+			_result = _i
+		}
+	}
+	
+	if _result == -1
+	{
+		_res = DetermineWord(_word)
+		_type = SPLIT(_res[0]," ")
+		_index = SPLIT(_res[1]," ")
+		_indname = ASEARCH("name",_type)
+		if _indname != -1
+		{
+			_result = TOINT(_index[_indname])
+		}
+		
+	}
+	_result
+}
+IsAdjectif
+{
+	_word = _argv[0]
+	_result = -1
+	for _i=0; _i < ARRAYSIZE(adjectiveslib) && _result == -1; _i++
+	{
+		if _word == adjectiveslib[_i]
+		{
+			_result = _i
+		}
+	}
+	
+	if _result == -1
+	{
+		_res = DetermineWord(_word)
+		_type = SPLIT(_res[0]," ")
+		_index = SPLIT(_res[1]," ")
+		_indadj = ASEARCH("adjectif",_type)
+		if _indadj != -1
+		{
+			_result = TOINT(_index[_indadj])
+		}
+		
+	}
+	_result
+}
+IsVerb
+{
+	_word = _argv[0]
+	_result = -1
+	for _i=0; _i < ARRAYSIZE(verbslib) && _result == -1; _i++
+	{
+		if _word == verbslib[_i]
+		{
+			_result = _i
+		}
+	}
+	
+	if _result == -1
+	{
+		_res = DetermineWord(_word)
+		_type = SPLIT(_res[0]," ")
+		_index = SPLIT(_res[1]," ")
+		_indverb  = ASEARCH("verb",_type)
+		if _indverb != -1
+		{
+			_result = TOINT(_index[_indverb])
+		}
+		
+	}
+	_result
+}
+
+ReturnGN
+{
+	
+	_j = TOINT(_argv[0]) + 1
+	_sentence = _argv
+	_prepGN = "0"
+	_detGN = "0"
+	_adjGN = 0
+	_GN = 0
+	_stop = 0
+	
+	_typew1 = DetermineWord(_sentence[_j])[0]
+	_typew2 = DetermineWord(_sentence[_j+1])[0]
+	if _typew1 == "0"
+	{
+		if selflearning == 1
+		{
+			LearnWord(_j,"","",_sentence)
+			_typew1 = DetermineWord(_sentence[_j])[0]
+		}
+		else
+		{
+			TeachAzura(_sentence[_j])
+			if DetectNextVerb(_j+1,_sentence) != -1
+			{
+				_adjprevGN += " %(_sentence[_j])"
+			}
+			_typew1= DetermineWord(_sentence[_j+1])[0]
+		}
+	}
+	
+	
+	while _typew1 != "verb" && "%(_sentence[_j])" != "" && _stop != 1  && _j < ARRAYSIZE(_sentence)
+	{
+		if _typew1 == "preposition"
+		{
+			
+			//if the word is a preposition, it's stocked and go to the next loop
+			_prepGN = _sentence[_j]
+			_j++
+			_typew1 = DetermineWord(_sentence[_j])[0]
+			_typew2 = DetermineWord(_sentence[_j+1])[0]
+			
+			
+			
+			if _typew2 == "0" && "%(_sentence[_j+1])" != ""
+			{
+
+				if selflearning == 1
+				{
+					LearnWord(_j+1,_prepGN,_detGN,_sentence)
+					_typew2 = DetermineWord(_sentence[_j+1])[0]
+				}
+				else
+				{
+					TeachAzura(_sentence[_j+1])
+					if DetectNextVerb(_j+2,_sentence)
+					{
+						_adjGN += " %(_sentence[_j])"
+					}
+				}
+			}
+			
+		}
+		else
+		{
+			//if the word is a determinant
+			if _typew1 == "determinant"
+			{
+				_detGN = _sentence[_j]
+				_j++
+				_typew1 = DetermineWord(_sentence[_j])[0]
+				_typew2 = DetermineWord(_sentence[_j+1])[0]
+				
+			}
+			if _typew1 == "0" && "%(_sentence[_j])" != ""
+			{
+				if selflearning == 1
+				{
+					LearnWord(_j,_prepGN,_detGN,_sentence)
+					_typew2 = DetermineWord(_sentence[_j+1])[0]
+				}
+				else
+				{
+					TeachAzura(_sentence[_j])
+					if DetectNextVerb(_j+2,_sentence) != -1
+					{
+						_adjGN += " %(_sentence[_j])"
+					}
+				}
+			}
+			while _typew1 != "preposition" && _typew1 != "determinant" && _stop != 1 && _j < ARRAYSIZE(_sentence)
+			{
+				if _typew2 == "0" && "%(_sentence[_j+1])" != ""
+				{
+					if selflearning == 1
+					{
+						LearnWord(_j+1,_prepGN,_detGN,_sentence)
+						_typew2 = DetermineWord(_sentence[_j+1])[0]
+					}
+					else
+					{
+						TeachAzura(_sentence[_j+1])
+						if DetectNextVerb(_j+2,_sentence) != -1
+						{
+							_adjGN += " %(_sentence[_j])"
+						}
+					}
+				}
+					
+				if  ("adjectif" _in_ _typew2 || "name" _in_ _typew2) && "verb" !_in_ _typew2
+				{
+					_adjGN += " %(_sentence[_j])"
+				}
+				elseif DetectTense(sentence[_j+1]) == "ing" || (_prepGN == "to" && DetectTense(_sentence[_j+1]) == "present")
+				{
+					_adjGN += " %(_sentence[_j])"
+					_GN = _sentence[_j+1]
+					_j++
+					_stop = 1
+				}
+				else
+				{
+					if "adjectif" !_in_ _typew2
+					{
+						_GN = _sentence[_j]
+					}
+					else
+					{
+						_adjGN += " %(_sentence[_j])"
+					}
+					_stop = 1
+				}
+				_j++
+				//The type of the words for the next loop
+				_typew1 = DetermineWord(_sentence[_j])[0]
+				_typew2 = DetermineWord(_sentence[_j+1])[0]
+			}
+			
+			//If the next nominal group isn't an independant nominal group but a complement of the current one
+			if _sentence[_j] == "of"
+			{
+				_adjGN += " %(ReturnGN(_j,_sentence)[4])"
+			}
+		}
+	}
+	if _typew1 == "verb" && "ing" _in_ DetectTense(_sentence[_j])
+	{
+		_GN = _sentence[_j]
+		_j++
+	}
+	--
+	_fullGN = (_j-1,_prepGN,_detGN,_adjGN,_GN)
+	_fullGN
+	
+}
+//Would return the word with a s at the end, whatever the word is
+DeterminePluriel
+{
+	_word = _argv[0]
+	
+	if STRSTR("%(_word)","a",STRLEN("%(_word)")-1) >= (STRLEN("%(_word)")-1) || STRSTR("%(_word)","e",STRLEN("%(_word)")-1) >= (STRLEN("%(_word)")-1) || STRSTR("%(_word)","o",STRLEN("%(_word)")-1) >= (STRLEN("%(_word)")-1) || STRSTR("%(_word)","u",STRLEN("%(_word)")-1) >= (STRLEN("%(_word)")-1)
+	{
+		"%(_word)s"
+	}
+	elseif STRSTR("%(_word)","ss",STRLEN("%(_word)")-2) >= (STRLEN("%(_word)")-2) || STRSTR("%(_word)","i",STRLEN("%(_word)")-1) >= (STRLEN("%(_word)")-1) || STRSTR("%(_word)","z",STRLEN("%(_word)")-1) >= (STRLEN("%(_word)")-1) || STRSTR("%(_word)","x",STRLEN("%(_word)")-1) >= (STRLEN("%(_word)")-1)
+	{
+		"%(_word)es"
+	}
+	
+	elseif STRSTR("%(_word)","y",STRLEN("%(_word)")-1) >= (STRLEN("%(_word)")-1)
+	{
+		ChangeLastOccur("%(_word)","y","ies")
+	}
+	elseif STRSTR("%(_word)","s",STRLEN("%(_word)")-1) >= (STRLEN("%(_word)")-1)
+	{
+		"none"
+	}
+	else
+	{
+		"%(_word)s"
+	}
+}
+DetermineSing
+{
+	_word = _argv[0]
+	
+	if STRSTR("%(_word)","sses",STRLEN("%(_word)")-4) >= (STRLEN("%(_word)")-4)
+	{
+		ChangeLastOccur(_word,"ses","")
+	}
+	elseif STRSTR("%(_word)","ies",STRLEN("%(_word)")-3) >= (STRLEN("%(_word)")-3)
+	{
+		ChangeLastOccur(_word,"ies","y")
+	}
+	elseif STRSTR("%(_word)","aes",STRLEN("%(_word)")-3) >= (STRLEN("%(_word)")-3)
+	{
+		ChangeLastOccur(_word,"es","")
+	}
+	elseif STRSTR("%(_word)","xes",STRLEN("%(_word)")-3) >= (STRLEN("%(_word)")-3)
+	{
+		ChangeLastOccur(_word,"es","")
+	}
+	elseif STRSTR("%(_word)","s",STRLEN("%(_word)")-1) >= (STRLEN("%(_word)")-1)
+	{
+		ChangeLastOccur(_word,"s","")
+	}
+	else
+	{
+		"%(_word)"
+	}
+}
+
+//Detect if there is an other verb in the sentence
+DetectNextVerb
+{
+	_index= TOINT(_argv[0])
+	_sentence = _argv
+	_found = 0
+	for _i=_index+2 ; _i<ARRAYSIZE(_sentence) && _found != 1; _i++
+	{
+		if "verb" _in_ DetermineWord(_sentence[_i])[0]
+		{
+			_found = 1
+		}
+	}
+	if _found
+	{
+		_i-2
+	}
+	else
+	{
+		-1
+	}
+}
+
+//Determine what is the tense of the sentence
+DetectTense
+{
+	_word = _argv[0]
+	_result = DetermineWord(_word)
+	_index = TOINT(_result[1])
+	if _result != "0" && verbslib[_index][4] != "unknown"
+	{
+		if "%(_word)" == verbslib[_index][0] || CheckWordUse(_word) == "norm,plur"
+		{
+			"present"
+		}
+		elseif _word == verbslib[_index][1]
+		{
+			"past"
+		}
+		elseif _word == verbslib[_index][2]
+		{
+			"infinitive"
+		}
+		elseif _word == verbslib[_index][3]
+		{
+			"ing"
+		}
+		else
+		{
+			"unknown"
+		}
+	}
+	else
+	{
+		if  STRSTR("%(_word)","ing",STRLEN("%(_word)")-3) >= (STRLEN("%(_word)")-3) && STRLEN("%(_word)")> 6
+		{
+			"ing"
+		}
+		elseif STRSTR("%(_word)","ed",STRLEN("%(_word)")-2) >= (STRLEN("%(_word)")-2)
+		{
+			"past"
+		}
+		else
+		{
+			"unknown"
+		}
+	}
+}
+
+//Check how a word is used
+CheckWordUse
+{
+	_word = _argv[0]
+	if "%(_word)" == ""
+	{
+		","
+	}
+	elseif STRSTR("%(_word)","'s",STRLEN("%(_word)")-2) >= (STRLEN("%(_word)")-2)
+	{
+		"poss,sing"
+	}
+	elseif STRSTR("%(_word)","s'",STRLEN("%(_word)")-2) >= (STRLEN("%(_word)")-2)
+	{
+		"poss,plur"
+	}
+	elseif STRSTR("%(_word)","ss",STRLEN("%(_word)")-2) >= (STRLEN("%(_word)")-2)
+	{
+		"norm,sing"
+	}
+	elseif STRSTR("%(_word)","s",STRLEN("%(_word)")-1) >= (STRLEN("%(_word)")-1)
+	{
+		"norm,plur"
+	}
+	elseif STRSTR("%(_word)","ing",STRLEN("%(_word)")-3) >= (STRLEN("%(_word)")-3)
+	{
+		"norm,ing"
+	}
+	else
+	{
+		"norm,sing"
+	}
+}
+
+IsModal
+{
+	_word = _argv[0]
+	_result = DetermineWord(_word)
+	_type = SPLIT(_result[0]," ")
+	_index = SPLIT(_result[1]," ")
+	_indverb  = ASEARCH("verb",_type)
+	_index=TOINT(_index[_indverb])
+	if _indverb != -1
+	{
+		if verbslib[_index][0] == "do" || verbslib[_index][2] == "been" || verbslib[_index][1] == "had" || versblib[_index][0] == "shall" || verbslib[_index][0] == "will"
+		{
+			1
+		}
+		else
+		{
+			0
+		}
+	}
+	else
+	{
+		0
+	}
+
+	
+	--
+	//"%(verbslib[_index])"
+}
+
+//Replace only the lasrt occurence of a character chain in a word
+ChangeLastOccur
+{
+	_word = _argv[0]
+	_currentend = _argv[1]
+	_newend = _argv[2]
+	word = SPLIT(_word,"%(_currentend)")
+	_newword = ""
+	_i = 0
+	while _i < ARRAYSIZE(word)-1
+	{
+		_newword += word[_i]
+		if _i == ARRAYSIZE(word)-2
+		{
+			_newword += _newend
+		}
+		else
+		{
+			_newword += _currentend
+		}
+		_i++
+	}
+	_newword += word[ARRAYSIZE(word)-1]
+	
+	"%(_newword)"
+}
+
+
+//Pronouns of the nouns
+NounTheir
+{
+	_word = _argv[0]
+	_begun = "%(_argv[1])"
+	_result = DetermineWord(_word)
+	_type = SPLIT(_result[0]," ")
+	_index = SPLIT(_result[1]," ")
+	_indverb  = ASEARCH("verb",_type)
+	_indname = ASEARCH("name",_type)
+	if _indname != -1
+	{
+		_noun = nameslib[TOINT(_index[_indname])]
+		if "feminine" _in_ _noun[3]
+		{
+			if _begun == "1"
+			{
+				"Her"
+			}
+			else
+			{
+				"her"
+			}
+		}
+		elseif "masculine" _in_ _noun[3]
+		{
+			if _begun == "1"
+			{
+				"His"
+			}
+			else
+			{
+				"his"
+			}
+		}
+		elseif "being" _in_ _noun[1] || "human" _in_ _noun[1] || "family" _in_ _noun[1]
+		{
+			if _begun == "1"
+			{
+				"Their"
+			}
+			else
+			{
+				"their"
+			}
+		}
+		else
+		{
+			if _begun =="1"
+			{
+				"Its"
+			}
+			else
+			{
+				"its"
+			}
+		}
+	}
+	else
+	{
+		if _begun == "1"
+		{
+			"Its"
+		}
+		else
+		{
+			"its"
+		}
+	}
+	
+}
+NounThey
+{
+	_word = _argv[0]
+	_begun = "%(_argv[1])"
+	_result = DetermineWord(_word)
+	_type = SPLIT(_result[0]," ")
+	_index = SPLIT(_result[1]," ")
+	_indverb  = ASEARCH("verb",_type)
+	_indname = ASEARCH("name",_type)
+	if _indname != -1
+	{
+		_noun = nameslib[TOINT(_index[_indname])]
+		if "feminine" _in_ _noun[3]
+		{
+			if _begun == "1"
+			{
+				"She"
+			}
+			else
+			{
+				"she"
+			}
+		}
+		elseif "masculine" _in_ _noun[3]
+		{
+			if _begun == "1"
+			{
+				"He"
+			}
+			else
+			{
+				"he"
+			}
+		}
+		elseif "being" _in_ _noun[1] || "human" _in_ _noun[1] || "family" _in_ _noun[1]
+		{
+			if _begun == "1"
+			{
+				"They"
+			}
+			else
+			{
+				"they"
+			}
+		}
+		else
+		{
+			if _begun =="1"
+			{
+				"It"
+			}
+			else
+			{
+				"it"
+			}
+		}
+	}
+	else
+	{
+		if _begun == "1"
+		{
+			"It"
+		}
+		else
+		{
+			"it"
+		}
+	}
+}
+NounThem
+{
+	_word = _argv[0]
+	_begun = "%(_argv[1])"
+	_result = DetermineWord(_word)
+	_type = SPLIT(_result[0]," ")
+	_index = SPLIT(_result[1]," ")
+	_indverb  = ASEARCH("verb",_type)
+	_indname = ASEARCH("name",_type)
+	
+	if _indname != -1
+	{
+		_noun = nameslib[TOINT(_index[_indname])]
+		if "feminine" _in_ _noun[3]
+		{
+			if _begun == "1"
+			{
+				"Her"
+			}
+			else
+			{
+				"her"
+			}
+		}
+		elseif "masculine" _in_ _noun[3]
+		{
+			if _begun == "1"
+			{
+				"Him"
+			}
+			else
+			{
+				"him"
+			}
+		}
+		elseif "being" _in_ _noun[1] || "human" _in_ _noun[1] || "family" _in_ _noun[1]
+		{
+			if _begun == "1"
+			{
+				"Them"
+			}
+			else
+			{
+				"them"
+			}
+		}
+		else
+		{
+			if _begun =="1"
+			{
+				"It"
+			}
+			else
+			{
+				"it"
+			}
+		}
+	}
+	else
+	{
+		if _begun == "1"
+		{
+			"It"
+		}
+		else
+		{
+			"it"
+		}
+	}
+}
+
+APositiveThing
+{
+	_word = IsNoun(_argv[0])
+	if _word == -1
+	{
+		"none"
+	}
+	else
+	{
+		_word = nameslib[_word]
+		if _word[3] != "none"
+		{
+			_adjectives = SPLIT(_word[3]," ")
+		}
+		if _word[4] != "none"
+		{
+			_constituts = SPLIT(_word[4],".")
+		}
+		_posi = 0
+		foreach _adjectives ; _adj
+		{
+			if TOINT(adjectiveslib[IsAdjectif(_adj)][2]) >= 1
+			{
+				_adj
+				_posi = 1
+			}
+		}
+		foreach _constituts ; _consti
+		{
+			if TOINT(adjectiveslib[IsAdjectif(_consti)][2]) >= 6
+			{
+				"made of %(_consti)"
+				_posi = 1
+			}
+		}
+		if _posi == 0
+		{
+			"none"
+		}
+	}
+}
+
+ANegativeThing
+{
+	_word = IsNoun(_argv[0])
+	if _word == -1
+	{
+		"none"
+	}
+	else
+	{
+		_word = nameslib[_word]
+		if _word[3] != "none"
+		{
+			_adjectives = SPLIT(_word[3]," ")
+		}
+		if _word[4] != "none"
+		{
+			_constituts = SPLIT(_word[4],".")
+		}
+		_posi = 0
+		foreach _adjectives ; _adj
+		{
+			if TOINT(adjectiveslib[IsAdjectif(_adj)][2]) <= -1
+			{
+				_adj
+				_posi = 1
+			}
+		}
+		foreach _constituts ; _consti
+		{
+			if TOINT(adjectiveslib[IsAdjectif(_consti)][2]) <= 4
+			{
+				"made of %(_consti)"
+				_posi = 1
+			}
+		}
+		if _posi == 0
+		{
+			"none"
+		}
+	}
+}
+
+//Reinitialyze the vocabulary
+Select.reinivoc
+{
+	CreateNameLib
+	--
+	CreateAdjLib
+	--
+	CreateVerbLib
+	--
+	nameslist = IARRAY
+	adjectiveslist = IARRAY
+	verbslist = IARRAY
+	--
+	foreach nameslib ; name
+	{
+		nameslist ,= name[0]
+	}
+	foreach adjectiveslib ; adjectif
+	{
+		adjectiveslist ,= adjectif[0]
+	}
+	foreach verbslib ; verb
+	{
+		verbslist ,= verb[0]
+	}
+	--
+	"\e"
+}
+
+
+//The names known
+CreateNameLib
+{
+	nameslib =IARRAY
+	//nom 0, type 1, az-avis 2, shape 3, constituts 4, user-avis 5, utility 6, favorites 7, interesant thing 8, comparaison 9
+	
+	//motor for the objects that can move
+	//fabric = tissu   || = or    . for multiples responds    & = and
+	//object,nonconsistant,being,human,animal,item(meuble),place,game,food,family
+	nameslib[0] = "book,object,10,rectangle small,paper,0,hobby||to study,Eon and the Twelft Dragon.Eragon,I prefer fantasy books,I like mangas too"
+	nameslib[1] = "bag,object,5,rectangle moyen tool,fabric,0,for transport things like for a walk or to rise,back bags,none"
+	nameslib[2] = "game,game,7,not all the sames,depends of the game,0,reunit the family or having fun with some pals,card.horses.video games,I played a lot of card games with my friends.I find monopoly boring.It's nice to play with its whole family,I prefer video games."
+	nameslib[3] = "videogame,game,10,nonconsistant,code,0,hobby,Undertale.The Legend of Zelda.Pokemon.Spectrobes,Some people consider that people could be addict to video games&I don't think a person is addict without any reason&Maybe they are just extremely lonely or rejected by the other and find a comfort in them,none"
+	nameslib[4] = "arcadegame,game,8,rectangle big,code,0,hobby,none,I played some games on an arcade like Sonic.Gunstar Heroes looks like an arcade game.I already played Pac Man on an arcade,I prefer video games."
+	nameslib[5] = "skeleton,being,10,big human,bones.magic in Undertale,0,none,Sans,Undertale's skeletons are the nicer.I wonder how are Papyrus gaster blasters,Skeletons are my favorites monsters in Undertale"
+	nameslib[6] = "moldsmal,being,6,small jigglish,magic,0,none,none,I heard that Moldsmals were good dancer&I don't know if it's true though,It isn't my favorite monster"
+	nameslib[7] = "house,place,8,big tal,bricks cement,0,to live inside,sweet ones.Toriel's house,It's quit empty when you live alone,Nothing beats the coming back home after a hard day"
+	nameslib[8] = "bed,item,10,big rectangle comfy,plush.pillow.mattress.duvet,0,to sleep,big and comfy ones,Sleeping in the better activity in the world,Nothing beats the sleep in a good bed"
+	nameslib[9] = "school,place,3, big tal,bricks cement,0,to make people learn things,none,It's supposed to make people learn things but people who like it are few,It isn't the better activity in the world"
+	nameslib[10] = "bedroom,place,10,small comfy,0,to do whatever you want inside,my own room of course,It's where you would have most of your free time,It's the best place in a house"
+	nameslib[11] = "cinema,place,8,big tal,bricks cement,0,hobby||to watch movies,none,It's a good activity to do with friends,It's a lot better than stay home to watch a movie but it's more expensive"
+	nameslib[12] = "street,place,5,big straight,tarmac ground,0,to go somewhere,none,There is nothing interesting about streets,none"
+	nameslib[13] = "doodle,object,8,small rectangle,paper,0,to practice drawing,none,none,I draw more than I doodle"
+	nameslib[14] = "drawing,object,8,small rectangle,paper,0,to express ourself,none,Drawing is relaxing,none"
+	nameslib[15] = "mother,family,10,human feminine,flesh.bones.spirit,0,none,The person who gave you life,none"
+	nameslib[16] = "father,family,10,human masculine,flesh.bones.spirit,0,none,The person who gave you life,none"
+	nameslib[17] = "sibling,family,10,human,flesh.bones.spirit,0,none,One of the most important person in your life,none"
+	nameslib[18] = "brother,family,10,human masculine,flesh.bones.spirit,0,none,One of the most important person in your life,none"
+	nameslib[19] = "sister,family,10,human feminine,flesh.bones.spirit,0,none,One of the most important person in your life,none"
+	nameslib[20] = "uncle,family,8,human masculine,flesh.bones.spirit,0,none,It's the brother of your father or your mother,none"
+	nameslib[21] = "aunt,family,8,human feminine,flesh.bones.spirit,0,none,It's the sister of your father or your mother,none"
+	nameslib[22] = "grand-ma,family,8,human feminine,flesh.bones.spirit,0,none,It's the mother of your father or your mother,none"
+	nameslib[23] = "grand-pa,family,8,human masculine,flesh.bones.spirit,0,none,It's the father of your father or your mother,none"
+	nameslib[24] = "son,family,8,human masculine,flesh.bones.spirit,0,none,It's normally the most precious person for his parents,none"
+	nameslib[25] = "daughter,family,8,human feminine,flesh.bones.spirit,0,none,It's normally the most precious person for her parents,none"
+	nameslib[26] = "child,family,8,human,flesh.bones.spirit,0,none,It's normally the most precious person for their parents,none"
+	nameslib[27] = "cousin,family,8,human,flesh.bones.spirit,0,none,It's an uncle's or an aunt's child,none"
+	nameslib[28] = "parent,family,10,human,flesh.bones.spirit,0,none,The person who gave you life,none"
+	nameslib[29] = "grand-parent,family,8,human masculine,flesh.bones.spirit,0,none,It's the parent of your father or your mother,none"
+	nameslib[30] = "computer,object,7,small,screen.keyboard.cards.mouse.code.program.software.hardware,0,to surf on the web||to watch a movie||to do a lot of stuffs,laptop ones,It's easy to keep mine with me with the dimensional box,It's hard to compare it to other stuffs since you can all do with it"
+	nameslib[31] = "movie,nonconsistant,7,nonconsistant,pictures.music.actors,0,hobby,Avatar.Narnia.Miyazaki ones,I prefer action or fantastic movies"
+	nameslib[32] = "pen,object,5,small long thin,ink.plastic,0,to write,none,You can use it to do an urgent tracheotomy,I use them for lineart as pencils"
+	nameslib[33] = "crayon,object,5,small long,carbon.wood,0,to write or to draw,none,The carbon there is inside is used in nuclear centrals to stop the electrons,none,I use them for lineart as pens"
+	nameslib[34] = "i,human,5,human,flesh.bones.spirit,0,to have some company,none,none,none"
+	nameslib[35] = "cat,animal,8,flesh.bones.spirit,0,to have some company,none,Cat's purring frequences are good for health,I prefer cats than dogs"
+	nameslib[36] = "dog,animal,6,flesh.bones.spirit,0,to have some company,none,They would always love their master whatever their master did to them,I prefer cats than dogs"
+	nameslib[37] = "rabbit,animal,7,flesh.bones.spirit,0,to eat it with a mustard sauce,none,It's a rabbit who bring the chocolate eggs for Easter in some countries,none"
+	nameslib[38] = "banana,food,5,long,skin.fruit,0,to be eaten as a snack or something else,none,Banana with chocolate is pretty good,I prefer apples"
+	nameslib[39] = "apple,food,7,round,seed.fruit,0,to put them in a pie or have a snack,apple pies,You can make a pie with almost all fruits,Apple pies are my favorite pies after butterscotch-cinnamon ones"
+	nameslib[40] = "cinnamon,food,8,powder,spice,0,to put it in some plate that are mostly desserts,none,Cinnamon is in my two favorite desserts||Cinnamon is in both butterscotch-cinnamon pies and apple pies,It's my favorite spice"
+	nameslib[41] = "pencil,object,5,small long,carbon.wood,0,to write or to draw,none,The carbon there is inside is used in nuclear centrals to stop the electrons,none"
+	nameslib[42] = "butterscotch,food,8,slice round,sugar,0,to put it in some desserts,none,It's one of the two main ingredients of butterscotch-cinnamon pies,It's not my favorite treat because it stick to the teeth"
+	nameslib[43] = "pizza,food,8,round big plate,tomato.mushroom.cheese.base.pastry.ham,0,to be eaten,margarita ones,The original recipe is only the base with tomato and cheese,I eat rather pizza than McDonald's"
+	nameslib[44] = "noodle,food,7,little long,floor.watter,0,to be eaten for a quick lunch or dinner,bolognese and carbonara ones,It's the fastiest and the easier meal to cook,It can be accomodate with kind of everything in contrary of other plates"
+	nameslib[45] = "mouse,animal,6,little thin,bones.flesh.spirit,0,to go in your house during winter,little mouses that are living outside are so cute,It's one of the animals that reproduce the faster,I prefer mouses than rats"
+	nameslib[46] = "rat,animal,5,little,bones.flesh.spirit,0,to go in a house where they aren't welcome,none,It's one of the more intelligent and fast to reproduce species,I prefer little mouses"
+	nameslib[47] = "candy,food,7,little,sugar.colorant,0,to have a nice snack,orange taste ones,It can make teeth rotten,I prefer a big epiphany cake"
+	nameslib[48] = "candies,food,7,little,sugar.colorant,0,to have a nice snack,orange taste ones,It can make teeth rotten,I prefer a big epiphany cake"
+	nameslib[49] = "sweet,food,7,little,sugar,0,to have a nice snack,I love calissons,There are a lot of sweets,I prefer a big epiphany cake"
+	nameslib[50] = "azura,human,7,human,bones.flesh.spirit.soul.magic.wing.tail,0,to supposely be your friend I guess,none,I'm a real person who became a character,I'm not the better being but I do my best"
+	nameslib[51] = "user,human,5,human,bones.flesh.spirit.soul,0,to give me some company,none,You're one,none"
+	nameslib[52] = "cake,food,7,moyen,flour.egg.water,0,to have a snack or for birthdays,epiphany cakes,There are a lot of cakes that exist,Nothing beats the epiphany cakes"
+	nameslib[53] = "chocolate,food,8,little,cocoa.butter,0,to do some cakes or just enjoy it as it is,milk chocolate.Marzipane with chocolate around,Chocolate is full of minerals,I prefer chocolate than fruits"
+	nameslib[54] = "fruit,food,5,little,juice.sugar,0,to do some cakes or desserts or just to be eaten as snacks,apples or pears,The skin of fruits is having the most vitamins but also pesticids,I prefer cakes than fruits"
+	nameslib[55] = "stuff,object,5,undefined,undefined,0,to be something I guess,none,none,none"
+	nameslib[56] = "honey,food,7,liquid,sugar.pollen,0,to eat it on some spread,all type of honey,Honey is done to feed the larvas,It does the healthier spread"
+	nameslib[57] = "table,item,6,big rectangle,wood,0,to do some stuffs on it,none,The height of the table depends on the culture,It's better to use a table to draw or eat"
+	nameslib[58] = "chair,item,6,rectangle,wood.seat.back,0,to rest after a walk,comfortable seats,There are a lot of different types,I prefer it than stools"
+	nameslib[59] = "seat,item,6,rectangle,wood.seat.back,0,to rest after a walk,comfortable seats,There are a lot of different types,I prefer it than stools"
+	nameslib[60] = "stool,item,6,round,wood.seat,0,to have a rest or reach something high,none,It's not very conmfortable,I prefer normal chairs"
+	nameslib[61] = "chairiel,item,7,big,fabric.soft,0,to allow Toriel to read stories,Toriel's chairiel,There is a chairiel everywhere Toriel lived,It's a very comfortable chair"
+	nameslib[62] = "spaghetti,food,8,thin long,floor.water,0,to make us having a good meal,carbonara or bolognese ones,It's pretty easy to cook but I would kill people who put a lot of onions in spaghetties carbonara,Spaghetties with carbonara or bolognese are the better noodles"
+	nameslib[63] = "home,place,8,big tal,bricks.cement,0,to live inside,sweet ones.Toriel's house,It's quit empty when you live alone,Nothing beats the coming back home after a hard day"
+	nameslib[64] = "you,human,7,human,bones.flesh.spirit.soul.magic.wing.tail,0,to supposely be your friend I guess,none,I'm a real person who became a character,I'm not the better being but I do my best"
+	nameslib[65] = "week,nonconsistant,5,none,day.time,0,count a certain amount of time,none,They are gone so fast,It's bigger than a single day"
+	nameslib[66] = "day,nonconsistant,5,none,hour.time,0,count a certain amount of time,none,They are gone so fast,It's bigger than a single hour"
+	nameslib[67] = "hour,nonconsistant,5,none,minute.time,0,count a certain amount of time,none,They are gone so fast,It's bigger than a single hour"
+	nameslib[68] = "minute,nonconsistant,5,none,second.time,0,count a certain amount of time,none,They are so little,It's bigger than a single second"
+	nameslib[69] = "second,nonconsistant,5,none,time,0,count a certain amount of time,none,It's hard to count them,It's the smaller thing to count the time"
+	nameslib[70] = "month,nonconsistant,5,none,week.time,0,count a certain amount of time,none,It's a good amount of time,It's bigger than a single week"
+	nameslib[71] = "year,nonconsistant,5,none,month.time,0,count a certain amount of time,none,It's a good amount of time,It's bigger than a single month"
+	nameslib[72] = "decade,nonconsistant,5,none,year.time,0,count a certain amount of time,none,It's a very good amount of time,It's bigger than a single year"
+	nameslib[73] = "century,nonconsistant,5,none,year.time,0,count a certain amount of time,none,It's a life-time,It's bigger than a single decade"
+	//nom 0, type 1, az-avis 2, shape 3, constituts 4, user-avis 5, utility 6, favorites 7, interesant thing 8, comparaison 9
+	
+}
+
+//The adjectives known
+CreateAdjLib
+{
+	adjectiveslib = IARRAY
+	//color   state = no physique    descript = physique
+	//0 : adj	1 : type	2 : value	3 : noun type to complement
+	adjectiveslib[0] = "blue,color,0"
+	adjectiveslib[1] = "red,color,0"
+	adjectiveslib[2] = "orange,color,0"
+	adjectiveslib[3] = "magenta,color,0"
+	adjectiveslib[4] = "purple,color,0"
+	adjectiveslib[5] = "brown,color,0"
+	adjectiveslib[6] = "green,color,0"
+	adjectiveslib[7] = "grey,color,0"
+	adjectiveslib[8] = "yellow,color,0"
+	adjectiveslib[9] = "white,color,0"
+	adjectiveslib[10] = "black,color,0"
+	adjectiveslib[11] = "cyan,color,0"
+	adjectiveslib[12] = "turquoise,color,0"
+	adjectiveslib[13] = "rose,color,0"
+	adjectiveslib[14] = "nice,state,1"
+	adjectiveslib[15] = "bad,state,-1"
+	adjectiveslib[16] = "sweet,state,1"
+	adjectiveslib[17] = "cute,state,1"
+	adjectiveslib[18] = "angry,state,-1"
+	adjectiveslib[19] = "pretty,state,1"
+	adjectiveslib[20] = "good,state,1"
+	adjectiveslib[21] = "ugly,state,-1"
+	adjectiveslib[22] = "awful,state,-1"
+	adjectiveslib[23] = "rude,state,-1"
+	adjectiveslib[24] = "horrible,state,-1"
+	adjectiveslib[25] = "smart,state,1"
+	adjectiveslib[26] = "intelligent,state,1"
+	adjectiveslib[27] = "idiot,state,-1"
+	adjectiveslib[28] = "stupid,state,-1"
+	adjectiveslib[29] = "soft,descript,0"
+	adjectiveslib[30] = "heavy,descript,0"
+	adjectiveslib[31] = "complicated,state,0"
+	adjectiveslib[32] = "thin,descript,0"
+	adjectiveslib[33] = "right,descript,0"
+	adjectiveslib[34] = "left,descript,0"
+	adjectiveslib[35] = "top,descript,0"
+	adjectiveslib[36] = "borrom,descript,0"
+	//adjectiveslib[37] = ""
+	//adjectiveslib[38] = ""
+	//adjectiveslib[39] = ""
+	
+}
+
+//The verbs known
+//Classification of the verbs, stat/mov something to somewhere or from somewhere/action(good/verygood/bad/verybad)/imagin/sense/avis/creation/hobby
+CreateVerbLib
+{
+	//0: present	1:past	2:infinitive	3:ing	4:type	5:user	6:azura	7:subject
+	verbslib = IARRAY
+	verbslib[0] = "be-am-is-are,was-were,been,being,stat,none,0"
+	verbslib[1] = "go,went,gone,going,mov,none,0"
+	verbslib[2] = "move,moved,moved,moving,mov,none,0"
+	verbslib[3] = "feel,felt,felt,feeling,stat,none,0"
+	verbslib[4] = "smell,smelt,smelt,smelling,sense,none,0"
+	verbslib[5] = "touch,touched,touched,touching,sense,none,0"
+	verbslib[6] = "taste,tasted,tasted,tasting,sense,none,0"
+	verbslib[7] = "see,saw,seen,seeing,sense,none,0"
+	verbslib[8] = "camp,"
+	verbslib[9] = "like,liked,liked,liking,avis,none,1"
+	verbslib[10] = "love,loved,loved,loving,avis,none,2"
+	verbslib[11] = "hate,hated,hated,hating,avis,none,-1"
+	verbslib[12] = "think,thought,thought,thinking,avis,none,0"
+	verbslib[13] = "break,broke,broken,breaking,action,none,-1"
+	verbslib[14] = "read,read,read,reading,hobby,none,1"
+	verbslib[15] = "draw,drew,drawn,drawing,hobby,none,1"
+	verbslib[16] = "eat,ate,eaten,eating,action,none,1"
+	verbslib[17] = "grow,grew,grown,growing,action,none,0"
+	verbslib[18] = "mean,meant,meant,meaning,avis,none,0"
+	verbslib[19] = "have-has,had,had,having,sense,none,0"
+	verbslib[20] = "dream,dreamt,dreamt,dreaming,imagin,none,1"
+	verbslib[21] = "imagine,imagined,imagined,imagining,imagin,none,1"
+	verbslib[22] = "figure,figured,figured,figuring,imagin,none,1"
+	verbslib[23] = "understand,understood,understood,understanding,imagin,none,0"
+	verbslib[24] = "search,searched,searched,searching,action,none,-1"
+	verbslib[25] = "learn,learnt,learnt,learning,imagin,none,1"
+	verbslib[26] = "teach,taught,taught,teaching,action,none,1"
+	verbslib[27] = "buy,bought,bought,buying,action,none,0"
+	verbslib[28] = "build,built,built,building,action,none,0"
+	verbslib[29] = "create,created,created,creating,creation,none,1"
+	verbslib[30] = "sleep,slept,slept,sleeping,action,none,1"
+	verbslib[31] = "walk,walked,walked,walking,action,mov,0"
+	verbslib[32] = "play,played,played,playing,hobby,none,1"
+	verbslib[33] = "dance,danced,danced,dancing,hobby,none,0"
+	verbslib[34] = "do,did,done,doing,action,none,0"
+	verbslib[35] = ""
+	verbslib[36] = ""
+	verbslib[37] = ""
+	verbslib[38] = ""
+	verbslib[39] = ""
+	
+}
+
+OnUpdateLibrary
+{
+	_f = FOPEN("levidre_library.txt","r")
+	_line = 0
+	_step = "noun"
+	_line = FREAD("levidre_library.txt")
+	while _line != -1
+	{
+		
+		if "Adjectif" _in_ _line
+		{
+			_step = "adj"
+		}
+		elseif "Verb" _in_ _line
+		{
+			_step = "verb"
+		}
+		else
+		{
+			wordsearched = "%(_line[0])"
+			_word = DetermineWord
+			if _word[0] == "0"
+			{
+				if _step == "noun"
+				{
+					nameslib ,= "%(_line)"
+				}
+				elseif _step == "adj"
+				{
+					adjectiveslib ,= "%(_line)"
+				}
+				else
+				{
+					verbslib ,= "%(_line)"
+				}
+			}
+			elseif _word[0] == "name" && _step == "noun"
+			{
+				_line[5] = nameslib[TOINT(_word[1])][5]
+				nameslib[TOINT(_word[1])] = _line
+			}
+			elseif _word[0] == "adjectif" && _step == "adj"
+			{
+				adjectiveslib[TOINT(_word[1])] = _line
+			}
+			elseif _word[0] == "verb" && _step == "verb"
+			{
+				_line[5] = verbslib[TOINT(_word[1])][5]
+				verbslib[TOINT(_word[1])] = _line
+			}
+		}
+		_line = FREAD("levidre_library.txt")
+		
+	}
+	"%(lsta)Dictionary update completed.%(lsto)\n\n[half]"
+	--
+	Select.AfterUpdate
+}
+
+Select.CreateUserLibrary
+{
+	"* Where do you want it to be ?\![raise,OnNameLibrary]"
+}
+
+OnNameLibrary
+{
+	librarypath = FUNCTIONEX("saori\proxy.dll","wvt.exe","OpenDialog")
+	librarypath += ".txt"
+	_i = FOPEN(librarypath,"w")
+	--
+	foreach nameslib ; word {_i = FWRITE(librarypath,word)}
+	_i = FWRITE(librarypath,"Adjectif")
+	foreach adjectiveslib ; word {_i = FWRITE(librarypath,word)}
+	_i = FWRITE(librarypath,"Verb")
+	foreach verbslib ; word {_i = FWRITE(librarypath,word)}
+	_i = FCLOSE(librarypath)
+	displaylibrarypath = REPLACE(librarypath,"\","\_m[0x5c]")
+	displaylibrarypath = REPLACE(displaylibrarypath,"/","\_m[0x2f]")
+	--
+	"* Alright,\w5 I saved your vocabulary. \w7You can find the file into '%(displaylibrarypath)', \w5you can take a peek inside if you want.\w7\n* Levidre would be so happy if you could send it to her.\e"
+}
+
+
+
+

@@ -1,0 +1,2 @@
+ここにダウンロードしたサウンドファイルが保存されます。
+The sound file downloaded here will be saved.

@@ -1,0 +1,410 @@
+2003,,2,,never
+2004,,2,,never
+9000,,2,,never
+9001,blue,2,,never
+9002,,2,,never
+9003,green,2,,never
+9004,yellow,2,,never
+9005,orange,2,,never
+9006,red,2,,never
+9007,purple,2,,never
+9008,,2,,never
+9101,Gold,2,,never
+9102,,2,,never
+9103,Blue,2,,never
+9104,,2,,never
+9105,Red lines,2,,never
+9106,,2,,never
+9201,Plants,2,,never
+9202,,2,,never
+9203,,2,,never
+9204,,2,,never
+2003,,5,,never
+2004,,5,,never
+0,The body,10,,never
+3,Extended wings,10,Wings,never
+4,,10,Wings,never
+5,Wing right wing left,10,Wings,always
+6,,10,Wings,always
+7,Wing right wing left behind protect,10,Wings,never
+8,,10,Wings,never
+10,closed happy,10,Eyes changes,never
+11,look to the left opened,10,Eyes changes,never
+12,look to the left suspicious,10,Eyes changes,never
+13,(normal suspicious)sad,10,Eyes changes,never
+14,normal down,10,Eyes changes,never
+15,normal closed,10,Eyes changes,never
+16,opened happy,10,Eyes changes,never
+18,Control eyes interval,10,Eyes changes,runonce
+19,Blink,10,Eyes changes,random,4
+30,Normal,10,Eyebrows,runonce
+31,,10,Eyebrows,runonce
+32,Down,10,Eyebrows,never
+33,,10,Eyebrows,never
+34,Perplexe,10,Eyebrows,never
+35,,10,Eyebrows,never
+36,Angry,10,Eyebrows,never
+37,,10,Eyebrows,never
+38,Up,10,Eyebrows,never
+39,,10,Eyebrows,never
+40,Smile down,10,Smile,never
+45,Normal,10,Smile,never
+46,Small smile,10,Smile,none
+47,Psychopate,10,Smile,none
+48,Round,10,Smile,none
+49,Mi-round,10,Smile,none
+50,Big smile,10,Smile,none
+51,Big smile open,10,Smile,none
+52,Sad,10,Smile,none
+55,Speak,10,Smile,talk,4
+56,,10,Smile,never
+57,,10,Smile,never
+58,,10,Smile,never
+59,Tongue,10,Smile,none
+60,On the computer,10,Smile,never
+61,60pattern1000start168,10,Smile,random,3
+62,Drawing,10,Smile,never
+63,62pattern1000start169,10,Smile,never
+68,Crossed arms,10,Smile,never
+69,Two hands control interval,10,68pattern310391overlay00,never
+70,Normal arm,10,All right arm positions,never
+71,Arms on the hips (hanche),10,All right arm positions,never
+72,Extended arm,10,All right arm positions,never
+79,Yawn,10,All right arm positions,never
+84,Control right arm interval,10,All right arm positions,never
+90,Normal arm,10,All left arm positions,never
+91,Arms on the hips (hanche),10,All left arm positions,never
+92,Extended arm,10,All left arm positions,never
+99,Control left arm interval,10,48 only for sat it's the computer,never
+100,Tail animations,10,48 only for sat it's the computer,runonce
+113,,10,48 only for sat it's the computer,never
+114,,10,48 only for sat it's the computer,never
+101,,10,48 only for sat it's the computer,never
+102,,10,48 only for sat it's the computer,never
+103,,10,48 only for sat it's the computer,never
+104,,10,48 only for sat it's the computer,never
+105,,10,48 only for sat it's the computer,never
+106,,10,48 only for sat it's the computer,never
+107,return,10,48 only for sat it's the computer,never
+108,,10,48 only for sat it's the computer,never
+109,,10,48 only for sat it's the computer,never
+110,,10,48 only for sat it's the computer,never
+111,,10,48 only for sat it's the computer,never
+112,,10,48 only for sat it's the computer,never
+120,,10,48 only for sat it's the computer,never
+150,Eating spaghettis,10,48 only for sat it's the computer,never
+151,,10,48 only for sat it's the computer,never
+152,,10,48 only for sat it's the computer,never
+153,the spagethies being eaten,10,48 only for sat it's the computer,never
+154,spagethies in the plate,10,48 only for sat it's the computer,never
+155,64pattern200start164,10,48 only for sat it's the computer,never
+156,65pattern200start165,10,48 only for sat it's the computer,never
+157,66pattern200start166,10,48 only for sat it's the computer,never
+158,,10,48 only for sat it's the computer,never
+159,,10,48 only for sat it's the computer,never
+160,,10,48 only for sat it's the computer,never
+161,,10,48 only for sat it's the computer,never
+162,,10,48 only for sat it's the computer,never
+170,Attack charged,10,drawing 169,never
+171,,10,drawing 169,never
+172,,10,drawing 169,never
+173,,10,drawing 169,never
+174,,10,drawing 169,never
+179,Taking damages,10,drawing 169,never
+180,,10,drawing 169,never
+181,,10,drawing 169,never
+182,,10,drawing 169,never
+183,Defending,10,drawing 169,never
+184,,10,drawing 169,never
+185,,10,drawing 169,never
+186,,10,drawing 169,never
+187,Defending against an attack,10,drawing 169,never
+188,,10,drawing 169,never
+189,,10,drawing 169,never
+193,,10,drawing 169,never
+200,Stuffs in plus---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------,10,drawing 169,never
+2001,To make Azura stop talking,10,drawing 169,never
+2002,,10,drawing 169,never
+19,Blink,11,,random,4
+5,Wing right wing left default,11,,always
+6,,11,,always
+7,Wing right wing left behind protect,11,,never
+8,,11,,never
+15,normal closed,11,,never
+18,Control eyes interval,11,,runonce
+32,Down,11,Eyebrows,runonce
+33,,11,Eyebrows,runonce
+45,Normal,11,Smile,runonce
+71,Arm right arm leftdefault,11,Smile,always
+72,Extended arm,11,Smile,never
+90,,11,Smile,always
+92,Extended arm,11,Smile,never
+100,,11,Smile,runonce
+113,,11,Smile,never
+114,,11,Smile,never
+101,,11,Smile,never
+102,,11,Smile,never
+103,,11,Smile,never
+104,,11,Smile,never
+105,,11,Smile,never
+106,,11,Smile,never
+107,return,11,Smile,never
+108,,11,Smile,never
+109,,11,Smile,never
+110,,11,Smile,never
+111,,11,Smile,never
+112,,11,Smile,never
+120,,11,Smile,never
+170,Attack charged,11,Smile,never
+171,,11,Smile,never
+172,,11,Smile,never
+173,,11,Smile,never
+174,,11,Smile,never
+175,Doing a charged attack,11,Smile,never
+176,,11,Smile,never
+177,,11,Smile,never
+178,,11,Smile,never
+179,Taking damages,11,Smile,never
+180,,11,Smile,never
+181,,11,Smile,never
+182,,11,Smile,never
+183,Defending,11,Smile,never
+184,,11,Smile,never
+185,,11,Smile,never
+186,,11,Smile,never
+187,Defending against an attack,11,Smile,never
+188,,11,Smile,never
+189,,11,Smile,never
+190,Normal attack,11,Smile,never
+191,,11,Smile,never
+192,Dodging an attack,11,Smile,never
+0,The body,12,,never
+3,Extended wings,12,Wings,never
+4,,12,Wings,never
+5,Wing right wing left,12,Wings,always
+6,,12,Wings,always
+7,Wing right wing left behind protect,12,Wings,never
+8,,12,Wings,never
+10,closed happy,12,Eyes changes,never
+11,look to the left opened,12,Eyes changes,never
+12,look to the left suspicious,12,Eyes changes,never
+13,(normal suspicious)sad,12,Eyes changes,never
+14,normal down,12,Eyes changes,never
+15,normal closed,12,Eyes changes,never
+16,opened happy,12,Eyes changes,never
+18,Control eyes interval,12,Eyes changes,runonce
+19,Blink,12,Eyes changes,random,4
+30,Normal,12,Eyebrows,runonce
+31,,12,Eyebrows,runonce
+32,Down,12,Eyebrows,never
+33,,12,Eyebrows,never
+34,Perplexe,12,Eyebrows,never
+35,,12,Eyebrows,never
+36,Angry,12,Eyebrows,never
+37,,12,Eyebrows,never
+38,Up,12,Eyebrows,never
+39,,12,Eyebrows,never
+40,Smile down,12,Smile,never
+45,Normal,12,Smile,never
+46,Small smile,12,Smile,none
+47,Psychopate,12,Smile,none
+48,Round,12,Smile,none
+49,Mi-round,12,Smile,none
+50,Big smile,12,Smile,none
+51,Big smile open,12,Smile,none
+52,Sad,12,Smile,none
+55,Speak,12,Smile,talk,4
+56,,12,Smile,never
+57,,12,Smile,never
+58,,12,Smile,never
+59,Tongue,12,Smile,none
+67,Holding Obsidian,12,Smile,runonce
+70,Normal arm,12,All right arm positions,never
+90,Normal arm,12,All left arm positions,never
+100,Tail animations,12,All left arm positions,runonce
+113,,12,All left arm positions,never
+114,,12,All left arm positions,never
+101,,12,All left arm positions,never
+102,,12,All left arm positions,never
+103,,12,All left arm positions,never
+104,,12,All left arm positions,never
+105,,12,All left arm positions,never
+106,,12,All left arm positions,never
+107,return,12,All left arm positions,never
+108,,12,All left arm positions,never
+109,,12,All left arm positions,never
+110,,12,All left arm positions,never
+111,,12,All left arm positions,never
+112,,12,All left arm positions,never
+121,Obsidian's tail,12,All left arm positions,never
+122,,12,All left arm positions,random,4
+123,,12,All left arm positions,never
+124,,12,All left arm positions,never
+125,,12,All left arm positions,never
+126,,12,All left arm positions,never
+127,Obsidian jumps down,12,All left arm positions,never
+128,,12,All left arm positions,never
+120,,12,All left arm positions,never
+200,Stuffs in plus---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------,12,drawing 169	,never
+2001,To make Azura stop talking,12,drawing 169	,never
+2002,,12,drawing 169	,never
+0,The body,15,,never
+5,Wing right wing left,15,,always
+6,,15,,always
+10,closed happy,15,Eyes changes,never
+11,look to the left opened,15,Eyes changes,never
+12,look to the left suspicious,15,Eyes changes,never
+13,(normal suspicious)sad,15,Eyes changes,never
+14,normal down,15,Eyes changes,never
+15,normal closed,15,Eyes changes,never
+16,opened happy,15,Eyes changes,never
+18,Control eyes interval,15,Eyes changes,runonce
+19,Blink,15,Eyes changes,random,4
+30,Normal,15,Eyebrows,runonce
+31,,15,Eyebrows,runonce
+32,Down,15,Eyebrows,never
+33,,15,Eyebrows,never
+34,Perplexe,15,Eyebrows,never
+35,,15,Eyebrows,never
+36,Angry,15,Eyebrows,never
+37,,15,Eyebrows,never
+38,Up,15,Eyebrows,never
+39,,15,Eyebrows,never
+40,Smile down,15,Smile,never
+45,Normal,15,Smile,never
+46,Small smile,15,Smile,none
+47,Psychopate,15,Smile,none
+48,Round,15,Smile,none
+49,Mi-round,15,Smile,none
+50,Big smile,15,Smile,none
+51,Big smile opened,15,Smile,none
+52,Sad,15,Smile,none
+55,Speak,15,Smile,talk,4
+56,,15,Smile,never
+57,,15,Smile,never
+58,,15,Smile,never
+59,Tongue,15,Smile,none
+60,On the computer,15,Smile,never
+61,,15,Smile,random,3
+62,Drawing,15,Smile,never
+63,,15,Smile,never
+68,Crossed arms,15,Smile,never
+69,Two hands control interval,15,Smile,never
+70,Normal arm,15,All right arm positions,never
+71,Arms on the hips (hanche),15,All right arm positions,never
+72,Extended arm,15,All right arm positions,never
+79,Yawn,15,All right arm positions,never
+84,Control right arm interval,15,All right arm positions,never
+90,Normal arm,15,All left arm positions,never
+91,Arms on the hips (hanche),15,All left arm positions,never
+92,Extended arm,15,All left arm positions,never
+99,Control left arm interval,15,48 only for sat it's the computer,never
+100,,15,48 only for sat it's the computer,runonce
+113,,15,48 only for sat it's the computer,never
+114,,15,48 only for sat it's the computer,never
+101,,15,48 only for sat it's the computer,never
+102,,15,48 only for sat it's the computer,never
+103,,15,48 only for sat it's the computer,never
+104,,15,48 only for sat it's the computer,never
+105,,15,48 only for sat it's the computer,never
+106,,15,48 only for sat it's the computer,never
+107,return,15,48 only for sat it's the computer,never
+108,,15,48 only for sat it's the computer,never
+109,,15,48 only for sat it's the computer,never
+110,,15,48 only for sat it's the computer,never
+111,,15,48 only for sat it's the computer,never
+112,,15,48 only for sat it's the computer,never
+120,Birthday,15,48 only for sat it's the computer,never
+150,Eating spaghettis,15,48 only for sat it's the computer,never
+151,,15,48 only for sat it's the computer,never
+152,,15,48 only for sat it's the computer,never
+153,the spaghetties being eaten,15,48 only for sat it's the computer,never
+154,spaghetties in the plate,15,48 only for sat it's the computer,never
+155,64pattern200start164,15,48 only for sat it's the computer,never
+156,65pattern200start165,15,48 only for sat it's the computer,never
+157,66pattern200start166,15,48 only for sat it's the computer,never
+158,,15,48 only for sat it's the computer,never
+159,,15,48 only for sat it's the computer,never
+160,,15,48 only for sat it's the computer,never
+161,,15,48 only for sat it's the computer,never
+162,,15,48 only for sat it's the computer,never
+168,computer,15,48 only for sat it's the computer,never
+169,drawing,15,48 only for sat it's the computer,never
+193,,15,48 only for sat it's the computer,never
+2001,To make Azura stop talking,15,48 only for sat it's the computer,never
+2002,,15,48 only for sat it's the computer,never
+0,The body,17,,never
+5,Wing right wing left,17,,always
+6,,17,,always
+10,closed happy,17,Eyes changes,never
+11,look to the left opened,17,Eyes changes,never
+12,look to the left suspicious,17,Eyes changes,never
+13,(normal suspicious)sad,17,Eyes changes,never
+14,normal down,17,Eyes changes,never
+15,normal closed,17,Eyes changes,never
+16,opened happy,17,Eyes changes,never
+18,Control eyes interval,17,Eyes changes,runonce
+19,Blink,17,Eyes changes,random,4
+30,Normal,17,Eyebrows,runonce
+31,,17,Eyebrows,runonce
+32,Down,17,Eyebrows,never
+33,,17,Eyebrows,never
+34,Perplexe,17,Eyebrows,never
+35,,17,Eyebrows,never
+36,Angry,17,Eyebrows,never
+37,,17,Eyebrows,never
+38,Up,17,Eyebrows,never
+39,,17,Eyebrows,never
+40,Smile down,17,Smile,never
+45,Normal,17,Smile,never
+46,Small smile,17,Smile,none
+47,Psychopate,17,Smile,none
+48,Round,17,Smile,none
+49,Mi-round,17,Smile,none
+50,Big smile,17,Smile,none
+51,Big smile opened,17,Smile,none
+52,Sad,17,Smile,none
+55,Speak,17,Smile,talk,4
+56,,17,Smile,never
+57,,17,Smile,never
+58,,17,Smile,never
+59,Tongue,17,Smile,none
+67,Holding Obsidian,17,Smile,runonce
+70,Normal arm,17,All right arm positions,never
+90,Normal arm,17,All left arm positions,never
+100,48 only for sat it's the computer,17,All left arm positions,runonce
+113,,17,All left arm positions,never
+114,,17,All left arm positions,never
+101,,17,All left arm positions,never
+102,,17,All left arm positions,never
+103,,17,All left arm positions,never
+104,,17,All left arm positions,never
+105,,17,All left arm positions,never
+106,,17,All left arm positions,never
+107,return,17,All left arm positions,never
+108,,17,All left arm positions,never
+109,,17,All left arm positions,never
+110,,17,All left arm positions,never
+111,,17,All left arm positions,never
+112,,17,All left arm positions,never
+120,Birthday,17,All left arm positions,never
+121,Obsidian's tail,17,All left arm positions,never
+122,,17,All left arm positions,random,4
+123,,17,All left arm positions,never
+124,,17,All left arm positions,never
+125,,17,All left arm positions,never
+126,,17,All left arm positions,never
+127,Obsidian jumps down,17,All left arm positions,never
+128,,17,All left arm positions,never
+2001,To make Azura stop talking,17,All left arm positions,never
+2002,,17,All left arm positions,never
+194,,19,,runonce
+195,,19,,random,5
+196,,19,,never
+197,,19,,never
+198,,19,,never
+199,,19,,always
+130,,24,,always
+130,,26,,always
+130,,27,,always
+130,,28,,always

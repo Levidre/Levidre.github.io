@@ -1,0 +1,28 @@
+//---------------------------Communication--------------------------
+
+OnCommunicate
+ {
+	if reference0 == "user" || reference0 == "User"
+ 	{
+		//---- 사용자로부터의 이야기에 대답
+ 		ReplyToUser
+	}
+ 	else
+	{
+ 		
+		ReplyToGhost
+ 	}
+}
+
+ReplyToUser
+{
+	TalkToUser
+}
+
+
+
+ReplyToGhost
+{
+	
+}
+

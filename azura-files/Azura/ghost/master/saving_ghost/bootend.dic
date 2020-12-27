@@ -1,0 +1,194 @@
+﻿//---------------------------Booting and Ending--------------------------
+
+OnInitialize
+{
+	if replacedGseen != ""
+	{
+		"\s[20]"
+	}
+	
+}
+
+
+OnFirstBoot
+{
+	lastTalk = "" //These values you may recognize from OnFirstBoot up there. Just pay them no mind.
+	passmin = 0
+	passsec = 0	
+	passhour = 0
+	normalboottalk
+}
+
+
+//--GetTimeSlot
+
+GetTimeSlot
+{
+	if hour >= 5 && hour <= 7
+	{
+		"earlymorning"
+	}
+	elseif hour >= 8 && hour <= 10
+	{
+		"morning"
+	}
+	elseif hour >= 11 && hour <= 13
+	{
+		"lunch"
+	}
+	elseif hour >= 14 && hour <= 17
+	{
+		"afternoon"
+	}
+	elseif hour >= 18 && hour <= 20
+	{
+		"evening"
+	}
+	elseif hour >= 21 && hour <= 24
+	{
+		"latenight"
+	}
+	else
+	{
+		"midnight"
+	}
+}
+
+//--GetDaySlot
+
+GetDaySlot
+{
+	"%(month)month %(day)day"
+}
+
+
+//-----------------------Normal Booting----------------------------
+
+//--OnBoot
+
+OnBoot
+ {
+	lastTalk = "" //These values you may recognize from OnFirstBoot up there. Just pay them no mind.
+	passmin = 0
+	passsec = 0	
+	passhour = 0
+	normalboottalk
+}
+
+
+//--normalboottalk
+
+//This is another unique bit of coding from cindysuke's ghost. OnBoot above checks for the day when you open them, but normalboottalk will vary their dialogue in a few different ways depending on the time and weekday. If you don't want to use these, you can delete everything under normalboottalk and write your own lines of general boot dialogue, so it'd look something like.
+
+//normalboottalk
+//{
+//[insert your general boot dialogue here]
+//}
+
+//Otherwise, just replace the upcoming pieces of dialogue with what you like.
+
+
+normalboottalk
+{
+	dayslot = GetDaySlot
+	timeslot = GetTimeSlot
+	if replacedGseen != ""
+	{
+		"\s[20]* You again.\e"
+		"\s[20]* Already back.\e"
+	}
+	else
+	{
+		"%(lsta)You see a flickering light appearing.%(lsto)"
+	}
+	
+}
+
+//--OnClose
+
+OnClose
+ {
+	timeslot = GetTimeSlot //as you saw above, it's checking the time.
+	--
+	if passmin >= 5	//This checks to see if you've had them open for at least five minutes.
+	{
+		
+ 		
+ 	}
+ 	else //This dialogue is for if they haven't been open for at least five minutes.
+ 	{
+		
+ 	}
+
+	--
+	"\-\e"
+ }
+
+
+ //-------------------------State Changing--------------------
+ //From here on, most of the dialogue will have to do with changing shells, ghosts, or states in some way.
+ 
+
+//--OnWindowStateRestore
+
+OnWindowStateRestore
+ {
+	
+}
+
+
+//--OnGhostChanging
+
+OnGhostChanging
+ {
+	
+	"\0\s[10]\1\s[1]\e"
+}
+
+
+//--OnGhostChanged
+
+OnGhostChanged
+{
+	
+}
+
+
+//--OnShellChanging
+
+//This will run when you change your ghost's shell. If you don't have any other shells for your ghost, you can safely ignore this but don't delete it, you might as well keep it just in case. I probably won't add a different shell to this template because shells are a lot of work ugh, but for the sake of argument, let's pretend I did.
+
+OnShellChanging
+ {
+	 
+ }
+ 
+ 
+ //--OnShellChanged
+ 
+ //The sister to the above, this is the dialogue after you've changed the shell.
+ 
+OnShellChanged
+ {
+ 	
+ }
+
+
+ //--OnDressupChanged
+ 
+OnDressupChanged
+{
+
+}
+
+CreateGhostList
+{
+	ghostsfilelist = FENUM("..\..\..")
+	ghostsfilelist = SPLIT(ghostsfilelist,",")
+	otherghosts = IARRAY
+	foreach ghostsfilelist ; ghost
+	{
+		otherghosts ,=  SHIORI3FW.GetGhostNameFromDescriptTxt("..\..\.."+ghost)[0]
+	}
+}
+

@@ -1,0 +1,2339 @@
+﻿//---------------------------AI Talk--------------------------
+//Alright, this is it! The bread and butter of your ghost. This is where all their random conversations are stored. Of all the .dic files, this is the one you will probably be adding stuff to and updating the most as new dialogue comes to your mind. It is relatively simple in that there aren't many functions or real coding involved with this file, but there are a few cool tricks you can do within randomtalk that can make dialogue with interesting effects, so I'll point them out as we go along.
+//I'm going to leave a lot of examples of different types of dialogue in here that you can study if the possibilities they present intrigue you. Study them carefully!
+
+//Make sure to read the walkthrough (http://www.ashido.com/ukagaka/walkthrough.html) for more details about how to properly format ghost dialogue!
+//I will reiterate that you should be editing these in Notepad++, and in particular, you should set the Language to C (or Java I guess) to properly highlight all the text. It will make things A LOT EASIER for you, trust me! It will also help you keep track of your brackets in case you forget some. If you click on a line with a bracket in Notepad++, it should highlight where the other bracket ends, or turn purple if there's no finishing bracket (which you should definitely fix!)
+//It will also highlight my commented lines in green, so you'll know where they are. Any line beginning with // is a commented line that the code will not read. It's just for your reference!
+
+//--AiTalk
+//Leave this alone.
+//Advanced users, this is mostly setting up whether or not dialogue is in a chain before it displays. Again, you can leave it alone unless you want to screw around with chains for some strange reason.
+
+AiTalk
+ {
+
+	if RAND(100) < communicateratio
+ 	{
+ 		StartCommunicate
+	}
+ 	else
+	{
+		
+ 		if mikireflag == 0
+		{
+			
+			if CHAIN.IDName == "" {
+				
+ 				lastTalk = RandomTalk
+			}
+			else {
+				lastTalk = ChainTalk
+			}
+			lastTalk
+		}
+ 		else
+		{ 
+		MikireTalk
+ 		}
+	}
+ }
+
+
+//--RandomTalk 
+ //Alright, here we go! This is where ALL your ghost's random dialogue will go! These are the conversations that they'll have with you or each other that pop up depending on the talk rate defined in menu.dic (or if you ignored that, set in bootend.dic in the first boot, which would be every five minutes).
+ 
+//*********************Advanced User Info*******************************
+//These text boxes are meant for those who have an interest in expanding or using more complicated functions in their ghost. Also for my own reference in the future since I plan on using this template too, haha. If you have no interest in any of this and just want to keep things as simple as possible, feel free to skip these boxes.
+
+//ALL your random dialogue NEEDS to be in RandomTalk. You can't link to other functions or something from within RandomTalk, or a separate pool of convos in another .dic file, as far as I can tell. So, how do you then set up certain pools of dialogue that only happen when certain settings are in place (for example, when there are three characters on the screen instead of two) and won't happen when they are false? Basically, you just need to be creative with your if statements. You can nest a ton of ifs and elses in RandomTalk, and if you keep them straight, you can make a lot of dialogue here customized to whatever situation you can come up with. BUT again, you can't call other dialogue into here! I go more into how to set up a "mode" like that in the coding page of the walkthrough site.
+//I GUESS you could set up more dialogue in an envelope perhaps (see word.dic) or another .dic file and then call it in here using envelopes, but that seems a bit redundant. Maybe someone else can think of a use for that though.
+
+//The closest you can get to linking to outside dialogue is via chains, but I'll talk more about chains when we get to them. Being creative with chains can open up a lot of opportunities for you, such as presenting the user with choices every now and then, which I'm pretty sure you can't do within RandomTalk. Maybe you can, I usually do it via chains though. I'll have to experiment with this later.
+//***********************************************************************
+
+RandomTalk //: nonoverlap
+{
+	/* //--Chains
+	//Chain dialogue is unique. A dialogue chain consists of multiple bits of dialogue that get called in order over a period of time.
+	
+	//"\0\s[0]This is the first part of a chained dialogue.\w8\1\s[10]Second part to come when we next speak.\e:chain=firstchain"
+	
+	//Note here that instead of ending the dialogue with the normal end tag of \e, it ends with \e:chain=firstchain. This will link down below to a chunk of code outside RandomTalk called firstchain. You can scroll down and find it now if you want. You can name your chain anything you want, it'd just follow the same format of \e:chain=yourchainsname, and you can have a long series of chains as well. Once a dialogue has entered a chain, they won't say any other random dialogue until the chain is finished.
+	
+	//"\0\s[0]This will lead to the second piece of chained dialogue.\w8\1\s[10]This will have another chain attached to it.\e:chain=secondchain"
+	
+	//Here, this chain will link to another chain to continue the conversation. You can scroll down to the section on chains to see this in action.
+	
+	//--If statements
+	//You can put if statements in RandomTalk! They don't even need Else statements, unless you want to keep two sets of statements completely separate - for example, you have one pool of conversations for when there are two characters, and one for if there are three characters. You wouldn't want these to overlap, so you'd put one pool in the if statement and the other in the else. Most of the time though, you won't need an Else statement for these, since they'll mostly only be adding in dialogue if the if statement is true. 
+	
+	if nowshell == "default_shell" //This checks to see what shell they're currently using. You may remember this value being defined back in bootend.dic. If they're in their default shell...
+	{
+	//Then these conversations are available! Note the brackets enclosing this set of dialogue.
+	"\0\s[10]Here is dialogue related to the default shell.\w8You can use this to comment on clothing your ghost is wearing.\e"
+	
+	"\0\s[10]Here is more dialogue related to the default shell.\e"
+	}
+	
+	//You can also put in multiple ifs checking for the same thing to vary the responses. In this case, it's checking to see if they're wearing another shell. You don't need to use elseifs for this! Just an if is fine.
+	if nowshell == "Hypothetical Shell that doesn't actually exist"
+	{
+	"\0\s[10]This is dialogue related to a shell we don't actually have.\w8Unless it somehow pops into existence.\e"
+	
+	"\0\s[10]This is more dialogue related to a hypothetical shell we don't actually have.\w8It's not happening.\e"
+	}
+	//After the if statement is done, you can continue with dialogue as normal. As you can see, you can move the ifs around in here, it doesn't really matter. You may want to stick them all in one place together if you want to keep track of them, or you can scatter them around your dialogue as you please. It's up to you. These two lines below are just normal random dialogue.
+	//And here we're going to go back into ifs! You see, you can space out your ifs with normal dialogue if you want, as I just mentioned. Anyway, you can set up if statements to check for a lot of different things! One of the cooler ones I think are ones set to check for time. This one for example checks if the month is December.
+
+	if month == 11
+	{
+	}
+	//These ifs check what day of the week it is.
+	if weekday == 1
+	{
+		"\0\s[10]This is dialogue for Monday..\e"
+		
+		"\0\s[10]This is more dialogue for Monday.\e"
+	}
+		
+	
+	//--Double Envelopes
+	//If you've gone through word.dic, you may remember a list with two sets of values on each line. This is how you would call something like that! For this example, we'll use the double envelope that cindysuke made that has a Korean word and its definition. This can be a bit complicated, so pay close attention.
+	
+	{
+	_korean = lessonkor //Here, the envelope "lessonkor" is stored as a new value called _korean. You can name the new value anything you like. 
+	_korword = _korean[0] //The first part of the envelope's list is the Korean word, so it will be called _korword. The first value of the _korean list is _korean[0], so that value is then stored in _korword.
+	_kormean = _korean[1] //This is the second item on the list, in this case the meaning of the Korean word, so it's called _kormean. The second value of the _korean list is _korean[1], so that value is then stored in _kormean.
+	
+	"Here is an example of a double envelope. The Korean word is %(_korword).\w8\0\s[10]The word means %(_kormean).\e"
+	
+	//As you can see here, you then use the values we set above for _korword and _kormean up there in the dialogue as our new envelopes. If you're planning on using a double envelope like this, study how this works very carefully! Most of the time, you can get away with just copying this whole bit of code and changing the names of the values as you need - doubled envelope to _doubled, _korword to _doubleitem1 or _kormean to _doubleitem2, or whatever. I'm not sure if the underscores are necessary, but you might as well play it safe and keep them.
+	//You could possibly set up an envelope with three or four or any number of values in it, then just assign them increasing numbers like _doubleitem[4] or _doubleitem[5] in the dialogue set up here, but I've personally never tried it.
+	
+	//Additional Note - You can't test this kind of dialogue in Script Input. You'll have to wait until it comes up naturally in your ghost's random dialogue.
+	
+	//Those uninterested in double envelopes can delete this section.
+	}
+	//--Multiple Responses
+	//Here's another example of multiple responses. This one will let you randomly choose something to say in the middle of a sentence.
+	
+	{
+	"\0\s[10]Say either black or white.\w8What if I say " 
+	-- //opening dashes
+	"green"
+	"red"
+	"purple"
+	"orange"
+	"yellow"
+	"magenta" //Notice here I added a tag for his thoughtful pose. If he chooses magenta, he'll do this pose. You can set up individual expressions for each potential choice this way.
+	-- //closing dashes
+	" instead?\w8\0\n\n[half]Then you're not really cooperating.\w8\1\n\n[half]Sounds about right.\e"
+	
+	//You can see that this follows the formula of the above, although there's only one set of multiple responses in here, then Triangle continues with his sentence. You can use this feature in many different ways if you're creative.
+	}
+	
+	"\0\s[10]\f[height,20]These words are really large.\f[height,default]\w8These words are a normal size. \w8\f[height,6]These words are small.\f[height,default]\e"
+	
+	//You can use other fancier SakuraScript bits in your dialogue if you want to get font effects, although I won't get too much into them here. In this case, \f[height,20] changes the height of the font, in this case to 20 or to 6, and then \f[height,default] changes them back to normal. I touch more on this in the SakuraScript page of the walkthrough.
+	
+	"\0\s[10]\f[strike,true]These words are struck out.\f[strike,default]\w8\1\s[10]\f[sub,true]These words are a subscript.\f[sub,false] \f[sup,true]These words are a superscript.\f[sup,false] \f[underline,true]These words are underlined.\f[underline,default] \f[bold,true]These words are bold.\f[bold,false] \f[italic,true]These words are italic.\f[italic,false] \f[color,186,146,112]These words are a color.\f[color,default] This tag would return to default.\f[default]\e"
+	
+	//Here's a list of similar tags you may find useful. You can see they function much like <b> or <i> tags in html. You just enclose the piece of text you want to change with them. Note that they start with \f[word,true] to turn it on, then \f[word,false] or \f[word,default] to turn it off. I assume you can tell what the tags do by the text they enclose.
+	//For the \f[color] tag, the three colors listed are the RGB values of the color you want to use for your text. Change them to whatever color you want to use. \f[default] can be an easy way to quickly go back to the default word setting in your balloon after messing with colors and effects a lot.
+	
+	//Along the same lines as above, you can use \_a[address] to link to certain things. Note that it ends with \_a to close the link. It's very similar to <a href=address> and </a> in html.
+	
+	"\_sWe are saying this dialogue at the same time.\e" 
+	
+	//This dialogue uses a unique tag, \_s. \_s makes it so both characters will speak the same words at the same time. Try it in Script Input to see how it works. I talk about it a little more on the walkthrough page for scripting.
+	 */
+	if iseating == 1
+	{
+		"\0\i[2001]\f[italic,true]She is still eating."
+	}
+	elseif dayslot == "10month 30day"
+	{
+		if RAND(2) == 1
+		{
+			PreHalloweenTalk
+		}
+	}
+	elseif dayslot == "10month 31day"
+	{
+		if RAND(2) == 1
+		{
+			NormalStandTalk
+		}
+		else
+		{
+			HalloweenTalk
+		}
+	}
+	elseif dayslot == "11month 1day"
+	{
+		if RAND(2) == 1
+		{
+			NormalStandTalk
+		}
+		else
+		{
+			PostHalloweenTalk
+		}
+	}
+	elseif inpyjama == 0 && (hour >= 22 || hour <= 6 || timeslot == "midnight")
+	{
+		"\0\s[10]%(lsto)* It's late, \w5I go take my pajama.\w7\0\s[-1]\n\n[half]\f[italic,true]She is gone. Maybe to search her pajama ?\w9\w9\w9\n\n[half]\![raise,OnPyjama]\e"
+	}
+	elseif inpyjama == 1 && hour >= 11 && hour <= 20
+	{
+		"\0\s[20]%(lsto)* It may be too late to be in pajama.\w7I go wear something else.\w7\0\s[-1]\n\n[half]\f[italic,true]She is gone.\f[italic,false]\w9\w9\w9\n\n[half]\![raise,OnPyjama]"
+	}
+	elseif asleep == 1
+	{
+		SleepingTalk
+	}
+	else
+	{
+		NormalStandTalk
+	}
+}
+
+OnStartCom
+{
+	"%(lsto)"
+	--
+	res_reference0 = ghostexlist[index]
+	conversation = "started"
+	if ghostexlist[index] == "MVSans"
+	{
+		"* Hello.\e"
+		"* Howdy.\e"
+	}
+	elseif "flowey" _in_ TOLOWER(ghostexlist[index])
+	{
+		"* Howdy Flowey.\e"
+	}
+	elseif ghostexlist[index] == "Gaster"
+	{
+		"* Hello Dr. Gaster.\e"
+	}
+	elseif ghostexlist[index] ==  "Ralsei"
+	{
+		"* Hello fluffy boy.\e"
+		"* Howdy fluffy boy.\e"
+	}
+	elseif ghostexlist[index] == "Jockey"
+	{
+		"* Hi.\e"
+	}
+	elseif ghostexlist[index] == "Hunter and Smoker Beta"
+	{
+		"* Hello.\e"
+	}
+	elseif ghostexlist[index] == "Wheatley"
+	{
+		"* Hi.\e"
+		"* Hello.\e"
+	}
+	elseif ghostexlist[index] == "CheeryBot"
+	{
+		"*Hello.\e"
+	}
+	elseif ghostexlist[index] == "Mettaton"
+	{
+		"* Hello,\w5 Mettaton.\e"
+		"* Howdy.\e"
+	}
+	elseif ghostexlist[index] == "Dusk"
+	{
+		if saw_dusk_dawn == 0
+		{
+			"* Hello.\e"
+		}
+		else
+		{
+			if dusk_dawn_encounter = 0
+			{
+				"* I don't think we already talked before.\w7 Who are you ?"
+			}
+			else
+			{
+				"* What are you doing ?\e"
+			}
+			
+		}
+	}
+	elseif ghostexlist[index] == "MiniDev"
+	{
+		"* Hello lil android.\e CheckOutfit0"
+	}
+	else
+	{
+		"* Hello.\e"
+	}
+	
+	/*if ASEARCH("Dusk",ghostexlist) != 0
+	{
+		res_reference0 = "Dusk"
+		"What are you talking about ?"
+	}*/
+}
+
+OnStartEating
+{
+	plateate = "%(reference0)"
+	alreadyeat = 2
+	oncomputer = 0
+}
+
+//The dialogues for when Azura is awake and up.
+NormalStandTalk
+{
+	if cumuhour >= 10
+	{
+		if enablebackup != 1
+		{
+			"\0\i[18]\i[38]\i[39]\i[45]%(lsto)* Since I've been here for a little time and you seem to enjoy my presence, \w7you can now ask me to save some of your data.\w7 Like,\w5 you know,\w5 doing a backup.\![raise,OnChangeBool,enablebackup]\e"
+		}
+	}
+	if cumuhour >= 5
+	{
+		if lovetrashanime == "unknown"
+		{
+			"\0\i[38]\i[31]\i[45]%(lsto)* I was wondering,\w5 do you like trash animes ?\w7 Like\i[11],\w5 huh,\w5\i[18] forbidden to -16 years people ?\_q\n\n[half]\![*]\q[I love when there is blood,yeslovetrash]\n\![*]\q[I don't handle it,nolovetrash]"
+		}
+		if loveshojo == "unknown"
+		{
+			"\0\i[38]\i[31]\i[45]%(lsto)* I was wondering, do you like romantic mangas ?\w7 You know,\w5 shojo mangas ?\_q\n\n[half]\![*]\q[I like love stories,yesloveshojo]\n\![*]\q[It's too much sweet for me,noloveshojo]"
+		}
+		if likemanga == ""
+		{
+			"\0\i[38]\i[31]\i[45]%(lsto)* Do you like mangas ?\n\n[half]\![*]\q[Yes,likemanga]    \![*]\q[No,nomanga]\e"
+		}
+	}
+	
+	if cumuhour >= 7 && useraffection >= 40 && askedanime == 1 && askedbooks == 1 && askedgame == 1 && helping != 1
+	{
+		"\0%(lsta)You wonder what kind of stuff she can do. Do you want to ask her ?\n\n[half]\![*]\q[Yes,helpingaskyes]     \![*]\q[No,helpingaskno]"
+	}
+	
+	
+	if ARRAYSIZE(ghostexlist) != 0
+	{
+		index = RAND(ARRAYSIZE(ghostexlist))
+		"\![raise,OnStartCom]"
+	}
+	
+	if useraffection >= 500
+	{
+		if azpunched <= 0
+		{
+			if issat == 1
+			{
+				"\0%(lsta)She is comfortably installed."
+			}
+			"\0%(lsta)It smells like trust."
+			"\0%(lsta)She considerates you as a friend."
+			if azfeel >= 2
+			{
+				"\0\i[38]\i[39]\i[50]%(lsta)She seems pretty happy today."
+			}
+			
+			"\0\i[18]\i[38]\i[39]\i[50]%(lsta)\i[18]She smiles at you."
+			"\0%(lsta)\i[50]She clearly appreciates being here."
+		}
+		else
+		{
+			if lovetrashanime == 1
+			{
+				"\0\i[45]\i[18]%(lsto)* Do you know %(trashanime) ?\w7 I'm pretty sure you would like it,\w5 seeing as you like violence."
+			}
+			"\0\i[30]\i[31]\i[45]%(lsta)She relaxed."
+			"\0\i[32]\i[33]\i[50]%(lsta)\i[18]She gives you a strange look."
+			"\0\i[18]\i[32]\i[33]\i[52]%(lsto)* You must actually appreciate me despite what you did."
+		}
+		if askedlike != 1
+		{
+			"\0%(lsta)You're definitely one of the person the less curious she knows."
+		}
+		else
+		{
+			"\0%(lsta)You wonder if she wouldn't like a new book for when she is here."
+		}
+		{
+			"\0%(lsta)\i[49]She is singing a soft song."
+			"\0%(lsta)\i[49]She is singing an epic song."
+			"\0\i[18]\i[38]\i[39]\i[45]%(lsto)* Do you want a %(treat) ?\w7 I have some of it and it's snack time.\n\n[half]\![*]\q[Of course I want,sharetreatyes]    \![*]\q[No\, thank you,sharetreatno]"
+			"\0* \i[10]\i[38]\i[39]\i[50]I didn't think you would have love having me around like this."
+			"\0\i[45]%(lsto)* For how many time have I been here ?\i[50]\w7 So much I guess."
+		}
+	}
+	elseif useraffection >= 375
+	{
+		if azpunched <= 0
+		{
+			if issat == 1
+			{
+				"\0%(lsta)She is comfortably installed."
+			}
+			"\0%(lsta)It smells like trust."
+			"\0%(lsta)She considerates you as a friend."
+			"\0%(lsta)She clearly appreciates being here."
+			"\0\i[18]\i[38]\i[39]\i[45]%(lsto)* Do you want a %(treat) ?\w7 I have some of it and it's snack time.\n\n[half]\![*]\q[Of course I want,sharetreatyes]    \![*]\q[No\, thank you,sharetreatno]"
+			if azfeel >= 2
+			{
+				"\0\i[38]\i[39]%(lsta)\i[50]She seems pretty happy today."
+			}
+			
+			"\0\i[18]\i[38]\i[39]%(lsta)\i[50]\i[18]She smiles at you."
+		}
+		else
+		{
+			if lovetrashanime == 1
+			{
+				"\0\i[18]\i[38]\i[31]\i[45]%(lsto)* Do you know %(trashanime) ?\w7 I'm pretty sure you would like it,\w5 seeing as you like violence."
+			}
+			"\0%(lsta)She start to eat a %(treat), \w5then see you.%(lsto)\n\n[half]\i[18]\i[45]* Do you want some ?\n\n[half]\![*]\q[Yes,sharetreatyes]    \![*]\q[No,sharetreatno]"
+			"\0%(lsta)\i[18]\i[32]\i[33]\i[49]She gives you a strange look."
+			"\0\i[38]\i[39]%(lsta)\i[45]She relaxed."
+			"\0\i[18]\i[30]\i[35]\i[45]%(lsto)* I guess you must appreciate me despite what you did."
+		}
+		if askedlike != 1
+		{
+			"\0%(lsta)You're definitely not curious about her at all."
+		}
+		else
+		{
+			"\0%(lsta)You wonder if she wouldn't like a new book for when she is here."
+		}
+		{
+			"\0%(lsta)She is fully used to your presence."
+			"\0%(lsta)\i[49]She is singing a soft song."
+			"\0%(lsta)\i[49]She is singing an epic song."
+			"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* Did you try butterscotch-cinnamon pie ?\w7 It's very nice."
+			"\0\i[18]\i[38]\i[39]\i[45]%(lsto)* For how many time have I been here ?\w7\i[11]\i[30]\i[31] A lot,\w5 for sure."
+		}
+	}
+	elseif useraffection >=  275
+	{
+		if azpunched <= 0
+		{
+			if issat == 1
+			{
+				"\0%(lsta)She is comfortably installed."
+			}
+			"\0%(lsta)It smells like trust."
+			"\0%(lsta)She considerates you as a friend."
+			"\0%(lsta)\i[50]She clearly appreciates being here."
+			"\0%(lsta)She start to eat a %(treat), \w5then see you.%(lsto)\n\n[half]\i[18]\i[45]* Do you want some ?\n\n[half]\![*]\q[Yes,sharetreatyes]    \![*]\q[No,sharetreatno]"
+			"\0%(lsta)\i[18]\i[38]\i[39]\i[50]She smiles at you."
+			"\0%(lsta)Spending a lot of time here doesn't seem to bother her."
+			
+		}
+		else
+		{
+			if azpunched >= 3
+			{
+				"\0%(lsta)\i[52]She is still tensed."
+				"\0%(lsta)\i[52]She is still wary of you."
+			}
+			else
+			{
+				"\0%(lsta)\i[38]\i[39]\i[45]She seems to be less wary of you."
+				"\0%(lsta)\i[38]\i[39]\i[45]She relaxed."
+			}
+			if lovetrashanime == 1
+			{
+				"\0\i[18]\i[38]\i[31]\i[45]%(lsto)* Do you know %(trashanime) ?\i[30]\w7 I'm pretty sure you would like it,\w5 seeing as you like violence."
+			}			
+			"\0%(lsta)She start to eat a %(treat) without paying attention at you."
+			"\0\i[32]\i[33]\i[52]%(lsta)It's hard to get close to someone who punched you,\w5 you know ?"
+			"\0\i[32]\i[30]\i[45]%(lsto)* I suppose you appreciate me at least a little despite what you did."
+		}
+		{
+			"\0%(lsta)She is used to you watching her."
+			"\0%(lsta)She is stretching."
+			"\0%(lsta)You wonder if she likes spending time here."
+			"\0%(lsta)\i[49]She is singing a soft song."
+			"\0\i[18]\i[38]\i[39]\i[45]%(lsto)* Poor Asgore,\w5he always has known only monarchie. \w7Democratie is stange for him."
+		}
+	}
+	elseif useraffection >= 200
+	{
+		if azpunched <= 0
+		{
+			if issat == 1
+			{
+				"\0%(lsta)She seems comfortable sitting down."
+			}
+			"\0%(lsta)It smells like trust."
+			"\0%(lsta)\i[50]She seems to appreciate being here."
+			"\0%(lsta)\i[18]\i[38]\i[39]\i[50]She smiles at you."
+			"\0%(lsta)She seems comfortable here."
+			"\0%(lsta)Staying here doesn't seem to bother her."
+			"\0%(lsta)She is eating a %(treat) when she catches your look. She hesitates but finish eating it anyway."
+		}
+		else
+		{
+			if azpunched >= 3
+			{
+				"\0%(lsta)\i[52]She is still tensed."
+			}
+			else
+			{
+				"\0%(lsta)\i[45]She seems to be less wary of you."
+				"\0%(lsta)She is eating a %(treat). She catch your look and end quickly her snack."
+			}
+			//"\0%(lsta)Smells like %(lsto)"
+			"\0%(lsta)\i[32]\i[33]\i[52]It's hard to get close to someone who punched you,\w5 you know ?"
+		}
+		{
+			"\0%(lsta)She starts to be used to you watching her."
+			"\0%(lsta)She is stretching."
+			"\0%(lsta)You wonder if she likes spending time here."
+			"\0%(lsta)\i[49]She is singing a soft song."
+			"\0\i[2001]\f[italic,true]She seems to be used of being on a computer."
+			"\0\i[18]\i[38]\i[39]\i[45]%(lsto)* Poor Asgore,\w5he always has known only monarchie. \w7Democratie is stange for him."
+		}
+	}
+	elseif useraffection >= 150
+	{
+		if azpunched <= 0
+		{
+			if issat == 1
+			{
+				"\0%(lsta)\i[38]\i[39]She seems comfortable sitting down."
+				
+			}
+			"\0%(lsta)\i[38]\i[39]\i[50]She seems to appreciate being here."
+			"\0%(lsta)\i[18]\i[38]\i[39]\i[50]She smiles at you."
+			"\0\i[2001]\f[italic,true]\i[38]\i[39]\i[50]She seems to be happy to be here."
+		}
+		else
+		{
+			if azpunched >= 3
+			{
+				"\0%(lsta)\i[30]\i[33]\i[40]You feel her hostiliy."
+				"\0%(lsta)\i[30]\i[33]\i[52]She is only tolerating your presence."
+			}
+			else
+			{
+				"\0%(lsta)\i[30]\i[33]\i[52]She doesn't seem to appreciate your presence."
+			}
+		}
+		if askedlike != 1
+		{
+			"\0%(lsta)You think you didn't ask her what she likes."
+			"\0%(lsta)Some time passed and you didn't ask her what she likes."
+		}
+		else
+		{
+			"\0%(lsta)\i[50]She seems pleased you asked her what she likes."
+		}
+		"\0%(lsta)\i[38]\i[39]\i[49]She is humming a song."
+		"\0%(lsta)\i[30]\i[31]She is eating a %(treat). She catch your look and end quickly her snack."
+		"\0%(lsta)\i[18]\i[30]\i[31]\i[45]She looks at you a few seconds."
+		"\0\i[2001]\f[italic,true]She seems to be used of being on a computer."
+		"\0\i[2001]\f[italic,true]\i[12]\i[36]\i[37]\i[48]She looks concentrated on something."
+		"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* I tried to explain human politic to Asgore today, \w5but it's hard for him to understand our world."
+	}
+	elseif useaffection >= 100
+	{
+		if azpunched <= 0
+		{
+			if issat == 1
+			{
+				"\0%(lsta)She seems comfortable sitting down."
+				
+			}
+			"\0\i[2001]\f[italic,true]\i[50]She seems to be happy to be here."
+			"\0\i[2001]\f[italic,true]\i[50]She seems to be thinking that you're not a bad person."
+			"\0\i[38]\i[39]\i[18]\i[50]%(lsto)* You're a nice person,\w5 isn'it ?"
+			
+		}
+		else
+		{
+			if azpunched >= 3
+			{
+				"\0%(lsta)\i[30]\i[33]\i[40]You feel her hostiliy."
+				"\0%(lsta)\i[30]\i[33]\i[52]She is only tolerating your presence."
+			}
+			else
+			{
+				"\0%(lsta)\i[30]\i[33]\i[52]She doesn't seem to appreciate your presence."
+			}
+			"\0\i[2001]\f[italic,true]She ignores you."
+			"\0\i[2001]\f[italic,true]\i[52]She doesn't seem comfortable."
+		}
+		"\0%(lsta)You wonder what kind of music she likes."
+		"\0%(lsta)\i[38]\i[39]\i[49]She is humming a song."
+		"\0%(lsta)\i[30]\i[31]She is eating a %(treat). She catch your look and end quickly her snack."
+		"\0%(lsta)\i[18]\i[30]\i[31]\i[45]She looks at you a few seconds."
+		"\0\i[2001]\f[italic,true]\i[12]\i[36]\i[37]\i[48]She looks concentrated on something."
+		"\0\i[30]\i[31]\i[18]\i[45]%(lsto)* I tried to explain human politic to Asgore today, \w5but it's hard for him to understand our world."
+	}
+	elseif useraffection >= 60
+	{
+		if azpunched <= 0
+		{
+			if issat == 1
+			{
+				"\0%(lsta)\i[38]\i[39]She seems comfortable sitting down."
+			}
+			"\0\i[2001]\f[italic,true]She seems comfortable here."
+			"\0\i[2001]\f[italic,true]\i[30]\i[31]She seems to be thinking that you're not a bad person."
+			"\0\i[31]\i[30]\i[45]%(lsto)* It's beginning to be a good amount of time that I'm here,\w5 isn'it ?"
+		}
+		else
+		{
+			"\0\i[2001]\f[italic,true]She ignores you."
+			"\0%(lsta)\i[52]She doesn't seem to appreciate your presence."
+		}
+		"\0%(lsta)\i[49]She is humming a song."
+		"\0%(lsta)She seems more used to be in a computer."
+		"\0%(lsta)She is eating a %(treat)."
+		"\0\i[2001]\f[italic,true]\i[11]\i[46]She is looking your folders."
+		"\0\i[2001]\f[italic,true]\i[12]\i[48]She looks concentrated on something."
+		"\0\i[2001]\f[italic,true]\i[12]\i[49]She seems to like singing."
+	}
+	elseif useraffection >= 40
+	{
+		if azpunched <= 0
+		{
+			"\0\i[11]\i[38]\i[39]\i[45]%(lsto)* It's not bad to be in somebody's computer."
+			"\0\i[2001]\f[italic,true]\i[38]\i[39]\i[45]She seems comfortable here."
+		}
+		else
+		{
+			"\0\i[18]\i[32]\i[33]\i[52]%(lsto)* You're a violent person,\w5 isn'it ?"
+			"\0\i[2001]\f[italic,true]\i[30]\i[33]\i[45]She seems distant."
+			"\0\i[2001]\f[italic,true]She ignores you."
+		}
+		"\0%(lsta)\i[18]\i[30]\i[31]\i[45]She glances at you."
+		"\0%(lsta)She seems more used to be in a computer."
+		"\0%(lsta)\i[30]\i[31]She is eating a %(treat)."
+		"\0\i[2001]\f[italic,true]\i[11]\i[46]She is looking your folders."
+		"\0\i[2001]\f[italic,true]\i[12]\i[32]\i[33]\i[48]She looks concentrated on something."
+		"\0\i[2001]\f[italic,true]\i[38]\i[39]\i[49]Is she singing ?"
+		"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* What do you usually do on your computer ?"
+		"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* Do you like ukagakas ?"
+	}
+	elseif useraffection >= 20
+	{
+		if azpunched <= 0
+		{
+			"\0\i[38]\i[39]\i[50]%(lsto)* It doesn't seem bad here."
+			"\0\i[18][38]\i[39]\i[45]%(lsto)* Being in a computer is quite new for me."
+			"\0\i[2001]\f[italic,true]\i[38]\i[39]\i[50]She seems to not being aware of you."
+		}
+		else
+		{
+			"\0\i[32]\i[33]\i[18]\i[40]%(lsto)* You just encounter me and you already punched me ?\w7 I wonder how it would be after 2 days of being here."
+			"\0\i[2001]\f[italic,true]\i[30]\i[33]\i[52]She seems distant."
+			"\0\i[2001]\f[italic,true]She ignores you."
+			"\0\i[2001]\f[italic,true]She is doing as you're not here."
+		}
+		"\0%(lsta)\i[18]\i[30]\i[31]\i[45]She glances at you."
+		"\0%(lsta)She doesn't seem used to be in a computer."
+		"\0%(lsta)\i[11]\i[45]She glance at the things around."
+		"\0\i[2001]\f[italic,true]\i[11]\i[46]She is looking your folders."
+		"\0\i[2001]\f[italic,true]\i[11]\i[45]She began to explore her environment."
+		"\0\i[2001]\f[italic,true]\i[11]\i[45]Did she just look into the ssp folder... ?"
+		"\0\i[11]\i[38]\i[33]\i[45]%(lsto)* What is... \w7\i[16]\i[50]Oh !\i[39]\n\n[half]\i[2001]\f[italic,true]Hehe, she just found her own folder."
+	}
+	else
+	{
+		if azpunched <= 0
+		{
+			"\0\i[16]\i[30]\i[31]\i[50]%(lsto)* It's nice to meet new people."
+			"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* Being in a computer is quite new for me."
+			
+		}
+		else
+		{
+			"\0\i[18]\i[32]\i[33]\i[40]%(lsto)* You just encounter me and you already punched me ?\w7 I wonder how it would be after 2 days of being here."
+			"\0\i[2001]\f[italic,true]\i[30]\i[33]\i[52]She seems distant."
+			"\0\i[2001]\f[italic,true]She ignores you."
+			"\0\i[2001]\f[italic,true]She is doing as you're not here."
+			
+			
+		}
+		if oncomputer != 1 && isdrawing != 1 && alreadyeat <= 1
+		{
+			//\i[68] at the beginning for both
+			"\0\i[11]\i[45]%(lsto)* So folders and documents actually look like their representation,\w5 but bigger."
+			"\0\i[11]\i[45]%(lsto)* Mmh,\w5 not heat, no cold."
+		}
+		else
+		{
+			"\0\i[11]\i[45]%(lsto)* So folders and documents actually look like their representation,\w5 but bigger."
+			"\0\i[11]\i[45]%(lsto)* Mmh,\w5 not heat, no cold."
+		}
+		"\0%(lsta)\i[11]She glance at the things around."
+		"\0%(lsta)\i[18]She glances at you."
+		"\0%(lsta)\i[45]Despite her optimism, she doesn't seem fully comfortable here."
+		"\0%(lsta)She doesn't seem used to be in a computer."
+		"\0%(lsta)You give her a look.%(lsto)\i[11]\i[34]\i[35]\i[46]* I'm... not used at this."
+		"\0\i[2001]\f[italic,true]\i[11]\i[45]She is looking around."
+		
+		"\0\i[18]\i[39]\i[18]\i[45]%(lsto)* I wonder if you already played Undertale and how you played."
+		"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* Being in a computer is weird, \w5you know ?"
+		"\0\i[11]\i[32]\i[33]\i[45]%(lsto)* Huh,\w5 that's so weird."
+	}
+	
+	//Sleeping things
+	if inpyjama == 1 && dayslot != "10month 31day" && holdobsidian != 1
+	{
+		"\0\i[16]\i[45]\i[38]\i[39]\i[79]%(lsto)* Yawn...\n* I'm tired,\i[70] \w5I will sleep a while.\![embed,OnSleep2E] \w7Wake me up if you want anything.\w8\n\n[half]* zzz....\w7\n\n[half]\i[2001]\f[italic,true]She is falling asleep...\e"
+	}
+	elseif RAND(2) == 1 && dayslot != "10month 31day" && holdobsidian != 1
+	{
+		"\0\i[16]\i[45]\i[38]\i[39]\i[79]%(lsto)* Yawn...\n* I'm tired,\i[70] \w5I will sleep a while. \![embed,OnSleep2E]\w7Wake me up if you want anything.\w8\n\n[half]\i[15]* Zzz....\w7\n\n[half]\i[2001]\f[italic,true]She is falling asleep...\e"
+	}
+	
+	//Asking the mood
+	if ASEARCH(mood,"sad","sick","bad","angry") != -1 && passhour >= 1
+	{
+		"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* Do you feel better now ?\_q\n\n[half]\![*]\q[Yes,feelbetter]    \![*]\q[No,feelsame]"
+	}
+
+	//The computer thing : open, close and normal
+	if oncomputer != 1 && isdrawing != 1 && (alreadyeat <= 1 || alreadyeat > 600) && holdobsidian != 1
+	{
+		if issat != 1
+		{
+			"\i[71]"
+		}
+		--
+		"\0\![embed,OnOCComputer]\i[2001]\f[italic,true]She opens her computer.\e:chain=computer"
+		
+	}
+	elseif isdrawing != 1 && alreadyeat <= 1 && (alreadyeat <= 1 || alreadyeat > 600) && holdobsidian != 1
+	{
+		if isplayed !=1
+		{
+			"\0\![embed,OnOCComputer]\i[2001]\f[italic,true]She closes her computer."
+		}
+		"\0\i[2001]\f[italic,true]She is chatting with some people.\e:chain=computer"
+		
+		"\0\i[2001]\f[italic,true]She is watching a video."
+		"\0\i[2001]\f[italic,true]She is checking her emails."
+		"\0\i[2001]\f[italic,true]She is chatting with some people."
+		"\0\i[2001]\f[italic,true]She is on the undernet."
+		"\0%(lsta)Looks like she is watching an anime."
+		"\0%(lsta)You hear music coming from her computer."
+		"\0%(lsta)It smells like computer device."
+		
+		if lovetrashanime
+		{
+			"\0%(lsta)Looks like she is watching %(trashanime)."
+			"\0%(lsta)You take a peek on her computer.%(lsto)\n\n[half]* %(trashanime),\w5 it's pretty nice."
+			if isplayed != 1
+			{
+				"\0%(lsta)You hear music coming from her computer.%(lsto)\n\n[half]* I'm listening to %(trashopening) opening."
+			}	
+			
+		}
+		elseif lovetrashanime==0
+		{
+			"\0%(lsta)You give her a look.%(lsto)\n\n[half]\i[18]* It's not an anime for you."
+			"\0%(lsta)You give her a look.%(lsto)\n\n[half]\i[18]* I'm watching %(trashanime),\w5 it's not a good anime for you."
+		}
+
+		if loveshojo
+		{
+			"\0%(lsta)Looks like she is watching %(shojoanime)."
+			if isplayed != 1
+			{
+				"\0%(lsta)You hear music coming from her computer.%(lsto)\n\n[half]* I'm listening to %(shojoopening) opening."
+			}
+	
+		}
+		elseif loveshojo==0
+		{
+			"\0%(lsta)You take a peek on her computer,\w5 but she is watching %(shojoanime)."
+			"\0%(lsta)You give her a look.%(lsto)\n\n[half]\i[18]* I'm watching a shojo,\w5 you won't like it."
+			"\0%(lsta)You give her a look.%(lsto)\n\n[half]\i[18]* I'm watching %(shojoanime), \w5you won't like it."
+		}
+		if lovetrashanime=="unknown" && loveshojo=="unknown" && likemanga=="unknown"
+		{
+			"\0%(lsta)You take a peek on her computer.(lsto)\n\n[half]* %(niceanime),\w5 it's pretty nice."
+			"\0%(lsta)She seems to be watching an anime."
+			"\0%(lsta)\i[49]She is singing a japanese song,\w5 maybe an opening ?"
+			"\0%(lsta)You hear noise coming from her computer. She seems to be watching something."
+		}
+		else
+		{
+			"\0%(lsta)Looks like she is watching %(niceanime)."
+		}
+		if likemanga == 1
+		{
+			if isplayed != 1
+			{
+				"\0%(lsta)You hear music coming from her computer.%(lsto)\n\n[half]* I'm listening to %(niceopening) opening."
+			}
+		}
+	}
+
+	//The drawing things : start, stop and normal
+	if isdrawing != 1 && oncomputer != 1 && (alreadyeat <= 1 || alreadyeat > 600) && holdobsidian != 1
+	{
+
+		"\0\![embed,OnDrawing]\i[2001]\f[italic,true]She is drawing.\e:chain=drawingchain"
+		"\0\![embed,OnDrawing]\i[2001]\f[italic,true]She is continuing a drawing.\e:chain=drawingchain"
+		"\0\![embed,OnDrawing]\i[2001]\f[italic,true]She seems to like drawing.\e"
+		"\0\![embed,OnDrawing]\i[2001]\f[italic,true]She is drawing.\e"
+		"\0\![embed,OnDrawing]\i[2001]\f[italic,true]She is continuing a drawing.\e"
+		
+	}
+	elseif oncomputer != 1 && (alreadyeat <= 1 || alreadyeat > 600) && holdobsidian != 1
+	{
+		{
+			"\0\i[2001]\f[italic,true]She is drawing.\e:chain=drawingchain"
+			"\0\i[2001]\f[italic,true]She is drawing.\e"
+		}
+		{
+			"\0\i[2001]\f[italic,true]She is continuing a drawing.\e:chain=drawingchain"
+			"\0\i[2001]\f[italic,true]She is continuing a drawing.\e"
+		}
+
+		"\0%(lsta)You take a peek, she is drawing a %(drawing)."
+		"\0%(lsta)You take a peek, it's a %(drawing)."
+		"\0%(lsta)She is drawing a %(drawing)."
+		"\0\i[2001]\f[italic,true]She seems to like drawing.\e"
+		"\0%(lsta)It smells like paper."
+		"\0%(lsta)You ask her to see her drawing.\n\n[half]%(lsto)* Yeah,\w5 two seconds.\e:chain=drawingchain"
+		"\0%(lsta)She is doodling something.\e:chain=drawingchain"
+		"\0%(lsta)She is sketching something.\e:chain=drawingchain"
+		"\0%(lsta)She is sketching a %(drawing).\e:chain=drawingchain"
+		
+		"\0\![embed,OnDrawing]\i[2001]\f[italic,true]She finished her drawing.\e"
+		"\0%(lsta)\i[50]She looks satisfied of her %(drawing) drawing.\![embed,OnDrawing]\e"
+	}
+	if issat == 1 && oncomputer != 1 && isdrawing != 1 && holdobsidian != 1
+	{
+		"\0\![embed,OnChangePose]\i[2001]\f[italic,true]It looks like she has enough of being on the ground.\e"
+	}
+	
+	//Anime and mangas related dialogues
+	{
+		if lovetrashanime == 1
+		{
+			"\0\i[18]\i[38]\i[39]\i[45]%(lsto)* Here is a nice anime,\w5 %(trashanime)."
+			"\0\i[18]\i[39]\i[30]\i[45]%(lsto)* I think you could like %(trashanime)."
+			"\0\i[18]\i[30]\i[39]\i[45]%(lsto)* Did you already watch %(trashanime) ?"
+			if azpunched > 0
+			{
+				"\0\i[18]\i[30]\i[39]\i[45]%(lsto)* Did you watch %(trashanime) ?\w7 \i[38]I'm sure you would love it."
+				"\0\i[18]\i[32]\i[33]\i[45]%(lsto)* A good anime for you : %(trashanime).\w7\i[30]\i[31] You're mean enough to appreciate it."
+			}
+			if isplayed != 1
+			{
+				"\0%(lsta)\i[49]She is humming, you wonder what song it is.%(lsto)\n\n[half]* It's %(trashopening) opening."
+				"\0\i[18]\i[38]\i[39]\i[45]%(lsto)* Would you like to listen %(trashopening) opening ?"
+			}
+		}
+
+		if loveshojo == 1
+		{
+			"\0\i[18]\i[39]\i[38]\i[45]%(lsto)* Here is a lovely anime,\w5 %(shojoanime)."
+			"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* Maybe you would like %(shojoanime)."
+			"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* %(shojoanime) is a nice shojo."
+			if azpunched > 1
+			{
+				"\0\i[30]\i[31]\i[45]%(lsto)* I didn't think you would like shojo,\w5 \i[32]\i[33]after what you did to me."
+				"\0\i[30]\i[31]\i[45]%(lsto)* I doubt you would like a such sweet thing as %(shojoanime)."
+			}
+			if isplayed != 1
+			{
+				"\0%(lsta)\i[49]She is humming, you wonder what song it is.%(lsto)\n\n[half]\i[18]* It's %(shojoopening) opening."
+				"\0\i[18]\i[30]\i[39]\i[45]%(lsto)* Would you like to listen %(shojoopening) opening ?"
+			}
+		}
+		elseif loveshojo==0
+		{
+			"\0\i[11]%(lsta)\i[48]She is mumbling about %(shojoanime)."
+			"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* I doubt you would like it,\w5 but %(shojoanime) is a nice anime."
+			
+		}
+		if likemanga == 1
+		{
+			
+			"\0\i[18]\i[30]\i[39]\i[45]%(lsto)* Maybe you would like %(nicemanga)."
+			"\0\i[18]\i[31]\i[38]\i[45]%(lsto)* Did you read %(nicemanga) ?\w7\i[39] It's pretty nice."
+			"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* If you want to read a nice mange,\w5 %(nicemanga) is pretty good."
+			"\0\i[18]\i[30]\i[39]\i[45]%(lsto)* What about reading %(nicemanga) ?"
+			if isplayed != 1
+			{
+				"\0%(lsta)\i[49]She is humming, you wonder what song it is.%(lsto)\n\n[half]* It's %(niceopening) opening."
+				"\0\i[18]\i[38]\i[39]\i[45]%(lsto)* Would you like to listen %(niceopening) opening ?"
+			}
+		}
+		elseif likemanga==0
+		{
+			"\0%(lsta)\i[48]You hear her mumbling about a manga."
+			"\0\i[18]\i[38]\i[39]\i[45]%(lsto)* I'm rereading %(nicemanga),\w5 \i[30]\i[31]sadly you don't like mangas."
+			"\0%(lsta)\i[11]\i[31]\i[48]She is speaking to herself.\w7 You catch the word %(nicemanga)."
+		}
+		if lovetrashanime=="unknown" && loveshojo=="unknown" && likemanga=="unknown"
+		{
+			"\0%(lsta)\i[11]\i[31]\i[30]She is speaking to herself.\w7 You just hear %(nicemanga).\w7 What could it be ?"
+			"\0%(lsta)You ask her what she could be thinking about.%(lsto)\n\n[half]\i[18]\i[45]* A manga."
+			"\0%(lsta)You ask her what she could be thinking about.%(lsto)\n\n[half]\i[18]\i[45]* An anime."
+		}
+		else
+		{
+			"\0\i[18]\i[30]\i[39]\i[45]%(lsto)* Did you heard of %(niceanime) ?\w7 It's pretty nice."
+			"\0\i[18]\i[38]\i[31]\i[45]%(lsto)* I wonder if you would like %(niceanime)."
+			"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* %(niceanime) is pretty nice,\w5 you know ?"
+			"\0\i[18]\i[38]\i[31]\i[45]%(lsto)* Maybe you would like %(niceanime)."
+			"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* If you want to see a nice anime,\w5 %(niceanime) is pretty good."
+		}
+		
+		//AI related dialogues
+		if saidgfood == 1
+		{
+			"\0%(lsta)\i[36]\i[37]\i[47]She looks at you as she was ready to eat you."
+			"\0%(lsta)\i[36]\i[37]\i[47]You have the feeling she is about to eat you."
+			"\0%(lsta)\i[36]\i[37]\i[47]She is giving you a strange look.%(lsto)\n\n[half]* Yum yum."
+			"\0\i[18]\i[36]\i[37]\i[47]%(lsto)* I want to eat you.\n\n[half]%(lsta)You wonder if you should be scared."
+		}
+		if saidgfood == -1
+		{
+			"\0%(lsta)\i[18]\i[32]\i[33]\i[46]She looks at you as you were rotten."
+			"\0%(lsta)\i[18]\i[32]\i[33]\i[46]She gives you a strange look."
+			"\0%(lsta)\i[18]\i[32]\i[33]\i[46]You have the feeling she wouldn't eat you."
+		}
+		
+		//Music player related dialogues
+		if isplayed == 1
+		{
+			"\0%(lsta)You wonder if she knows this song."
+			"\0%(lsta)You see her tail twitching at the rythm of the song."
+			"\0%(lsta)\i[49]She is humming the song."
+			"\0%(lsta)\i[38]\i[39]\i[49]She is singing at the same time as the song."
+			RecognizeSong
+		}
+	
+	}
+	
+	//Eating dialogues
+	if alreadyeat >= 2
+	{
+		if plateate == "pie"
+		{
+			"\0%(lsta)It smells like pie."
+		}
+		"\0%(lsta)It smells like food."
+		"\0%(lsta)It looks like she is enjoying her food."
+		"\0%(lsto)* Nom.."
+		"\0%(lsto)* Yum.."
+	}
+	
+	//timeslot dialogues
+	if timeslot == "morning"
+	{
+		"\0%(lsta)It smells like orange juice."
+		"\0%(lsta)It smells like milk."
+	}
+	elseif timeslot == "earlymorning"
+	{
+		"\0%(lsta)It smells like orange juice."
+		"\0%(lsta)It smells like milk."
+		"\0%(lsta)It smells like tiredness."
+	}
+	elseif timeslot == "midnight"
+	{
+		"\0%(lsta)It smells like tiredness."
+	}
+	
+	if passhour > 12
+	{
+		"\0%(lsta)\i[11]\i[32]\i[33]\i[52]She looks worried."
+		"\0%(lsta)She is really tired now."
+		"\0\i[18]\i[32]\i[33]\i[45]%(lsto)* I can't believe how many time I have been here.\w7 Toriel must be worried."
+		"\0\i[18]\i[45]%(lsto)* Aren't you tired ?"
+		"\0\i[18]\i[45]%(lsto)* How can you stay on your computer for so long ?"
+		"\0\i[18]\i[45]%(lsto)* You should close me and your computer and have a rest."
+	}
+	elseif passhour > 5
+	{
+		"\0\i[18]\i[45]%(lsto)* You should take a break."
+		"\0\i[18]\i[45]%(lsto)* Breaks are good,\w5 you know ?"
+		"\0\i[18]\i[45]%(lsto)* You should walk a bit and stretch,\w5 staying in the same position for hours isn't good."
+		"\0\i[18]\i[45]%(lsto)* I can't really blame you for staying on your computer for that long."
+		"\0\i[18]\i[45]%(lsto)* You should move and eat something,\w5 or taking a break."
+		"\0\i[18]\i[45]%(lsto)* Don't you have enough of staying on your computer ?"
+	}
+	elseif passhour > 2
+	{
+		"\0\i[18]\i[45]%(lsto)* Do you need a break ?"
+		"\0\i[18]\i[45]%(lsto)* Is everything fine ?"
+		"\0\i[18]\i[45]%(lsto)* You have been on your computer for a while,\w5 you should maybe take a break."
+		"\0\i[18]\i[45]%(lsto)* You have been on your computer for a while,\w5 you should maybe stretch."
+		"\0\i[18]\i[45]%(lsto)* You have been on your computer for a while,\w5 you should maybe move."
+	}
+	
+	if dayslot == "6month 4day"
+	{
+		"%(lsta)She looks happier than usual."
+		"%(lsta)She seems proud of her hat."
+		"%(lsta)Her hat doesn't fit her other clothes very well. Why did she choose it ?"
+		"%(lsta)How does this hat stick on her head ?"
+		"%(lsta)You wonder what her birthday cake is. Maybe a chocolate one ?"
+		"%(lsta)You wonder what her birthday cake is. Maybe a strawberry flavor one ?"
+		"%(lsta)You wonder what her birthday cake is. Maybe a vanilla flavor one ?"
+		"%(lsta)You wonder what kind of presents she got."
+		"%(lsta)You wonder if you should have offered her a present."
+		"%(lsta)This hat looks ridiculous."
+		"%(lsta)Did she go ouside, in the street with this hat ?"
+		"%(lsta)She enjoys her hat."
+		"%(lsta)This hat would fit better in a party than on a computer. If there is a Dev Party however..."
+		if useaffection >= 100
+		{
+			"%(lsta)You wonder what her birthday cake is. Maybe an epiphany cake ?"
+		}
+	}
+	
+	//Azura"s mood related dialogues
+	if azfeel > 3
+	{
+		"\0%(lsta)She seems to be in a very good mood."
+		"\0%(lsta)She looks very happy."
+	}
+	elseif azfeel > 0
+	{
+		"\0%(lsta)She seems to be in a good mood."
+		"\0%(lsta)She looks happy enough."
+		if useraffection >= 200
+		{
+			"\0\i[38]\i[39]\i[50]%(lsta)She seems pretty happy today."
+		}
+	}
+	elseif azfeel == 0
+	{
+		"\0%(lsta)She seems to be a little bit down."
+	}
+	elseif azfeel >= -3
+	{
+		"\0%(lsta)She doesn't seem to be a good mood."
+		"\0%(lsta)She looks sad."
+	}
+	else
+	{
+		"\0%(lsta)She seems depressed."
+		"\0%(lsta)She looks very down."
+	}
+	
+	//True self dialogues
+	case trueself
+	{
+		when "killer"
+		{
+			"\0%(lsta)\i[32]\i[33]\i[18]\i[48]She looks thoughtful."
+		}
+		when "boss"
+		{
+			"\0%(lsta)\i[38]\i[39]\i[18]\i[45]She looks amused."
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* What kind of person are you at work ?"
+		}
+		when "adult"
+		{
+			"\0%(lsto)\i[30]\i[31]\i[18]* You must be a boring person."
+			"\0%(lsto)\i[30]\i[31]\i[18]* Are you living alone ?"
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* I guess ghosts like me are bringing some joy in your life."
+		}
+		when "engineer"
+		{
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* What do you create ?"
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* Did you already have to manage a team ?"
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* On what kind of projects are you working ?"
+		}
+		when "intern"
+		{
+			"\0%(lsto)\i[30]\i[31]\i[18]* I usually don't like coffee."
+			"\0%(lsto)\i[38]\i[39]\i[18]* Are you coworker treating you well ?"
+		}
+		when "businessman"
+		{
+			"\0%(lsto)\i[30]\i[31]\i[18]* You must be someone very busy."
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* Try to not overwhelm yourself."
+		}
+		when "artist"
+		{
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* Do you like drawing ?"
+			"\0%(lsto)\i[38]\i[39]\i[18]* Do you have a lot of inspiration lately ?"
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* I hope you have a lot of inspiration."
+		}
+		when "parent"
+		{
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* I hope you're not too tired."
+			"\0%(lsto)\i[38]\i[39]\i[18]* How are your children ?"
+		}
+		when "chaos"
+		{
+			"\0%(lsto)\i[32]\i[33]\i[18]\i[45]* Chaos is full of opportunities."
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* I hope your life is fun."
+		}
+		when "alien"
+		{
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* I wonder what other worlds look like."
+			"\0%(lsto)\i[30]\i[31]\i[18]* What system is your homeworld ?"
+			"\0%(lsto)\i[38]\i[39]\i[18]* How advanced is you species technology ?"
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* Do you come in peace ?"
+		}
+		when "ghost"
+		{
+			"\0%(lsto)\i[32]\i[33]\i[18]\i[45]* Can ghosts go through walls ?"
+			"\0%(lsto)\i[32]\i[33]\i[18]\i[45]* Do you prank people sometimes ?"
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* I suppose you must be loving Halloween."
+		}
+		when "shapeshifter"
+		{
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* Being able to take any appearance must be nice."
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* What appearance did you already take ?"
+			"\0%(lsto)\i[32]\i[33]\i[18]\i[45]* Did you use your powers to prank someone ?"
+		}
+		when "jedi"
+		{
+			"\0%(lsto)\i[30]\i[31]\i[18]\i[45]* Will you always try to do the righ thing ?"
+			"\0%(lsto)\i[32]\i[33]\i[18]\i[45]* Did you already take a padawan ?"
+		}
+		when "sith"
+		{
+			"\0%(lsto)\i[38]\i[39]\i[18]* Is being mean nice ?"
+			"\0%(lsto)\i[30]\i[31]\i[18]* What's your position in the dark hierarchy ?"
+		}
+		when "supersayen"
+		{
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* You must be so powerful."
+			"\0%(lsto)\i[32]\i[33]\i[18]\i[45]* Did you already save a planet ?"
+			"\0%(lsto)\i[32]\i[33]\i[18]\i[45]* Did you already save humanity ?"
+		}
+		when "ninja"
+		{
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* How are the shadows ?"
+			"\0%(lsto)\i[32]\i[33]\i[18]\i[45]* Do you have a clan ?"
+			"\0%(lsto)\i[32]\i[33]\i[18]\i[45]* What's your nindo ?"
+		}
+		when "elf"
+		{
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* What do you think of ecology ?"
+			"\0%(lsto)\i[32]\i[33]\i[18]\i[45]* Can you communicate with the nature ?"
+			"\0%(lsto)\i[32]\i[33]\i[18]\i[45]* Are you vegan ?"
+		}
+		when "dwarf"
+		{
+			"\0%(lsta)\i[32]\i[33]\i[18]\i[50]She give you a superior look."
+			"\0%(lsto)\i[32]\i[33]\i[18]\i[50]* Do dwarf girls have a beard ?"
+			"\0%(lsto)\i[32]\i[33]\i[18]\i[50]* What are your favorite weapons ? \w7Axes ?"
+		}
+		when "faery"
+		{
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* Are faeries the source of all powders ?"
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* Can you fly ?"
+			"\0%(lsto)\i[32]\i[33]\i[18]\i[45]* Do you have magic powers ?"
+		}
+		when "darkner"
+		{
+			"\0%(lsto)\i[30]\i[31]\i[18]\i[45]* I didn't see any fountain here."
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* Is it ok for you to stay with a lightner ?"
+			"\0%(lsto)\i[38]\i[39]\i[11]\i[45]* I never saw the Dark World."
+		}
+		when "ogre"
+		{
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* What's your purpose in life ?"
+			"\0%(lsto)\i[32]\i[33]\i[18]\i[45]* What are you usually eating ?"
+			"\0%(lsto)\i[32]\i[33]\i[18]\i[50]* I hope you're not too clumsy."
+		}
+		when "warrior"
+		{
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* What's your training ?"
+			"\0%(lsto)\i[32]\i[33]\i[18]\i[45]* Are you someone strong ?"
+			"\0%(lsto)\i[32]\i[33]\i[18]\i[45]* What are your favorite weapons ? \w7Swords ?"
+		}
+		when "hobbit"
+		{
+			"\0%(lsta)\i[32]\i[33]\i[18]\i[50]She gives you a superior look."
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* Do you take care of your feets ?"
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* Do you actually like adventures ?"
+		}
+		when "dragon"
+		{
+			"\0%(lsta)\i[32]\i[33]\i[18]\i[48]She looks jealous."
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* Are you breathing fire ?"
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* Are you immune to fire ?"
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* Do you handle well water ?"
+		}
+		when "unicorn"
+		{
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* Do you have a mate ?"
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* Do you like... \i[32]\i[33]\f[italic,true]rainbows\f[italic,false] ?"
+		}
+		when "cat"
+		{
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* How is hunting going ?"
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* Will you bring me one of your preys ?"
+		}
+		when "pokemon"
+		{
+			"\0%(lsto)\i[32]\i[33]\i[18]\i[45]* Pika pika ?\n\n[half]%(lsta)What the hell ?"
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* Did you win a lot of battles ?"
+		}
+		when "spectrobe"
+		{
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* I found a nice stone lately."
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* What system is your homeworld ?"
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* What rocks do you prefer ?"
+		}
+		when "monster"
+		{
+			"\0%(lsto)\i[32]\i[33]\i[18]\i[45]* Are you hidding under beds ?"
+			"\0%(lsto)\i[32]\i[33]\i[18]\i[45]* Are you keeping an eye on children sleep ?"
+			"\0%(lsto)\i[33]\i[32]\i[18]\i[45]* I hope you protect children sleep."
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* Try to not scare too many children."
+		}
+		when "werewolf"
+		{
+			"\0%(lsto)\i[32]\i[33]\i[18]\i[45]* When is the full moon ?"
+			"\0%(lsto)\i[38]\i[39]\i[18]\i[45]* Are you an alpha ?"
+		}
+		when "furry"
+		{
+			"\0%(lsto)\i[32]\i[33]\i[18]\i[45]* You should take care of your fur."
+			"\0%(lstp)\i[32]\i[33]\i[18]\i[45]* Can I touch your fur ?"
+		}
+		other
+		{
+			if cumuhour >= 10 && useraffection >= 100 && trueself == ""
+			{
+				"\0%(lsta)It's been some time you've been here and you're starting to know her. You wonder if it's not time for you to reveal her your \f[bold,true]true self\f[bold,false].\f[italic,false]\n\n[half]\![*]\q[It's time,revealself]\n\![*]\q[It's not the right time,notrevealself]"
+			}
+		}
+	}
+	
+	
+	//Holding Obsidian
+	if holdobsidian == 1
+	{
+		"\0%(lsta)You hear purring."
+		"\0%(lsta)Purrs are coming from her arms."
+		"\0%(lsta)\i[10]\i[38]\i[39]She seems delighted."
+		"\0%(lsta)What a cute cat."
+		"\0%(lsta)She seems to be liking Obsidian."
+		"\0%(lsta)She is petting Obsidian."
+		//"\0"
+	}
+	
+	//Normal dialogues
+	if issat == 1
+	{
+		"\0%(lsta)Being on your computer ground doesn't seem to bother her."
+	}
+	
+	{
+		
+		"\0%(lsta)It smells like almonds."
+		"\0\i[2001]\f[italic,true]She looks a little tired."
+		"\0\i[2001]\f[italic,true]\i[11]\i[38]\i[39]\i[48]She seems to be daydreaming."
+		"\0\i[18]\i[45]%(lsto)* I heard Moldsmals were good dancers. \w7Did you know that ?"
+		"\0\i[18]\i[38]\i[31]\i[45]%(lsto)* Is the weather good where you are ?"
+		"\0\i[18]\i[38]\i[39]\i[45]%(lsto)* That's fun how Undertale looks exactly as the real world from the inside."
+	}
+	
+	--
+	"\e"
+	
+}
+
+//Dialogues for when Azura is asleep.
+SleepingTalk : nonoverlap
+{
+	if useraffection >= 300
+	{
+		if azpunched == 0
+		{
+			"\0\i[2001]\f[italic,true]She has a so deep sleep. Is she dreaming ?"
+			"\0\i[2001]\f[italic,true]She seems comfortable here."
+			"\0\i[2001]\f[italic,true]Is she smilling ?"
+			"\0\i[2001]\f[italic,true]Her tail moves slowy."
+			"\0%(lsta)She doesn't seem to have any nightmare."
+			"\0%(lsto)* A nice person... kind..."
+		}
+		else
+		{
+			"\0\i[2001]\f[italic,true]She is sleeping well despite what you did."
+			"\0\i[2001]\f[italic,true]She should be more wary after what you did."
+			"\0%(lsto)* Urgh...\n\n[half]\i[2001]\f[italic,true]She must be having a nightmare."
+			"\0%(lsto)* Punched... why ?"
+			"\0%(lsto)* No... all will be ok..."
+			"\0%(lsto)* Don't want... don't want to hurt you..."
+			"\0%(lsto)* Who... you ?"
+		}
+		"\0\i[2001]\f[italic,true]She sighs."
+		"\0%(lsta)She is completely relaxed."
+		"\0%(lsta)She breaths slowly.%(lsto)"
+		"\0%(lsto)* Gold... red... why... difference ?"
+		"\0%(lsto)* Don't forget... donuts..."
+		"\0%(lsto)* Flying... so nice..."
+		"\0%(lsto)* So high..."
+		"\0%(lsto)* Dragon..."
+		"\0%(lsto)* Zzzz..."
+		"\0%(lsto)* Hmm..."
+		"\0%(lsto)* Hmph..."
+		if sleepingtime >= 3
+		{
+			"\![embed,OnSleep2E]"
+			--
+			"\0\i[18]\i[79]%(lsto)* Yawn\w1.\w1.w1. Hi again,\i[70]\w5 did you miss me ?\n\n[half]\f[italic,true]\i[2001]She looks to had very good slept."
+		}
+	}
+	elseif useraffection >= 100 && azpunched == 0
+	{
+		"\0%(lsta)She breaths slowly."
+		"\0\i[2001]\f[italic,true]She sleeps well."
+		"\0\i[2001]\f[italic,true]Your presence doesn't seem to bother her."
+		"\0\i[2001]\f[italic,true]She should be trusting you to sleep like this."
+		"\0\i[2001]\f[italic,true]She seems relaxed."
+		"\0\i[2001]\f[italic,true]Her tail moves slowly."
+		"\0%(lsta)She seems relaxed."
+		"\0%(lsto)* Flying..."
+		"\0%(lsto)* Huh..."
+		"\0%(lsto)* Oh..."
+		"\0%(lsto)* Zzzz..."
+		"\0%(lsto)* Hmm..."
+		"\0%(lsto)* Hmph..."
+		if sleepingtime >= 2
+		{
+			"\![embed,OnSleep2E]"
+			--
+			"\0\i[18]%(lsto)* Ah, \w5 what a nice sleep."
+			"\0\i[18]%(lsto)* Huh\w1.\w1.\w1. \w7Hi again.\n\n[half]\i[2001]\f[italic,true]She seems to have slept well."
+		}
+	}
+	elseif azpunched == 0
+	{
+		"\0\i[2001]\f[italic,true]She seems to not be sleeping well in unknown environment."
+		"\0\i[2001]\f[italic,true]She is moving."
+		"\0\i[2001]\f[italic,true]Her tail is twitching."
+		"\0%(lsto)* Urgh...\n\n[half]\i[2001]\f[italic,true]She seems to be having a nightmare."
+		"\0%(lsto)* Not mean... no.."
+		"\0%(lsto)* %(username)... seems nice..."
+		"\0%(lsto)* Running..."
+		"\0%(lsto)* Zzz..."
+		"\0%(lsto)* Huh..."
+		if sleepingtime >= 1
+		{
+			"\![embed,OnSleep2E]"
+			--
+			"\0\i[18]\i[79]%(lsto)* Yawn\w1.\w1.\w1.\w7 Well\i[70] I guess I'm done now.\n\n[half]\i[2001]\f[italic,true]She doesn't seem to had a full rest."
+			"\0\i[18]%(lsto)* Huh\w1.\w1.\w1.\w7 Hi again.\n\n[haf]\i[2001]\f[italic,true]She finished to sleep."
+		}
+		
+	}
+	else
+	{
+		"\0\i[2001]\f[italic,true]She doesn't seem to have a deep sleep."
+		"\0\i[2001]\f[italic,true]Is she really asleep ? Obviously not completly."
+		"\0\i[2001]\f[italic,true]She's only resting."
+		"\0\i[2001]\f[italic,true]You feel a look on you. She must be still awake."
+		"\0\i[2001]\f[italic,true]You could swear you saw her opening an eye."
+		"\0%(lsta)Her breath didn't change."
+		"\0%(lsta)She isn't relaxed at all."
+		"\0%(lsto)* Sigh..."
+		"\0%(lsto)* Urgh..."
+		"\0%(lsto)* Huh..."
+		if sleepingtime >= 1
+		{
+			"\![embed,OnSleep2E]"
+			--
+			"\0\i[18]%(lsto)* Well...\n\n[half]\i[2001]\f[italic,true]She wake up. She looks still tired."
+			"\0\i[18]%(lsto)* Hmph.\n\n[half]\i[2001]\f[italic,true]She wake up."
+		}
+	}
+	
+	{
+		//time related dialogue
+		if passhour >= 17
+		{
+			"\0%(lsta)Staying here for so long must have exhausted her."
+			"\0%(lsta)She must have been exhausted by staying here so long."
+			"\0%(lsta)She must have been exhausted."
+		}
+		elseif passhour >= 10
+		{
+			"\0%(lsta)Staying here for so long must have tired her."
+			"\0%(lsta)She must have been tired by staying here so long."
+			"\0%(lsta)She must have been very tired."
+		}
+		elseif RAND(3) < 1
+		{
+			"\0%(lsta)She must have needed a rest."
+		}
+		
+		//music related dialogues
+		if isplayed == 1
+		{
+			if boarddisplayed == 1 || muhotkey == "ON"
+			{
+				"\0%(lsta)Despite the computer not being visible, it seems you can still control the music."
+			}
+			else
+			{
+				"\0%(lsta)It seems you would need to wake her up if you want to do anything about the music."
+			}
+			"\0%(lsta)You wonder how you can still hear the music."
+			"\0%(lsta)The music doesn't seem to bother her."
+			"\0%(lsta)The music is continuing to be played."
+		}
+		
+		//normal dialogues
+		{
+			"\0%(lsta)You wonder if the computer's ground is comfy enough."
+			"\0%(lsta)Sleeping on the ground doesn't seem to bother her."
+			"\0%(lsta)She is breathing slowly."
+			"\0%(lsta)You wonder if she can sleep on her back with her wings."
+			"\0%(lsta)Her wings moved a little."
+			"\0%(lsta)You wonder if her tail ever stop moving."
+			"\0%(lsta)Even when sleeping her tail is moving."
+		}
+		
+	}
+}
+
+PreHalloweenTalk
+{
+	if issat != 1 && oncomputer != 1 && isdrawing != 1 && alreadyeat <= 1
+	{
+		"\0\s[-1]\i[2001]\f[italic,true]She disappeared. Where is she gone ?\n\n[half] \w1.\w1.\w1.\w1 \w1.\w1.\w1.\w2\n\n[half]%(azpose)%(arms)Ah !\i[2002]\f[italic,false]\n\n[half]\i[11]* Why are you looking at me like this ?\n\n[half]\i[2001]\f[italic,true]She perfeclty know why."
+		"\0\s[-1]\i[2001]\f[italic,true]She disappeared again. You wonder what she is doing.%(azpose)%(arms)\n\n[half]\i[11]And she came back as nothing was wrong."
+		"\0\s[-1]\i[2001]\f[italic,true]She is gone.\n\n[half] \w1.\w1.\w1.\w1\i[2002]\f[italic,false]\n\n[half]* Sorry,\i[11]\w5 I had something to do.\n\n[half]\i[2001]\f[italic,true]You wonder what."
+	}
+	elseif oncomputer != 1 && isdrawing != 1 && alreadyeat <= 1
+	{
+		"\0\s[-1]\i[2001]\f[italic,true]She is gone fast for somebody sat on the ground a second before.\n\n[half]%(azpose)%(arms)And she comes back as nothing happened."
+	}
+	"\0\i[2001]\f[italic,true]You wonder what she is preparing."
+	"\0\i[12]\i[2001]\f[italic,true]She seems to be plotting something."
+	"\0\i[12]\i[2001]\f[italic,true]She looks weird today."
+	"\0\i[11]%(lsto)* Hehe.\n\n[half]\i[2001]\f[italic,true]She seems to be thinking of something happy."
+	--
+	"\e"
+}
+HalloweenTalk
+{
+	if useraffection >= 300
+	{
+		"\0%(lsto)* Do you want some candies ?\n\n[half]\i[2001]\f[italic,true]She seems to already have a bag of candies."
+	}
+	elseif useraffection >= 150
+	{
+		"\0\i[2001]\f[italic,true]She has a bag of candies. She looks at you, hesitates, then start to eat some candies."
+	}
+	else
+	{
+		"\0\i[2001]\f[italic,true]She is eating candies."
+	}
+	{
+		"\0\i[2001]\f[italic,true]She looks excited."
+		"\0\i[2001]\f[italic,true]Her eyes are sparkling. It seems that Halloween makes her very happy."
+		"\0\i[2001]\f[italic,true]She looks ready for tonight treat or trick."
+		"\0\i[2001]\f[italic,true]She looks like a devil with her costum."
+		"\0\i[2001]\f[italic,true]Her costum fit nice with her wings and her tail, she looks like a little demon."
+		"\0%(lsta)It smells like candies."
+		"\0\i[2001]\f[italic,true]You wonder what Chara would think of her costum."
+		"\0\i[11]%(lsto)* I know a bunch of skeletons who are very happy today."
+		"\0%(lsto)* Will you go search some candies tonight ?"
+		"\0%(lsto)* And tonight,\w5 treat or trick !"
+		"\0%(lsto)* I already prepared my candy bag,\w5 I hope you did the same."
+		"\0\i[11]%(lsto)* Hehe.\n\n[half]\i[2001]\f[italic,true]She seems to be thinking of something happy."
+	}
+	if nowshell == "Halloween shell"
+	{
+		"\0%(lsta)The pumpkin is quietly glowing."
+		"\0%(lsta)You wonder why this pumpkin is glowing."
+		"\0%(lsta)What a mysterious pumpkin."
+		"\0%(lsta)Is this a magic pumpkin ?"
+		"\0%(lsta)You wonder why she brought this pumpkin."
+		"\0%(lsta)You wonder how she can carry this pumpkin. It's so big..."
+		"\0%(lsta)You wonder what makes this pumpkin glowing."
+		"\0%(lsta)Is there a candle inside the pumpkin ?"
+		"\0%(lsta)This pumpkin is very big."
+		"\0%(lsta)It smells like pumpkin."
+		"\0%(lsta)How is this pumpkin face so perfect ?"
+		"\0%(lsta)With its size, it must be a pumpking."
+		"\0%(lsta)What a pumpking..."
+	}
+	--
+	"\e"
+}
+PostHalloweenTalk
+{
+	if hour <= 3
+	{
+		if hour == 0
+		{
+			"\0%(lsto)* It's the ghosts hour.\w7 The most scarier hour of the year."
+			"\0%(lsto)* It's the better hour for trick or treat"
+		}
+		"\0\i[2001]\f[italic,true]You wonder if she is cold in her costume. October nights are generally cold."
+		"\0\i[2001]\f[italic,true]She looks at ease in her costume."
+		"\0%(lsto)* You don't do trick or treat tonight ?"
+		"\0%(lsto)* Halloween night,\w5 one of the better night of the year, \w5the most scarier and fun."
+		"\0%(lsto)* It's trick or treat time !"
+		
+	}
+	else
+	{
+		"\0\i[2001]\f[italic,true]She still wear her costume."
+		"\0\i[2001]\f[italic,true]She is eating candies."
+		"\0\i[2001]\f[italic,true]She is eating marshmallows."
+		"\0%(lsto)* Did you have fun last night ?"
+		"\0%(lsto)* Were there people with nice costumes last night ?"
+		"\0%(lsto)* I hope you collected a lot of candies."
+	}
+	{
+		"\0\i[2001]\f[italic,true]She seems to like wearing a costume."
+		"\0%(lsta)It smells like candies."
+		"\0%(lsto)* Sometimes when people don't have candies anymore,\w5 they give chocolates or some other food.\w7 Someone even gave me pizza one time !"
+	}
+	if nowshell == "Halloween shell"
+	{
+		"\0%(lsta)The pumpkin is quietly glowing."
+		"\0%(lsta)The pumpkin is still glowing."
+		"\0%(lsta)What a mysterious pumpkin."
+		"\0%(lsta)You wonder how she can carry this pumpkin. It's so big..."
+		"\0%(lsta)Is there a candle inside the pumpkin ?"
+		"\0%(lsta)It smells like pumpking."
+		"\0%(lsta)Why is the pumpkin still there..."
+		"\0%(lsta)Why did she bring this pumpkin again ?"
+		"\0%(lsta)Did she change the candle of the pumpkin for it to still glow ?"
+		"\0%(lsta)The pumpkin stands still."
+		"\0%(lsta)With its size, it must be a pumpking."
+		"\0%(lsta)What a pumpking..."
+	}
+	
+	--
+	"\e"
+}
+
+
+///Changing pose functions----------------------------------------------------------------------------------------------------------------------------
+
+OnOCComputer
+{
+	if oncomputer != 1
+	{
+		if issat != 1 && RAND(2) != 1
+		{
+			"\0\![embed,OnChangePose]"
+		}
+		else
+		{
+			"%(azpose)"
+		}
+		--
+		oncomputer = 1
+		--
+		"\i[60]\i[14]"
+	}
+	else
+	{
+		"\i[69]\i[18]"
+		--
+		oncomputer = 0
+	}
+	--
+	if dayslot == "6month 4day"
+	{
+		"\i[120]"
+	}
+}
+
+OnDrawing
+{
+	if isdrawing != 1
+	{
+		if issat != 1 && RAND(2) != 1
+		{
+			"\![embed,OnChangePose]"
+		}
+		else
+		{
+			"%(azpose)"
+		}
+		--
+		isdrawing = 1
+		--
+		"\i[62]\i[14]"
+	}
+	else
+	{
+		"\i[69]\i[18]"
+		--
+		isdrawing = 0
+	}
+	--
+	if dayslot == "6month 4day"
+	{
+		"\i[120]"
+	}
+}
+
+OnSleep2E
+{
+	if asleep == 1
+	{
+		oncomputer = 0
+		isdrawing = 0
+		asleep = 0
+		if issat == 1
+		{
+			azpose = "\0\s[15]%(smile)"
+			if nowshell == "Old shell" && inpyjama == 1
+			{
+				azpose = "\0\s[25]%(smile)"
+			}
+			
+		}
+		else
+		{
+			azpose = "\0\s[10]%(smile)"
+			if nowshell == "Old shell" && inpyjama == 1
+			{
+				azpose = "\0\s[20]%(smile)"
+			}
+		}
+		"%(azpose)%(arms)"
+		--
+		if isplayed == 1
+		{
+			OnOCComputer
+		}
+		--
+		if dayslot == "6month 4day"
+		{
+			"\i[120]"
+		}
+	}
+	else
+	{
+		
+		asleep = 1
+		if inpyjama != 1 || nowshell != "Old shell"
+		{
+			azpose = "\0\s[19]"
+		}
+		else
+		{
+			azpose = "\0\s[29]"
+		}
+		"%(azpose)"
+	}
+	
+}
+
+OnChangePose
+{
+	if nowshell == "Old shell"
+	{
+		if issat != 1
+		{
+			if inpyjama != 1 && dayslot != "10month 31day"
+			{
+				azpose = "\0\s[15]%(smile)"
+			}
+			elseif dayslot == "10month 31day" || dayslot == "11month 1day"
+			{
+				azpose = "\0\s[35]%(smile)"
+			}
+			else
+			{
+				azpose = "\0\s[25]%(smile)"
+			}
+			--
+			issat = 1
+		}
+		else
+		{
+			if inpyjama != 1 && dayslot != "10month 31day"
+			{
+				azpose = "\0\s[10]%(smile)"
+			}
+			elseif dayslot == "10month 31day" || dayslot == "11month 1day"
+			{
+				azpose = "\0\s[30]%(smile)"
+			}
+			else
+			{
+				azpose = "\0\s[20]%(smile)"
+			}
+			--
+			issat = 0
+		}
+	}
+	else
+	{
+		if issat != 1
+		{
+			azpose = "\0\s[15]%(smile)"
+			issat = 1
+		}
+		else
+		{
+			azpose = "\0\s[10]%(smile)"
+			issat = 0
+		}
+	}
+	--
+	"\i[0]\w9\w5%(azpose)%(arms)\w1"
+	if dayslot == "6month 4day"
+	{
+		--
+		"\i[120]"
+	}
+}
+
+OnPyjama
+{
+	if inpyjama != 1
+	{
+		if nowshell == "Old shell"
+		{
+			azpose = "\0\s[20]%(smile)"
+			"%(azpose)%(arms)%(lsto)* Here I am"
+		}
+		else
+		{
+			"\![change,shell,Pyjama shell]"
+			resumingchangeshell = ""
+		}
+		inpyjama = 1
+	}
+	else
+	{
+		if nowshell == "Old shell"
+		{
+			azpose = "\0\s[10]%(smile)"
+			"%(azpose)%(arms)%(lsto)* Here I am"
+		}
+		else
+		{
+			"\![change,shell,Normal shell]"
+			resumingchangeshell = ""
+		}
+		inpyjama = 0
+	}
+}
+
+///The aitalk select functions------------------------------------------------------------------------------------------------------------------------
+Select.sharetreatyes
+{
+	if useraffection >= 375
+	{
+		"\0\i[10]%(lsta)You're sharing a nice snack."
+	}
+	else
+	{
+		"\0%(lsta)She gives you some."
+	}
+	--
+	"\e"
+}
+
+Select.sharetreatno
+{
+	if useraffection >= 375
+	{
+		"\0%(lsto)* It's pretty nice though,\w5 you miss something."
+	}
+	else
+	{
+		"\0%(lsto)* Alright,\w5 more for me I guess."
+	}
+	--
+	"\e"
+}
+
+RecognizeSong
+{
+	if "barbie girl" _in_ TOLOWER(songplayed)
+	{
+		"\0\i[38]\i[39]%(lsta)She DOES know this song. And she seems to like it."
+		"\0%(lsto)* I like Aqua."
+	}
+	if "gimme gimme" _in_ TOLOWER(songplayed) || "a man after midnight" _in_ TOLOWER(songplayed)
+	{
+		"\0%(lsta)\i[10]She looks like a kid at a birthday party : super duper happy."
+		"\0\i[38]\i[39]%(lsto)* Abba did so good songs."
+		"\0%(lsto)* I love this song."
+	}
+	if "mamma mia" _in_ TOLOWER(songplayed)
+	{
+		"\0%(lsta)She seems to know and like this song."
+		"\0\i[38]\i[39]%(lsto)* It's a nice song,\w5 isn'it ?"
+		"\0%(lsto)* Abba did so good songs."
+	}
+	if "final countdown" _in_ TOLOWER(songplayed)
+	{
+		"\0%(lsta)She seems to enjoy this song."
+		"\0\i[38]\i[39]%(lsto)* It's the kind of songs you listen at a New Year party."
+		"\0%(lsto)*  Tududu tuuu tududu tutu...."
+	}
+	if "beethoven" _in_ TOLOWER(songplayed) || "mozart" _in_ TOLOWER(songplayed) || "pachelbel" _in_ TOLOWER(songplayed)
+	{
+		"\0%(lsta)She seems to appreciate classical music."
+		"\0%(lsto)* I like Canon by J. Pachelbel."
+	}
+	if "undertale" _in_ TOLOWER(songplayed)
+	{
+		"\0%(lsta)She seems to know pretty well this song. You have an idea why."
+		"\0\i[18]\i[38]\i[39]%(lsto)* Toby Fox made wonderful songs,\w5 isn't it ?"
+		"\0\i[18]\i[38]\i[39]%(lsto)* You're a big fan of Undertale,\w5 isn'it ?"
+	}
+	if "deltarune" _in_ TOLOWER(songplayed)
+	{
+		"\0\i[18]\i[38]\i[39]%(lsto)* Toby Fox made wonderful songs,\w5 isn't it ?"
+		"\0\i[18]\i[38]\i[39]%(lsto)* This songs are nice too,\w5 isn'it ?"
+		"\0\i[11]\i[38]\i[39]%(lsto)* So much time to wait until the game is over."
+	}
+	if "indochine" _in_ TOLOWER(songplayed)
+	{
+		"\0%(lsto)* I like their music."
+		"\0%(lsto)* One of my favorite group."
+	}
+	if "opening" _in_ TOLOWER(songplayed)
+	{
+		"\0%(lsto)* I like some anime music."
+	}
+}
+
+//--Chains
+//Here is where you will put your bits of chain dialogue. They are outside of RandomTalk, which makes them a bit more flexible as I mentioned above. As you can see, this function is called "firstchain", which was the same tag we put at the end of the chain in aitalk with \e:chain=firstchain.
+
+//Azura's chain are in an other file.
+
+firstchain
+{{CHAIN
+	"\0\s[10]Here is the second part of the chain.\w8Will there be more?\e:chain=end"
+}}CHAIN
+
+//Pay careful attention to the CHAIN text and double brackets for these. Double brackets, CHAIN, dialogue, double brackets, CHAIN. If you are planning on making chains, I'd recommend just copying and pasting the chain example here and changing the dialogue and name of the function as you need. Less likely for mistakes to happen, you know?
+//Note also it ends with \e:chain=end, basically ending the chain.
+
+secondchain
+{{CHAIN
+	"\0\s[10]This is the second piece of chained dialogue.\1\w8\s[10]This will lead to a third chain.\e:chain=thirdchain"
+}}CHAIN
+
+thirdchain
+{{CHAIN
+	"\0\s[10]This is the third piece of chained dialogue.\1\w8\s[10]This is the end.\e:chain=end"
+}}CHAIN
+
+//As you can see, you can chain your chains together to make a very long-running conversation if you want! Just make sure to end the chain when you're done.
+//Alright, we're done with the random converations for now, but there are a few other things in aitalk that we'll need to fill out too.
+
+
+//-OnMinuteChange
+//These are time-related bits of dialogue for your ghost to say. If you're uninterested, you can delete it all except for a line for MikireTalk. So it'd look something like
+
+//OnMinuteChange
+//{
+//timeslot = GetTimeSlot
+//if mikireflag == 1
+// 	{
+// 		MikireTalk
+//	}
+//}
+
+//But I think these are kind of neat, so I'd leave them myself.
+
+OnMinuteChange
+ {
+	timeslot = GetTimeSlot //this tells the ghost what time it is so the time related conversations above will work.
+	dayslot = GetDaySlot
+	azpose = SUBSTR(azpose,0,8) + "%(smile)"
+	OnCheckStatus
+	if communicate == 1
+	{
+		if oncomputer ==  1 && alreadyeat < 2
+		{
+			"%(arms)\i[14]\w1"
+			--
+			"\i[30]\i[31]"
+			"\i[32]\i[33]"
+			"\i[34]"
+			"\i[35]"
+			"\i[37]"
+			"\i[38]\i[39]"
+			--
+			"\i[49]"
+			"\i[48]"
+			"\i[46]"
+			if azfeel >= 1
+			{
+				"\i[50]"
+				"\i[45]"
+			}
+			elseif azfeel == 0
+			{
+				"\i[45]"
+				"\i[40]"
+			}
+			else
+			{
+				"\i[40]"
+			}
+		}
+		elseif isdrawing == 1 && alreadyeat < 2
+		{
+			"\0%(arms)\i[14]"
+			--
+			"\i[30]\i[31]"
+			"\i[32]\i[33]"
+			"\i[36]\i[37]"
+			"\i[38]\i[39]"
+			"\i[35]"
+			"\i[33]"
+			--
+			"\i[49]"
+			"\i[48]"
+			"\i[46]"
+			if azfeel >= 1
+			{
+				"\i[50]"
+				"\i[45]"
+			}
+			elseif azfeel == 0
+			{
+				"\i[45]"
+				"\i[40]"
+			}
+			else
+			{
+				"\i[40]"
+			}
+		}
+		else
+		{
+			"\i[11]"
+			"\i[18]"
+			if azfeel > 2
+			{
+				"\i[16]"
+			}
+			--
+			"\i[30]\i[31]"
+			"\i[38]\i[39]"
+			--
+			if oncomputer != 1 && isdrawing != 1 && (alreadyeat <= 1 || alreadyeat > 600) && holdobsidian != 1
+			{
+				if issat == 1
+				{
+					"\i[71]\i[91]"
+				}
+				"\i[71]"
+				"\i[91]"
+				"\i[70]\i[90]"
+				"\i[70]"
+				"\i[90]"
+			}
+			--
+			if azfeel >= 1
+			{
+				"\i[45]"
+				if azpunched <= 0
+				{
+					"\i[50]"
+				}
+				else
+				{
+					"\i[52]"
+				}
+			}
+			elseif azfeel == 0
+			{
+				
+				"\i[40]"
+				if azpunched > 0
+				{
+					"\i[52]"
+				}
+				else
+				{
+					"\i[46]"
+				}
+			}
+			else
+			{
+				if azpunched <= 0
+				{
+					"\i[40]"
+				}
+				else
+				{
+					"\i[52]"
+				}
+			}
+		}
+		--
+		if minute == 0 //These check what time it is. Here, it's seeing if the minute equals zero...
+		{
+			if hour == 12 && minute == 0//And the hour equals 12, ie it's noon. You can change this to some other hour if you want.
+			{
+				if !asleep
+				{
+					"\0%(lsto)* It's noon, good appetit !\e"
+				}
+				else
+				{
+					"\0%(lsta)It's noon.\e"
+				}
+				//Replace with appropriate dialogue as you want.
+			}
+			elseif hour == 0 && minute == 0//If the hour is zero, aka midnight. Again, you can change this to whatever hour you want to check for.
+			{
+				if !asleep
+				{
+					"\0%(lsto)* It's midnight !\e"
+				}
+				else
+				{
+					"\0%(lsta)It's midnight.\e"
+				}
+				//Then replace the dialogue with what's appropriate.
+			}
+			elseif hour == 23 //if the hour is 23, aka 11 pm.
+			{
+				/*if minute == 55 //And if the minutes are at 55.
+				{
+				"\0%(lsto)* 5 minutes to midnight.\e"
+				}
+				else //if it isn't 11:55. These are meant to be examples of specific times you can check, you don't have to check for the same times. You can also always delete individual elseifs if you can't think of any time to check. Like, you could delete the elseif for hour == 23 and the subsequent checks below it, then move on to the elseif below for hour 7. This section is flexible.
+				{
+				"\0%(lsto)* It's 11 pm.\e"
+				//replace the dialogue here again as you like.
+				}*/
+			}
+			/*elseif hour == 7 && minute == 30 && weekday == 0 //Here, it's checking for a specific time on a specific day. You can add things to your time checks just like this by using the AND operator, &&. This adds up to 7:30, Sunday. If you have a favorite TV program on at some time, you could have your ghost comment on when it comes on like this.
+			{
+				//Replace with what's appropriate.
+			}*/
+			elseif hour == 16 && minute == 0//if the hour is 16, or 4 pm. You can add in time checks for whatever times you want, or change what these time checks are looking for. These are just meant to be examples of how it works.
+			{
+				if !asleep
+				{
+					"\0%(lsto)* It's 4 pm.\e"
+				}
+				else
+				{
+					"\0%(lsta)* It's 4 pm.%(lsto)\e"
+				}
+				//Replace with what's appropriate.
+			}
+			elseif (hour >= 22 || hour <= 6) && aitalkinterval == 0 && inpyjama != 1
+			{
+				"\0\s[10]* It's %(hour12)'o clock, \w5I go take my pajama.\w7\0\s[-1]\n\n[half]\f[italic,true]She is gone. Maybe to search her pajama ?\f[italic,false]\w9\w9\w9\![raise,OnPyjama]\e"
+			}
+			elseif minute == 0
+			{
+				if !asleep
+				{
+					"\0* It's %(hour12)'o clock.\e"
+				}
+				else
+				{
+					"\0%(lsta)* It's %(hour12)'o clock.%(lsto)\e"
+				}
+				//%(hour12) stores the time. This is a general top of the hour notification. I personally like this because it helps me keep track of time when I've been working on something, so when a ghost is all "Hey it's 3 o clock" I can be like woah really when did that happen. If you think this is annoying though, you can just delete this bit of dialogue to leave this else statement blank, or leave "" in here instead.
+			}
+		}
+		//Don't touch this part.
+		elseif mikireflag == 1
+		{
+			MikireTalk
+		}
+		elseif aitalkinterval == 0 && asleep != 1
+		{
+			if RAND(4) == 1
+			{
+				if oncomputer != 1 && isdrawing != 1 && (alreadyeat <= 1 || alreadyeat > 600) && holdobsidian != 1
+				{
+					"\0\![embed,OnOCComputer]\e"
+					
+				}
+				elseif isdrawing != 1 && alreadyeat <= 1 && (alreadyeat <= 1 || alreadyeat > 600) && holdobsidian != 1
+				{
+					if isplayed !=1
+					{
+						"\0\![embed,OnOCComputer]"
+					}
+				}
+
+				if oncomputer != 1 && (alreadyeat <= 1 || alreadyeat > 600) && holdobsidian != 1
+				{
+					"\0\![embed,OnDrawing]\e"
+				}
+				if issat == 1 && oncomputer != 1 && isdrawing != 1 && holdobsidian != 1
+				{
+					"\0\![embed,OnChangePose]\e"
+				}
+			}
+		}
+		--
+		if dayslot == "6month 4day"
+		{
+			"\i[120]"
+		}
+	}
+ }
+
+//--OnSecondChange
+//Like the above, this handles what happens every time a second goes by. Most of this you will not have to touch.
+
+OnSecondChange
+ {
+	if passsec == 60
+ 	{
+	 	passsec = 0
+ 		passmin = passmin + 1
+	}
+ 	else
+ 	{
+	 	passsec = passsec + 1
+	}
+	--
+	if passmin == 60
+	{
+		passhour = passhour + 1
+		passmin = 0
+		cumuhour = cumuhour + 1
+		if moodchange > 0
+		{
+			moodchange--
+		}
+		--
+		if asleep == 1
+		{
+			sleepingtime += 1
+		}
+		else
+		{
+			sleepingtime = 0
+		}
+	}
+	if mikireflag == 1 && reference1 == 0
+	{
+		EndMikireTalk
+ 	}
+	mikireflag = reference1
+	if reference2 == 1
+	{
+ 		//This dialogue is for when the two characters are overlapping each other. If you don't want your characters to care, you can just leave this blank.
+		
+ 		//"* Me and Triangle are overlapping.\w8\1That's strange since your resolution is %screenwidthx%screenheight, %(username). Shouldn't we have enough space?\4\e"
+		
+		//You can see here the use of two envelopes, screenwidth and screenheight, to tell the user their resolution. Oddly, they are not in parentheses. I'm not sure why this is, but they don't display right otherwise. An odd quirk with these two envelopes.
+		//Note also how Triangle moves away at the end of the dialogue. This is due to the \4 tag. That will make any one character move away from the other if they are able. I talked about this tag and its counterpart tag \5 in the SakuraScript page on the walkthrough.
+	}
+	--
+	if alreadyeat >= 2
+	{
+		if plateate == "spaghetti"
+		{
+			if alreadyeat <= 600
+			{
+				alreadyeat = alreadyeat + 1
+			}
+			else
+			{
+				"\0%(lsta)\i[193]Seems that she finished to eat her plate.\e"
+				--
+				plateate = ""
+				alreadyeat = 1
+			}
+		}
+		elseif plateate == "pie"
+		{
+			if alreadyeat <= 60
+			{
+				alreadyeat = alreadyeat + 1
+			}
+			else
+			{
+				"\0%(lsta)\i[193]Seems that she finished to eat her plate.\e"
+				--
+				plateate = ""
+				alreadyeat = 1
+			}
+		}
+	}
+ }
+ 
+
+ //---- MikireTalk ---------------------------------------------------------------------
+ //I'm actually a little fuzzy on MikireTalk and what exactly it does since it shows up a lot in odd places, but for the purposes of this function here, what this does is bring up some dialogue when the main character is off the screen. For example, if you dragged Girl over to the side of your monitor until she was partially concealed by it. This dialogue would then come up. If you don't want your characters to care, you can leave the dialogue blank.
+ 
+MikireTalk
+ {
+	"%(lsto)* I'm off the screen.\w7You can push Ctrl-Shift-F12 to bring me back."
+	//Note the hotkey combo Triangle mentions. He's telling the truth, that should bring her back on the screen.
+ }
+
+ //----EndMikireTalk--------------------------------------------------------------------
+ //For after you bring the character back on screen.
+ 
+EndMikireTalk
+ {
+	"%(lsto)* I'm no longer off the screen.\e"
+ }
+
+
+//**** OnSurfaceRestore *****************************************************************
+//OnSurfaceRestore is a handy function. What this does is that after a short period of time, the ghost will go back to its default pose, so you won't have a ghost stuck in one expression for too long. It's also helpful if you've made one of the characters disappear using \s[-1] in dialogue and didn't bring them back at the end of it. This will do that for you.
+//I'm going to comment out the if/else statements in this because the circumstances in which they'd come up seem pretty unlikely and unnecessary if you're just going to be making a simple ghost. You can just leave this function alone and move on if you want. However, if you do want to use them, just uncomment the lines by deleting the slashes and fill in the info as you need.
+
+//*********************Advanced User Info*******************************
+//You can put if statements in OnSurfaceRestore to make exceptions for certain poses, or to make sure that once they're in a certain pose, they stay in that pose. For example, if you turn my Hunter and Smoker ghost into eggplants, there's a check for the their eggplant pose numbers to make sure they STAY eggplants when OnSurfaceRestore is called.
+//You can also use OnSurfaceRestore to clean up things that might be left on the screen, primarily from using p[number]\s[] to call up other objects or characters. Just make sure to add a p[number]\s[-1] to OnSurfaceRestore, and that should get rid of it each time the ghost cleans itself up.
+//***********************************************************************
+
+OnSurfaceRestore
+ {
+ 	//if reference0 == 4 || reference0 == 6 //This is checking what poses they are in. This looks to see if Girl is in pose 4 or pose 6, since she is reference0.
+ 	//{
+ 	//"\1\s[10]You're in a sad pose.\w8\0\s[0]I'll go back to normal then.\e"
+ 	//}
+ 	//elseif reference1 == 14 || reference1 == 16 //This is doing the same but for Triangle, since he's reference1. It looks to see if he's in pose 14 or post 16.
+ 	//{
+ 	//"\0\s[0]You look sad.\w8\1\s[10]I'll go back to normal.\e"
+ 	//}
+ 	//else
+ 	//{
+	
+	if oncomputer ==  1 && asleep != 1 && alreadyeat < 2
+	{
+		"%(azpose)\i[60]\i[14]\w1"
+		--
+		"\i[30]\i[31]"
+		"\i[32]\i[33]"
+		"\i[34]"
+		"\i[35]"
+		"\i[37]"
+		"\i[38]\i[39]"
+		--
+		"\i[49]"
+		"\i[48]"
+		"\i[46]"
+		if azfeel >= 1
+		{
+			"\i[50]"
+			"\i[45]"
+		}
+		elseif azfeel == 0
+		{
+			"\i[45]"
+			"\i[40]"
+		}
+		else
+		{
+			"\i[40]"
+		}
+	}
+	elseif isdrawing == 1 && asleep != 1 && alreadyeat < 2
+	{
+		"\0\i[62]\i[14]"
+		--
+		"\i[30]\i[31]"
+		"\i[32]\i[33]"
+		"\i[36]\i[37]"
+		"\i[38]\i[39]"
+		"\i[35]"
+		"\i[33]"
+		--
+		"\i[49]"
+		"\i[48]"
+		"\i[46]"
+		if azfeel >= 1
+		{
+			"\i[50]"
+			"\i[45]"
+		}
+		elseif azfeel == 0
+		{
+			"\i[45]"
+			"\i[40]"
+		}
+		else
+		{
+			"\i[40]"
+		}
+	}
+	elseif asleep == 1
+	{
+		"\0\i[15]"
+	}
+	else
+	{
+		"\0\i[18]"
+	}
+	--
+	if dayslot == "6month 4day"
+	{
+		"\i[120]"
+	}
+	//}
+ }
+
+ //snooping through your stuff--------------------------------------------------
+ 
+///Anime's stuffs-----------------------------------------------------------------------------------------------------------------------------------
+Select.yeslovetrash
+{
+	"\0%(lsto)* So you like when there is violence and blood everywhere in an anime,\w5 very trash animes forbidden to -16 years old people."
+	--
+	if azpunched >= 1
+	{
+		" Well,\w5 that's not a surprise for me that you like LOVE.\e"
+	}
+	else
+	{
+		" Alright,\w5 I hope you didn't tell me this to look cooler because I was serious.\e"
+	}
+	lovetrashanime = 1
+}
+Select.nolovetrash
+{
+	"\0%(lsto)* Alright,\w5 I understand. \w7Some animes are just too much violent.\e"
+	lovetrashanime = 0
+}
+
+Select.yesloveshojo
+{
+	"\0%(lsto)* Well, \w5alright,\w5 I don't know a lot of them so I cannot give you a lot of recommandations.\e"
+	loveshojo = 1
+}
+Select.noloveshojo
+{
+	"\0%(lsto)* I don't like a lot shojo mangas too.\w7 I don't like a lot romantic stories.\w7 It's maybe too much sweet for me.\e"
+	loveshojo = 0
+}
+
+Select.likemanga
+{
+	"\0%(lsto)* I like them too.\e"
+	likemanga=1
+	
+}
+Select.nomanga
+{
+	"\0%(lsto)* Oh, \w5I like them though.\e"
+	likemanga=0
+}
+
+
+ //--OnKeyPress
+ //This defines the hotkeys your ghost will use. You can change these to whatever you want, but I don't really know why you would. I'd just leave this alone. Advanced Users can add new hotkeys attached to whatever function if you want.
+// OnKeyPress is now in az-musice.dic 

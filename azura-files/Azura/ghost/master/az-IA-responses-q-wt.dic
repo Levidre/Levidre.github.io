@@ -1,0 +1,2050 @@
+WhatAvisP
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+	//So checking who is the _subject
+	if _subject[0] == "you" || _subject[0] == "yourself"
+	{
+		//And then the _complement
+		if (_COD[0] == "noCOD" || _COD == "0" || _COD == "") && (_COI[0] == "noCOD" || _COI == "0" || _COI == "" )
+		{
+			"I like video games,\w7 mangas and books.\w7 "
+			askedlike = 1
+		}
+		elseif _COD[0] != "noCOD" && _COD != "0" && _COD != ""
+		{
+			if _COD[7] != "" && _COD[7] != "none"
+			{
+				_preferred = IARRAY
+				_preferred = SPLIT(_COD[7],".")
+				_return = "I prefer %(_preferred[0])"
+				for _i = 1 ; _i < ARRAYSIZE(_preferred); _i ++
+				{
+					if _i != ARRAYSIZE(_preferred) -1
+					{
+						_return += ", %(_preferred[_i])"
+					}
+					else
+					{
+						_return += " and %(_preferred[_i])"
+					}
+					
+				}
+				_return += ".\w7 "
+				_return
+			}
+			else
+			{
+				"\i[10]I have no idea.\w7 "
+			}
+		}
+		else
+		{
+			if _COI[0] == "me"
+			{
+				if azpunched <= 0
+				{
+					"You're someone kind.\w7 "
+				}
+				else
+				{
+					"\i[11]I don't know.\w7 "
+				}
+			}
+			elseif _COI[0] == "you" || _COI[0] == "yourself"
+			{
+				"\i[10]My wings,\w5 flying was my dream.\w7 "
+			}
+			elseif _COI[1] == "family" || " family" _in_ _COI[1] 
+			{
+				"A family is supposed to cheer you up.\w7 It's the only ones that are supposed to support you whatever happen.\w7 "
+			}
+			elseif _COI[1] == "being" || _COI[1] == "human"|| " being" _in_ _COI[1] || " human" _in_ _COI[1] 
+			{
+				"People are able to do the best.\w7 They can do the worst but \i[10]I have hopes they would more do the best.\w7 "
+			}
+			elseif _COI[1] == "animal" || " animal" _in_ _COI[1] 
+			{
+				"They are very nice companions.\w7 "
+			}
+			elseif _COI[1] == "object" || " object" _in_ _COI[1] 
+			{
+				if TOINT(_COI[2]) >= 5
+				{
+					if _COI[3] != "none" || _COI[4] != "none"
+					{
+						if APositiveThing(_COI[0]) != "none"
+						{
+							"It's %APositiveThing(_COI[0]).\w7 "
+						}
+						else
+						{
+							"I don't know,\w7 I just find it nice.\w7 "
+						}
+					}
+					else
+					{
+						"I don't know how it is,\w7 so it's hard to say.\w7 "
+					}
+				}
+				else
+				{
+					"Not a lot,\w5 I don't like it.\w7 "
+				}
+			}
+			elseif _COI[1] == "game" || " game" _in_ _COI[1] 
+			{
+				"The fact it's fun.\w7 "
+			}
+			elseif _COI[1] == "nonconsistant" || " nonconsistant" _in_ _COI[1] 
+			{
+				"I don't know.\w7"
+			}
+			elseif _COI[1] == "food" || " food" _in_ _COI[1] 
+			{
+				"The simple fact it's edible ?\w7 I think it's a good point in itself.\w7 "
+			}
+			elseif _COI[1] == "item" || " item" _in_ _COI[1] 
+			{
+				"It's useful.\w7 "
+			}
+			elseif _COI[1] == "place" || " place" _in_ _COI[1] 
+			{
+				"I don't know.\w7 "
+			}
+			elseif "unknown" _in_ _COI[1]
+			{
+				"\i[10]I don't know how it is.\w7"
+			}
+			else
+			{
+				//The error message
+				"There was an error.\w7 I didn't recognize the thing I was supposed to give my opinion on.\w7 "
+			}
+		}
+	}
+	elseif _subject[0] == "i"
+	{
+		_max = 0
+		_index = 0
+		_i = 0
+		foreach nameslib ; _name
+		{
+			if TOINT("%(_name[5])") >= _max
+			{
+				_max = TOINT(_name[5])
+				_index = _i
+			}
+			_i++
+		}
+		if _max != 0
+		{
+			"One of your favorite things is a %(nameslib[_index][0]).\w7 "
+		}
+		else
+		{
+			"You didn't tell me what you like.\w7 "
+		}
+	}
+	elseif ASEARCH(_subject[1],"being","family","human","nonconsistant","animal") != -1
+	{
+		"I don't see how I could know this.\w7 "
+	}
+	else
+	{
+		"Objects without a spirit cannot like stuffs,\w5 you know ?\w7 "
+	}
+}
+WhatAvisN
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+	
+	//So checking who is the _subject
+	if _subject[0] == "you" || _subject[0] == "yourself"
+	{
+		//And then the _complement
+		if (_COD[0] == "noCOD" || _COD == "0" || _COD == "") && (_COI[0] == "noCOD" || _COI == "0" || _COI == "" )
+		{
+			"Eggplants. \w7Definitely eggplants.\w7 It's the vegetable of the Devil.\w7 "
+			askedlike = 1
+		}
+		elseif _COD[0] != "noCOD" && _COD != "0" && _COD != ""
+		{
+			"\i[10]I have no idea.\w7 "
+		}
+		else
+		{
+			if _COI[0] == "me"
+			{
+				if azpunched > 0
+				{
+					"The fact you're violent.\w7 "
+				}
+				else
+				{
+					"I have nothing to reproach you.\w7 "
+				}
+			}
+			elseif _COI[0] == "you" || _COI[0] == "yourself"
+			{
+				"\i[10]A lot of stuffs,\w5 not your business though.\w7 "
+				"What I hate in myself doesn't concern you.\w7 "
+			}
+			elseif _COI[1] == "family" || " family" _in_ _COI[1] 
+			{
+				"They can be pretty annoying.\w7 "
+				"Sometimes they don't understand you despite being the people the more close of you.\w7 "
+			}
+			elseif _COI[1] == "being" || _COI[1] == "human" || " human" _in_ _COI[1] || " being" _in_ _COI[1] 
+			{
+				"They can do horrible things.\w7 "
+				"People can be cruel with other.\w7 "
+			}
+			elseif _COI[1] == "animal" || " animal" _in_ _COI[1] 
+			{
+				"Is there something negative about it ?\w7 "
+			}
+			elseif _COI[1] == "object" || " object" _in_ _COI[1] 
+			{
+				if TOINT(_COI[2]) <= 5
+				{
+					if _COI[3] != "none" || _COI[4] != "none"
+					{
+						if APositiveThing(_COI[0]) != "none"
+						{
+							"It's %ANegativeeThing(_COI[0]).\w7 "
+						}
+						else
+						{
+							"I don't know,\w7 I just don't like it.\w7 "
+						}
+					}
+					else
+					{
+						"I don't know how it is,\w7 so it's hard to say.\w7 "
+					}
+				}
+				else
+				{
+					"Not a lot,\w5 I like it.\w7 "
+				}
+			}
+			elseif _COI[1] == "game" || " game" _in_ _COI[1] 
+			{
+				"It can be frustrating.\w7 "
+				"It time consuming.\w7 "
+			}
+			elseif _COI[1] == "nonconsistant" || " nonconsistant" _in_ _COI[1] 
+			{
+				"I don't know.\w7"
+			}
+			elseif _COI[1] == "food" || " food" _in_ _COI[1] 
+			{
+				if TOINT(_COD[2]) >= 5
+				{
+					"When it's not well cooked ?\w7 "
+				}
+				else
+				{
+					"I don't like the taste.\w7 "
+				}
+			}
+			elseif _COI[1] == "item" || " item" _in_ _COI[1] 
+			{
+				"Hurting my little toe on it.\w7 "
+				"It's a foe killer.\w7 "
+			}
+			elseif _COI[1] == "place" || " place" _in_ _COI[1] 
+			{
+				"I don't know.\w7 "
+			}
+			elseif "unknown" _in_ _COI[1]
+			{
+				"\i[10]I don't know how it is.\w7 "
+			}
+			else
+			{
+				//The error message
+				"There was an error.\w7 I didn't recognize the thing I was supposed to give my opinion on.\w7 "
+			}
+		}
+	}
+	elseif _subject[0] == "i"
+	{
+		_min = 100
+		_index = 0
+		_i = 0
+		foreach nameslib ; _name
+		{
+		if TOINT("%(_name[5])") <= _min &&  _name[5] != "none"
+		{
+			_min = TOINT(_name[5])
+			_index = _i
+		}
+			_i++
+		}
+		if _min != 100
+		{
+			"One of the things you hate the most is a %(nameslib[_index][0]).\w7 "
+		}
+		else
+		{
+			"You didn't tell me what you dislike.\w7 "
+		}
+	}
+	elseif ASEARCH(_subject[1],"being","family","human","nonconsistant","animal") != -1
+	{
+		"I don't see how I could know this.\w7 "
+	}
+	else
+	{
+		"Objects without a spirit cannot dislike stuffs,\w5 you know ?\w7 "
+	}
+	
+}
+
+WhatThinkP
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+
+
+	//So if the verb is think, we need to check what is the first _complement
+	if "verb" _in_ DetermineWord(_COI[0])[0]
+	{
+		//If it's the opinion about a verb
+		if _subject[0] == "you"
+		{
+			if _COI[6] == "none"
+			{
+				"I don't have anything to say.\w7"
+			}
+			else
+			{
+				//Checking about what the user asks Azura
+									
+				if TOINT(_COI[6]) >= 2
+				{
+					"I like it a lot.\w7 "
+				}
+				elseif TOINT(_COI[6]) > 0
+				{
+					"I like it.\w7 "
+				}
+				elseif _COI[2] == "0"
+				{
+					"I don't like but I don't dislike.\i[11]\w7 So, \w5huh,\w5 neutral opinion \i[18]I guess ?\w7"
+				}
+				else
+				{
+					"I don't like it.\w7 "
+				}
+			}
+		}
+		elseif _subject[0] == "i"
+		{
+			if _COI[5] == "0"
+			{
+				"You don't hate it I guess ?\w7 "
+			}
+			elseif _COI[5] == "none"
+			{
+				"You didn't speak a lot of it,\w5 so I don't know.\w7 "
+			}
+			elseif TOINT(_COI[5]) >= 0
+			{
+				"I suppose you like it.\w7 "
+			}
+			else
+			{
+				"You don't like them.\w7 "
+			}
+		}
+		elseif ASEARCH(_subject[1],"being","family","human","nonconsistant","animal") != -1
+		{
+			"How could I know what they think ?\w7 "
+		}
+		else
+		{
+			"I didn't know that an object was able to think.\w7 "
+		}
+	}
+	else
+	{
+		//If it's a simple noun
+		if _subject[0] == "you"
+		{
+			if _COI == "0" || _COI == "noCOI" || _COI == ""
+			{
+				"Of not a lot of stuff,\w5 currently.\w7 "
+			}
+			elseif _COI[0] == "me" || _COD[0] == "myself"
+			{
+				if useraffection >= 500
+				{
+					"\i[10]We have spend so much time together.\w7 I think you're someone kind and we're very close now.\w7 "
+				}
+				elseif useraffection >= 375
+				{
+					"I think you're someone kind and we're close.\w7 "
+				}
+				elseif useraffection >= 275
+				{
+					"It's a good time I know you and you're kind enough.\w7 "
+				}
+				elseif useraffection >= 200
+				{
+					"Well,\w5 we're close.\w7 You know me enough.\w7 "
+				}
+				elseif useraffection >= 150
+				{
+					"You know me now,\w5 I think.\w7 "
+				}
+				elseif useraffection >= 100
+				{
+					"We're starting to know each other.\w7 "
+				}
+				elseif useraffection >= 65
+				{
+					"At least,\w5 we spent a little time together.\w7 "
+				}
+				elseif useraffection >= 40
+				{
+					"I don't know you.\w7 "
+				}
+				elseif useraffection >= 20
+				{
+					"You're a stranger.\w7 "
+				}
+				else
+				{
+					"You're a totally stranger to me.\w7 "
+				}
+			}
+			elseif _COI[0] == "you" || _COI[0] == "yourself"
+			{
+				"What I think of me concerns me and only me.\w7 "
+			}
+			elseif _COI[2] == "none"
+			{
+				"I don't have anything to say about it.\w7"
+			}
+			else
+			{
+				if TOINT(_COI[2]) > 7
+				{
+					if ASEARCH("%(_COD[1])","family","being","human","animal") == -1
+					{
+						"I like it a lot.\w7 "
+					}
+					else
+					{
+						"I like them. \w7"
+					}
+				}
+				elseif TOINT(_COI[2]) > 5
+				{
+					if ASEARCH("%(_COD[1])","family","being","human","animal") == -1
+					{
+						"I like it.\w7 "
+					}
+					else
+					{
+						"I like them. \w7"
+					}
+				}
+				elseif _COI[2] == "5"
+				{
+					"I don't like but I don't dislike.\i[11]\w7 So, \w5huh,\w5 neutral opinion \i[18]I guess ?\w7"
+				}
+				else
+				{
+					if ASEARCH("%(_COD[1])","family","being","human","animal") == -1
+					{
+						"I don't like it.\w7 "
+				
+					}
+					else
+					{
+						"I don't like them. \w7"
+					}
+				}
+				if _COI[7] != "none"
+				{
+					_favorites = SPLIT(_COI[7],".")
+					_index = RAND(ARRAYSIZE(_favorites))
+					--
+					"I like %(_favorites[_index]) too.\w7 "
+				}
+			}
+		}
+		elseif _subject[0] == "i"
+		{
+			if  _COI[5] == "0"
+			{
+				if ASEARCH(_COI[1],"being","family","human","nonconsistant") != -1
+				{
+					"You don't hate them I guess ?\w7 "
+				}
+				else
+				{
+					"You don't hate it I guess ?\w7 "
+				}
+							
+			}
+			elseif TOINT(_COI[5]) >= 0
+			{
+				if ASEARCH(_COI[1],"being","family","human","nonconsistant") != -1
+				{
+					"I suppose you like them.\w7 "
+				}
+				else
+				{
+					"I suppose you like it.\w7 "
+				}
+			}
+			else
+			{
+				if ASEARCH(_COI[1],"being","family","human","nonconsistant") != -1
+				{
+					"You don't like them.\w7 "
+				}
+				else
+				{
+					"You don't like it.\w7 "
+				}
+			}
+		}
+		elseif ASEARCH(_subject[1],"being","family","human","nonconsistant","animal") != -1
+		{
+			"How could I know what they think ?\w7 "
+		}
+		else
+		{
+			//The error message
+			"I didn't know that an object was able to think.\w7 "
+		}
+	}
+}
+WhatThinkN
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+	//So if the verb is think, we need to check what is the first complement
+	if "verb" _in_ DetermineWord(_COI[0])[0]
+	{
+		//If it's the opinion about a verb
+		if _subject[0] == "you"
+		{
+			if _COI[6] == "none"
+			{
+				"I don't have anything to say.\w7"
+			}
+			else
+			{
+				//Checking about what the user asks Azura
+									
+				if TOINT(_COI[6]) >= 2
+				{
+					"I don't think it's bad,\w5 I really like it.\w7 "
+				}
+				elseif TOINT(_COI[6]) > 0
+				{
+					"I don't think it's bad.\w7 "
+				}
+				elseif _COI[2] == "0"
+				{
+					"I have a neutral opinion about it.\w7"
+				}
+				else
+				{
+					"I don't think it's nice.\w7 "
+				}
+			}
+		}
+		elseif _subject[0] == "i"
+		{
+			if _COI[5] == "0"
+			{
+				"You don't hate it I guess ?\w7 "
+			}
+			elseif _COI[5] == "none"
+			{
+				"You didn't speak a lot of it,\w5 so I don't know.\w7 "
+			}
+			elseif TOINT(_COI[5]) >= 0
+			{
+				"I suppose you like it.\w7 "
+			}
+			else
+			{
+				"You don't like them.\w7 "
+			}
+		}
+		elseif ASEARCH(_subject[1],"being","family","human","nonconsistant","animal") != -1
+		{
+			"How could I know what they think ?\w7 "
+		}
+		else
+		{
+			"I didn't know that an object was able to think.\w7 "
+		}
+	}
+	else
+	{
+		//If it's a simple noun
+		if _subject[0] == "you"
+		{
+			if _COI == "0" || _COI == "noCOI" || _COI == ""
+			{
+				"\i[16]How can I tell you what I don't think if I'm not thinking of it ?\w7 Well,\w5 in fact you can just take what I think of it and deduce what I don't think of it.\w7 "
+			}
+			elseif _COI[0] == "me" || _COD[0] == "myself"
+			{
+				if useraffection >= 500
+				{
+					"\i[10]We have spend so much time together.\w7 I don't think you dislike me,\w5 else you wouldn't have kept me here for so long.\w7 "
+				}
+				elseif useraffection >= 375
+				{
+					"I don't think you dislike my presence.\w7 "
+				}
+				elseif useraffection >= 275
+				{
+					"I don't think you dislike my presence.\w7 "
+				}
+				elseif useraffection >= 200
+				{
+					"I don't think you dislike my presence.\w7 "
+				}
+				elseif useraffection >= 150
+				{
+					"I think you don't find me boring.\w7 "
+				}
+				elseif useraffection >= 100
+				{
+					"I think you don't find me boring.\w7 "
+				}
+				elseif useraffection >= 65
+				{
+					"I think you don't find me boring.\w7 "
+				}
+				elseif useraffection >= 40
+				{
+					"I don't know you.\w7 "
+				}
+				elseif useraffection >= 20
+				{
+					"You're a stranger.\w7 "
+				}
+				else
+				{
+					"You're a totally stranger to me.\w7 "
+				}
+			}
+			elseif _COI[0] == "you" || _COI[0] == "yourself"
+			{
+				"What I think of me concerns me and only me.\w7 "
+			}
+			elseif _COI[2] == "none"
+			{
+				"I don't have anything to say about it.\w7"
+			}
+			else
+			{
+				if TOINT(_COI[2]) > 7
+				{
+					if ASEARCH("%(_COD[1])","family","being","human","animal") == -1
+					{
+						"I don't dislike it.\w7 "
+					}
+					else
+					{
+						"I don't dislike them. \w7"
+					}
+				}
+				elseif TOINT(_COI[2]) > 5
+				{
+					if ASEARCH("%(_COD[1])","family","being","human","animal") == -1
+					{
+						"I don't dislike it.\w7 "
+					}
+					else
+					{
+						"I don't dislike them. \w7"
+					}
+				}
+				elseif _COI[2] == "5"
+				{
+					"I don't like but I don't dislike.\i[11]\w7 So, \w5huh,\w5 neutral opinion \i[18]I guess ?\w7"
+				}
+				else
+				{
+					if ASEARCH("%(_COD[1])","family","being","human","animal") == -1
+					{
+						"I don't like it.\w7 "
+					}
+					else
+					{
+						"I don't like them. \w7"
+					}
+				}
+				if _COI[7] != "none"
+				{
+					_favorites = SPLIT(_COI[7],".")
+					_index = RAND(ARRAYSIZE(_favorites))
+					--
+					"I don't dislike %(_favorites[_index]) either.\w7 "
+				}
+			}
+		}
+		elseif _subject[0] == "i"
+		{
+			if  _COI[5] == "0"
+			{
+				if ASEARCH(_COI[1],"being","family","human","nonconsistant") != -1
+				{
+					"You don't hate them I guess ?\w7 "
+				}
+				else
+				{
+					"You don't hate it I guess ?\w7 "
+				}
+							
+			}
+			elseif TOINT(_COI[5]) >= 0
+			{
+				if ASEARCH(_COI[1],"being","family","human","nonconsistant") != -1
+				{
+					"I suppose you don't dislike them.\w7 "
+				}
+				else
+				{
+					"I suppose you don't dislike it.\w7 "
+				}
+			}
+			else
+			{
+				if ASEARCH(_COI[1],"being","family","human","nonconsistant") != -1
+				{
+					"You don't like them.\w7 "
+				}
+				else
+				{
+					"You don't like it.\w7 "
+				}
+			}
+		}
+		elseif ASEARCH(_subject[1],"being","family","human","nonconsistant","animal") != -1
+		{
+			"How could I know what they think ?\w7 "
+		}
+		else
+		{
+			//The error message
+			"I didn't know that an object was able to think.\w7 "
+		}
+	}
+}
+
+WhatMovementP
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+	
+	if _subject[0] == "you"
+	{
+		"I myself don't move anything currently.\w7 But if it's a tentative to joke,\w5 I'm listening to the answer.\w7 "
+	}
+	elseif _subject[0] == "i"
+	{
+		"I don't know but I guess you're about to tell me.\w7 "
+	}
+	elseif ASEARCH(_subject[1],"being","family","human","nonconsistant") != -1 || " being" _in_ _subject[1] || " human" _in_ _subject[1] || " family" _in_ _subject[1] || " nonconsistant" _in_ _subject[1]
+	{
+		"I don't know,\w5 I cannot see them.\w7 "
+	}
+	elseif "motor" _in_ "%(_subject[4])"
+	{
+		"Huh,\w5 itself I suppose ?\w7 "
+	}
+	else
+	{
+		"Eh,\w5 I don't know how it could have move anything anywhere.\w7 "
+	}
+}
+WhatMovementN
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+	if _subject[0] == "you"
+	{
+		"I myself don't move anything currently.\w7 But if it's a tentative to joke,\w5 I'm listening to the answer.\w7 "
+	}
+	elseif _subject[0] == "i"
+	{
+		"I don't know but I guess you're about to tell me.\w7 "
+	}
+	elseif ASEARCH(_subject[1],"being","family","human","nonconsistant") != -1 || " being" _in_ _subject[1] || " human" _in_ _subject[1] || " family" _in_ _subject[1] || " nonconsistant" _in_ _subject[1]
+	{
+		"I don't know,\w5 I cannot see them.\w7 "
+	}
+	elseif "motor" _in_ "%(_subject[4])"
+	{
+		"Huh,\w5 I don't know.\w7 "
+	}
+	else
+	{
+		"Eh,\w5 I don't know how it could have move anything anywhere.\w7 "
+	}
+}
+
+WhatHobbyP
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+	
+	if _subject[0] == "you"
+	{
+		if _verb[0] == "read"
+		{
+			"\i[10]A lot of books.\w7 I like Eragon and Eon And The Twelft Dragon.\w7"
+		}
+		elseif _verb[0] == "draw"
+		{
+			"I usually draw some characters or dragons.\w7 "
+		}
+		elseif _verb[0] == "play"
+		{
+			"I like playing The Legend Of Zelda, Pokemon and Spectrobes.\w7 "
+		}
+		elseif _verb[0] == "none"
+		{
+			"I don't know how it is.\w7 "
+		}
+		elseif TOINT(_verb[6]) < 0
+		{
+			"I don't like it.\w7 "
+		}
+		else
+		{
+			"It depends I guess.\w7 "
+		}
+	}
+	else
+	{
+		"Levidre is lazy,\w5 she didn't finish to implement everything.\w7 "
+	}
+}
+WhatHobbyN
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+	
+	if _subject[0] == "you"
+	{
+		if _verb[0] == "read"
+		{
+			"I don't read bibliographies.\w7 I found them annoying.\w7"
+		}
+		elseif _verb[0] == "draw"
+		{
+			"I usually draw some characters or dragons.\w7 "
+		}
+		elseif _verb[0] == "play"
+		{
+			"I don't play a lot of fps.\w7 "
+		}
+		elseif _verb[0] == "none"
+		{
+			"I don't know how it is.\w7 "
+		}
+		elseif TOINT(_verb[6]) < 0
+		{
+			"I don't like it.\w7 "
+		}
+		else
+		{
+			"It depends I guess.\w7 "
+		}
+	}
+	else
+	{
+		"Levidre is lazy,\w5 she didn't finish to implement everything.\w7 "
+	}
+}
+
+WhatStatusP
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+	
+	if _subject[0] == "you"
+	{
+		if _verb[2] == "been"
+		{
+			"I am a player of Undertale who transferred her soul into the game.\w7 So I'm human.\w7 "
+		}
+		else
+		{
+			"I feel good.\w7 "
+		}
+	}
+	elseif "unknown" !_in_ _subject[1]
+	{
+		if _subject[1] == "item"
+		{
+			"It's a furniture.\w7 "
+		}
+		elseif _subject[1] == "food"
+		{
+			"It's something edible.\w7 "
+		}
+		elseif _subject[1] == "nonconsistant"
+		{
+			"It's something not consistant.\w7 "
+		}
+		elseif _subject[1] == "family"
+		{
+			"It's a member of the family.\w7 "
+		}
+		elseif ASEARCH(_subject[1],"animal","object") != -1
+		{
+			"It's an %(_subject[1]).\w7 "
+		}
+		else
+		{
+			"It's a %(_subject[1]).\w7 "
+		}
+	}
+	else
+	{
+		_type = SPLIT(_subject[1]," ")
+		_result = ""
+		for _i=1 ; _i < ARRAYSIZE(_type) ; _i++
+		{
+			if _type[_i] == "item"
+			{
+				if _result == ""
+				{
+					_result += "It's a furniture "
+				}
+				else
+				{
+					_result += "or a furniture"
+				}
+				
+			}
+			elseif _type[_i] == "food"
+			{
+				if _result == ""
+				{
+					_result += "It's something edible "
+				}
+				else
+				{
+					_result += "or something edible"
+				}
+				
+			}
+			elseif _type[_i] == "nonconsistant"
+			{
+				if _result == ""
+				{
+					_result += "It's something not consistant "
+				}
+				else
+				{
+					_result += "or something not consistant"
+				}
+			}
+			elseif _type[_i] == "family"
+			{
+				if _result == ""
+				{
+					_result += "It's a member of the family "
+				}
+				else
+				{
+					_result += "or a member of the family"
+				}
+			}
+			elseif ASEARCH(_type[_i],"place","being","human","game") != -1
+			{
+				if _result == ""
+				{
+					_result += "It's a %(_type[_i])"
+				}
+				else
+				{
+					_result += " or a %(_type[_i])"
+				}
+			}
+			elseif ASEARCH(_type[_i],"animal","object") != -1
+			{
+				if _result == ""
+				{
+					_result += "It's an %(_type[_i])"
+				}
+				else
+				{
+					_result += " or an %(_type[_i])"
+				}
+			}
+		}
+		if _result == ""
+		{
+			"I don't know what it is.\w7 "
+		}
+		else
+		{
+			"%(_result).\w7 "
+		}
+	}
+}
+WhatStatusN
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+	if _subject[0] == "you"
+	{
+		if _verb[2] == "been"
+		{
+			"A monster ?\w7 A lot of stuffs,\w5 you know.\w7 "
+		}
+		else
+		{
+			"I don't feel a lot of stuffs right now.\w7 "
+		}
+	}
+	else
+	{
+		"I don't know.\w7 "
+	}
+}
+
+WhatImagineP
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+	
+	if _subject[0] == "you"
+	{
+		if _verb[0] == "dream"
+		{
+			"I dream of the peace between humans and monters.\w7 "
+		}
+		else
+		{
+			"I usually like imagining some little stories.\w7 "
+		}
+	}
+	elseif _subject[0] == "i"
+	{
+		"I don't know, \w5did you already tell me ?\w7 "
+	}
+	else
+	{
+		"Can it imagine things ?\w7 "
+	}
+}
+WhatImagineN
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+	if _subject[0] == "you"
+	{
+		if _verb[0] == "dream"
+		{
+			"I dream of the peace between humans and monters.\w7 "
+		}
+		else
+		{
+			"I usually like imagining some little stories.\w7 "
+		}
+	}
+	elseif _subject[0] == "i"
+	{
+		"I don't know.\w7 "
+	}
+	else
+	{
+		"Can it dream or believe in something ?\w7 "
+	}
+}
+
+WhatCreationP
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+	
+	if _subject[0] == "you"
+	{
+		if _verb[0] == "draw" || _verb[0] == "paint"
+		{
+			"A lot of stuffs and mainly dragons.\w7 "
+		}
+		elseif _verb[0] == "sculpt"
+		{
+			"\i[10]I don't sculpt.\w7 "
+		}
+		elseif _verb[0] == "create"
+		{
+			"I like drawing,\w5 I'm crafting too sometimes.\w7 "
+		}
+		elseif _verb[0] == "craft"
+		{
+			"Some things.\w7 Nothing in particular.\w7 "
+		}
+		else
+		{
+			"I draw a lot.\w7 "
+		}
+	}
+	elseif _subject[0] == "i"
+	{
+		"I don't know,\i[10]\w5 I'm not you.\w7 "
+	}
+	elseif ASEARCH(_subject[1],"human","being","animal","family") || " being" _in_ _subject[1] || " animal" _in_ _subject[1] || " human" _in_ _subject[1] || " family" _in_ _subject[1]
+	{
+		"I don't know.\w7 "
+	}
+	else
+	{
+		"Can it actually create something ?\w7 "
+	}
+}
+WhatCreationN
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+	if _subject[0] == "you"
+	{
+		if _verb[0] == "draw" || _verb[0] == "paint"
+		{
+			"I don't draw ship.\w7 "
+		}
+		elseif _verb[0] == "write"
+		{
+			"I definitely don't write biographies.\w7 "
+		}
+		elseif _verb[0] == "sculpt"
+		{
+			"\i[10]I don't sculpt.\w7 "
+		}
+		elseif _verb[0] == "create"
+		{
+			"\i[10]I don't build houses.\w7 "
+		}
+		elseif _verb[0] == "craft"
+		{
+			"Some things.\w7 Nothing in particular.\w7 "
+		}
+		else
+		{
+			"I draw a lot.\w7 "
+		}
+	}
+	elseif _subject[0] == "i"
+	{
+		"I don't know,\i[10]\w5 I'm not you.\w7 "
+	}
+	elseif ASEARCH(_subject[1],"human","being","animal","family") || " being" _in_ _subject[1] || " animal" _in_ _subject[1] || " human" _in_ _subject[1] || " family" _in_ _subject[1]
+	{
+		"I don't know.\w7 "
+	}
+	else
+	{
+		"Can it actually create something ?\w7 "
+	}
+}
+
+WhatActionP
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+	
+	if _subject[0] == "you"
+	{
+		"I'm currently doing nothing.\w7 "
+	}
+	elseif _subject[0] == "i"
+	{
+		"You're playing around with your computer ?\w7 I guess ?\w7 "
+	}
+	else
+	{
+		"Levidre is lazy,\w5 she didn't finish to implement everything.\w7 "
+	}
+}
+WhatActionN
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+	if _subject[0] == "you"
+	{
+		"Actually a lot of stuff.\w7 "
+	}
+	elseif _subject[0] == "i"
+	{
+		"You're not jogging ?\w7 I guess ?\w7 "
+	}
+	else
+	{
+		"Levidre is lazy,\w5 she didn't finish to implement everything.\w7 "
+	}
+}
+
+WhatSeeP
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+	
+	if _subject[0] == "you"
+	{
+		"I'm currently seeing your desktop.\w7 It's a nice desktop.\w7 "
+	}
+	elseif _subject[1] == "i"
+	{
+		"The screen of your computer,\w5 I guess ?\w7 "
+	}
+	else
+	{
+		"Levidre is lazy,\w5 she didn't finish to implement everything.\w7 "
+	}
+}
+WhatSeeN
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+	if _subject[0] == "you"
+	{
+		"Take what I see, \w5I don't see everything else.\w7 "
+	}
+	elseif _subject[0] == "i"
+	{
+		"A lot of stuffs,\w5 I guess ?\w7 "
+	}
+	else
+	{
+		"Levidre is lazy,\w5 she didn't finish to implement everything.\w7 "
+	}
+}
+
+WhatSmellP
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+	
+	if _subject[0] == "you"
+	{
+		"There isn't any smell in a computer.\w7 Only the smell of stuffs I eat sometimes,\w5 like my candies.\w7 "
+	}
+	else
+	{
+		"Levidre is lazy,\w5 she didn't finish to implement everything.\w7 "
+	}
+}
+WhatSmellN
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+	if _subject[0] == "you"
+	{
+		"The air of the outside.\w7 "
+	}
+	else
+	{
+		"Levidre is lazy,\w5 she didn't finish to implement everything.\w7 "
+	}
+}
+
+WhatTouchP
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+	
+	if _subject[0] == "you"
+	{
+		"I'm touching the ground right now I guess.\w7 The ground of a computer.\w7 "
+	}
+	else
+	{
+		"Levidre is lazy,\w5 she didn't finish to implement everything.\w7 "
+	}
+}
+WhatTouchN
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+	if _subject[0] == "you"
+	{
+		"A lot of stuffs,\w5 you know ?\w7 "
+	}
+	else
+	{
+		"Levidre is lazy,\w5 she didn't finish to implement everything.\w7 "
+	}
+}
+
+WhatHearP
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+	
+	if _subject[0] == "you"
+	{
+		"A computer is a very quiet place.\w7 The only thing making noises is my own computer or your applications.\w7 An the other ghosts of course.\w7 "
+	}
+	else
+	{
+		"Levidre is lazy,\w5 she didn't finish to implement everything.\w7 "
+	}
+}
+WhatHearN
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+}
+
+WhatTasteP
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+	
+	if _subject[0] == "you"
+	{
+		"Right now,\w5 nothing.\w7 "
+	}
+	else
+	{
+		"Levidre is lazy,\w5 she didn't finish to implement everything.\w7 "
+	}
+}
+WhatTasteN
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+}
+
+WhatHaveP
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+}
+WhatHaveN
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+}

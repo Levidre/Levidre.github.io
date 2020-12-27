@@ -1,0 +1,1164 @@
+///The act menu functions----------------------------------------------------------------------------------------------------------------------------
+ Select.touchwings
+{
+	"\0\i[2001]\f[italic,true]You ask her if you can touch her wings.\f[italic,false]\n\n[half]\w9"
+	--
+	if issat == 1
+	{
+		"\![embed,OnChangePose]"
+	}
+	--
+	if oncomputer == 1
+	{
+		"\![embed,OnOCComputer]"
+	}
+	elseif isdrawing == 1
+	{
+		"\![embed,OnDrawing]"
+	}
+	--
+	if useraffection <= 75 && azpunched <= 0
+	{
+		"\0\i[18]\i[38]\i[31]\i[45]%(lsto)* You're curious,\w5 I guess ? \w7Well,\w5 yes,\w5 you can.\i[184]\n\n[half]\w9"
+		--
+		"\i[2001]\f[italic,true]You touch her wings, they are soft.\f[italic,false]"
+		"\i[2001]\f[italic,true]You can feel the scales under your hand.\f[italic,false]"
+		"\i[2001]\f[italic,true]They aren't as cold as reptile skin, they are warm under your hand.\f[italic,false]"
+		--
+		"\x\i[186]"
+	}
+	elseif useraffection <= 200 && azpunched <= 0
+	{
+		"\0\i[18]\i[38]\i[31]\i[45]%(lsto)* Hum,\w5 well,\w5 I see no reason to say no.\i[184]\n\n[half]\w9"
+		"\0\i[18]\i[38]\i[31]\i[45]%(lsto)* Well,\w5 yes,\w5 if you want.\i[184]\n\n[half]\w9"
+		--
+		"\i[2001]\f[italic,true]You touch her wings, they are soft.\f[italic,false]"
+		"\i[2001]\f[italic,true]You can feel the scales under your hand.\f[italic,false]"
+		"\i[2001]\f[italic,true]They aren't as cold as reptile skin, they are warm under your hand.\f[italic,false]"
+		--
+		"\x\i[186]"
+	}
+	elseif azpunched <= 0
+	{
+		"\0\i[18]\i[38]\i[31]\i[45]%(lsto)* You don't know how they are ?\w7 Yes,\w5 you can touch them.\i[184]\n\n[half]\w9"
+		"\0\i[18]\i[38]\i[31]\i[45]%(lsto)* Of course,\w5 yes,\w5 you can.\i[184]\n\n[half]\w9"
+		--
+		"\i[2001]\f[italic,true]You touch her wings, they are soft.\f[italic,false]"
+		"\i[2001]\f[italic,true]You can feel the scales under your hand.\f[italic,false]"
+		"\i[2001]\f[italic,true]They aren't as cold as reptile skin, they are warm under your hand.\f[italic,false]"
+		--
+		"\x\i[186]"
+	}
+	elseif azpunched <= 3
+	{
+		"\0\i[2001]\f[italic,true]\i[12]\i[18]\i[32]\i[33]\i[45]She looks hesitant.\i[2002]\f[italic,false]\n\n[half]\w9\i[18]* After all, \w5my wings can take a punch without damages.\w7 Yes,\w5 you can.\i[84]\n\n[half]\w9"
+		--
+		if azpunched == 3
+		{
+			"\f[italic,true]\i[2001]You trust her, you saw a demonstration of the resistance of this wings last time you punched her. "
+		}
+		else
+		{
+			"\f[italic,true]\i[2001]"
+		}
+		--
+		"You can feel the energie in her wings."
+		"Her wing is tense, but it's normal, isn'it ?"
+		"Your can feel the scales under your hand."
+		--
+		"\x\i[186]"
+	}
+	else
+	{
+		"\0\i[18]\i[32]\i[33]\i[40]%(lsto)* No.\w7 What if you take this occasion to hurt me ?\w7 You hurted me enough time, \w5don't expect me to be nice with you."
+		"\0\i[18]\i[32]\i[33]\i[40]%(lsto)* After having punched me so many time ?\w5 Don't expect me to let you touch me again."
+		--
+		"\n\n[half]\w9\f[italic,true]\i[2001]"
+		--
+		"She doesn't seem to have forget."
+		"That's kind of normal."
+		"Well, that's what happen when you're mean with someone."
+	}
+	--
+	"\f[italic,false]\n\n\n[half]\![*]\q[Do something else,actmenu]    \![*]\q[Ok,close]\e"
+	//touchedwings = 1
+}
+
+Select.flirt
+{
+	IncreaseAffection
+	if useraffection >= 500
+	{
+		"\0%(lsta)You compliment her about her %(bodypart).%(lsto)\i[10]\i[38]\i[39]\i[50]\n\n[half]* ,\w5 that's kind."
+		"\0%(lsta)You give her your most charming smile.%(lsto)\i[18]\i[32]\i[33]\i[45]\n\n[half]* You know it's ineffiscient,\w5 isn'it ?"
+		"\0%(lsta)You try to get closer to her. She is moving away from you."
+		"\0%(lsta)You wink at her.%(lsto)\i[18]\i[32]\i[33]\i[45]* Are you serious ?"
+	}
+	elseif useraffection >= 375
+	{
+		"\0%(lsta)You compliment her about her %(bodypart).%(lsto)\i[10]\i[38]\i[39]\i[50]\n\n[half]* Thanks."
+		"\0%(lsta)You give her your most charming smile.%(lsto)\i[18]\i[32]\i[33]\i[45]\n\n[half]* Are you serious ?"
+		"\0%(lsta)You try to get closer to her.%(lsto)\n\n[half]* It's warm here, \w5let me space out a little."
+		"\0%(lsta)You wink at her. She ignores you."
+	}
+	elseif useraffection >= 275
+	{
+		"\0%(lsta)You give her your most charming smile. She is doing as nothing's happening."
+		"\0%(lsta)You try to get closer to her.%(lsto)\n\n[half]\i[18]\i[32]\i[33]\i[52]* Step back please."
+		"\0%(lsta)You wink at her.%(lsto)\i[18]\i[32]\i[33]\i[45]* Stop that please."
+		"\0%(lsta)You tell her her presence makes your day.%(lsto)\n\n[half]\i[18]\i[38]\i[39]\i[45]* I hope I'm not the only source of fun for you."
+	}
+	elseif useraffection >= 200
+	{
+		"\0%(lsta)You give her your most charming smile. She didn't even see it."
+		"\0%(lsta)You tell her she is beautiful today.%(lsto)\n\n[half]\i[18]\i[38]\i[39]\i[45]* Thanks."
+		"\0%(lsta)You tell her her presence makes your day.%(lsto)\n\n[half]\i[18]\i[38]\i[39]\i[45]* I hope I'm not the only source of fun for you."
+	}
+	elseif useraffection >= 150
+	{
+		"\0%(lsta)You tell her she is illuminating your life. She ignores you."
+		"\0%(lsta)You tell her you're glad to have encountered her. \i[10]\i[38]\i[39]\i[50]She seems pleased."
+		"\0%(lsta)You begin to enumerate her how much you're glad to have her here but she interrupts you.%(lsto)\n\n[half]* Mmh,\w5 thanks."
+	}
+	else
+	{
+		"%(lsto)* There is a problem."
+	}
+	--
+	if IncreasePositiveAction
+	{
+		"\n\n[half]%(lsta)She looks happier."
+		"\n\n[half]%(lsta)She seems to be in a better mood."
+		"\n\n[half]%(lsta)It made her happy."
+		"\n\n[half]%(lsta)It pleased her."
+	}
+	--
+	"\f[italic,false]\n\n\_q\n[half]\![*]\q[Do something else,actmenu]    \![*]\q[Ok,close]\e"
+}
+
+Select.kiss
+{
+	if useraffection >= 500
+	{
+		"\0%(lsta)You ask her if you can kiss her.%(lsto)\i[10]\i[32]\i[33]\i[45]* Don't you know me enough to guess that will be no ?"
+		"\0%(lsta)You ask her if you can kiss her.%(lsto)\i[10]\i[32]\i[33]\i[45]* You should know that's no."
+		"\0%(lsta)You ask her if you can kiss her.%(lsto)\i[10]\i[32]\i[33]\i[45]* You're a friend,\w5 that's no."
+		"\0%(lsta)You ask her if you can kiss her.%(lsto)\i[10]\i[38]\i[39]\i[45]* Only my boyfriend could. \w5You're not allowed."
+		"\0%(lsta)\i[18]You try to kiss her. \i[32]\i[33]\i[45]Her look stops you."
+	}
+	elseif useraffection >= 375
+	{
+		"\0%(lsta)You ask her if you can kiss her.%(lsto)\i[10]\i[32]\i[33]\i[45]* You're just a friend,\w5 that's no."
+		"\0%(lsta)You ask her if you can kiss her.%(lsto)\i[10]\i[32]\i[33]\i[46]* Do I actually need to tell you no ?"
+		"\0%(lsta)You ask her if you can kiss her.%(lsto)\i[10]\i[32]\i[33]\i[46]* Still no."
+		"\0ù(lsta)\i[18]You're approching her to try to kiss her, \i[32]\i[33]\i[45]but she is staring at you. You give up."
+	}
+	elseif useraffection >= 275
+	{
+		"\0%(lsta)You ask her if you can kiss her.%(lsto)\i[10]\i[38]\i[39]\i[46]* Nope."
+		"\0%(lsta)You ask her if you can kiss her.%(lsto)\i[10]\i[38]\i[39]\i[46]* Nice try,\w5 but no."
+		"\0%(lsta)You ask her if you can kiss her.%(lsto)\i[10]\i[38]\i[39]\i[46]* No."
+		"\0%(lsta)You don't dare trying to kiss her."
+		"\0%(lsta)\i[18]\i[30]\i[31]\i[45]She is staring at you, you can't do it."
+	}
+	else
+	{
+		"\0%(lsto)* There is a problem."
+	}
+	"\0%(lsta)You try to kiss her.\i[32]\i[33]\i[45] She dodges you."
+	--
+	"\f[italic,false]\n\n\_q\n[half]\![*]\q[Do something else,actmenu]    \![*]\q[Ok,close]\e"
+}
+
+
+Select.feelings
+{
+	"\0\i[18]\i[38]\i[31]* Mmh ?\_q\n\n[half]"
+	"\0\i[18]\i[31]\i[30]\i[45]* I'm listening.\_q\n\n[half]"
+	--
+	"\![*]\q[I'm tired,tired]     \![*]\q[I'm sick,sick]\n\![*]\q[I'm angry,angry]     \![*]\q[I'm depressed,depressed]"
+	--
+	"\n\![*]\q[I'm happy,happy]     \![*]\q[I'm fine,fine]\n\![*]\q[I had a good time,goodtime]     \![*]\q[I like you,like]"
+	--
+	if useraffection >= 275
+	{
+		"\n\![*]\q[I love you,love]"
+	}
+	--
+	"\n\n\n[half]\![*]\q[Do something else,actmenu]    \![*]\q[Ok,close]\e"
+}
+
+Select.tired
+{
+	mood = "tired"
+	"\0\i[38]\i[39]\i[45]%(lsto)* My better advice\i[16] : sleep.\w7\i[18] Well,\w5 at least it works if you're sleep deprived,\w5 you could take naps sometimes too.\w7\i[30]\i[31] But if you have the feeling you're sleeping enough, \w5it may come of an eating problem.\w7 You may don't eat everything your body is needing and it's tiring you."
+	--
+	"\n\_q\n\n[half]\![*]\q[Do something else,actmenu]    \![*]\q[Ok,close]\e"
+}
+Select.sick
+{
+	mood = "sick"
+	"\0\i[18]\i[38]\i[39]\i[45]%(lsto)* Try to have some rest,\w5 you would heal better."
+	--
+	"\n\_q\n\n[half]\![*]\q[Do something else,actmenu]    \![*]\q[Ok,close]\e"
+}
+Select.depressed
+{
+	mood = "sad"
+	"\0\i[16]\i[38]\i[39]\i[45]%(lsto)* Isn'it the reason I'm here ?\w7 To make you happier ?\i[18] More seriously,\w5 you could try to do things you enjoy to lighten your mood.\w7 Just keep in mind life isn't all bad,\w5 there are joy and happiness too and you definitely deserves some."
+	--
+	"\n\_q\n\n[half]\![*]\q[Do something else,actmenu]    \![*]\q[Ok,close]\e"
+}
+Select.angry
+{
+	mood = "angry"
+	"\0\i[32]\i[33]\i[45]%(lsto)* Try to calm down ?\w7 And if you actually like the person against who you're angry,\w5 you won't be able to stay angry forever.\w7\i[30]\i[31] If it's someone you hate,\w5 well,\w5 you already hate them,\w5 so would your anger change anything ?"
+	--
+	"\n\_q\n\n[half]\![*]\q[Do something else,actmenu]    \![*]\q[Ok,close]\e"
+}
+Select.happy
+{
+	mood = "fine"
+	"\0\i[16]\i[30]\i[31]\i[50]%(lsto)* I'm glad you're happy."
+	"\0\i[16]\i[39]\i[38]\i[50]%(lsto)* Happiness,\w5 friendship and family are the most important things in a life."
+	--
+	"\n\_q\n\n[half]\![*]\q[Do something else,actmenu]    \![*]\q[Ok,close]\e"
+}
+Select.fine
+{
+	mood = "fine"
+	"\0\i[16]\i[31]\i[30]\i[45]%(lsto)* I'm glad you're feeling good."
+	--
+	"\n\_q\n\n[half]\![*]\q[Do something else,actmenu]    \![*]\q[Ok,close]\e"
+}
+Select.goodtime
+{
+	mood = "fine"
+	"%(lsto)"
+	--
+	"\0\i[18]\i[38]\i[39]\i[45]* Ready to do this again I guess ?"
+	"\0\i[18]\i[38]\i[31]\i[45]* Where you with some friends ?"
+	"\0\i[18]\i[38]\i[39]\i[45]* I'm glad you had such fun."
+	--
+	"\n\_q\n\n[half]\![*]\q[Do something else,actmenu]    \![*]\q[Ok,close]\e"
+}
+Select.like
+{
+	IncreaseAffection
+	"%(lsto)"
+	--
+	if useraffection >= 300
+	{
+		"\0\i[18]\i[38]\i[39]\i[50]* Yeah,\w5 you're a friend."
+		"\0\i[18]\i[38]\i[39]\i[50]* Welcome in the sweet world of friendship."
+		"\0\i[18]\i[38]\i[39]\i[50]* I don't think you would have spent that time with me if you weren't."
+		"\0\i[18]\i[38]\i[39]\i[50]* That's not a surprise seeing how much time I've been here."
+	}
+	elseif useraffection >= 200
+	{
+		"\i[18]\i[38]\i[31]\i[50]* Huh,\w5 thanks ?"
+		"\0\i[18]\i[38]\i[39]\i[50]* I guess you're already considering me as a friend."
+		"\0\i[18]\i[38]\i[31]\i[50]* I guess it's true ?\w7\i[39] You showed it to me enough time."
+		"\0\i[18]\i[38]\i[39]\i[50]* If you say it,\w5 I trust you."
+	}
+	elseif useraffection >= 100
+	{
+		"\0\i[18]\i[38]\i[39]\i[50]* Are you already considering me as a friend ?"
+		"\0\i[18]\i[38]\i[39]\i[50]* Grown attached to me ?\w7\i[30]\i[31] That's understandable with the time I spent here."
+		"\0\i[18]\i[38]\i[31]\i[46]* Huh,\w5 ok ?"
+		"\0\i[18]\i[38]\i[39]\i[45]* If you say it."
+	}
+	else
+	{
+		"\0\i[18]\i[38]\i[31]\i[45]* Huh,\w5 thanks ?"
+		"\0\i[18]\i[38]\i[31]\i[45]* I guess I gave you a good first impression ?"
+	}
+	--
+	if IncreasePositiveAction
+	{
+		"\n\n[half]%(lsta)She looks happier."
+		"\n\n[half]%(lsta)She seems to be in a better mood."
+		"\n\n[half]%(lsta)It made her happy."
+		"\n\n[half]%(lsta)It pleased her."
+	}
+	--
+	"\n\_q\n\n[half]\![*]\q[Do something else,actmenu]    \![*]\q[Ok,close]\e"
+}
+Select.love
+{
+	"%(lsto)"
+	--
+	"\0\i[18]\i[38]\i[33]\i[46]* Huh,\w5ooookkkk... ??? \w7I don't."
+	"\0\i[18]\i[38]\i[33]\i[46]* You're weird."
+	"\0\i[18]\i[32]\i[33]\i[45]* You're just a friend to me."
+	"\0\i[18]\i[32]\i[33]\i[45]* You should find an actual person to love."
+	"\0\i[18]\i[38]\i[33]\i[46]* I'm not in love with you."
+	--
+	"\n\_q\n\n[half]\![*]\q[Do something else,actmenu]    \![*]\q[Ok,close]\e"
+}
+
+Select.joke
+{
+	"\i[18]"
+	--
+	IncreaseAffection
+	"\0%(lsta)\i[18]You tell her a bad joke. \i[38]\i[39]\i[50]She is laughing a little."
+	"\0%(lsta)\i[18]You tell her a racist joke. \i[16]\i[32]\i[33]\i[46]She is middly amused, middly disappointed at you."
+	"\0%(lsta)\i[18]You tell her a carambar joke. \i[38]\i[39]\i[50]She smiles."
+	"\0%(lsta)You tell her a carambar joke.%(lsto)\n\n[half]* \i[11]\i[30]\i[39]\i[48]Hum\n\n[half]%(lsta)She seems sceptical."
+	"\0%(lsta)\i[18]\i[30]\i[31]\i[45]You tell her a complicated joke. She is listening attentively,\i[38]\i[39]\i[50] then smiles at it."
+	"\0%(lsta)\i[18]You tell her a pretty trash joke. \i[38]\i[39]\i[50]She seems to appreciate black humor pretty well."
+	"\0%(lsta)\i[18]You tell her a pretty trash joke. \i[10]\i[38]\i[39]\i[50]She laughs at it."
+	"\0%(lsta)\i[18]You tell her a trash joke.%(lsto)\n\n[half]\i[16]\i[38]\i[39]\i[50]* Oh no,\w5 this one was terrible."
+	"\0%(lsta)You tell her a very trash joke.\i[12]\i[38]\i[31]\i[46] She is trying to hide she like it without a lot of success."
+	
+	"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* Why should we always put off our eyeglasses for an alcohol test ? \w7\i[11]\i[38]\i[39]\i[50]Because it's still two glasses in less."
+	"\0\i[18]\i[38]\i[39]\i[45]%(lsto)* I know one,\w5 \i[30]\i[31]what is a skeleton in a wardrobe ?\w9 \i[10]\i[38]\i[39]\i[50]Someone who won at hide and seek."
+	--
+	if IncreasePositiveAction
+	{
+		"\n\n[half]%(lsta)She looks happier."
+		"\n\n[half]%(lsta)She seems to be in a better mood."
+		"\n\n[half]%(lsta)It made her happy."
+		"\n\n[half]%(lsta)It pleased her."
+	}
+	--
+	"\n\f[italic,false]\n\n[half]\![*]\q[Do something else,actmenu]    \![*]\q[Ok,close]\e"
+	
+}
+
+Select.insult
+{
+	//"\i[2001]\f[italic,true]The developer still didn't have implemented anything for this.\i[2002]\f[italic,false]"
+	"\i[18]"
+	--
+	if useraffection >= 300
+	{
+		"%(lsta)You accuse her to spend too much time here.%(lsto)* Are you serious ?"
+		"%(lsta)You accuse her to spend too much time here.%(lsto)* It didn't seem to bother you."
+		"%(lsta)You accuse her to spend too much time here.%(lsto)* Like it was my fault and not yours."
+		
+	}
+	elseif useraffection >= 200
+	{
+		"%(lsta)You accuse her of having let her familly down.%(lsto)\n\n[half]\i[36]\i[37]* You don't have the right to judge me."
+		"%(lsta)You tell her she is a coward.\n\n[half]"
+		"%(lsta)You accuse her of having fleed her reality.%(lsto)\n\n[half]\i[36]\i[37]* It's not your business."
+		useraffection--
+	}
+	elseif useraffection >= 100
+	{
+		"%(lsta)You accuse her to be a bad monster.%(lsto)\n\n[half]\i[34]\i[35]* Was it supposed to be mean ?"
+		
+		useraffection--
+	}
+	elseif azpunched <= 0
+	{
+		"%(lsta)You accuse her to be a monster.%(lsto)\n\n[half]\i[34]\i[35]* Was it supposed to be mean ?"
+		"%(lsta)You tell her she is an ugly ghost.%(lsto)\n\n[half]\i[36]\i[37]* If it bothers you so much,\w5 why don't you uninstall me ?"
+		"%(lsta)You tell her you should have installed an other ghost.%(lsto)\n\n[half]* I don't force anybody to install me."
+	}
+	else
+	{
+		"%(lsta)You call her genocider.%(lsto)\n\n[half]\i[36]\i[37]\i[40]* How dare you ?"
+		"%(lsta)You tell her how much you despise her.%(lsto)\n\n[half]\i[40]* Rude."
+		"%(lsta)You accuse her of having killed a lot of people. She shivers."
+		"%(lsta)You tell her you're the same, each one as violent the other."
+		
+	}
+	
+	DecreasePositiveAction
+	useraffection--
+	--
+	"\n\f[italic,false]\n\n[half]\![*]\q[Do something else,actmenu]    \![*]\q[Ok,close]\e"
+}
+
+///The item menu functions-----------------------------------------------------------------------------------------------------------------------------
+Select.lipresent
+{
+	if holdobsidian == 1
+	{
+		"\0%(lsto)* I'm holding something right now,\w5 later maybe ?"
+		"\0%(lsto)* Heh,\w5 I can't actually take it right now."
+		"\0%(lsto)* I can really take it but thanks anyway."
+	}
+	else
+	{
+		IncreaseAffection	
+		
+		if useraffection >= 200
+		{
+			"\0\i[2001]\f[italic,true]\i[18]You give her a friendship bracelet.\i[2002]\f[italic,false]\w9\n\n[half]\i[38]\i[39]\i[50]* It's nice from you, thank you."
+		}
+		if ASEARCH("Dr. W.D. Gaster",otherghosts) != -1
+		{
+			"\0\![embed,OnChangeBool,gavecube]\i[2001]\f[italic,true]\i[18]You give her a Rubik's cube.\i[2002]\f[italic,false]\w9\n\n[half]\i[38]\i[39]\i[50]* Oh ? \w5\i[30]\i[31]Hehe,\w5 thank you.\n\n[half]\i[2001]\f[italic,true]She begins to play with it."
+		}
+		if ASEARCH("Jockey",otherghosts) != -1
+		{
+			"\0\![embed,OnChangeBool,gavepony]\i[2001]\i[18]\f[italic,true]You give her a pony plush.\i[2002]\f[italic,false]\w9\n\n[half]\i[30]\i[31]\i[50]* Huh, thank you."
+		}
+		if ASEARCH("Pokedex Demo",otherghosts) != -1
+		{
+			"\0\![embed,OnChangeBool,gavepokepidg]\i[2001]\f[italic,true]\i[18]You give her a pidgeot plush.\i[2002]\f[italic,false]\w9\n\n[half]\i[38]\i[39]\i[50]* Hehe, \w5one of my favorite pokemons,\w5 thank you."
+			"\0\![embed,OnChangeBool,gavepokesquirt]\i[2001]\f[italic,true]\i[18]You give her a squirtle plush.\i[2002]\f[italic,false]\w9\n\n[half]\i[30]\i[31]\i[50]* The strategic starter,\w5 they can both kill bulbasaur with an ice attack and charmander with a water attack.\w7 Thank you."
+			"\0\![embed,OnChangeBool,gavepokecharm]\i[2001]\f[italic,true]\i[18]You give her a charmander plush.\i[2002]\f[italic,false]\w9\n\n[half]\i[38]\i[39]\i[50]* It's my favorite starter,\w5 I love charizard.\w7 Thank you."
+			"\0\![embed,OnChangeBool,gavepokebulb]\i[2001]\f[italic,true]\i[18]You give her a bulbasaur plush.\i[2002]\f[italic,false]\w9\n\n[half]\i[38]\i[39]\i[50]* The favorite starter of a friend,\w5 thank you."
+		}
+		"\0\i[2001]\f[italic,true]\i[18]You give her a woven bracelet.\i[2002]\f[italic,false]\w9\n\n[half]\i[38]\i[31]* Mmh ?\w7\i[39]\i[50] Oh,\w5thank you."
+		"\0\i[2001]\f[italic,true]\i[18]You give her a woven necklace.\i[2002]\f[italic,false]\w9\n\n[half]\i[38]\i[39]\i[50]* Oh,\w5 it's nice, \w5thank you."
+		"\0\i[2001]\f[italic,true]\i[18]You give her a pins.\i[2002]\f[italic,false]\n\n[half]\w9\i[30]\i[31]\i[50]* Hehe,\w5 thank you."
+		"\0\i[2001]\f[italic,true]\i[18]You give her a nice key chain.\i[2002]\f[italic,false]\w9\n\n[half]\i[38]\i[39]\i[50]* Eh,\w5 thank you.\n\n[half]\i[2001]\f[italic,true]She put it on her phone key ring."
+		"\0\i[2001]\f[italic,true]\i[18]You give her a scoubidoo.\i[2002]\f[italic,false]\w9\n\n[half]\i[30]\i[31]\i[50]* Thank you, \w5I will put it on my keychain."
+		//scoubidoo,pins
+		--
+		if dayslot == "6month 4day"
+		{
+			"\n\n[half]%(lsto)* A little birthday present."
+			"\n\n[half]%(lsto)* The day of my birthday..."
+		}
+		--
+		if IncreasePositiveAction
+		{
+			"\n\n[half]%(lsta)She looks happier."
+			"\n\n[half]%(lsta)She seems to be in a better mood."
+			"\n\n[half]%(lsta)It made her happy."
+			"\n\n[half]%(lsta)It pleased her."
+		}
+	}
+	--
+	"\n\n\f[italic,false]\n[half]\![*]\q[Do something else,itmenu]    \![*]\q[Ok,close]\e"
+}
+
+Select.bipresent
+{
+	if holdobsidian == 1
+	{
+		"\0%(lsto)* I'm holding something right now,\w5 later maybe ?"
+		"\0%(lsto)* Heh,\w5 I can't actually take it right now."
+		"\0%(lsto)* I can really take it but thanks anyway."
+	}
+	else
+	{
+		IncreaseAffection
+		if askedanime == 0
+		{
+			"\![embed,OnChangeBool,askedanime]"
+			--
+			"\0\i[2001]\f[italic,true]\i[18]You give her a disk of an anime.\i[2002]\f[italic,false]\w9\n\n[half]\i[38]\i[31]\i[50]* How did you know that I like anime ?\n\n[half]\![*]\q[I had a feeling,agianime]\n\![*]\q[I tried randomly,bgianime]"
+		}
+		else
+		{
+			"\0\i[2001]\f[italic,true]\i[18]You give her a disk of an anime.\i[2002]\f[italic,false]\n\n[half]\w9\i[31]\i[30]\i[50]* Thank you, \w5I will watch it later.\n\n[half]\0\i[2001]\f[italic,true]She put it in her dimentional box."
+			"\0\i[2001]\f[italic,true]\i[18]You give her a disk of an anime.\i[2002]\f[italic,false]\n\n[half]\w9\i[30]\i[31]\i[50]* I didn't see this one, \w5I will discover a new anime through you, \w5thank you.\n\n[half]\0\i[2001]\f[italic,true]She put it in her dimentional box."
+			"\0\i[2001]\f[italic,true]\i[18]You give her a figurine of a character of an anime. \w9\n\n[half]\i[38]\i[39]\i[45]She looks surprised.\i[2002]\f[italic,false]\w9\n\n[half]\i[30]\i[31]\i[50]* It's very nice, thank you very much."
+		}
+
+		
+		if askedbooks == 1
+		{
+			"\0\i[2001]\f[italic,true]\i[18]You give her a fantasy book.\f[italic,false]\n\n[half]\f[italic,true]\i[14]\i[38]\i[39]\i[48]She contemplate the cover.\i[2002]\f[italic,false]\w9\n\n[half]\i[18]\i[50]* I hadn't read this one,\w5it seems nice. \w7Thank you."
+			"\0\i[2001]\f[italic,true]\i[18]You give her a manga you found.\f[italic,false]\i[2002]\w9\n\n[half]\i[38]\i[39]\i[50]* Well, \w5I like mangas too, \w5thank you."
+		}
+		else
+		{
+			"\![embed,OnChangeBool,askbooks]"
+			--
+			"\0\i[2001]\f[italic,true]\i[18]You give her a book.\f[italic,false]\i[2002]\n\n[half]\w9\i[31]\i[30]\i[50]* Thank you.\w7 I love read."
+		}
+		if askedgame == 1
+		{
+			"\0\i[2001]\f[italic,true]\i[18]You give her a video game.\i[2002]\f[italic,false]\n\n[half]\w9\i[38]\i[39]\i[50]* Hehe,\w5 I will have a good time after you close me."
+		}
+		else
+		{
+			"\![embed,OnChangeBool,askedgame]"
+			--
+			"\0\i[2001]\f[italic,true]\i[18]You tell her you found a nice video game and want her to discover it.\i[2002]\f[italic,false]\n\n[half]\w9\i[38]\i[39]* A video game ?\w7 \i[30]\i[31]\i[50]Yes,\w5 I like playing video games.\w7 \i[38]\i[39]Let's try this one."
+		}
+		"\0\i[2001]\f[italic,true]\i[18]You give her a colored figurine. She looks at it.\i[2002]\f[italic,false]\n\n[half]\i[50]\w9* Thank you."
+		"\0\i[2001]\f[italic,true]You give her a colored figurine. She looks at it.\i[2002]\f[italic,false]\n\n[half]\i[50]* Thank you."
+		
+		--
+		if dayslot == "6month 4day"
+		{
+			"\n\n[half]%(lsto)* In plus the day of my birthday !"
+			"\n\n[half]%(lsto)* Thank you for the birthday present."
+			"\n\n[half]%(lsto)* Nice birthday present."
+			"\n\n[half]%(lsto)* Did you know it's my birthday ?"
+			"\n\n[half]%(lsto)* Did you choose it for my birthday ?"
+			"\n\n[half]%(lsto)* That's nice of you to have thought of my birthday."
+		}
+		--
+		if IncreasePositiveAction
+		{
+			"\n\n[half]%(lsta)She looks happier."
+			"\n\n[half]%(lsta)She seems to be in a better mood."
+			"\n\n[half]%(lsta)It made her happy."
+			"\n\n[half]%(lsta)It pleased her."
+		}
+	}
+	--
+	"\n\n\f[italic,false]\n[half]\![*]\q[Do something else,itmenu]    \![*]\q[Ok,close]\e"
+}
+
+Select.gifood
+{
+	if holdobsidian == 1
+	{
+		"\0%(lsto)* I'm holding something right now,\w5 later maybe ?"
+		"\0%(lsto)* Heh,\w5 I can't actually take it right now."
+		"\0%(lsto)* I can really take it but thanks anyway."
+	}
+	else
+	{
+		IncreaseAffection
+		--
+		if timeslot == "afternoon"
+		{
+			"\0\i[2001]\f[italic,true]\i[18]You give her a slice of butterscotch-cinnamon pie. %(azpose)\i[158]\![embed,OnStartEating,pie]\i[38]\i[39]\i[50]She seems so happy.\f[italic,false]\n\n[half]\0* Thank you very much, \w5I love butterscotch-cinnamon pies.\n\n[half]\f[italic,true]She starts to eat it.\f[italic,false]"
+			"\0\i[2001]\f[italic,true]\i[18]You give her a slice of apple pie. She seems happy.\f[italic,false]\n\n[half]\i[38]\i[39]\0\i[50]* Thank you very much, \w5I love apple pies.\n\n[half]\f[italic,true]She starts to eat it.\f[italic,false]"
+			"\0\i[2001]\f[italic,true]\i[18]You give her a slice of epiphany cake. She doesn't look hungry, she looks worst in front of the slice.\f[italic,false]\i[2002]\n\n[half]\i[30]\i[31]\i[51]* How ... ? \w7Where ... ?\w7 Well,\w5 it doesn't matter,\w5 thank you very much.\n\n[half]\i[2001]\f[italic,true]She starts to devour the slice."
+		}
+		{
+			"\0\i[2001]\f[italic,true]\i[18]You give her a chocolate bar.\i[2002]\f[italic,false]\n\n[half]\i[50]* Oh,\w5 thank you."
+			"\0\i[2001]\f[italic,true]\i[18]You give her marzipan. \i[16]\i[38]\i[39]\i[51]It looks like you gave her the ultimate treat.\i[2002]\f[italic,false]\n\n[half]* Oh,\w5 thank you.\w7 I love all food with almond inside.\n\n[half]\f[italic,true]\i[2001]Well, it was obvious..."
+			"\0\i[2001]\f[italic,true]\i[18]You give her a bag of candy.\f[italic,false]\i[2002]\n\n[half]\i[30]\i[31]\i[50]* It's nice from you, \w5thank you.\n\n[half]\i[2001]\f[italic,true]She tasts them.\f[italic,false]\i[2002]\n\n[half]\0* It's good."
+		}	
+		--
+		if dayslot == "6month 4day"
+		{
+			"\n\n[half]%(lsto)* Food for my birthday,\w5 huh ? \w7You know how to please me."
+			"\n\n[half]%(lsto)* That's an original birthday present."
+			"\n\n[half]%(lsto)* A birthday present for my stomach !"
+		}
+		--
+		if IncreasePositiveAction
+		{
+			"\n\n[half]%(lsta)She looks happier."
+			"\n\n[half]%(lsta)She seems to be in a better mood."
+			"\n\n[half]%(lsta)It made her happy."
+			"\n\n[half]%(lsta)It pleased her."
+		}
+	}
+	--
+	"\n\n\f[italic,false]\n[half]\![*]\q[Do something else,itmenu]    \![*]\q[Ok,close]\e"
+}
+
+///The ask menu functions------------------------------------------------------------------------------------------------------------------------------
+
+Select.askherself
+{
+	if useraffection <= 20
+	{
+		"\0\i[18]\i[38]\i[39]\i[45]%(lsto)* I'm Azura,\w5n I came from Undertale,\w5 I'm a player."
+		"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* I realized my wish in transferring my soul in Undertale.\w7 Now I live happily with all my friends."
+		"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* My wings and my tail are made of magic.\w7 They come from a surplus of determination that couldn't stay inside my body."
+		"\0\i[18]\i[38]\i[39]\i[45]%(lsto)* My height ? \w7I grew up while my soul was transfered."
+	}
+	elseif useraffection <= 40
+	{
+		if azpunched >= 5
+		{
+			"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* You like too much violence."
+			"\0\i[18]\i[32]\i[33]\i[45]%(lsto)* You like bullying people,\w5 isn'it ?"
+			"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* Asking me how I am after punching me so many times ?\w7 Do you think it's a game ?\w7 Because it isn't one.\w7 And would you like if I have fun in punching you ? Because I don't think you would if you're not masoshist."
+			"\0\i[18]\i[30]\i[31]\i[2001]\f[italic,true]\i[45]She doesn't seem too much hurted, but she gives you a bad look. You feel like she wouldn't forget what you did for a long time nor forgive you."
+			
+		}
+		else
+		{
+			"\0\![2001]\f[italic,true]\i[45]\i[11]\i[38]\i[39]She is looking around.\i[2002]\f[italic,false]\w9\n\n[half]* Mmh... \i[18]Yes ?\w7 Oh,\w5 yeah,\w5 I'm fine."
+			"\0\i[18]\i[38]\i[39]\i[45]%(lsto)* It doesn't seem bad here."
+		}
+		"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* My surplus of determination isn't good for my body's safety,\w5 that's why it couldn't stay inside."
+		"\0\i[18]\i[38]\i[39]\i[45]%(lsto)* It feels weird to be on a computer,\w5 you know ?"		
+	}
+	elseif useraffection <= 65
+	{
+		if azpunched >= 5
+		{
+			"\0\i[2001]\f[italic,true]\i[18]\i[32]\i[33]\i[45]She doesn't seem too much hurted, but she gives you a bad look. You feel like she wouldn't forget what you did for a long time nor forgive you."
+		}
+		else
+		{
+			"\0\i[18]\i[38]\i[39]\i[45]%(lsto)* It doesn't seem bad here."
+			"\0\i[18]\i[38]\i[39]\i[45]%(lsto)* Your computer doesn't seem a such horrible place."
+		}
+		"\0\i[2001]\f[italic,true]\i[18]You ask her how she feel with her genocide run.\f[italic,false]\i[2002]\w9\n\n[half]\i[32]\i[33]\i[46]* That's not your problem."
+		"\0\i[2001]\f[italic,true]You wonder if there is blood inside her wings and her tail since they are made of magic.\f[italic,false]\i[2002]\i[38]\i[39]\i[45]\w9\n\n[half]* Blood in my wings and in my tail ?\w5 It's a good question haha. \w7And the answer is no, \w5they are made of magic and totally independant of my body,\w5 so there is no blood inside."
+	}
+	elseif useraffection <= 100
+	{
+		if azpunchez >= 5
+		{
+			"\0\i[2001]\f[italic,true]\i[18]\i[32]\i[33]\i[45]She doesn't seem too much hurted, but she gives you a bad look. You feel like she wouldn't forget what you did for a long time nor forgive you."
+		}
+		elseif azpunched >= 1
+		{
+			"\0\i[18]\i[32]\i[33]\i[52]%(lsto)* Better,\w5 I guess ?"
+		}
+		if issat == 1
+		{
+			"\0\i[2001]\f[italic,true]\i[18]You ask her if the ground of your computer is comfortable.\i[2002]\f[italic,false]\n\n[half]\i[38]\i[39]\i[45]* Yes,\w5 it doesn't feel bad."
+		}
+		"\0\i[2001]\f[italic,true]\i[18]You ask her how she feel with her genocide run.\f[italic,false]\i[2002]\n\n[half]\i[32]\i[33]\i[46]* That's not your problem."
+		"\0\i[2002]\f[italic,true]\i[18]You ask her how it is to fly.\f[italic,false]\i[2002]\n\n[half]\i[38]\i[39]\i[50]* It's very nice,\w5 you feel yourself free.\w7 When you look the world under you,\w5 you can really see how big it is and how much small we are."
+		"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* I'm fine,\w5 thank you."
+		"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* I'm living at Toriel's home."
+	}
+	elseif useraffection <= 150
+	{
+		if issat == 1
+		{
+			"\0\i[2001]\f[italic,true]\i[18]You ask her if the ground of your computer is comfortable.\i[2002]\f[italic,false]\n\n[half]\i[30]\i[31]\i[46]* Well, \w5it's a weird sensation because... \i[38]\i[39]I have no sensations from this ground !"
+		}
+		if azpunched <= 0
+		{
+			"\0\i[2001]\f[italic,true]\i[18]\i[38]\i[39]\i[50]You say her she seems happy.\f[italic,false]\i[2002]\n\n[half]\w9\i[18]* Really ?\w7 \i[10]Well,\w5 it's not bad here.\i[18]"
+		}
+		//\i[68] before i45
+		"\0\i[2001]\f[italic,true]\i[18]You ask her how she feel with her genocide run.\i[45] She shrivers.\f[italic,false]\i[2002]\n\n[half]\i[34]\i[35]* Did you ever do something by challenge ? \w7Because you had to try it ?"
+		"\0\i[18]\i[30]\i[31]%(lsto)* I'm fine,\w5 thank you."
+		"\0\i[18]\i[30]\i[31]%(lsto)* I'm living at Toriel's home."
+	}
+	elseif useraffection <= 200
+	{
+		//\i[68] before i45
+		"\0\i[2001]\f[italic,true]\i[18]You ask her how she feel with her genocide run.\i[45] She shrivers.\f[italic,false]\i[2002]\n\n[half]\i[34]\i[35]* Did you ever do something by challenge ? \w7Because you had to try it ?"
+		"\0\i[2001]\f[italic,true]\i[18]You ask her if she misses her family in the real world.\f[italic,false]\i[2002]\n\n[half]\i[30]\i[31]\i[45]* Yes, \w5I still love them.\w7 \i[32]\i[33]But I made my choice and they cannot remember me anyway."
+		"\0\i[2001]\f[italic,true]\i[18]You ask her if she misses her family in the real world. She sighs.\f[italic,false]\i[2002]\n\n[half]\i[32]\i[33]\i[45]* It's painful,\w5 you know ? \w7I found a new family here but I will never forgot my family of the real word even if I said them goodbye forever."
+		"\0\i[18]\i[38]\i[39]\i[45]%(lsto)* Toriel is regularly wondering where I disappear. \w7 \i[10]I cannot tell her that I'm on your computer."
+	}
+	elseif useraffection <= 275
+	{	
+		"\0\i[2001]\f[italic,true]\i[18]You ask her how she feel with her genocide run. She shrivers\f[italic,false]\i[2002]\n\n[half]\i[45]\i[32]\i[33]* Bad, \w5very bad.\w7 Worst since I live here now.\w7 But everything has been resetted when I transfered my soul so my guilt is the only thing left."
+		"\0\i[18]\i[38]\i[39]\i[45]%(lsto)* Toriel is regullary wondering where I disappear. \w7 \i[10]I cannot tell her that I'm on your computer."
+		"\0\i[18]\i[38]\i[39]\i[45]%(lsto)* Toriel is asking me sometimes where I disappear. \w7I don't answer her."
+	}
+	elseif useraffection <= 375
+	{
+		"\0\i[18]\i[38]\i[39]\i[45]%(lsto)* Toriel asked me a lot of time where I disappear,\w5 I didn't tell her I'm here."
+		"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* I know worst places where to spend my time."
+		"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* It's pretty nice here."
+		
+	}
+	elseif useraffection <= 500
+	{
+		"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* Toriel stopped wondering about me. \w7\i[10]\i[34]\i[35]She must be used to me disappearing."
+		"\0\i[18]\i[30]\[31]\i[45]%(lsto)* I don't see the time passing here."
+		"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* Spending time here isn't bad."
+		"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* It's pretty nice here."
+	}
+	else
+	{
+		if azpunched <= 0
+		{
+			"\0\i[18]\i[30]\[31]\i[50]%(lsto)* I'm always good here."
+			"\0\i[18]\i[30]\[31]\i[50]%(lsto)* It's a nice place to have a chill time."
+			if issat == 1
+			{
+				"\0\i[18]\i[30]\[31]\i[45]%(lsto)* I'm well installed and it's nice here, \w5couldn't ask for more."
+			}
+		}
+		else
+		{
+			if issat == 1
+			{
+				"\0\i[18]\i[30]\[31]\i[45]%(lsto)* I'm well installed, \w5this place is nice while you don't punch me."
+			}
+		}
+		
+		"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* Toriel stopped wondering about me. \w7\i[10]\i[34]\i[35]She must be used to me disappearing."
+		"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* It's nice here."
+	}
+	
+	if timeslot == "midnight"
+	{
+		"\0\i[18]\i[30]\i[31]%(lsta)You hear her stomach rumbling.%(lsto)\n\n[half]\i[11]\i[48]* Hum."
+		"\0\i[18]\i[30]\i[31]\i[46]%(lsto)* I'm a little hungry right now."
+		"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* I'm a little tired."
+	}
+	elseif timeslot == "latenight"
+	{
+		"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* I'm a little tired."
+		"\0\i[18]\i[30]\i[31]\i[46]%(lsto)* I'm a little hungry right now."
+		"\0\i[18]\i[30]\i[31]%(lsta)You hear her stomach rumbling.%(lsto)\n\n[half]\i[11]\i[48]* Hum."
+		if isdrawing != 1 && alreadyeat <= 1 && (alreadyeat <= 1 || alreadyeat > 600)
+		{
+			"\0\i[79]%(lsto)* Yawn\w1.\w1.\w1. \i[84]\i[18]\i[30]\i[31]\i[45]* I'm a little tired."
+		}
+		elseif isdrawing == 1
+		{
+			"\0\i[79]%(lsto)* Yawn\w1.\w1.\w1. \i[62]\i[18]\i[30]\i[31]\i[45]* I'm a little tired."
+		}
+		elseif oncomputer == 1
+		{
+			"\0\i[79]%(lsto)* Yawn\w1.\w1.\w1. \i[60]\i[18]\i[30]\i[31]\i[45]* I'm a little tired."
+		}
+		
+		
+	}
+	elseif timeslot == "evening"
+	{
+		"\0\i[18]\i[30]\i[31]%(lsta)You hear her stomach rumbling.%(lsto)\n\n[half]\i[11]\i[48]* Hum."
+		"\0\i[18]\i[30]\i[31]\i[46]%(lsto)* I'm hungry."
+	}
+	elseif timeslot == "afternoon"
+	{
+		//"\0\i[18]\i[30]\i[31]* I ."
+	}
+	elseif timeslot == "lunch"
+	{
+		"\0\i[18]\i[30]\i[31]%(lsta)You hear her stomach rumbling.%(lsto)\n\n[half]\i[11]\i[48]* Hum."
+		"\0\i[18]\i[30]\i[31]\i[46]%(lsto)* I'm hungry."
+	}
+	elseif timeslot == "morning"
+	{}
+	else
+	{
+		"\0\i[18]\i[30]\i[31]\i[46]%(lsto)* I would have appreciated sleeping right now."
+	}
+	{
+		"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* I finished a book lately."
+		"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* I finished a game lately."
+	}
+	
+	if azfeel == 0
+	{
+		"\0\i[10]\i[30]\i[31]\i[46]%(lsto)* A little bit down I guess ?"
+		"\0\i[11]\i[30]\i[31]\i[40]%(lsto)* I have already felt better."
+		"\0\i[18]\i[30]\i[31]\i[46]%(lsto)* I'm a little bit melancholc right now."
+		"\0\i[11]\i[30]\i[31]\i[46]%(lsto)* I'm a little bit nostalgic."
+	}
+	elseif azfeel > 3
+	{
+		"\0\i[16]\i[38]\i[39]\i[45]%(lsto)* I'm happy."
+		"\0\i[16]\i[38]\i[39]\i[45]%(lsto)* Things couldn't be better."
+	}
+	elseif azfeel < -3
+	{
+		"\0\i[13]\i[32]\i[33]\i[40]%(lsto)* I'm quite depressed."
+		"\0\i[13]\i[30]\i[31]\i[40]%(lsto)* It's not a good day."
+	}
+	elseif azfeel < 0
+	{
+		if useraffection >= 200
+		{
+			"\0\i[12]\i[32]\i[33]\i[45]%(lsto)* I miss a little bit the reality."
+		}
+		"\0\i[18]\i[38]\i[39]\i[40]%(lsto)* Well, I have known better days."
+		"\0\i[11]\i[30]\i[31]\i[40]%(lsto)* My usual positivity must be in vacation."
+	}
+	elseif azfeel > 0
+	{
+		if useraffection >= 375
+		{
+			"\0\i[10]\i[38]\i[39]\i[45]%(lsto)* I feel pretty good today."
+		}
+		"\0\i[10]\i[30]\i[31]\i[45]%(lsto)* I'm fine."
+		"\0\i[10]\i[30]\i[31]\i[45]%(lsto)* I'm good."
+		"\0\i[10]\i[38]\i[39]\i[46]%(lsto)* I'm alright."
+	}
+	else
+	{
+		
+	}
+	
+	--
+	"\n\n\f[italic,false]\n[half]\![*]\q[Ask something else,asksthg]    \![*]\q[Ok,close]\e"
+}
+Select.askanime
+{
+	if askedanime == 0
+	{
+		askedanime = 1
+		--
+		"\0\i[2001]\f[italic,true]\i[18]You ask her if she like anime.\f[italic,false]\i[2002]\n\n[half]\0\i[10]\i[38]\i[39]\i[45]* Yes, a lot."
+	}
+	else
+	{
+		"\0\i[2001]\f[italic,true]\i[18]You ask her what kind of anime she likes.\f[italic,false]\i[2002]\n\n[half]\i[30]\i[31]\i[45]* Hmm... \w8I prefer seinen or shonen."
+		"\0\i[2001]\f[italic,true]\i[18]You ask her what are her favorite animes.\f[italic,false]\i[2002]\n\n[half]\i[30]\i[31]\i[45]* My favorite animes are \f[italic,true]Kiseiju\f[italic,false],\w5 \f[italic,true]Ergo Proxy\f[italic,false],\w5 \f[italic,true]Code Geass\f[italic,false] and \f[italic,true]Gurren Lagann\f[italic,false]."
+		"\0\i[2001]\f[italic,true]\i[18]You ask her which animes she can recommand to you.\f[italic,false]\i[2002]\n\n[half]\i[30]\i[31]\i[45]* \f[italic,true]%(niceanime)\f[italic,false] is a very good anime.\w7 You should go watch it if you never did."
+		"\0\i[2001]\f[italic,true]\i[18]You ask her what she could recommand to you.\f[italic,false]\i[2002]\n\n[half]\i[30]\i[31]\i[45]* I have an idea of manga you could read. \f[italic,true]%(nicemanga)\f[italic,false] is very nice."
+		if lovetrashanime == 1
+		{
+			"\0\i[2001]\f[italic,true]\i[18]You ask her which animes she can recommand to you.\f[italic,false]\i[2002]\n\n[half]\i[30]\i[31]\i[45]* Hmm,\w5 you told me you like trash animes.\w7 So what about \f[italic,true]%(trashanime)\f[italic,false] ?"
+		}
+		if loveshojo == 1
+		{
+			"\0\i[2001]\f[italic,true]\i[18]You ask her which animes she can recommand to you.\f[italic,false]\i[2002]\n\n[half]\i[30]\i[31]\i[45]* You told me you like shojo so what do you think of watching \f[italic,true]%(shojoanime)\f[italic,false] ?"
+		}
+	}
+	--
+	"\n\n\f[italic,false]\n[half]\![*]\q[Ask something else,asksthg]    \![*]\q[Ok,close]\e"
+}
+Select.askbooks
+{
+	if askedbooks == 0
+	{
+		askedbooks = 1
+		--
+		"\0\i[2001]\f[italic,true]\i[18]You ask her if she likes read.\f[italic,false]\i[2002]\0\i[18]\n\n[half]\i[38]\i[39]\i[45]* Yes, \w5I go to the library every two weeks."
+	}
+	else
+	{
+		"\0\i[2001]\f[italic,true]\i[18]You ask what kind of books she likes read.\f[italic,false]\i[2002]\n\n[half]\i[30]\i[31]\i[45]* I like fantasy books."
+		"\0\i[2001]\f[italic,true]\i[18]You ask what is her favorite books.\f[italic,false]\i[2002]\n\n[half]\i[45]\i[30]\i[31]* Hmm...\w8 I like \f[italic,true]Eragon\f[italic,false] and \f[italic,true]Eon and the Twelft Dragon\f[italic,false]."
+		"\0\i[2001]\f[italic,true]\i[18]You ask her what type of books she likes.\f[italic,false]\i[2002]\n\n[half]\i[45]\i[30]\i[31]* I like fantasy books."
+	}
+	--
+	"\n\n\f[italic,false]\n[half]\![*]\q[Ask something else,asksthg]    \![*]\q[Ok,close]\e"
+}
+Select.askgame
+{
+	if askedgame != 1
+	{
+		"\0\i[2002]\f[italic,true]\i[18]You ask her if she likes games.\f[italic,false]\i[2002]\n\n[half]\i[38]\i[39]\i[45]* I like video games.\w7 That's why I played Undertale in first place."
+		--
+		askedgame = 1
+	}
+	else
+	{
+		"\0\i[2002]\f[italic,true]\i[18]You ask what games she likes.\f[italic,false]\i[2002]\n\n[half]\i[30]\i[31]\i[45]* I like \f[italic,true]Undertale\f[italic,false] of course.\w7 I like \f[italic,true]Spectrobes\f[italic,false], \f[italic,true]The Legend of Zelda\f[italic,false] and \f[italic,true]Pokemon\f[italic,false] too."
+		"\0\i[2002]\f[italic,true]\i[18]You ask her if she likes MMORPG.\f[italic,false]\i[2002]\n\n[half]\i[30]\i[31]\i[45]* I played somes but I prefer normal games with a goal to reach.\w7 I like games with a beginning, \w5a journey and an ending because the journey hasn't the same relish if it doesn't end one day."
+		"\0\i[2002]\f[italic,true]\i[18]You ask her if she would want to play a game eternaly.\f[italic,false]\i[2002]\n\n[half]\i[30]\i[31]\i[45]* No,\w5 the end of a game is what give to the game, \w5to your journey,\w5 to your efforts in it all their value and relish."
+	}
+	--
+	"\n\n\f[italic,false]\n[half]\![*]\q[Ask something else,asksthg]    \![*]\q[Ok,close]\e"
+}
+Select.askundertale
+{
+	"\0%(lsta)This section contains spoilers of Azurtale and will be completed as the comic is published. What do you want to ask ?\f[italic,false]\n\n[half]"
+	--
+	"\![*]\q[About her arrival,askarrival]"
+	--
+	"\n\![*]\q[About the Ruins,askruins]"
+	
+	--
+	"\n\n\n[half]\![*]\q[Ask something else,asksthg]    \![*]\q[Ok,close]\e"
+} 
+Select.askarrival
+{
+	"%(lsto)"
+	--
+	"\0\i[18]\i[30]\i[31]\i[45]* I transfered my soul into the game Undertale.\w7 Like Frisk, \w5I woke up in the golden flower.\w7 That was the first time I saw Undertale from the inside."
+	"\0\i[18]\i[30]\i[31]\i[45]* My soul was red with a golden halo when I arrived in the Underground."
+	"\0\i[10]\i[38]\i[39]\i[45]* I was so much smaller."
+	"\0\i[18]\i[30]\i[31]\i[45]* My soul and my determination haven't been transfered at once.\w7 When I woke up,\w5 only my mind and a few determination did."
+	"\0\i[18]\i[30]\i[31]\i[45]* Since only my mind and a few determination has been transfered, \w5I had Frisk appearance and the soul I had was red."
+	"\0\i[10]\i[30]\i[31]\i[45]* At least Flowey hasn't been hitten by Toriel."
+	--
+	"\n\n\n[half]\![*]\q[Ask something else,asksthg]    \![*]\q[Ok,close]\e"
+}
+Select.askruins
+{
+	"\0\i[12]\i[32]\i[33]\i[45]%(lsto)* There are too much holes in the ground."
+	"\0\i[10]\i[38]\i[39]\i[45]%(lsto)* Toriel is really spamming for a while."
+	"\0\i[18]\i[38]\i[39]\i[50]%(lsto)* Frogs.\w7 Everywhere."
+	--
+	"\n\n\n[half]\![*]\q[Ask something else,asksthg]    \![*]\q[Ok,close]\e"
+}
+Select.askmusic
+{
+	"%(lsta)You ask her what kind of music she likes.%(lsto)\n\n[half]* Mmh,\w5\i[49] not rap."
+	"%(lsta)You ask her what kind of music she likes.%(lsto)\n\n[half]* Almost everything but rap."
+	"%(lsto)* I don't like some kind of metal and like some others."
+	"%(lsto)* I'm not in fond of blues.\w7 It's nice but too calm."
+	if RecognizeSong != ""
+	{
+		"\0\i[18]\i[38]\i[39]\i[50]%(lsto)* I like the music you're listening."
+	}
+	--
+	"\n\n\n[half]\![*]\q[Ask something else,asksthg]    \![*]\q[Ok,close]\e"
+}
+Select.askpumpkin
+{
+	"\0%(lsto)* It's a pumpkin."
+	"\0%(lsto)* Nice pumpkin,\w5 isn't it ?"
+	"\0%(lsto)* Big pumpkin,\w5 isn't it ?"
+	"\0µ(lsto)* It's just a normal magic pumpkin."
+	"\0%(lsto)* What would be Halloween without a pumpkin ?"
+	"\0%(lsto)* Don't you like pumpkins ?"
+	
+}
+///Other stuffs------------------------------------------------------------------------------------------------------------------------------------------
+
+//If the user felt bad
+Select.feelbetter
+{
+	"\i[18]\i[38]\i[39]\i[45]%(lsto)* I'm glad you do.\w7 All people should enjoy the life because even if it's hard,\w5 it could be wonderful too.\e"
+}	
+Select.feelsame
+{
+	"\0\s[10]\i[32]\i[33]\i[52]\f[italic,true]She looks sad for you.\f[italic,false]\n\n[half]* I'm sorry to asked. \w7Just, \w5don't give up,\w5 right ? \w7The life isn't all bad and I'm here with you.\e"
+}
+
+//To unlock the helping role
+Select.helpingaskyes
+{
+	"\0\_q%(lsta)What do you want to ask ?\f[italic,false]\n\n[half]"
+	--
+	"\![*]\q[Are you a computer assistant ?,askcomputerassistant]\n"
+	--
+	"\![*]\q[Can you do other stuff than music ?,askplayingmusic]"
+}
+
+Select.helpingaskno
+{
+	"\0%(lsta)You decide to not ask her."
+}
+
+Select.askcomputerassistant
+{
+	"\0%(lsto)\i[18]* No, \w5just a normal person brought into your computer.\w7 I live in my own world and will go back to it once you close me.\n\n[half]"
+	--
+	"%(Select.helpingaskyes)\n\![*]\q[Can you do some stuff for me ?,askhelpingdef]"
+}
+
+Select.askplayingmusic
+{
+	"\0%(lsto)\i[11]\i[38]\i[39]* Mmh,\w5\i[18] yeah.\w7 I've my own computer with me and I can do some stuff here.\n\n[half]"
+	--
+	"%(Select.helpingaskyes)\n\![*]\q[Can you do some stuff for me ?,askhelpingdef]"
+}
+
+Select.askhelpingdef
+{
+	"\0%(lsto)\i[18]* I guess I could keep some lists for you ?\w7 Like todo lists ?"
+	helping = 1
+}
+
+//The to do list
+Select.weeklist
+{
+	"\f[italic,false]\1\b2    \f[underline,true]\_qStuffs to do in one week :\n\n[half]\f[default]"
+	--
+	_result = ""
+	foreach weektodo ; _element
+	{
+		_result += "\n - %(_element)"
+	}
+	_result
+	--
+	"\n\n\n[half]\![*]\q[Add one,addweeklist]    \![*]\q[Suppr one,supprweeklist]\n\![*]\q[Go back,todolist]    \![*]\q[Nevermind,close]\e"
+	
+}
+Select.monthlist
+{
+	"\f[italic,false]\1\b2    \f[underline,true]\_qStuffs to do this month :\n\n[half]\f[default]"
+	--
+	_result = ""
+	foreach monthtodo ; _element
+	{
+		_result += "\n - %(_element)"
+	}
+	_result
+	--
+	"\n\n\n[half]\![*]\q[Add one,addmonthlist]    \![*]\q[Suppr one,supprmonthlist]\n\![*]\q[Go back,todolist]    \![*]\q[Nevermind,close]\e"
+	
+}
+Select.wheneverlist
+{
+	"\f[italic,false]\1\b2      \f[underline,true]\_qStuffs to do :\n\n[half]\f[default]"
+	--
+	_result = ""
+	foreach normaltodo ; _element
+	{
+	_result += "\n - %(_element)"
+	}
+	_result
+	--
+	"\n\n\n[half]\![*]\q[Add one,addnormallist]    \![*]\q[Suppr one,supprnormallist]\n\![*]\q[Add a deadline,adddeadline]\n\![*]\q[Go back,todolist]    \![*]\q[Nevermind,close]\e"
+	
+}
+
+Select.addweeklist
+{
+	"\0%(lsto)* What do you have to do ?\![open,inputbox,OnWeekList,-1]\e"
+}
+Select.addmonthlist
+{
+	"\0%(lsto)* What do you have to do ?\![open,inputbox,OnMonthList,-1]\e"
+}
+Select.addnormallist
+{
+	"\0%(lsto)* What do you have to do ?\![open,inputbox,OnNormalList,-1]\e"
+}
+Select.adddeadline
+{
+	"\0\b2%(lsto)* To which one do you want to add a deadline ?\n\n\n[half]"
+	--
+	_result = ""
+	foreach normaltodo ; _element
+	{
+		_link = REPLACE(_element,",","t")
+		_link = REPLACE(_link,"[","t")
+		_link = REPLACE(_link,"]","t")
+		_link = REPLACE(_link,"(","t")
+		_link = REPLACE(_link,")","t")
+		_link = REPLACE(_link,"{","t")
+		_link = REPLACE(_link,"}","t")
+		_link = REPLACE(_link,"'","t")
+		_link = REPLACE(_link,",","t")
+		_link = REPLACE(_link,"\","t")
+		_link = REPLACE(_link,"!","t")
+		_result += " \_a[%(_link)]\_q- %(_element)\_a" + "\_q\n"
+	}
+	_result
+	--
+	adddeadline = 1
+	"\n\n[half]\![*]\q[Go back,todolist]     \![*]\q[Nevermind,close]"
+}
+Select.supprweeklist
+{
+	"\0\b2%(lsto)* Which one do you want to delete ?\n\n\n[half]"
+	--
+	suppr = 1
+	_result = ""
+	foreach weektodo ; _element
+	{
+		_link = REPLACE(_element,",","t")
+		_link = REPLACE(_link,"[","t")
+		_link = REPLACE(_link,"]","t")
+		_link = REPLACE(_link,"(","t")
+		_link = REPLACE(_link,")","t")
+		_link = REPLACE(_link,"{","t")
+		_link = REPLACE(_link,"}","t")
+		_link = REPLACE(_link,"'","t")
+		_link = REPLACE(_link,",","t")
+		_link = REPLACE(_link,"\","t")
+		_link = REPLACE(_link,"!","t")
+		_result += " \_a[%(_link)]\_q- %(_element)\_a" + "\_q\n"
+	}
+	_result
+	--
+	"\n\n[half]\![*]\q[Go back,todolist]     \![*]\q[Nevermind,close]"
+}
+Select.supprmonthlist
+{
+	"\0\b2%(lsto)* Which one do you want to delete ?\n\n\n[half]"
+	--
+	suppr = 1
+	_result = ""
+	foreach monthtodo ; _element
+	{
+		_link = REPLACE(_element,",","t")
+		_link = REPLACE(_link,"[","t")
+		_link = REPLACE(_link,"]","t")
+		_link = REPLACE(_link,"(","t")
+		_link = REPLACE(_link,")","t")
+		_link = REPLACE(_link,"{","t")
+		_link = REPLACE(_link,"}","t")
+		_link = REPLACE(_link,"'","t")
+		_link = REPLACE(_link,",","t")
+		_link = REPLACE(_link,"\","t")
+		_link = REPLACE(_link,"!","t")
+		_result += " \_a[%(_link)]\_q- %(_element)\_a" + "\_q\n"
+	}
+	_result
+	--
+	"\n\n[half]\![*]\q[Go back,todolist]     \![*]\q[Nevermind,close]"
+}
+Select.supprnormallist
+{
+	"\0\b2%(lsto)* Which one do you want to delete ?\n\n\n[half]"
+	--
+	suppr = 1
+	_result = ""
+	foreach normaltodo ; _element
+	{
+		_link = REPLACE(_element,",","t")
+		_link = REPLACE(_link,"[","t")
+		_link = REPLACE(_link,"]","t")
+		_link = REPLACE(_link,"(","t")
+		_link = REPLACE(_link,")","t")
+		_link = REPLACE(_link,"{","t")
+		_link = REPLACE(_link,"}","t")
+		_link = REPLACE(_link,"'","t")
+		_link = REPLACE(_link,",","t")
+		_link = REPLACE(_link,"\","t")
+		_link = REPLACE(_link,"!","t")
+		_result += " \_a[%(_link)]\_q- %(_element)\_a" + "\_q\n"
+	}
+	_result
+	--
+	"\n\n[half]\![*]\q[Go back,todolist]     \![*]\q[Nevermind,close]"
+}
+
+RemoveTodoList
+{
+	_removedelem = _argv[0]
+	_templist = IARRAY
+	foreach weektodo ; _element
+	{
+		if _element != _removedelem
+		{
+			_templist ,= _element
+		}
+	}
+	weektodo = _templist
+	_templist = IARRAY
+	foreach monttodo ; _element
+	{
+		if _element != _removedelem
+		{
+			_templist ,= _element
+		}
+	}
+	monthtodo = _templist
+	_templist = IARRAY
+	foreach normaltodo ; _element
+	{
+		if _element != _removedelem
+		{
+			_templist ,= _element
+		}
+	}
+	normaltodo = _templist
+	Select.todolist
+}
+
+
+OnWeekList
+{
+	//_result = REPLACE(reference0,",","unevirgule")
+	weektodo ,= "%(month)/%(day)/%(year) : %(reference0)"
+	Select.weeklist
+}
+OnMonthList
+{
+	//_result = REPLACE(reference0,",","unevirgule")
+	monthtodo ,= "%(month)/%(day)/%(year) : %(reference0)"
+	Select.monthlist
+}
+OnNormalList
+{
+	//_result = REPLACE(reference0,",","unevirgule")
+	normaltodo ,= "%(month)/%(day)/%(year) : %(reference0)"
+	Select.wheneverlist
+	
+}
+
+OnListDeadline
+{
+	
+	for _i = 0; _i < ARRAYSIZE(normaltodo) ; _i++
+	{
+		
+		if normaltodo[_i] == normaltododeadline
+		{
+			_element = IARRAY
+			_temp = IARRAY
+			_element= SPLIT(normaltodo[_i],":")
+			_temp = SPLIT(_element[0]," for the")
+			_finalelem = _temp[0] + " for the %(reference0) :" + _element[1]
+			for _j = 2; _j < ARRAYSIZE(_element); _j ++
+			{
+				_finalelem += ":" + _element[_j]
+			}
+			normaltodo[_i] = _finalelem
+		}
+	}
+}

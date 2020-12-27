@@ -1,0 +1,5812 @@
+// AYA request log
+// load time: 2020/10/30 21:56:47
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: enable_debug
+Reference0: 1
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnInitialize
+Reference0: 
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: ownerghostname
+Reference0: Azura
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: basewareversion
+Reference0: 2.4.64
+Reference1: SSP
+Reference2: 2.4.64.3000
+
+
+// response (Execution time : 16[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: capability
+Reference0: request.status
+Reference1: request.securitylevel
+Reference2: request.baseid
+Reference3: response.marker
+Reference4: response.errorlevel
+Reference5: response.errordescription
+Reference6: response.securitylevel
+Reference7: response.requestcharset
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnNotifyOSInfo
+Reference0: WindowsNT,10.0,Windows 10 19H1/CB.1139 (Ver.1903) Wow64@x64
+Reference1: Intel,1992,0.6.14.10,bfebfbff
+Reference2: 8260324,4194176
+Reference3: 1185
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnNotifyFontInfo
+Reference0: System
+Reference1: 8514oem
+Reference2: Fixedsys
+Reference3: Terminal
+Reference4: Modern
+Reference5: Roman
+Reference6: Script
+Reference7: Determination Mono
+Reference8: Determination Sans
+Reference9: Marlett
+Reference10: Arial
+Reference11: Arial Black
+Reference12: Bahnschrift Light
+Reference13: Bahnschrift SemiLight
+Reference14: Bahnschrift
+Reference15: Bahnschrift SemiBold
+Reference16: Bahnschrift Light SemiCondensed
+Reference17: Bahnschrift SemiLight SemiConde
+Reference18: Bahnschrift SemiCondensed
+Reference19: Bahnschrift SemiBold SemiConden
+Reference20: Bahnschrift Light Condensed
+Reference21: Bahnschrift SemiLight Condensed
+Reference22: Bahnschrift Condensed
+Reference23: Bahnschrift SemiBold Condensed
+Reference24: Calibri
+Reference25: Calibri Light
+Reference26: Cambria
+Reference27: Cambria Math
+Reference28: Candara
+Reference29: Candara Light
+Reference30: Comic Sans MS
+Reference31: Consolas
+Reference32: Constantia
+Reference33: Corbel
+Reference34: Corbel Light
+Reference35: Courier New
+Reference36: Ebrima
+Reference37: Franklin Gothic Medium
+Reference38: Gabriola
+Reference39: Gadugi
+Reference40: Georgia
+Reference41: HoloLens MDL2 Assets
+Reference42: Impact
+Reference43: Ink Free
+Reference44: Javanese Text
+Reference45: Leelawadee UI
+Reference46: Leelawadee UI Semilight
+Reference47: Lucida Console
+Reference48: Lucida Sans Unicode
+Reference49: Malgun Gothic
+Reference50: Malgun Gothic Semilight
+Reference51: Microsoft Himalaya
+Reference52: Microsoft JhengHei
+Reference53: Microsoft JhengHei UI
+Reference54: Microsoft JhengHei Light
+Reference55: Microsoft JhengHei UI Light
+Reference56: Microsoft New Tai Lue
+Reference57: Microsoft PhagsPa
+Reference58: Microsoft Sans Serif
+Reference59: Microsoft Tai Le
+Reference60: Microsoft YaHei
+Reference61: Microsoft YaHei UI
+Reference62: Microsoft YaHei Light
+Reference63: Microsoft YaHei UI Light
+Reference64: Microsoft Yi Baiti
+Reference65: MingLiU-ExtB
+Reference66: PMingLiU-ExtB
+Reference67: MingLiU_HKSCS-ExtB
+Reference68: Mongolian Baiti
+Reference69: MS Gothic
+Reference70: MS UI Gothic
+Reference71: MS PGothic
+Reference72: MV Boli
+Reference73: Myanmar Text
+Reference74: Nirmala UI
+Reference75: Nirmala UI Semilight
+Reference76: Palatino Linotype
+Reference77: Segoe MDL2 Assets
+Reference78: Segoe Print
+Reference79: Segoe Script
+Reference80: Segoe UI
+Reference81: Segoe UI Black
+Reference82: Segoe UI Emoji
+Reference83: Segoe UI Historic
+Reference84: Segoe UI Light
+Reference85: Segoe UI Semibold
+Reference86: Segoe UI Semilight
+Reference87: Segoe UI Symbol
+Reference88: SimSun
+Reference89: NSimSun
+Reference90: SimSun-ExtB
+Reference91: Sitka Small
+Reference92: Sitka Text
+Reference93: Sitka Subheading
+Reference94: Sitka Heading
+Reference95: Sitka Display
+Reference96: Sitka Banner
+Reference97: Sylfaen
+Reference98: Symbol
+Reference99: Tahoma
+Reference100: Times New Roman
+Reference101: Trebuchet MS
+Reference102: Verdana
+Reference103: Webdings
+Reference104: Wingdings
+Reference105: Yu Gothic
+Reference106: Yu Gothic UI
+Reference107: Yu Gothic UI Semibold
+Reference108: Yu Gothic Light
+Reference109: Yu Gothic UI Light
+Reference110: Yu Gothic Medium
+Reference111: Yu Gothic UI Semilight
+Reference112: BIZ UDGothic
+Reference113: BIZ UDPGothic
+Reference114: BIZ UDMincho Medium
+Reference115: BIZ UDPMincho Medium
+Reference116: Meiryo
+Reference117: Meiryo UI
+Reference118: MS Mincho
+Reference119: MS PMincho
+Reference120: UD Digi Kyokasho N-B
+Reference121: UD Digi Kyokasho NP-B
+Reference122: UD Digi Kyokasho NK-B
+Reference123: UD Digi Kyokasho N-R
+Reference124: UD Digi Kyokasho NP-R
+Reference125: UD Digi Kyokasho NK-R
+Reference126: Yu Mincho
+Reference127: Yu Mincho Demibold
+Reference128: Yu Mincho Light
+Reference129: Papyrus UT
+Reference130: Comic Sans UT
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnNotifySelfInfo
+Reference0: Azura
+Reference1: Azura
+Reference2: Music_Player
+Reference3: Pyjama shell
+Reference4: C:/Users/lisou/Documents/Ukagakas/ssp_2_4_19f/ghost/Azura/shell/pyjama/
+Reference5: Z - Undertale
+Reference6: C:/Users/lisou/Documents/Ukagakas/ssp_2_4_19f/balloon/z_undertale/
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnNotifyBalloonInfo
+Reference0: Z - Undertale
+Reference1: C:/Users/lisou/Documents/Ukagakas/ssp_2_4_19f/balloon/z_undertale/
+Reference2: 0:0,1,2,3 1:0,1,2,3
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnNotifyShellInfo
+Reference0: Pyjama shell
+Reference1: C:/Users/lisou/Documents/Ukagakas/ssp_2_4_19f/ghost/Azura/shell/pyjama/
+Reference2: 1,2,5,8,9,10,12,15,19,100,101,102,105,106,107,108,109,150,151,152,155,156,157,158,159,201,202,203,204,205,206,207,208,209,210,211,212,213,251,252,253,254,255,256,257,258,259,260,261,262,263,300,301,302,303,304,305,306,307,308,309,350,351,352,353,354,355,356,357,358,359,400,401,402,403,404,405,500,501,502,503,504,505,600,601,602,603,604,605,606,607,608,621,655,656,657,658,670,671,672,700,701,702,703,704,705,706,707,708,709,710,711,712,713,714,715,790,791,792,800,801,802,803,804,805,806,850,851,852,853,854,855,856,1000,1001,1002,1003,1004,1040,1041,1042,1043,1044,1046,1048,1070,1071,1072,1073,1074,1075,1076,1077,1078,1079,1097,1500,1501,1540,1541,1542,1543,1544,1546,1548,1570,1571,1572,1573,1574,1575,1576,1577,1578,1579,1901,1902,1903,9001,9002,9003,9004,9005,9006,9007,9008,9009,9010,9011,9012,9013,9014,9015,9016,9017,9018,9019,9020,9021,9022,9023,9024,9025,9026,9027,9028,9029,9030,9031,9032,9033,9034,9035,9036,9037,9038,9039,9040,9041,9042,9043,9044,9045,9046,9047,9048,9049,9050,9051,9052,9053,9054,9055,9056,9057,9058,9059,9060,9061,9062,9063,9064,9065,9066,9067,9068,9069,9070,9071,9072,9073,9074,9075,9076,9077,9078,9079,9080,9081,9082,9083,9084,9085,9086,9087,9088,9089,9090,9091,9092,9093,9094,9095,9096,9097,9098,9099,9100,9101,9102,9103,9104,9105,9106,9107,9108,9109,9110,9111,9112,9113,9114,9115,9116,9117,9118,9119,9120,9121,9122,9123,9124,9125,9126,9127,9128,9129,9130,9131,9132,9133,9134,9135,9136,9137,9138,9139,9140,9141,9142,9143,9144,9145,9146,9147,9148,9149,9150,9151,9152,9153,9154,9155,9156,9157,9158,9159,9160,9161,9162,9163,9164,9165,9166,9167,9168,9169,9170,9171,9172,9173,9174,9175,9176,9177,9178,9179,9180,9181,9182,9183,9184,9185,9186,9187,9188,9189,9190,9191,9192,9193,9194,9195,9196,9197,9198,9199,9200,9201,9202,9203,9204,9205,9206,9207,9208,9209,9210,9211,9212,9213,9214,9215,9216,9217,9218,9219,9220,9221,9222,9223,9224,9225,9226,9227,9228,9229,9230,9231,9232,9233,9234,9235,9236,9237,9238,9239,9240,9241,9242,9243,9244,9245,9246,9247,9248,9249,9250,9251,9252,9253,9254,9255,9256,9257,9258,9259,9260,9261,9262,9263,9264,9265,9266,9267,9268,9269,9270,9271,9272,9273,9274,9275,9276,9277,9278,9279,9280,9281,9282,9283,9284,9285,9286,9287,9288,9289,9290,9291,9292,9293,9294,9295,9296,9297,9298,9299,9300,9301,9302,9303,9304,9305,9306,9307,9308,9309,9310,9311,9312,9313,9314
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: useorigin1
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: version
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: Tc550-4
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: name
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: AYA
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: craftman
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: umeici
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: craftmanw
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: ?럖
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnNotifyUserInfo
+Reference0: Windows User
+Reference1: Windows User
+Reference2: 
+Reference3: undef
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+ID: otherghostname
+SecurityLevel: local
+Charset: UTF-8
+Sender: SSP
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnNetworkStatusChange
+Reference0: online
+Reference1: 192.168.1.152a01:cb19:88a7:4000:b94c:c136:ded0:34e92a01:cb19:88a7:4000:cc9f:6094:27cf:a8eb
+Reference2: wifi
+Reference3: 390
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: ghostpathlist
+Reference0: C:\Users\lisou\Documents\Ukagakas\ssp_2_4_19f\ghost\
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: balloonpathlist
+Reference0: C:\Users\lisou\Documents\Ukagakas\ssp_2_4_19f\balloon\
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: headlinepathlist
+Reference0: C:\Users\lisou\Documents\Ukagakas\ssp_2_4_19f\headline\
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: pluginpathlist
+Reference0: C:\Users\lisou\Documents\Ukagakas\ssp_2_4_19f\plugin\
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: calendarskinpathlist
+Reference0: C:\Users\lisou\Documents\Ukagakas\ssp_2_4_19f\calendar\skin\
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: calendarpluginpathlist
+Reference0: C:\Users\lisou\Documents\Ukagakas\ssp_2_4_19f\calendar\plugin\
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnSpeechSynthesisStatus
+Reference0: 0
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnVoiceRecognitionStatus
+Reference0: 0
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: menu.background.bitmap.filename
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: menu.foreground.bitmap.filename
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: menu.background.color.r
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: menu.background.color.g
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: menu.background.color.b
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: menu.foreground.color.r
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: menu.foreground.color.g
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: menu.foreground.color.b
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: username
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: Levidre
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnDisplayHandover
+Reference0: init
+Reference1: 0
+Reference2: 
+Reference3: 0,0,1280,720,32,1
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnDisplayHandover
+Reference0: init
+Reference1: 1
+Reference2: 
+Reference3: 0,0,1280,720,32,1
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: installedghostname
+Reference0: Ari
+Reference1: Azura
+Reference2: Azura
+Reference3: Azura
+Reference4: Azura
+Reference5: Azura
+Reference6: Azura
+Reference7: Azura
+Reference8: Azura
+Reference9: Azura
+Reference10: Azura
+Reference11: Azura
+Reference12: Azura
+Reference13: Bill
+Reference14: CheeryBot
+Reference15: CREEPYGHOST
+Reference16: CREEPYGHOST
+Reference17: Dr. W.D. Gaster
+Reference18: Dr. W.D. Gaster
+Reference19: Dreamtale Sans
+Reference20: Dusk_Dawn
+Reference21: EFK
+Reference22: Elise BETA
+Reference23: Elise Demo
+Reference24: Emily/Phase4.5
+Reference25: FLELE
+Reference26: FLELE
+Reference27: FoxTheory
+Reference28: Ghost Jam Temmie
+Reference29: Ghost Jam Temmie
+Reference30: GT Ghost Template
+Reference31: Hunter and Smoker Beta
+Reference32: Jockey
+Reference33: Jockey
+Reference34: Jockey
+Reference35: Juan & Sha
+Reference36: Juan & Sha
+Reference37: Mettaton EX
+Reference38: MiniDev
+Reference39: Multiverse Sans
+Reference40: Pet Rock
+Reference41: Pet Rock
+Reference42: Pokedex Demo
+Reference43: Pokedex WIP
+Reference44: Prince Erik
+Reference45: Ralsei
+Reference46: sam and steve
+Reference47: Sans and Paps
+Reference48: Slime
+Reference49: Sparx
+Reference50: S the Skeleton
+Reference51: taromati2
+Reference52: The Hand
+Reference53: Ukaani_sample
+Reference54: Underfell Flowey
+Reference55: UnderfellSans
+Reference56: UnderfellSans
+Reference57: Underfell Sans
+Reference58: Wheatley
+Reference59: Wheatley
+Reference60: Your Test Friend Flowey
+Reference61: Zacharie and the Judge
+Reference62: いかがでしょうか？
+Reference63: はろーYAYAわーるど
+Reference64: 自然科学―民俗学境界
+
+
+// response (Execution time : 16[ms])
+SHIORI/3.0 200 OK
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: installedballoonname
+Reference0: Balloon for Emily/P4
+Reference1: blopblop
+Reference2: CheeryBot
+Reference3: Deltarune
+Reference4: Dusky Balloon
+Reference5: Elise Balloon
+Reference6: Elise Balloon
+Reference7: hunter and smoker
+Reference8: Jockey
+Reference9: OFF Text
+Reference10: Pixel
+Reference11: Pokedex Balloon
+Reference12: Purple Soul
+Reference13: sam n steve bubble
+Reference14: SSPデフォルト+
+Reference15: SSPデフォルト+
+Reference16: Underfell_cs
+Reference17: Undertale - Sans & Papyrus
+Reference18: Z - Simple
+Reference19: Z - Undertale
+Reference20: ƒ`ƒ‡ƒRƒoƒi[ƒi
+Reference21: 小さめのバルーン。
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: installedheadlinename
+Reference0: GAME Watch
+Reference1: Google ニュース 日本語版
+Reference2: ITmedia +D Games
+Reference3: ITMedia News
+Reference4: PC Watch
+Reference5: スラド
+Reference6: 回収・無償修理等のお知らせ
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: sakura.recommendsites
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: Ghost Template Walkthroughhttp://www.ashido.com/ukagaka/walkthrough.htmlZarla's Tumblrhttp://zarla-s.tumblr.com/Ukagaka Dream Team Websitehttp://ukagakadreamteam.com/blog/Ukagaka Dream Team Tumblrhttps://ukagakadreamteam.tumblr.com/SSPhttp://ssp.shillest.net/Crow + SSP Reference (J)http://crow.aqrs.jp/reference/all/index.htmlGhost Documentation (J)http://usada.sakura.vg/contents/specification.htmlDisc-2 (J)http://disc2.s56.xrea.com/
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: sakura.portalsites
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: Azura and Levidre Websitehttps://azura-levidre.000webhostapp.com/Tumblr Sitehttps://azura-levidre.tumblr.com/Deviantart Sitehttps://www.deviantart.com/azura-levidre/
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: kero.recommendsites
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: A Sitehttp://www.asite.com/Another Sitehttp://anothersite.org/
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: installedshellname
+Reference0: Halloween shell
+Reference1: Normal shell
+Reference2: Old shell
+Reference3: Pyjama shell
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: uniqueid
+Reference0: ssp_fmo_header_00004b6c_00040af2
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+ID: otherghostname
+SecurityLevel: local
+Charset: UTF-8
+Sender: SSP
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: hwnd
+Reference0: 2649464328054
+Reference1: 19030683082668
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: installedshellname
+Reference0: Halloween shell
+Reference1: Normal shell
+Reference2: Old shell
+Reference3: Pyjama shell
+
+
+// response (Execution time : 15[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnDisplayChangeEx
+Reference0: init
+Reference1: 0,0,1280,720,32,1
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnDisplayChange
+Reference0: 32
+Reference1: 1280
+Reference2: 720
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnBatteryNotify
+Reference0: 100
+Reference1: -1
+Reference2: online
+Reference3: high
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnNotifyDressupInfo
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnScheduleTodayNotify
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnGhostChanged
+BaseID: OnBoot
+Reference0: Azura
+Reference1: 
+Reference2: Azura
+Reference3: C:/Users/lisou/Documents/Ukagakas/ssp_2_4_19f/ghost/Azura/
+Reference7: Pyjama shell
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \1\s[1]\0\0\s[10]\i[45]\i[70]\i[91]\0* Huh, \w5hi again ?\e
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \1\s[1]\0\0\s[10]\i[45]\i[70]\i[91]\0* Huh, \w5hi again ?\e
+Reference1: 
+Reference2: OnGhostChanged
+Reference3: AzuraAzuraC:/Users/lisou/Documents/Ukagakas/ssp_2_4_19f/ghost/Azura/Pyjama shell
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: talking
+ID: rateofusegraph
+Reference0: AzuraAzuraMusic_Player255522497636,235838boot
+Reference1: AzuraAzuraTriangle425418990130,586471install
+Reference2: Dr. W.D. GasterGasterBrothers5129878615,911002install
+Reference3: Underfell SansSans58158302,549665install
+Reference4: WheatleyWheatleyUranus43138552,231560install
+Reference5: JockeyJockey168115391,858533install
+Reference6: Multiverse SansMVSansphone169109671,766404install
+Reference7: FLELEflelenone11465571,056106install
+Reference8: Hunter and Smoker BetaHunter and Smoker Beta8250440,812414install
+Reference9: Mettaton EXMettatonTriangle12346920,755719install
+Reference10: Elise BETAElisenone2040050,645067install
+Reference11: S the SkeletonRYS-0825None1538510,620263install
+Reference12: Pet RockPet RockNone1335570,572909install
+Reference13: FoxTheoryリサbook835280,568239install
+Reference14: unknownunknownnone5026070,419897install
+Reference15: Your Test Friend FloweyFloweyTriangle4123450,377698install
+Reference16: Dusk_DawnDuskDawn2221860,352089install
+Reference17: Pokedex DemoPokédex DemoTriangle11419840,319554install
+Reference18: SparxSparn/a1418520,298293install
+Reference19: GT Ghost TemplateGirlTriangle7916810,270751install
+Reference20: Ghost Jam TemmieTemmieNO ONE!!!11916310,262698install
+Reference21: UnderfellSansSansPlaceholder914550,234350install
+Reference22: Ghost Jam TemmieTemmieTriangle6514540,234189install
+Reference23: BillBill612460,200687install
+Reference24: Dreamtale SansDreamtale Sans159600,154623install
+Reference25: CheeryBotCheeryBotTriangle118460,136261install
+Reference26: Pokedex WIPPokédexTriangle297490,120638install
+Reference27: Sans and PapsSP65500,088586install
+Reference28: taromati2‹k‰Ô“l˜a103910,062977install
+Reference29: Juan & ShaJuan & ShaJuan & Sha453230,052024install
+Reference30: Emily/Phase4.5EmilyTeddy762630,042360install
+Reference31: はろーYAYAわーるど紺野ややめマック朗132370,038172install
+Reference32: RalseiRalseiAsriel boOOOooOOoOOooo52070,033341install
+Reference33: Slimeslime42070,033341install
+Reference34: sam and stevestevesam31820,029314install
+Reference35: S the SkeletonSNone3900,014496install
+Reference36: Zacharie and the JudgeZachariePablo5860,013852install
+Reference37: いかがでしょうか？地道咲いかゅう4570,009181install
+Reference38: Prince ErikPrince ErikAva Wolf1550,008859install
+Reference39: The HandHandDummy4460,007409install
+Reference40: Ukaani_sampleモルフbook5430,006926install
+Reference41: AriAri1120,001933install
+Reference42: MiniDevMiniDev-190,001450install
+Reference43: EFKエミットフェイク480,001289install
+Reference44: Elise DemoElisenone760,000966install
+Reference45: CREEPYGHOSTCREEPYGHOST???550,000805install
+Reference46: Underfell FloweyFloweyTriangle130,000483install
+Reference47: 自然科学―民俗学境界あざみ太郎220,000322install
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: talking
+ID: installedplugin
+Reference0: Discord Rich PresenceB327256A-8C69-470d-A1B3-963345A33D2F
+Reference1: SwissArmyKnife8F8BCFB8-B27A-456f-9BA0-551484856DDC
+Reference2: ƒEƒFƒU[ƒŠƒ|[ƒgF74B4A38-CF34-4C4C-0998-3400A02BC5AE
+Reference3: 共有変数プラグインABED14AF-F34B-4ff2-95B7-30ED37D5802D
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: talking,balloon(0=0)
+ID: OnSurfaceChange
+Reference0: 10
+Reference1: 1
+Reference2: 0,10,300,300
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: WeatherReport
+SecurityLevel: local
+Status: talking,balloon(0=0)
+ID: OnExerciseWeatherReport
+Reference0: GetNowWeather
+Reference1: false
+Reference2: cannnot open url :http://www.data.kishou.go.jp/maiji/pref/doou_e.html
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: talking,balloon(0=0)
+ID: OnSurfaceChange
+Reference0: 10
+Reference1: 1
+Reference2: 1,1,300,300
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Charset: UTF-8
+
+
+// Saving of variable value - C:\Users\lisou\Documents\Ukagakas\ssp_2_4_19f\ghost\Azura\ghost\master\yaya_variable.cfg
+...Done.
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \0\b2\f[italic,false]\i[2002]* Yep ?\n\n\_q\b2\f[italic,true]You may want to interact with her :\f[italic,false]\n\n[half]\![*]\q[Say something,altalk]\n\![*]\q[You want to say her something,saysthg]\n\![*]\q[You want to ask her something,asksthg]\n\n[half]\![*]\q[ACT,actmenu]    \![*]\q[ITEM,itmenu]\n\n\f[italic,true]You may want to ask her a favor :\f[italic,false]\n\n[half]\![*]\q[Hear music,Musicmenu]    \![*]\q[Play a fight game,enterfight]\n\![*]\q[Todo list,todolist]     \![*]\q[Help or explanations,helpmenu]\n\![*]\q[Backup,BackupMenu]\n\n[half]\f[italic,true]The test functions and some useful things :\f[italic,false]\n\n[half]\![*]\q[Call the test function,testfunction]\n\![*]\q[Saori test menu,SaoriTestMenu]\n\![*]\q[Explain how loops work,loopmenu]\n\![*]\q[Call the second test function,othertestfunction]\n\![*]\q[Display some variables,displayvariables]\n\![*]\q[Reinitilize some variables,reinivariables]\n\![*]\q[Find a word in the vocabulary,findvocabulary]\n\n[half]\![*]\q[Config Menu,configmenu]    \![*]\q[Functions,dosomething]\n\n[half]\![*]\q[Nevermind,CANCEL]\n\n\n[half]Fri 09:56 PM, 10/30/2020\e
+Reference1: 
+Reference2: OnMouseDoubleClick
+Reference3: 95136000mouse
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceEnter
+Reference0: Find a word in the vocabulary
+Reference1: findvocabulary
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceEnter
+Reference0: Find a word in the vocabulary
+Reference1: findvocabulary
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceEnter
+
+
+// response (Execution time : 16[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnNetworkStatusChange
+Reference0: online
+Reference1: 192.168.1.152a01:cb19:88a7:4000:b94c:c136:ded0:34e92a01:cb19:88a7:4000:cc9f:6094:27cf:a8eb
+Reference2: wifi
+Reference3: 390
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnMinuteChange
+Reference0: 19
+Reference1: 0
+Reference2: 0
+Reference3: 0
+Reference4: 0
+
+
+// response (Execution time : 16[ms])
+SHIORI/3.0 200 OK
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceEnter
+Reference0: Config Menu
+Reference1: configmenu
+
+
+// response (Execution time : 16[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceEnter
+Reference0: Config Menu
+Reference1: configmenu
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceHover
+Reference0: Config Menu
+Reference1: configmenu
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: balloon_tooltip
+Reference0: Config Menu
+Reference1: configmenu
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceEnter
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceEnter
+Reference0: Functions
+Reference1: dosomething
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceEnter
+Reference0: Functions
+Reference1: dosomething
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceEnter
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceEnter
+Reference0: Functions
+Reference1: dosomething
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceEnter
+Reference0: Functions
+Reference1: dosomething
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceHover
+Reference0: Functions
+Reference1: dosomething
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: balloon_tooltip
+Reference0: Functions
+Reference1: dosomething
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceEnter
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceSelectEx
+Reference0: Functions
+Reference1: dosomething
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceSelect
+Reference0: dosomething
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \0\b2\f[italic,false]\i[2002]* Do you want something ?\n\n[half]\![*]\q[Open calendar,CALENDAR]\n\![*]\q[Check email,MailCheck]\n\![*]\q[Empty recycle bin,ChoiceGarbagecan]\n\![*]\q[Update Azura,keroupdatecheck]\n\![*]\q[Save the dictionary in a file,CreateUserLibrary]\n\![*]\q[Send a report,sendreport]\n\![*]\q[System information,ChoiceSystemInformation]\n\![*]\q[Update information,AfterUpdate]\n\![*]\q[Azura's information,AzDescript]\n\![*]\q[Azura's mind about you,UserDescript]\n\n[half]\![*]\q[Back to main menu,BACKTOMENU]\e
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \0\b2\f[italic,false]\i[2002]* Do you want something ?\n\n[half]\![*]\q[Open calendar,CALENDAR]\n\![*]\q[Check email,MailCheck]\n\![*]\q[Empty recycle bin,ChoiceGarbagecan]\n\![*]\q[Update Azura,keroupdatecheck]\n\![*]\q[Save the dictionary in a file,CreateUserLibrary]\n\![*]\q[Send a report,sendreport]\n\![*]\q[System information,ChoiceSystemInformation]\n\![*]\q[Update information,AfterUpdate]\n\![*]\q[Azura's information,AzDescript]\n\![*]\q[Azura's mind about you,UserDescript]\n\n[half]\![*]\q[Back to main menu,BACKTOMENU]\e
+Reference1: 
+Reference2: OnChoiceSelect
+Reference3: dosomething
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceEnter
+Reference0: Azura's mind about you
+Reference1: UserDescript
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceEnter
+Reference0: Azura's mind about you
+Reference1: UserDescript
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceEnter
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceEnter
+Reference0: Azura's information
+Reference1: AzDescript
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceEnter
+Reference0: Azura's information
+Reference1: AzDescript
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceEnter
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceEnter
+Reference0: Update information
+Reference1: AfterUpdate
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceEnter
+Reference0: Update information
+Reference1: AfterUpdate
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnBatteryNotify
+Reference0: 100
+Reference1: -1
+Reference2: online
+Reference3: high
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: rateofusegraph
+Reference0: AzuraAzuraMusic_Player255522497736,235941boot
+Reference1: AzuraAzuraTriangle425418990130,586422install
+Reference2: Dr. W.D. GasterGasterBrothers5129878615,910976install
+Reference3: Underfell SansSans58158302,549660install
+Reference4: WheatleyWheatleyUranus43138552,231557install
+Reference5: JockeyJockey168115391,858530install
+Reference6: Multiverse SansMVSansphone169109671,766401install
+Reference7: FLELEflelenone11465571,056104install
+Reference8: Hunter and Smoker BetaHunter and Smoker Beta8250440,812412install
+Reference9: Mettaton EXMettatonTriangle12346920,755717install
+Reference10: Elise BETAElisenone2040050,645066install
+Reference11: S the SkeletonRYS-0825None1538510,620262install
+Reference12: Pet RockPet RockNone1335570,572909install
+Reference13: FoxTheoryリサbook835280,568238install
+Reference14: unknownunknownnone5026070,419897install
+Reference15: Your Test Friend FloweyFloweyTriangle4123450,377698install
+Reference16: Dusk_DawnDuskDawn2221860,352088install
+Reference17: Pokedex DemoPokédex DemoTriangle11419840,319553install
+Reference18: SparxSparn/a1418520,298293install
+Reference19: GT Ghost TemplateGirlTriangle7916810,270750install
+Reference20: Ghost Jam TemmieTemmieNO ONE!!!11916310,262697install
+Reference21: UnderfellSansSansPlaceholder914550,234350install
+Reference22: Ghost Jam TemmieTemmieTriangle6514540,234189install
+Reference23: BillBill612460,200687install
+Reference24: Dreamtale SansDreamtale Sans159600,154622install
+Reference25: CheeryBotCheeryBotTriangle118460,136261install
+Reference26: Pokedex WIPPokédexTriangle297490,120638install
+Reference27: Sans and PapsSP65500,088586install
+Reference28: taromati2‹k‰Ô“l˜a103910,062976install
+Reference29: Juan & ShaJuan & ShaJuan & Sha453230,052024install
+Reference30: Emily/Phase4.5EmilyTeddy762630,042360install
+Reference31: はろーYAYAわーるど紺野ややめマック朗132370,038172install
+Reference32: RalseiRalseiAsriel boOOOooOOoOOooo52070,033340install
+Reference33: Slimeslime42070,033340install
+Reference34: sam and stevestevesam31820,029314install
+Reference35: S the SkeletonSNone3900,014496install
+Reference36: Zacharie and the JudgeZachariePablo5860,013852install
+Reference37: いかがでしょうか？地道咲いかゅう4570,009181install
+Reference38: Prince ErikPrince ErikAva Wolf1550,008859install
+Reference39: The HandHandDummy4460,007409install
+Reference40: Ukaani_sampleモルフbook5430,006926install
+Reference41: AriAri1120,001933install
+Reference42: MiniDevMiniDev-190,001450install
+Reference43: EFKエミットフェイク480,001289install
+Reference44: Elise DemoElisenone760,000966install
+Reference45: CREEPYGHOSTCREEPYGHOST???550,000805install
+Reference46: Underfell FloweyFloweyTriangle130,000483install
+Reference47: 自然科学―民俗学境界あざみ太郎220,000322install
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceEnter
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceEnter
+Reference0: Update information
+Reference1: AfterUpdate
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceEnter
+Reference0: Update information
+Reference1: AfterUpdate
+
+
+// response (Execution time : 15[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceHover
+Reference0: Update information
+Reference1: AfterUpdate
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: balloon_tooltip
+Reference0: Update information
+Reference1: AfterUpdate
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceEnter
+
+
+// response (Execution time : 16[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceEnter
+Reference0: System information
+Reference1: ChoiceSystemInformation
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceEnter
+Reference0: System information
+Reference1: ChoiceSystemInformation
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceHover
+Reference0: System information
+Reference1: ChoiceSystemInformation
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: balloon_tooltip
+Reference0: System information
+Reference1: ChoiceSystemInformation
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceEnter
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceEnter
+Reference0: Update information
+Reference1: AfterUpdate
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceEnter
+Reference0: Update information
+Reference1: AfterUpdate
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceHover
+Reference0: Update information
+Reference1: AfterUpdate
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: balloon_tooltip
+Reference0: Update information
+Reference1: AfterUpdate
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceEnter
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceSelectEx
+Reference0: Update information
+Reference1: AfterUpdate
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: choosing,balloon(0=2)
+ID: OnChoiceSelect
+Reference0: AfterUpdate
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \0\i[2001]\f[italic,true]\b2Halloween update, and at the same time bug solving update.\n\n[half]Let's start with the new nice things. Azura now has her new Halloween shell, the trident she was having has been replaced by something else. It's up to you to discover what and its new dialogues. \nThere is something new unlockable too.\n\n[half]For the bugs, the number of animations got too big what caused some issues as animations not starting correctly. To solve this, a reorganisation of animations calls has been made and everything should be fine now. A shell issue making Azura disappearing (again) when she was sleeping has been solved as a bug making her having her normal outfit instead of pyjamas when she boots the evening and the night. And last shell bug solved : the computer staying even if Azura is supposed to have closed it.\n\n[half]An other type of bug has been solved, a little more rare kind of bug. Azura was crashing during listing the files to backup when a folder was empty, what shouldn't be happening anymore. This bug survived to many tests but now the backup feature should work just fine.\f[italic,false]\x\e
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \0\i[2001]\f[italic,true]\b2Halloween update, and at the same time bug solving update.\n\n[half]Let's start with the new nice things. Azura now has her new Halloween shell, the trident she was having has been replaced by something else. It's up to you to discover what and its new dialogues. \nThere is something new unlockable too.\n\n[half]For the bugs, the number of animations got too big what caused some issues as animations not starting correctly. To solve this, a reorganisation of animations calls has been made and everything should be fine now. A shell issue making Azura disappearing (again) when she was sleeping has been solved as a bug making her having her normal outfit instead of pyjamas when she boots the evening and the night. And last shell bug solved : the computer staying even if Azura is supposed to have closed it.\n\n[half]An other type of bug has been solved, a little more rare kind of bug. Azura was crashing during listing the files to backup when a folder was empty, what shouldn't be happening anymore. This bug survived to many tests but now the backup feature should work just fine.\f[italic,false]\x\e
+Reference1: 
+Reference2: OnChoiceSelect
+Reference3: AfterUpdate
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: talking
+ID: OnBalloonClose
+Reference0: \0\i[2001]\f[italic,true]\b2Halloween update, and at the same time bug solving update.\n\n[half]Let's start with the new nice things. Azura now has her new Halloween shell, the trident she was having has been replaced by something else. It's up to you to discover what and its new dialogues. \nThere is something new unlockable too.\n\n[half]For the bugs, the number of animations got too big what caused some issues as animations not starting correctly. To solve this, a reorganisation of animations calls has been made and everything should be fine now. A shell issue making Azura disappearing (again) when she was sleeping has been solved as a bug making her having her normal outfit instead of pyjamas when she boots the evening and the night. And last shell bug solved : the computer staying even if Azura is supposed to have closed it.\n\n[half]An other type of bug has been solved, a little more rare kind of bug. Azura was crashing during listing the files to backup when a folder was empty, what shouldn't be happening anymore. This bug survived to many tests but now the backup feature should work just fine.\f[italic,false]\x\e
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnFileDropping
+Reference0: C:\Users\lisou\Documents\Ukagakas\ssp_2_4_19f\ghost\Azura
+Reference1: 0
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnUpdatedataCreating
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \f[italic,false]\i[2002]* Creating the updates2.dau file.\e
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \f[italic,false]\i[2002]* Creating the updates2.dau file.\e
+Reference1: 
+Reference2: OnUpdatedataCreating
+Reference3: 
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: balloon(0=0)
+ID: OnUpdatedataCreated
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \f[italic,false]\i[2002]* Successfully created updates2.dau.\e
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \f[italic,false]\i[2002]* Successfully created updates2.dau.\e
+Reference1: 
+Reference2: OnUpdatedataCreated
+Reference3: 
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnBalloonClose
+Reference0: \f[italic,false]\i[2002]* Successfully created updates2.dau.\e
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnNetworkStatusChange
+Reference0: online
+Reference1: 192.168.1.152a01:cb19:88a7:4000:b94c:c136:ded0:34e92a01:cb19:88a7:4000:cc9f:6094:27cf:a8eb
+Reference2: wifi
+Reference3: 390
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnMinuteChange
+Reference0: 19
+Reference1: 0
+Reference2: 0
+Reference3: 1
+Reference4: 2
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \i[18]\i[38]\i[39]\i[70]\i[50]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \i[18]\i[38]\i[39]\i[70]\i[50]
+Reference1: 
+Reference2: OnMinuteChange
+Reference3: 190012
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnBatteryNotify
+Reference0: 100
+Reference1: -1
+Reference2: online
+Reference3: high
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: rateofusegraph
+Reference0: AzuraAzuraMusic_Player255522497836,236044boot
+Reference1: AzuraAzuraTriangle425418990130,586373install
+Reference2: Dr. W.D. GasterGasterBrothers5129878615,910950install
+Reference3: Underfell SansSans58158302,549656install
+Reference4: WheatleyWheatleyUranus43138552,231553install
+Reference5: JockeyJockey168115391,858527install
+Reference6: Multiverse SansMVSansphone169109671,766398install
+Reference7: FLELEflelenone11465571,056102install
+Reference8: Hunter and Smoker BetaHunter and Smoker Beta8250440,812411install
+Reference9: Mettaton EXMettatonTriangle12346920,755716install
+Reference10: Elise BETAElisenone2040050,645065install
+Reference11: S the SkeletonRYS-0825None1538510,620261install
+Reference12: Pet RockPet RockNone1335570,572908install
+Reference13: FoxTheoryリサbook835280,568237install
+Reference14: unknownunknownnone5026070,419896install
+Reference15: Your Test Friend FloweyFloweyTriangle4123450,377697install
+Reference16: Dusk_DawnDuskDawn2221860,352088install
+Reference17: Pokedex DemoPokédex DemoTriangle11419840,319553install
+Reference18: SparxSparn/a1418520,298292install
+Reference19: GT Ghost TemplateGirlTriangle7916810,270750install
+Reference20: Ghost Jam TemmieTemmieNO ONE!!!11916310,262697install
+Reference21: UnderfellSansSansPlaceholder914550,234349install
+Reference22: Ghost Jam TemmieTemmieTriangle6514540,234188install
+Reference23: BillBill612460,200687install
+Reference24: Dreamtale SansDreamtale Sans159600,154622install
+Reference25: CheeryBotCheeryBotTriangle118460,136261install
+Reference26: Pokedex WIPPokédexTriangle297490,120638install
+Reference27: Sans and PapsSP65500,088586install
+Reference28: taromati2‹k‰Ô“l˜a103910,062976install
+Reference29: Juan & ShaJuan & ShaJuan & Sha453230,052024install
+Reference30: Emily/Phase4.5EmilyTeddy762630,042360install
+Reference31: はろーYAYAわーるど紺野ややめマック朗132370,038172install
+Reference32: RalseiRalseiAsriel boOOOooOOoOOooo52070,033340install
+Reference33: Slimeslime42070,033340install
+Reference34: sam and stevestevesam31820,029314install
+Reference35: S the SkeletonSNone3900,014496install
+Reference36: Zacharie and the JudgeZachariePablo5860,013852install
+Reference37: いかがでしょうか？地道咲いかゅう4570,009181install
+Reference38: Prince ErikPrince ErikAva Wolf1550,008859install
+Reference39: The HandHandDummy4460,007409install
+Reference40: Ukaani_sampleモルフbook5430,006926install
+Reference41: AriAri1120,001933install
+Reference42: MiniDevMiniDev-190,001450install
+Reference43: EFKエミットフェイク480,001289install
+Reference44: Elise DemoElisenone760,000966install
+Reference45: CREEPYGHOSTCREEPYGHOST???550,000805install
+Reference46: Underfell FloweyFloweyTriangle130,000483install
+Reference47: 自然科学―民俗学境界あざみ太郎220,000322install
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnSurfaceRestore
+Reference0: 10
+Reference1: 1
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \0\i[18]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \0\i[18]
+Reference1: 
+Reference2: OnSurfaceRestore
+Reference3: 101
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnNetworkStatusChange
+Reference0: online
+Reference1: 192.168.1.152a01:cb19:88a7:4000:b94c:c136:ded0:34e92a01:cb19:88a7:4000:cc9f:6094:27cf:a8eb
+Reference2: wifi
+Reference3: 390
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnMinuteChange
+Reference0: 19
+Reference1: 0
+Reference2: 0
+Reference3: 1
+Reference4: 0
+
+
+// response (Execution time : 16[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \i[18]\i[30]\i[31]\i[70]\i[90]\i[50]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \i[18]\i[30]\i[31]\i[70]\i[90]\i[50]
+Reference1: 
+Reference2: OnMinuteChange
+Reference3: 190010
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnBatteryNotify
+Reference0: 100
+Reference1: -1
+Reference2: online
+Reference3: high
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: rateofusegraph
+Reference0: AzuraAzuraMusic_Player255522497936,236146boot
+Reference1: AzuraAzuraTriangle425418990130,586323install
+Reference2: Dr. W.D. GasterGasterBrothers5129878615,910925install
+Reference3: Underfell SansSans58158302,549652install
+Reference4: WheatleyWheatleyUranus43138552,231550install
+Reference5: JockeyJockey168115391,858524install
+Reference6: Multiverse SansMVSansphone169109671,766395install
+Reference7: FLELEflelenone11465571,056100install
+Reference8: Hunter and Smoker BetaHunter and Smoker Beta8250440,812410install
+Reference9: Mettaton EXMettatonTriangle12346920,755715install
+Reference10: Elise BETAElisenone2040050,645064install
+Reference11: S the SkeletonRYS-0825None1538510,620260install
+Reference12: Pet RockPet RockNone1335570,572907install
+Reference13: FoxTheoryリサbook835280,568236install
+Reference14: unknownunknownnone5026070,419895install
+Reference15: Your Test Friend FloweyFloweyTriangle4123450,377696install
+Reference16: Dusk_DawnDuskDawn2221860,352087install
+Reference17: Pokedex DemoPokédex DemoTriangle11419840,319552install
+Reference18: SparxSparn/a1418520,298292install
+Reference19: GT Ghost TemplateGirlTriangle7916810,270750install
+Reference20: Ghost Jam TemmieTemmieNO ONE!!!11916310,262696install
+Reference21: UnderfellSansSansPlaceholder914550,234349install
+Reference22: Ghost Jam TemmieTemmieTriangle6514540,234188install
+Reference23: BillBill612460,200686install
+Reference24: Dreamtale SansDreamtale Sans159600,154622install
+Reference25: CheeryBotCheeryBotTriangle118460,136261install
+Reference26: Pokedex WIPPokédexTriangle297490,120637install
+Reference27: Sans and PapsSP65500,088586install
+Reference28: taromati2‹k‰Ô“l˜a103910,062976install
+Reference29: Juan & ShaJuan & ShaJuan & Sha453230,052024install
+Reference30: Emily/Phase4.5EmilyTeddy762630,042360install
+Reference31: はろーYAYAわーるど紺野ややめマック朗132370,038172install
+Reference32: RalseiRalseiAsriel boOOOooOOoOOooo52070,033340install
+Reference33: Slimeslime42070,033340install
+Reference34: sam and stevestevesam31820,029314install
+Reference35: S the SkeletonSNone3900,014496install
+Reference36: Zacharie and the JudgeZachariePablo5860,013852install
+Reference37: いかがでしょうか？地道咲いかゅう4570,009181install
+Reference38: Prince ErikPrince ErikAva Wolf1550,008859install
+Reference39: The HandHandDummy4460,007409install
+Reference40: Ukaani_sampleモルフbook5430,006926install
+Reference41: AriAri1120,001933install
+Reference42: MiniDevMiniDev-190,001450install
+Reference43: EFKエミットフェイク480,001289install
+Reference44: Elise DemoElisenone760,000966install
+Reference45: CREEPYGHOSTCREEPYGHOST???550,000805install
+Reference46: Underfell FloweyFloweyTriangle130,000483install
+Reference47: 自然科学―民俗学境界あざみ太郎220,000322install
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnSurfaceRestore
+Reference0: 10
+Reference1: 1
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \0\i[18]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \0\i[18]
+Reference1: 
+Reference2: OnSurfaceRestore
+Reference3: 101
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnNetworkStatusChange
+Reference0: online
+Reference1: 192.168.1.152a01:cb19:88a7:4000:b94c:c136:ded0:34e92a01:cb19:88a7:4000:cc9f:6094:27cf:a8eb
+Reference2: wifi
+Reference3: 390
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnMinuteChange
+Reference0: 19
+Reference1: 0
+Reference2: 0
+Reference3: 1
+Reference4: 0
+
+
+// response (Execution time : 16[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \i[11]\i[30]\i[31]\i[70]\i[90]\i[45]\0* It's 10'o clock.\e
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \i[11]\i[30]\i[31]\i[70]\i[90]\i[45]\0* It's 10'o clock.\e
+Reference1: 
+Reference2: OnMinuteChange
+Reference3: 190010
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: balloon(0=0)
+ID: OnHourTimeSignal
+Reference0: 19
+Reference1: 0
+Reference2: 0
+Reference3: 1
+Reference4: 0
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnBalloonClose
+Reference0: \i[11]\i[30]\i[31]\i[70]\i[90]\i[45]\0* It's 10'o clock.\e
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnBatteryNotify
+Reference0: 100
+Reference1: -1
+Reference2: online
+Reference3: high
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: rateofusegraph
+Reference0: AzuraAzuraMusic_Player255522498036,236249boot
+Reference1: AzuraAzuraTriangle425418990130,586274install
+Reference2: Dr. W.D. GasterGasterBrothers5129878615,910899install
+Reference3: Underfell SansSans58158302,549648install
+Reference4: WheatleyWheatleyUranus43138552,231546install
+Reference5: JockeyJockey168115391,858521install
+Reference6: Multiverse SansMVSansphone169109671,766392install
+Reference7: FLELEflelenone11465571,056099install
+Reference8: Hunter and Smoker BetaHunter and Smoker Beta8250440,812408install
+Reference9: Mettaton EXMettatonTriangle12346920,755714install
+Reference10: Elise BETAElisenone2040050,645063install
+Reference11: S the SkeletonRYS-0825None1538510,620259install
+Reference12: Pet RockPet RockNone1335570,572906install
+Reference13: FoxTheoryリサbook835280,568235install
+Reference14: unknownunknownnone5026070,419895install
+Reference15: Your Test Friend FloweyFloweyTriangle4123450,377696install
+Reference16: Dusk_DawnDuskDawn2221860,352087install
+Reference17: Pokedex DemoPokédex DemoTriangle11419840,319552install
+Reference18: SparxSparn/a1418520,298291install
+Reference19: GT Ghost TemplateGirlTriangle7916810,270749install
+Reference20: Ghost Jam TemmieTemmieNO ONE!!!11916310,262696install
+Reference21: UnderfellSansSansPlaceholder914550,234349install
+Reference22: Ghost Jam TemmieTemmieTriangle6514540,234188install
+Reference23: BillBill612460,200686install
+Reference24: Dreamtale SansDreamtale Sans159600,154622install
+Reference25: CheeryBotCheeryBotTriangle118460,136260install
+Reference26: Pokedex WIPPokédexTriangle297490,120637install
+Reference27: Sans and PapsSP65500,088585install
+Reference28: taromati2‹k‰Ô“l˜a103910,062976install
+Reference29: Juan & ShaJuan & ShaJuan & Sha453230,052024install
+Reference30: Emily/Phase4.5EmilyTeddy762630,042360install
+Reference31: はろーYAYAわーるど紺野ややめマック朗132370,038172install
+Reference32: RalseiRalseiAsriel boOOOooOOoOOooo52070,033340install
+Reference33: Slimeslime42070,033340install
+Reference34: sam and stevestevesam31820,029314install
+Reference35: S the SkeletonSNone3900,014496install
+Reference36: Zacharie and the JudgeZachariePablo5860,013852install
+Reference37: いかがでしょうか？地道咲いかゅう4570,009181install
+Reference38: Prince ErikPrince ErikAva Wolf1550,008859install
+Reference39: The HandHandDummy4460,007409install
+Reference40: Ukaani_sampleモルフbook5430,006926install
+Reference41: AriAri1120,001933install
+Reference42: MiniDevMiniDev-190,001450install
+Reference43: EFKエミットフェイク480,001289install
+Reference44: Elise DemoElisenone760,000966install
+Reference45: CREEPYGHOSTCREEPYGHOST???550,000805install
+Reference46: Underfell FloweyFloweyTriangle130,000483install
+Reference47: 自然科学―民俗学境界あざみ太郎220,000322install
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnSurfaceRestore
+Reference0: 10
+Reference1: 1
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \0\i[18]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \0\i[18]
+Reference1: 
+Reference2: OnSurfaceRestore
+Reference3: 101
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnNetworkStatusChange
+Reference0: online
+Reference1: 192.168.1.152a01:cb19:88a7:4000:b94c:c136:ded0:34e92a01:cb19:88a7:4000:cc9f:6094:27cf:a8eb
+Reference2: wifi
+Reference3: 390
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnMinuteChange
+Reference0: 19
+Reference1: 0
+Reference2: 0
+Reference3: 1
+Reference4: 1
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \i[18]\i[38]\i[39]\i[71]\i[45]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \i[18]\i[38]\i[39]\i[71]\i[45]
+Reference1: 
+Reference2: OnMinuteChange
+Reference3: 190011
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnBatteryNotify
+Reference0: 100
+Reference1: -1
+Reference2: online
+Reference3: high
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: rateofusegraph
+Reference0: AzuraAzuraMusic_Player255522498136,236352boot
+Reference1: AzuraAzuraTriangle425418990130,586225install
+Reference2: Dr. W.D. GasterGasterBrothers5129878615,910874install
+Reference3: Underfell SansSans58158302,549644install
+Reference4: WheatleyWheatleyUranus43138552,231542install
+Reference5: JockeyJockey168115391,858518install
+Reference6: Multiverse SansMVSansphone169109671,766389install
+Reference7: FLELEflelenone11465571,056097install
+Reference8: Hunter and Smoker BetaHunter and Smoker Beta8250440,812407install
+Reference9: Mettaton EXMettatonTriangle12346920,755713install
+Reference10: Elise BETAElisenone2040050,645062install
+Reference11: S the SkeletonRYS-0825None1538510,620258install
+Reference12: Pet RockPet RockNone1335570,572905install
+Reference13: FoxTheoryリサbook835280,568234install
+Reference14: unknownunknownnone5026070,419894install
+Reference15: Your Test Friend FloweyFloweyTriangle4123450,377695install
+Reference16: Dusk_DawnDuskDawn2221860,352086install
+Reference17: Pokedex DemoPokédex DemoTriangle11419840,319551install
+Reference18: SparxSparn/a1418520,298291install
+Reference19: GT Ghost TemplateGirlTriangle7916810,270749install
+Reference20: Ghost Jam TemmieTemmieNO ONE!!!11916310,262695install
+Reference21: UnderfellSansSansPlaceholder914550,234348install
+Reference22: Ghost Jam TemmieTemmieTriangle6514540,234187install
+Reference23: BillBill612460,200686install
+Reference24: Dreamtale SansDreamtale Sans159600,154621install
+Reference25: CheeryBotCheeryBotTriangle118460,136260install
+Reference26: Pokedex WIPPokédexTriangle297490,120637install
+Reference27: Sans and PapsSP65500,088585install
+Reference28: taromati2‹k‰Ô“l˜a103910,062976install
+Reference29: Juan & ShaJuan & ShaJuan & Sha453230,052024install
+Reference30: Emily/Phase4.5EmilyTeddy762630,042360install
+Reference31: はろーYAYAわーるど紺野ややめマック朗132370,038172install
+Reference32: RalseiRalseiAsriel boOOOooOOoOOooo52070,033340install
+Reference33: Slimeslime42070,033340install
+Reference34: sam and stevestevesam31820,029314install
+Reference35: S the SkeletonSNone3900,014496install
+Reference36: Zacharie and the JudgeZachariePablo5860,013852install
+Reference37: いかがでしょうか？地道咲いかゅう4570,009181install
+Reference38: Prince ErikPrince ErikAva Wolf1550,008859install
+Reference39: The HandHandDummy4460,007409install
+Reference40: Ukaani_sampleモルフbook5430,006926install
+Reference41: AriAri1120,001933install
+Reference42: MiniDevMiniDev-190,001450install
+Reference43: EFKエミットフェイク480,001289install
+Reference44: Elise DemoElisenone760,000966install
+Reference45: CREEPYGHOSTCREEPYGHOST???550,000805install
+Reference46: Underfell FloweyFloweyTriangle130,000483install
+Reference47: 自然科学―民俗学境界あざみ太郎220,000322install
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnSurfaceRestore
+Reference0: 10
+Reference1: 1
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \0\i[18]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \0\i[18]
+Reference1: 
+Reference2: OnSurfaceRestore
+Reference3: 101
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnNetworkStatusChange
+Reference0: online
+Reference1: 192.168.1.152a01:cb19:88a7:4000:b94c:c136:ded0:34e92a01:cb19:88a7:4000:cc9f:6094:27cf:a8eb
+Reference2: wifi
+Reference3: 390
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnMinuteChange
+Reference0: 19
+Reference1: 0
+Reference2: 0
+Reference3: 1
+Reference4: 21
+
+
+// response (Execution time : 15[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \i[18]\i[30]\i[31]\i[70]\i[50]\0\![embed,OnOCComputer]\e
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \i[18]\i[30]\i[31]\i[70]\i[50]\0\![embed,OnOCComputer]\e
+Reference1: 
+Reference2: OnMinuteChange
+Reference3: 1900121
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: talking
+ID: OnOCComputer
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \0\![embed,OnChangePose]\i[60]\i[14]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \0\![embed,OnChangePose]\i[60]\i[14]
+Reference1: 
+Reference2: 
+Reference3: 
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: talking
+ID: OnChangePose
+
+
+// response (Execution time : 16[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \i[0]\w9\w5\0\s[15]\i[45]\i[60]\w1
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \i[0]\w9\w5\0\s[15]\i[45]\i[60]\w1
+Reference1: 
+Reference2: 
+Reference3: 
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: talking
+ID: OnSurfaceChange
+Reference0: 15
+Reference1: 1
+Reference2: 0,15,300,300
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnBatteryNotify
+Reference0: 100
+Reference1: -1
+Reference2: online
+Reference3: high
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: rateofusegraph
+Reference0: AzuraAzuraMusic_Player255522498236,236455boot
+Reference1: AzuraAzuraTriangle425418990130,586176install
+Reference2: Dr. W.D. GasterGasterBrothers5129878615,910848install
+Reference3: Underfell SansSans58158302,549640install
+Reference4: WheatleyWheatleyUranus43138552,231539install
+Reference5: JockeyJockey168115391,858515install
+Reference6: Multiverse SansMVSansphone169109671,766387install
+Reference7: FLELEflelenone11465571,056095install
+Reference8: Hunter and Smoker BetaHunter and Smoker Beta8250440,812406install
+Reference9: Mettaton EXMettatonTriangle12346920,755711install
+Reference10: Elise BETAElisenone2040050,645060install
+Reference11: S the SkeletonRYS-0825None1538510,620257install
+Reference12: Pet RockPet RockNone1335570,572904install
+Reference13: FoxTheoryリサbook835280,568233install
+Reference14: unknownunknownnone5026070,419893install
+Reference15: Your Test Friend FloweyFloweyTriangle4123450,377695install
+Reference16: Dusk_DawnDuskDawn2221860,352085install
+Reference17: Pokedex DemoPokédex DemoTriangle11419840,319551install
+Reference18: SparxSparn/a1418520,298290install
+Reference19: GT Ghost TemplateGirlTriangle7916810,270748install
+Reference20: Ghost Jam TemmieTemmieNO ONE!!!11916310,262695install
+Reference21: UnderfellSansSansPlaceholder914550,234348install
+Reference22: Ghost Jam TemmieTemmieTriangle6514540,234187install
+Reference23: BillBill612460,200685install
+Reference24: Dreamtale SansDreamtale Sans159600,154621install
+Reference25: CheeryBotCheeryBotTriangle118460,136260install
+Reference26: Pokedex WIPPokédexTriangle297490,120637install
+Reference27: Sans and PapsSP65500,088585install
+Reference28: taromati2‹k‰Ô“l˜a103910,062976install
+Reference29: Juan & ShaJuan & ShaJuan & Sha453230,052024install
+Reference30: Emily/Phase4.5EmilyTeddy762630,042360install
+Reference31: はろーYAYAわーるど紺野ややめマック朗132370,038172install
+Reference32: RalseiRalseiAsriel boOOOooOOoOOooo52070,033340install
+Reference33: Slimeslime42070,033340install
+Reference34: sam and stevestevesam31820,029314install
+Reference35: S the SkeletonSNone3900,014496install
+Reference36: Zacharie and the JudgeZachariePablo5860,013851install
+Reference37: いかがでしょうか？地道咲いかゅう4570,009181install
+Reference38: Prince ErikPrince ErikAva Wolf1550,008859install
+Reference39: The HandHandDummy4460,007409install
+Reference40: Ukaani_sampleモルフbook5430,006926install
+Reference41: AriAri1120,001933install
+Reference42: MiniDevMiniDev-190,001450install
+Reference43: EFKエミットフェイク480,001289install
+Reference44: Elise DemoElisenone760,000966install
+Reference45: CREEPYGHOSTCREEPYGHOST???550,000805install
+Reference46: Underfell FloweyFloweyTriangle130,000483install
+Reference47: 自然科学―民俗学境界あざみ太郎220,000322install
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnSurfaceRestore
+Reference0: 15
+Reference1: 1
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \0\s[15]\i[45]\i[60]\i[14]\w1\i[30]\i[31]\i[46]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \0\s[15]\i[45]\i[60]\i[14]\w1\i[30]\i[31]\i[46]
+Reference1: 
+Reference2: OnSurfaceRestore
+Reference3: 151
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnNetworkStatusChange
+Reference0: online
+Reference1: 192.168.1.152a01:cb19:88a7:4000:b94c:c136:ded0:34e92a01:cb19:88a7:4000:cc9f:6094:27cf:a8eb
+Reference2: wifi
+Reference3: 390
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnMinuteChange
+Reference0: 19
+Reference1: 0
+Reference2: 0
+Reference3: 1
+Reference4: 0
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \i[60]\i[14]\w1\i[38]\i[39]\i[46]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \i[60]\i[14]\w1\i[38]\i[39]\i[46]
+Reference1: 
+Reference2: OnMinuteChange
+Reference3: 190010
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnBatteryNotify
+Reference0: 100
+Reference1: -1
+Reference2: online
+Reference3: high
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: rateofusegraph
+Reference0: AzuraAzuraMusic_Player255522498336,236557boot
+Reference1: AzuraAzuraTriangle425418990130,586126install
+Reference2: Dr. W.D. GasterGasterBrothers5129878615,910822install
+Reference3: Underfell SansSans58158302,549636install
+Reference4: WheatleyWheatleyUranus43138552,231535install
+Reference5: JockeyJockey168115391,858512install
+Reference6: Multiverse SansMVSansphone169109671,766384install
+Reference7: FLELEflelenone11465571,056094install
+Reference8: Hunter and Smoker BetaHunter and Smoker Beta8250440,812404install
+Reference9: Mettaton EXMettatonTriangle12346920,755710install
+Reference10: Elise BETAElisenone2040050,645059install
+Reference11: S the SkeletonRYS-0825None1538510,620256install
+Reference12: Pet RockPet RockNone1335570,572903install
+Reference13: FoxTheoryリサbook835280,568232install
+Reference14: unknownunknownnone5026070,419893install
+Reference15: Your Test Friend FloweyFloweyTriangle4123450,377694install
+Reference16: Dusk_DawnDuskDawn2221860,352085install
+Reference17: Pokedex DemoPokédex DemoTriangle11419840,319550install
+Reference18: SparxSparn/a1418520,298290install
+Reference19: GT Ghost TemplateGirlTriangle7916810,270748install
+Reference20: Ghost Jam TemmieTemmieNO ONE!!!11916310,262695install
+Reference21: UnderfellSansSansPlaceholder914550,234347install
+Reference22: Ghost Jam TemmieTemmieTriangle6514540,234186install
+Reference23: BillBill612460,200685install
+Reference24: Dreamtale SansDreamtale Sans159600,154621install
+Reference25: CheeryBotCheeryBotTriangle118460,136260install
+Reference26: Pokedex WIPPokédexTriangle297490,120637install
+Reference27: Sans and PapsSP65500,088585install
+Reference28: taromati2‹k‰Ô“l˜a103910,062976install
+Reference29: Juan & ShaJuan & ShaJuan & Sha453230,052024install
+Reference30: Emily/Phase4.5EmilyTeddy762630,042360install
+Reference31: はろーYAYAわーるど紺野ややめマック朗132370,038172install
+Reference32: RalseiRalseiAsriel boOOOooOOoOOooo52070,033340install
+Reference33: Slimeslime42070,033340install
+Reference34: sam and stevestevesam31820,029314install
+Reference35: S the SkeletonSNone3900,014496install
+Reference36: Zacharie and the JudgeZachariePablo5860,013851install
+Reference37: いかがでしょうか？地道咲いかゅう4570,009181install
+Reference38: Prince ErikPrince ErikAva Wolf1550,008858install
+Reference39: The HandHandDummy4460,007409install
+Reference40: Ukaani_sampleモルフbook5430,006926install
+Reference41: AriAri1120,001933install
+Reference42: MiniDevMiniDev-190,001450install
+Reference43: EFKエミットフェイク480,001289install
+Reference44: Elise DemoElisenone760,000966install
+Reference45: CREEPYGHOSTCREEPYGHOST???550,000805install
+Reference46: Underfell FloweyFloweyTriangle130,000483install
+Reference47: 自然科学―民俗学境界あざみ太郎220,000322install
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnSurfaceRestore
+Reference0: 15
+Reference1: 1
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \0\s[15]\i[45]\i[60]\i[14]\w1\i[34]\i[50]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \0\s[15]\i[45]\i[60]\i[14]\w1\i[34]\i[50]
+Reference1: 
+Reference2: OnSurfaceRestore
+Reference3: 151
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnNetworkStatusChange
+Reference0: online
+Reference1: 192.168.1.152a01:cb19:88a7:4000:b94c:c136:ded0:34e92a01:cb19:88a7:4000:cc9f:6094:27cf:a8eb
+Reference2: wifi
+Reference3: 390
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnMinuteChange
+Reference0: 19
+Reference1: 0
+Reference2: 0
+Reference3: 1
+Reference4: 1
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \i[60]\i[14]\w1\i[37]\i[48]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \i[60]\i[14]\w1\i[37]\i[48]
+Reference1: 
+Reference2: OnMinuteChange
+Reference3: 190011
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnBatteryNotify
+Reference0: 100
+Reference1: -1
+Reference2: online
+Reference3: high
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: rateofusegraph
+Reference0: AzuraAzuraMusic_Player255522498436,236660boot
+Reference1: AzuraAzuraTriangle425418990130,586077install
+Reference2: Dr. W.D. GasterGasterBrothers5129878615,910797install
+Reference3: Underfell SansSans58158302,549632install
+Reference4: WheatleyWheatleyUranus43138552,231532install
+Reference5: JockeyJockey168115391,858509install
+Reference6: Multiverse SansMVSansphone169109671,766381install
+Reference7: FLELEflelenone11465571,056092install
+Reference8: Hunter and Smoker BetaHunter and Smoker Beta8250440,812403install
+Reference9: Mettaton EXMettatonTriangle12346920,755709install
+Reference10: Elise BETAElisenone2040050,645058install
+Reference11: S the SkeletonRYS-0825None1538510,620255install
+Reference12: Pet RockPet RockNone1335570,572902install
+Reference13: FoxTheoryリサbook835280,568231install
+Reference14: unknownunknownnone5026070,419892install
+Reference15: Your Test Friend FloweyFloweyTriangle4123450,377693install
+Reference16: Dusk_DawnDuskDawn2221860,352084install
+Reference17: Pokedex DemoPokédex DemoTriangle11419840,319550install
+Reference18: SparxSparn/a1418520,298289install
+Reference19: GT Ghost TemplateGirlTriangle7916810,270747install
+Reference20: Ghost Jam TemmieTemmieNO ONE!!!11916310,262694install
+Reference21: UnderfellSansSansPlaceholder914550,234347install
+Reference22: Ghost Jam TemmieTemmieTriangle6514540,234186install
+Reference23: BillBill612460,200685install
+Reference24: Dreamtale SansDreamtale Sans159600,154621install
+Reference25: CheeryBotCheeryBotTriangle118460,136260install
+Reference26: Pokedex WIPPokédexTriangle297490,120636install
+Reference27: Sans and PapsSP65500,088585install
+Reference28: taromati2‹k‰Ô“l˜a103910,062976install
+Reference29: Juan & ShaJuan & ShaJuan & Sha453230,052023install
+Reference30: Emily/Phase4.5EmilyTeddy762630,042360install
+Reference31: はろーYAYAわーるど紺野ややめマック朗132370,038172install
+Reference32: RalseiRalseiAsriel boOOOooOOoOOooo52070,033340install
+Reference33: Slimeslime42070,033340install
+Reference34: sam and stevestevesam31820,029314install
+Reference35: S the SkeletonSNone3900,014496install
+Reference36: Zacharie and the JudgeZachariePablo5860,013851install
+Reference37: いかがでしょうか？地道咲いかゅう4570,009181install
+Reference38: Prince ErikPrince ErikAva Wolf1550,008858install
+Reference39: The HandHandDummy4460,007409install
+Reference40: Ukaani_sampleモルフbook5430,006926install
+Reference41: AriAri1120,001933install
+Reference42: MiniDevMiniDev-190,001450install
+Reference43: EFKエミットフェイク480,001289install
+Reference44: Elise DemoElisenone760,000966install
+Reference45: CREEPYGHOSTCREEPYGHOST???550,000805install
+Reference46: Underfell FloweyFloweyTriangle130,000483install
+Reference47: 自然科学―民俗学境界あざみ太郎220,000322install
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnSurfaceRestore
+Reference0: 15
+Reference1: 1
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \0\s[15]\i[45]\i[60]\i[14]\w1\i[35]\i[50]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \0\s[15]\i[45]\i[60]\i[14]\w1\i[35]\i[50]
+Reference1: 
+Reference2: OnSurfaceRestore
+Reference3: 151
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnNetworkStatusChange
+Reference0: online
+Reference1: 192.168.1.152a01:cb19:88a7:4000:b94c:c136:ded0:34e92a01:cb19:88a7:4000:cc9f:6094:27cf:a8eb
+Reference2: wifi
+Reference3: 390
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnMinuteChange
+Reference0: 19
+Reference1: 0
+Reference2: 0
+Reference3: 1
+Reference4: 61
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \i[60]\i[14]\w1\i[32]\i[33]\i[48]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \i[60]\i[14]\w1\i[32]\i[33]\i[48]
+Reference1: 
+Reference2: OnMinuteChange
+Reference3: 1900161
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnBatteryNotify
+Reference0: 100
+Reference1: -1
+Reference2: online
+Reference3: high
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: rateofusegraph
+Reference0: AzuraAzuraMusic_Player255522498536,236763boot
+Reference1: AzuraAzuraTriangle425418990130,586028install
+Reference2: Dr. W.D. GasterGasterBrothers5129878615,910771install
+Reference3: Underfell SansSans58158302,549628install
+Reference4: WheatleyWheatleyUranus43138552,231528install
+Reference5: JockeyJockey168115391,858506install
+Reference6: Multiverse SansMVSansphone169109671,766378install
+Reference7: FLELEflelenone11465571,056090install
+Reference8: Hunter and Smoker BetaHunter and Smoker Beta8250440,812402install
+Reference9: Mettaton EXMettatonTriangle12346920,755708install
+Reference10: Elise BETAElisenone2040050,645057install
+Reference11: S the SkeletonRYS-0825None1538510,620254install
+Reference12: Pet RockPet RockNone1335570,572901install
+Reference13: FoxTheoryリサbook835280,568230install
+Reference14: unknownunknownnone5026070,419891install
+Reference15: Your Test Friend FloweyFloweyTriangle4123450,377693install
+Reference16: Dusk_DawnDuskDawn2221860,352084install
+Reference17: Pokedex DemoPokédex DemoTriangle11419840,319549install
+Reference18: SparxSparn/a1418520,298289install
+Reference19: GT Ghost TemplateGirlTriangle7916810,270747install
+Reference20: Ghost Jam TemmieTemmieNO ONE!!!11916310,262694install
+Reference21: UnderfellSansSansPlaceholder914550,234347install
+Reference22: Ghost Jam TemmieTemmieTriangle6514540,234186install
+Reference23: BillBill612460,200685install
+Reference24: Dreamtale SansDreamtale Sans159600,154620install
+Reference25: CheeryBotCheeryBotTriangle118460,136259install
+Reference26: Pokedex WIPPokédexTriangle297490,120636install
+Reference27: Sans and PapsSP65500,088585install
+Reference28: taromati2‹k‰Ô“l˜a103910,062976install
+Reference29: Juan & ShaJuan & ShaJuan & Sha453230,052023install
+Reference30: Emily/Phase4.5EmilyTeddy762630,042360install
+Reference31: はろーYAYAわーるど紺野ややめマック朗132370,038172install
+Reference32: RalseiRalseiAsriel boOOOooOOoOOooo52070,033340install
+Reference33: Slimeslime42070,033340install
+Reference34: sam and stevestevesam31820,029313install
+Reference35: S the SkeletonSNone3900,014496install
+Reference36: Zacharie and the JudgeZachariePablo5860,013851install
+Reference37: いかがでしょうか？地道咲いかゅう4570,009181install
+Reference38: Prince ErikPrince ErikAva Wolf1550,008858install
+Reference39: The HandHandDummy4460,007409install
+Reference40: Ukaani_sampleモルフbook5430,006926install
+Reference41: AriAri1120,001933install
+Reference42: MiniDevMiniDev-190,001450install
+Reference43: EFKエミットフェイク480,001289install
+Reference44: Elise DemoElisenone760,000966install
+Reference45: CREEPYGHOSTCREEPYGHOST???550,000805install
+Reference46: Underfell FloweyFloweyTriangle130,000483install
+Reference47: 自然科学―民俗学境界あざみ太郎220,000322install
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnSurfaceRestore
+Reference0: 15
+Reference1: 1
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \0\s[15]\i[50]\i[60]\i[14]\w1\i[34]\i[49]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \0\s[15]\i[50]\i[60]\i[14]\w1\i[34]\i[49]
+Reference1: 
+Reference2: OnSurfaceRestore
+Reference3: 151
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnNetworkStatusChange
+Reference0: online
+Reference1: 192.168.1.152a01:cb19:88a7:4000:b94c:c136:ded0:34e92a01:cb19:88a7:4000:cc9f:6094:27cf:a8eb
+Reference2: wifi
+Reference3: 390
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnMinuteChange
+Reference0: 19
+Reference1: 0
+Reference2: 0
+Reference3: 1
+Reference4: 0
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \i[60]\i[14]\w1\i[35]\i[49]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \i[60]\i[14]\w1\i[35]\i[49]
+Reference1: 
+Reference2: OnMinuteChange
+Reference3: 190010
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnBatteryNotify
+Reference0: 100
+Reference1: -1
+Reference2: online
+Reference3: high
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: rateofusegraph
+Reference0: AzuraAzuraMusic_Player255522498636,236865boot
+Reference1: AzuraAzuraTriangle425418990130,585979install
+Reference2: Dr. W.D. GasterGasterBrothers5129878615,910745install
+Reference3: Underfell SansSans58158302,549623install
+Reference4: WheatleyWheatleyUranus43138552,231524install
+Reference5: JockeyJockey168115391,858503install
+Reference6: Multiverse SansMVSansphone169109671,766375install
+Reference7: FLELEflelenone11465571,056088install
+Reference8: Hunter and Smoker BetaHunter and Smoker Beta8250440,812401install
+Reference9: Mettaton EXMettatonTriangle12346920,755706install
+Reference10: Elise BETAElisenone2040050,645056install
+Reference11: S the SkeletonRYS-0825None1538510,620253install
+Reference12: Pet RockPet RockNone1335570,572900install
+Reference13: FoxTheoryリサbook835280,568229install
+Reference14: unknownunknownnone5026070,419891install
+Reference15: Your Test Friend FloweyFloweyTriangle4123450,377692install
+Reference16: Dusk_DawnDuskDawn2221860,352083install
+Reference17: Pokedex DemoPokédex DemoTriangle11419840,319549install
+Reference18: SparxSparn/a1418520,298288install
+Reference19: GT Ghost TemplateGirlTriangle7916810,270746install
+Reference20: Ghost Jam TemmieTemmieNO ONE!!!11916310,262693install
+Reference21: UnderfellSansSansPlaceholder914550,234346install
+Reference22: Ghost Jam TemmieTemmieTriangle6514540,234185install
+Reference23: BillBill612460,200684install
+Reference24: Dreamtale SansDreamtale Sans159600,154620install
+Reference25: CheeryBotCheeryBotTriangle118460,136259install
+Reference26: Pokedex WIPPokédexTriangle297490,120636install
+Reference27: Sans and PapsSP65500,088585install
+Reference28: taromati2‹k‰Ô“l˜a103910,062976install
+Reference29: Juan & ShaJuan & ShaJuan & Sha453230,052023install
+Reference30: Emily/Phase4.5EmilyTeddy762630,042360install
+Reference31: はろーYAYAわーるど紺野ややめマック朗132370,038172install
+Reference32: RalseiRalseiAsriel boOOOooOOoOOooo52070,033340install
+Reference33: Slimeslime42070,033340install
+Reference34: sam and stevestevesam31820,029313install
+Reference35: S the SkeletonSNone3900,014496install
+Reference36: Zacharie and the JudgeZachariePablo5860,013851install
+Reference37: いかがでしょうか？地道咲いかゅう4570,009181install
+Reference38: Prince ErikPrince ErikAva Wolf1550,008858install
+Reference39: The HandHandDummy4460,007409install
+Reference40: Ukaani_sampleモルフbook5430,006926install
+Reference41: AriAri1120,001933install
+Reference42: MiniDevMiniDev-190,001450install
+Reference43: EFKエミットフェイク480,001289install
+Reference44: Elise DemoElisenone760,000966install
+Reference45: CREEPYGHOSTCREEPYGHOST???550,000805install
+Reference46: Underfell FloweyFloweyTriangle130,000483install
+Reference47: 自然科学―民俗学境界あざみ太郎220,000322install
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnSurfaceRestore
+Reference0: 15
+Reference1: 1
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \0\s[15]\i[50]\i[60]\i[14]\w1\i[38]\i[39]\i[45]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \0\s[15]\i[50]\i[60]\i[14]\w1\i[38]\i[39]\i[45]
+Reference1: 
+Reference2: OnSurfaceRestore
+Reference3: 151
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnNetworkStatusChange
+Reference0: online
+Reference1: 192.168.1.152a01:cb19:88a7:4000:b94c:c136:ded0:34e92a01:cb19:88a7:4000:cc9f:6094:27cf:a8eb
+Reference2: wifi
+Reference3: 390
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnMinuteChange
+Reference0: 19
+Reference1: 0
+Reference2: 0
+Reference3: 1
+Reference4: 0
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \i[60]\i[14]\w1\i[37]\i[48]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \i[60]\i[14]\w1\i[37]\i[48]
+Reference1: 
+Reference2: OnMinuteChange
+Reference3: 190010
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnBatteryNotify
+Reference0: 100
+Reference1: -1
+Reference2: online
+Reference3: high
+
+
+// response (Execution time : 16[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: rateofusegraph
+Reference0: AzuraAzuraMusic_Player255522498736,236968boot
+Reference1: AzuraAzuraTriangle425418990130,585929install
+Reference2: Dr. W.D. GasterGasterBrothers5129878615,910720install
+Reference3: Underfell SansSans58158302,549619install
+Reference4: WheatleyWheatleyUranus43138552,231521install
+Reference5: JockeyJockey168115391,858500install
+Reference6: Multiverse SansMVSansphone169109671,766372install
+Reference7: FLELEflelenone11465571,056087install
+Reference8: Hunter and Smoker BetaHunter and Smoker Beta8250440,812399install
+Reference9: Mettaton EXMettatonTriangle12346920,755705install
+Reference10: Elise BETAElisenone2040050,645055install
+Reference11: S the SkeletonRYS-0825None1538510,620252install
+Reference12: Pet RockPet RockNone1335570,572899install
+Reference13: FoxTheoryリサbook835280,568228install
+Reference14: unknownunknownnone5026070,419890install
+Reference15: Your Test Friend FloweyFloweyTriangle4123450,377692install
+Reference16: Dusk_DawnDuskDawn2221860,352083install
+Reference17: Pokedex DemoPokédex DemoTriangle11419840,319548install
+Reference18: SparxSparn/a1418520,298288install
+Reference19: GT Ghost TemplateGirlTriangle7916810,270746install
+Reference20: Ghost Jam TemmieTemmieNO ONE!!!11916310,262693install
+Reference21: UnderfellSansSansPlaceholder914550,234346install
+Reference22: Ghost Jam TemmieTemmieTriangle6514540,234185install
+Reference23: BillBill612460,200684install
+Reference24: Dreamtale SansDreamtale Sans159600,154620install
+Reference25: CheeryBotCheeryBotTriangle118460,136259install
+Reference26: Pokedex WIPPokédexTriangle297490,120636install
+Reference27: Sans and PapsSP65500,088584install
+Reference28: taromati2‹k‰Ô“l˜a103910,062975install
+Reference29: Juan & ShaJuan & ShaJuan & Sha453230,052023install
+Reference30: Emily/Phase4.5EmilyTeddy762630,042359install
+Reference31: はろーYAYAわーるど紺野ややめマック朗132370,038172install
+Reference32: RalseiRalseiAsriel boOOOooOOoOOooo52070,033340install
+Reference33: Slimeslime42070,033340install
+Reference34: sam and stevestevesam31820,029313install
+Reference35: S the SkeletonSNone3900,014496install
+Reference36: Zacharie and the JudgeZachariePablo5860,013851install
+Reference37: いかがでしょうか？地道咲いかゅう4570,009181install
+Reference38: Prince ErikPrince ErikAva Wolf1550,008858install
+Reference39: The HandHandDummy4460,007409install
+Reference40: Ukaani_sampleモルフbook5430,006926install
+Reference41: AriAri1120,001933install
+Reference42: MiniDevMiniDev-190,001450install
+Reference43: EFKエミットフェイク480,001288install
+Reference44: Elise DemoElisenone760,000966install
+Reference45: CREEPYGHOSTCREEPYGHOST???550,000805install
+Reference46: Underfell FloweyFloweyTriangle130,000483install
+Reference47: 自然科学―民俗学境界あざみ太郎220,000322install
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnSurfaceRestore
+Reference0: 15
+Reference1: 1
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \0\s[15]\i[50]\i[60]\i[14]\w1\i[37]\i[45]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \0\s[15]\i[50]\i[60]\i[14]\w1\i[37]\i[45]
+Reference1: 
+Reference2: OnSurfaceRestore
+Reference3: 151
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnNetworkStatusChange
+Reference0: online
+Reference1: 192.168.1.152a01:cb19:88a7:4000:b94c:c136:ded0:34e92a01:cb19:88a7:4000:cc9f:6094:27cf:a8eb
+Reference2: wifi
+Reference3: 390
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnMinuteChange
+Reference0: 19
+Reference1: 0
+Reference2: 0
+Reference3: 1
+Reference4: 0
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \i[60]\i[14]\w1\i[34]\i[45]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \i[60]\i[14]\w1\i[34]\i[45]
+Reference1: 
+Reference2: OnMinuteChange
+Reference3: 190010
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnFileDropping
+Reference0: C:\Users\lisou\Documents\Ukagakas\ssp_2_4_19f\ghost\Azura
+Reference1: 0
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnUpdatedataCreating
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \f[italic,false]\i[2002]* Creating the updates2.dau file.\e
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \f[italic,false]\i[2002]* Creating the updates2.dau file.\e
+Reference1: 
+Reference2: OnUpdatedataCreating
+Reference3: 
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: balloon(0=0)
+ID: OnUpdatedataCreated
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \f[italic,false]\i[2002]* Successfully created updates2.dau.\e
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \f[italic,false]\i[2002]* Successfully created updates2.dau.\e
+Reference1: 
+Reference2: OnUpdatedataCreated
+Reference3: 
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: balloon(0=0)
+ID: OnBatteryNotify
+Reference0: 100
+Reference1: -1
+Reference2: online
+Reference3: high
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: balloon(0=0)
+ID: rateofusegraph
+Reference0: AzuraAzuraMusic_Player255522498836,237071boot
+Reference1: AzuraAzuraTriangle425418990130,585880install
+Reference2: Dr. W.D. GasterGasterBrothers5129878615,910694install
+Reference3: Underfell SansSans58158302,549615install
+Reference4: WheatleyWheatleyUranus43138552,231517install
+Reference5: JockeyJockey168115391,858497install
+Reference6: Multiverse SansMVSansphone169109671,766370install
+Reference7: FLELEflelenone11465571,056085install
+Reference8: Hunter and Smoker BetaHunter and Smoker Beta8250440,812398install
+Reference9: Mettaton EXMettatonTriangle12346920,755704install
+Reference10: Elise BETAElisenone2040050,645054install
+Reference11: S the SkeletonRYS-0825None1538510,620251install
+Reference12: Pet RockPet RockNone1335570,572898install
+Reference13: FoxTheoryリサbook835280,568228install
+Reference14: unknownunknownnone5026070,419889install
+Reference15: Your Test Friend FloweyFloweyTriangle4123450,377691install
+Reference16: Dusk_DawnDuskDawn2221860,352082install
+Reference17: Pokedex DemoPokédex DemoTriangle11419840,319547install
+Reference18: SparxSparn/a1418520,298287install
+Reference19: GT Ghost TemplateGirlTriangle7916810,270746install
+Reference20: Ghost Jam TemmieTemmieNO ONE!!!11916310,262693install
+Reference21: UnderfellSansSansPlaceholder914550,234346install
+Reference22: Ghost Jam TemmieTemmieTriangle6514540,234184install
+Reference23: BillBill612460,200684install
+Reference24: Dreamtale SansDreamtale Sans159600,154620install
+Reference25: CheeryBotCheeryBotTriangle118460,136259install
+Reference26: Pokedex WIPPokédexTriangle297490,120636install
+Reference27: Sans and PapsSP65500,088584install
+Reference28: taromati2‹k‰Ô“l˜a103910,062975install
+Reference29: Juan & ShaJuan & ShaJuan & Sha453230,052023install
+Reference30: Emily/Phase4.5EmilyTeddy762630,042359install
+Reference31: はろーYAYAわーるど紺野ややめマック朗132370,038172install
+Reference32: RalseiRalseiAsriel boOOOooOOoOOooo52070,033340install
+Reference33: Slimeslime42070,033340install
+Reference34: sam and stevestevesam31820,029313install
+Reference35: S the SkeletonSNone3900,014496install
+Reference36: Zacharie and the JudgeZachariePablo5860,013851install
+Reference37: いかがでしょうか？地道咲いかゅう4570,009181install
+Reference38: Prince ErikPrince ErikAva Wolf1550,008858install
+Reference39: The HandHandDummy4460,007409install
+Reference40: Ukaani_sampleモルフbook5430,006926install
+Reference41: AriAri1120,001933install
+Reference42: MiniDevMiniDev-190,001450install
+Reference43: EFKエミットフェイク480,001288install
+Reference44: Elise DemoElisenone760,000966install
+Reference45: CREEPYGHOSTCREEPYGHOST???550,000805install
+Reference46: Underfell FloweyFloweyTriangle130,000483install
+Reference47: 自然科学―民俗学境界あざみ太郎220,000322install
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnBalloonClose
+Reference0: \f[italic,false]\i[2002]* Successfully created updates2.dau.\e
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnSurfaceRestore
+Reference0: 15
+Reference1: 1
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \0\s[15]\i[50]\i[60]\i[14]\w1\i[30]\i[31]\i[46]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \0\s[15]\i[50]\i[60]\i[14]\w1\i[30]\i[31]\i[46]
+Reference1: 
+Reference2: OnSurfaceRestore
+Reference3: 151
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnNetworkStatusChange
+Reference0: online
+Reference1: 192.168.1.152a01:cb19:88a7:4000:b94c:c136:ded0:34e92a01:cb19:88a7:4000:cc9f:6094:27cf:a8eb
+Reference2: wifi
+Reference3: 390
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnMinuteChange
+Reference0: 19
+Reference1: 0
+Reference2: 0
+Reference3: 1
+Reference4: 20
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \i[60]\i[14]\w1\i[37]\i[50]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \i[60]\i[14]\w1\i[37]\i[50]
+Reference1: 
+Reference2: OnMinuteChange
+Reference3: 1900120
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnBatteryNotify
+Reference0: 100
+Reference1: -1
+Reference2: online
+Reference3: high
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: rateofusegraph
+Reference0: AzuraAzuraMusic_Player255522498936,237173boot
+Reference1: AzuraAzuraTriangle425418990130,585831install
+Reference2: Dr. W.D. GasterGasterBrothers5129878615,910669install
+Reference3: Underfell SansSans58158302,549611install
+Reference4: WheatleyWheatleyUranus43138552,231514install
+Reference5: JockeyJockey168115391,858494install
+Reference6: Multiverse SansMVSansphone169109671,766367install
+Reference7: FLELEflelenone11465571,056083install
+Reference8: Hunter and Smoker BetaHunter and Smoker Beta8250440,812397install
+Reference9: Mettaton EXMettatonTriangle12346920,755703install
+Reference10: Elise BETAElisenone2040050,645053install
+Reference11: S the SkeletonRYS-0825None1538510,620250install
+Reference12: Pet RockPet RockNone1335570,572897install
+Reference13: FoxTheoryリサbook835280,568227install
+Reference14: unknownunknownnone5026070,419889install
+Reference15: Your Test Friend FloweyFloweyTriangle4123450,377690install
+Reference16: Dusk_DawnDuskDawn2221860,352081install
+Reference17: Pokedex DemoPokédex DemoTriangle11419840,319547install
+Reference18: SparxSparn/a1418520,298287install
+Reference19: GT Ghost TemplateGirlTriangle7916810,270745install
+Reference20: Ghost Jam TemmieTemmieNO ONE!!!11916310,262692install
+Reference21: UnderfellSansSansPlaceholder914550,234345install
+Reference22: Ghost Jam TemmieTemmieTriangle6514540,234184install
+Reference23: BillBill612460,200683install
+Reference24: Dreamtale SansDreamtale Sans159600,154619install
+Reference25: CheeryBotCheeryBotTriangle118460,136258install
+Reference26: Pokedex WIPPokédexTriangle297490,120635install
+Reference27: Sans and PapsSP65500,088584install
+Reference28: taromati2‹k‰Ô“l˜a103910,062975install
+Reference29: Juan & ShaJuan & ShaJuan & Sha453230,052023install
+Reference30: Emily/Phase4.5EmilyTeddy762630,042359install
+Reference31: はろーYAYAわーるど紺野ややめマック朗132370,038172install
+Reference32: RalseiRalseiAsriel boOOOooOOoOOooo52070,033340install
+Reference33: Slimeslime42070,033340install
+Reference34: sam and stevestevesam31820,029313install
+Reference35: S the SkeletonSNone3900,014496install
+Reference36: Zacharie and the JudgeZachariePablo5860,013851install
+Reference37: いかがでしょうか？地道咲いかゅう4570,009181install
+Reference38: Prince ErikPrince ErikAva Wolf1550,008858install
+Reference39: The HandHandDummy4460,007409install
+Reference40: Ukaani_sampleモルフbook5430,006926install
+Reference41: AriAri1120,001933install
+Reference42: MiniDevMiniDev-190,001450install
+Reference43: EFKエミットフェイク480,001288install
+Reference44: Elise DemoElisenone760,000966install
+Reference45: CREEPYGHOSTCREEPYGHOST???550,000805install
+Reference46: Underfell FloweyFloweyTriangle130,000483install
+Reference47: 自然科学―民俗学境界あざみ太郎220,000322install
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnSurfaceRestore
+Reference0: 15
+Reference1: 1
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \0\s[15]\i[50]\i[60]\i[14]\w1\i[37]\i[50]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \0\s[15]\i[50]\i[60]\i[14]\w1\i[37]\i[50]
+Reference1: 
+Reference2: OnSurfaceRestore
+Reference3: 151
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnNetworkStatusChange
+Reference0: online
+Reference1: 192.168.1.152a01:cb19:88a7:4000:b94c:c136:ded0:34e92a01:cb19:88a7:4000:cc9f:6094:27cf:a8eb
+Reference2: wifi
+Reference3: 390
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnMinuteChange
+Reference0: 19
+Reference1: 0
+Reference2: 0
+Reference3: 1
+Reference4: 0
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \i[60]\i[14]\w1\i[30]\i[31]\i[46]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \i[60]\i[14]\w1\i[30]\i[31]\i[46]
+Reference1: 
+Reference2: OnMinuteChange
+Reference3: 190010
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnBatteryNotify
+Reference0: 100
+Reference1: -1
+Reference2: online
+Reference3: high
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: rateofusegraph
+Reference0: AzuraAzuraMusic_Player255522499036,237276boot
+Reference1: AzuraAzuraTriangle425418990130,585781install
+Reference2: Dr. W.D. GasterGasterBrothers5129878615,910643install
+Reference3: Underfell SansSans58158302,549607install
+Reference4: WheatleyWheatleyUranus43138552,231510install
+Reference5: JockeyJockey168115391,858491install
+Reference6: Multiverse SansMVSansphone169109671,766364install
+Reference7: FLELEflelenone11465571,056082install
+Reference8: Hunter and Smoker BetaHunter and Smoker Beta8250440,812395install
+Reference9: Mettaton EXMettatonTriangle12346920,755702install
+Reference10: Elise BETAElisenone2040050,645052install
+Reference11: S the SkeletonRYS-0825None1538510,620249install
+Reference12: Pet RockPet RockNone1335570,572897install
+Reference13: FoxTheoryリサbook835280,568226install
+Reference14: unknownunknownnone5026070,419888install
+Reference15: Your Test Friend FloweyFloweyTriangle4123450,377690install
+Reference16: Dusk_DawnDuskDawn2221860,352081install
+Reference17: Pokedex DemoPokédex DemoTriangle11419840,319546install
+Reference18: SparxSparn/a1418520,298286install
+Reference19: GT Ghost TemplateGirlTriangle7916810,270745install
+Reference20: Ghost Jam TemmieTemmieNO ONE!!!11916310,262692install
+Reference21: UnderfellSansSansPlaceholder914550,234345install
+Reference22: Ghost Jam TemmieTemmieTriangle6514540,234184install
+Reference23: BillBill612460,200683install
+Reference24: Dreamtale SansDreamtale Sans159600,154619install
+Reference25: CheeryBotCheeryBotTriangle118460,136258install
+Reference26: Pokedex WIPPokédexTriangle297490,120635install
+Reference27: Sans and PapsSP65500,088584install
+Reference28: taromati2‹k‰Ô“l˜a103910,062975install
+Reference29: Juan & ShaJuan & ShaJuan & Sha453230,052023install
+Reference30: Emily/Phase4.5EmilyTeddy762630,042359install
+Reference31: はろーYAYAわーるど紺野ややめマック朗132370,038172install
+Reference32: RalseiRalseiAsriel boOOOooOOoOOooo52070,033340install
+Reference33: Slimeslime42070,033340install
+Reference34: sam and stevestevesam31820,029313install
+Reference35: S the SkeletonSNone3900,014496install
+Reference36: Zacharie and the JudgeZachariePablo5860,013851install
+Reference37: いかがでしょうか？地道咲いかゅう4570,009181install
+Reference38: Prince ErikPrince ErikAva Wolf1550,008858install
+Reference39: The HandHandDummy4460,007409install
+Reference40: Ukaani_sampleモルフbook5430,006926install
+Reference41: AriAri1120,001933install
+Reference42: MiniDevMiniDev-190,001450install
+Reference43: EFKエミットフェイク480,001288install
+Reference44: Elise DemoElisenone760,000966install
+Reference45: CREEPYGHOSTCREEPYGHOST???550,000805install
+Reference46: Underfell FloweyFloweyTriangle130,000483install
+Reference47: 自然科学―民俗学境界あざみ太郎220,000322install
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnSurfaceRestore
+Reference0: 15
+Reference1: 1
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \0\s[15]\i[45]\i[60]\i[14]\w1\i[34]\i[48]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \0\s[15]\i[45]\i[60]\i[14]\w1\i[34]\i[48]
+Reference1: 
+Reference2: OnSurfaceRestore
+Reference3: 151
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnNetworkStatusChange
+Reference0: online
+Reference1: 192.168.1.152a01:cb19:88a7:4000:b94c:c136:ded0:34e92a01:cb19:88a7:4000:cc9f:6094:27cf:a8eb
+Reference2: wifi
+Reference3: 390
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnMinuteChange
+Reference0: 19
+Reference1: 0
+Reference2: 0
+Reference3: 1
+Reference4: 2
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \i[60]\i[14]\w1\i[37]\i[50]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \i[60]\i[14]\w1\i[37]\i[50]
+Reference1: 
+Reference2: OnMinuteChange
+Reference3: 190012
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnBatteryNotify
+Reference0: 100
+Reference1: -1
+Reference2: online
+Reference3: high
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: rateofusegraph
+Reference0: AzuraAzuraMusic_Player255522499136,237379boot
+Reference1: AzuraAzuraTriangle425418990130,585732install
+Reference2: Dr. W.D. GasterGasterBrothers5129878615,910617install
+Reference3: Underfell SansSans58158302,549603install
+Reference4: WheatleyWheatleyUranus43138552,231507install
+Reference5: JockeyJockey168115391,858488install
+Reference6: Multiverse SansMVSansphone169109671,766361install
+Reference7: FLELEflelenone11465571,056080install
+Reference8: Hunter and Smoker BetaHunter and Smoker Beta8250440,812394install
+Reference9: Mettaton EXMettatonTriangle12346920,755700install
+Reference10: Elise BETAElisenone2040050,645051install
+Reference11: S the SkeletonRYS-0825None1538510,620248install
+Reference12: Pet RockPet RockNone1335570,572896install
+Reference13: FoxTheoryリサbook835280,568225install
+Reference14: unknownunknownnone5026070,419887install
+Reference15: Your Test Friend FloweyFloweyTriangle4123450,377689install
+Reference16: Dusk_DawnDuskDawn2221860,352080install
+Reference17: Pokedex DemoPokédex DemoTriangle11419840,319546install
+Reference18: SparxSparn/a1418520,298286install
+Reference19: GT Ghost TemplateGirlTriangle7916810,270744install
+Reference20: Ghost Jam TemmieTemmieNO ONE!!!11916310,262691install
+Reference21: UnderfellSansSansPlaceholder914550,234344install
+Reference22: Ghost Jam TemmieTemmieTriangle6514540,234183install
+Reference23: BillBill612460,200683install
+Reference24: Dreamtale SansDreamtale Sans159600,154619install
+Reference25: CheeryBotCheeryBotTriangle118460,136258install
+Reference26: Pokedex WIPPokédexTriangle297490,120635install
+Reference27: Sans and PapsSP65500,088584install
+Reference28: taromati2‹k‰Ô“l˜a103910,062975install
+Reference29: Juan & ShaJuan & ShaJuan & Sha453230,052023install
+Reference30: Emily/Phase4.5EmilyTeddy762630,042359install
+Reference31: はろーYAYAわーるど紺野ややめマック朗132370,038172install
+Reference32: RalseiRalseiAsriel boOOOooOOoOOooo52070,033340install
+Reference33: Slimeslime42070,033340install
+Reference34: sam and stevestevesam31820,029313install
+Reference35: S the SkeletonSNone3900,014496install
+Reference36: Zacharie and the JudgeZachariePablo5860,013851install
+Reference37: いかがでしょうか？地道咲いかゅう4570,009181install
+Reference38: Prince ErikPrince ErikAva Wolf1550,008858install
+Reference39: The HandHandDummy4460,007409install
+Reference40: Ukaani_sampleモルフbook5430,006926install
+Reference41: AriAri1120,001933install
+Reference42: MiniDevMiniDev-190,001450install
+Reference43: EFKエミットフェイク480,001288install
+Reference44: Elise DemoElisenone760,000966install
+Reference45: CREEPYGHOSTCREEPYGHOST???550,000805install
+Reference46: Underfell FloweyFloweyTriangle130,000483install
+Reference47: 自然科学―民俗学境界あざみ太郎220,000322install
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnSurfaceRestore
+Reference0: 15
+Reference1: 1
+
+
+// response (Execution time : 15[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \0\s[15]\i[50]\i[60]\i[14]\w1\i[35]\i[49]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \0\s[15]\i[50]\i[60]\i[14]\w1\i[35]\i[49]
+Reference1: 
+Reference2: OnSurfaceRestore
+Reference3: 151
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnNetworkStatusChange
+Reference0: online
+Reference1: 192.168.1.152a01:cb19:88a7:4000:b94c:c136:ded0:34e92a01:cb19:88a7:4000:cc9f:6094:27cf:a8eb
+Reference2: wifi
+Reference3: 390
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnMinuteChange
+Reference0: 19
+Reference1: 0
+Reference2: 0
+Reference3: 1
+Reference4: 0
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \i[60]\i[14]\w1\i[35]\i[46]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \i[60]\i[14]\w1\i[35]\i[46]
+Reference1: 
+Reference2: OnMinuteChange
+Reference3: 190010
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnBatteryNotify
+Reference0: 100
+Reference1: -1
+Reference2: online
+Reference3: high
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: rateofusegraph
+Reference0: AzuraAzuraMusic_Player255522499236,237482boot
+Reference1: AzuraAzuraTriangle425418990130,585683install
+Reference2: Dr. W.D. GasterGasterBrothers5129878615,910592install
+Reference3: Underfell SansSans58158302,549599install
+Reference4: WheatleyWheatleyUranus43138552,231503install
+Reference5: JockeyJockey168115391,858485install
+Reference6: Multiverse SansMVSansphone169109671,766358install
+Reference7: FLELEflelenone11465571,056078install
+Reference8: Hunter and Smoker BetaHunter and Smoker Beta8250440,812393install
+Reference9: Mettaton EXMettatonTriangle12346920,755699install
+Reference10: Elise BETAElisenone2040050,645050install
+Reference11: S the SkeletonRYS-0825None1538510,620247install
+Reference12: Pet RockPet RockNone1335570,572895install
+Reference13: FoxTheoryリサbook835280,568224install
+Reference14: unknownunknownnone5026070,419887install
+Reference15: Your Test Friend FloweyFloweyTriangle4123450,377689install
+Reference16: Dusk_DawnDuskDawn2221860,352080install
+Reference17: Pokedex DemoPokédex DemoTriangle11419840,319545install
+Reference18: SparxSparn/a1418520,298285install
+Reference19: GT Ghost TemplateGirlTriangle7916810,270744install
+Reference20: Ghost Jam TemmieTemmieNO ONE!!!11916310,262691install
+Reference21: UnderfellSansSansPlaceholder914550,234344install
+Reference22: Ghost Jam TemmieTemmieTriangle6514540,234183install
+Reference23: BillBill612460,200682install
+Reference24: Dreamtale SansDreamtale Sans159600,154619install
+Reference25: CheeryBotCheeryBotTriangle118460,136258install
+Reference26: Pokedex WIPPokédexTriangle297490,120635install
+Reference27: Sans and PapsSP65500,088584install
+Reference28: taromati2‹k‰Ô“l˜a103910,062975install
+Reference29: Juan & ShaJuan & ShaJuan & Sha453230,052023install
+Reference30: Emily/Phase4.5EmilyTeddy762630,042359install
+Reference31: はろーYAYAわーるど紺野ややめマック朗132370,038172install
+Reference32: RalseiRalseiAsriel boOOOooOOoOOooo52070,033340install
+Reference33: Slimeslime42070,033340install
+Reference34: sam and stevestevesam31820,029313install
+Reference35: S the SkeletonSNone3900,014496install
+Reference36: Zacharie and the JudgeZachariePablo5860,013851install
+Reference37: いかがでしょうか？地道咲いかゅう4570,009180install
+Reference38: Prince ErikPrince ErikAva Wolf1550,008858install
+Reference39: The HandHandDummy4460,007409install
+Reference40: Ukaani_sampleモルフbook5430,006926install
+Reference41: AriAri1120,001933install
+Reference42: MiniDevMiniDev-190,001450install
+Reference43: EFKエミットフェイク480,001288install
+Reference44: Elise DemoElisenone760,000966install
+Reference45: CREEPYGHOSTCREEPYGHOST???550,000805install
+Reference46: Underfell FloweyFloweyTriangle130,000483install
+Reference47: 自然科学―民俗学境界あざみ太郎220,000322install
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnSurfaceRestore
+Reference0: 15
+Reference1: 1
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \0\s[15]\i[50]\i[60]\i[14]\w1\i[32]\i[33]\i[46]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \0\s[15]\i[50]\i[60]\i[14]\w1\i[32]\i[33]\i[46]
+Reference1: 
+Reference2: OnSurfaceRestore
+Reference3: 151
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnNetworkStatusChange
+Reference0: online
+Reference1: 192.168.1.152a01:cb19:88a7:4000:b94c:c136:ded0:34e92a01:cb19:88a7:4000:cc9f:6094:27cf:a8eb
+Reference2: wifi
+Reference3: 390
+
+
+// response (Execution time : 16[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnMinuteChange
+Reference0: 19
+Reference1: 0
+Reference2: 0
+Reference3: 1
+Reference4: 40
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \i[60]\i[14]\w1\i[37]\i[50]\0\![embed,OnOCComputer]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \i[60]\i[14]\w1\i[37]\i[50]\0\![embed,OnOCComputer]
+Reference1: 
+Reference2: OnMinuteChange
+Reference3: 1900140
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: talking
+ID: OnOCComputer
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \i[69]\i[18]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \i[69]\i[18]
+Reference1: 
+Reference2: 
+Reference3: 
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnBatteryNotify
+Reference0: 100
+Reference1: -1
+Reference2: online
+Reference3: high
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: rateofusegraph
+Reference0: AzuraAzuraMusic_Player255522499336,237584boot
+Reference1: AzuraAzuraTriangle425418990130,585634install
+Reference2: Dr. W.D. GasterGasterBrothers5129878615,910566install
+Reference3: Underfell SansSans58158302,549595install
+Reference4: WheatleyWheatleyUranus43138552,231499install
+Reference5: JockeyJockey168115391,858482install
+Reference6: Multiverse SansMVSansphone169109671,766355install
+Reference7: FLELEflelenone11465571,056077install
+Reference8: Hunter and Smoker BetaHunter and Smoker Beta8250440,812391install
+Reference9: Mettaton EXMettatonTriangle12346920,755698install
+Reference10: Elise BETAElisenone2040050,645049install
+Reference11: S the SkeletonRYS-0825None1538510,620246install
+Reference12: Pet RockPet RockNone1335570,572894install
+Reference13: FoxTheoryリサbook835280,568223install
+Reference14: unknownunknownnone5026070,419886install
+Reference15: Your Test Friend FloweyFloweyTriangle4123450,377688install
+Reference16: Dusk_DawnDuskDawn2221860,352079install
+Reference17: Pokedex DemoPokédex DemoTriangle11419840,319545install
+Reference18: SparxSparn/a1418520,298285install
+Reference19: GT Ghost TemplateGirlTriangle7916810,270743install
+Reference20: Ghost Jam TemmieTemmieNO ONE!!!11916310,262690install
+Reference21: UnderfellSansSansPlaceholder914550,234344install
+Reference22: Ghost Jam TemmieTemmieTriangle6514540,234183install
+Reference23: BillBill612460,200682install
+Reference24: Dreamtale SansDreamtale Sans159600,154619install
+Reference25: CheeryBotCheeryBotTriangle118460,136258install
+Reference26: Pokedex WIPPokédexTriangle297490,120635install
+Reference27: Sans and PapsSP65500,088584install
+Reference28: taromati2‹k‰Ô“l˜a103910,062975install
+Reference29: Juan & ShaJuan & ShaJuan & Sha453230,052023install
+Reference30: Emily/Phase4.5EmilyTeddy762630,042359install
+Reference31: はろーYAYAわーるど紺野ややめマック朗132370,038171install
+Reference32: RalseiRalseiAsriel boOOOooOOoOOooo52070,033340install
+Reference33: Slimeslime42070,033340install
+Reference34: sam and stevestevesam31820,029313install
+Reference35: S the SkeletonSNone3900,014495install
+Reference36: Zacharie and the JudgeZachariePablo5860,013851install
+Reference37: いかがでしょうか？地道咲いかゅう4570,009180install
+Reference38: Prince ErikPrince ErikAva Wolf1550,008858install
+Reference39: The HandHandDummy4460,007409install
+Reference40: Ukaani_sampleモルフbook5430,006926install
+Reference41: AriAri1120,001933install
+Reference42: MiniDevMiniDev-190,001450install
+Reference43: EFKエミットフェイク480,001288install
+Reference44: Elise DemoElisenone760,000966install
+Reference45: CREEPYGHOSTCREEPYGHOST???550,000805install
+Reference46: Underfell FloweyFloweyTriangle130,000483install
+Reference47: 自然科学―民俗学境界あざみ太郎220,000322install
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnSurfaceRestore
+Reference0: 15
+Reference1: 1
+
+
+// response (Execution time : 16[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \0\i[18]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \0\i[18]
+Reference1: 
+Reference2: OnSurfaceRestore
+Reference3: 151
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnNetworkStatusChange
+Reference0: online
+Reference1: 192.168.1.152a01:cb19:88a7:4000:b94c:c136:ded0:34e92a01:cb19:88a7:4000:cc9f:6094:27cf:a8eb
+Reference2: wifi
+Reference3: 390
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnMinuteChange
+Reference0: 19
+Reference1: 0
+Reference2: 0
+Reference3: 1
+Reference4: 34
+
+
+// response (Execution time : 16[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \i[18]\i[38]\i[39]\i[70]\i[90]\i[45]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \i[18]\i[38]\i[39]\i[70]\i[90]\i[45]
+Reference1: 
+Reference2: OnMinuteChange
+Reference3: 1900134
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnBatteryNotify
+Reference0: 100
+Reference1: -1
+Reference2: online
+Reference3: high
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: rateofusegraph
+Reference0: AzuraAzuraMusic_Player255522499436,237687boot
+Reference1: AzuraAzuraTriangle425418990130,585584install
+Reference2: Dr. W.D. GasterGasterBrothers5129878615,910540install
+Reference3: Underfell SansSans58158302,549591install
+Reference4: WheatleyWheatleyUranus43138552,231496install
+Reference5: JockeyJockey168115391,858479install
+Reference6: Multiverse SansMVSansphone169109671,766352install
+Reference7: FLELEflelenone11465571,056075install
+Reference8: Hunter and Smoker BetaHunter and Smoker Beta8250440,812390install
+Reference9: Mettaton EXMettatonTriangle12346920,755697install
+Reference10: Elise BETAElisenone2040050,645048install
+Reference11: S the SkeletonRYS-0825None1538510,620245install
+Reference12: Pet RockPet RockNone1335570,572893install
+Reference13: FoxTheoryリサbook835280,568222install
+Reference14: unknownunknownnone5026070,419885install
+Reference15: Your Test Friend FloweyFloweyTriangle4123450,377687install
+Reference16: Dusk_DawnDuskDawn2221860,352079install
+Reference17: Pokedex DemoPokédex DemoTriangle11419840,319544install
+Reference18: SparxSparn/a1418520,298284install
+Reference19: GT Ghost TemplateGirlTriangle7916810,270743install
+Reference20: Ghost Jam TemmieTemmieNO ONE!!!11916310,262690install
+Reference21: UnderfellSansSansPlaceholder914550,234343install
+Reference22: Ghost Jam TemmieTemmieTriangle6514540,234182install
+Reference23: BillBill612460,200682install
+Reference24: Dreamtale SansDreamtale Sans159600,154618install
+Reference25: CheeryBotCheeryBotTriangle118460,136257install
+Reference26: Pokedex WIPPokédexTriangle297490,120634install
+Reference27: Sans and PapsSP65500,088583install
+Reference28: taromati2‹k‰Ô“l˜a103910,062975install
+Reference29: Juan & ShaJuan & ShaJuan & Sha453230,052023install
+Reference30: Emily/Phase4.5EmilyTeddy762630,042359install
+Reference31: はろーYAYAわーるど紺野ややめマック朗132370,038171install
+Reference32: RalseiRalseiAsriel boOOOooOOoOOooo52070,033340install
+Reference33: Slimeslime42070,033340install
+Reference34: sam and stevestevesam31820,029313install
+Reference35: S the SkeletonSNone3900,014495install
+Reference36: Zacharie and the JudgeZachariePablo5860,013851install
+Reference37: いかがでしょうか？地道咲いかゅう4570,009180install
+Reference38: Prince ErikPrince ErikAva Wolf1550,008858install
+Reference39: The HandHandDummy4460,007409install
+Reference40: Ukaani_sampleモルフbook5430,006926install
+Reference41: AriAri1120,001933install
+Reference42: MiniDevMiniDev-190,001450install
+Reference43: EFKエミットフェイク480,001288install
+Reference44: Elise DemoElisenone760,000966install
+Reference45: CREEPYGHOSTCREEPYGHOST???550,000805install
+Reference46: Underfell FloweyFloweyTriangle130,000483install
+Reference47: 自然科学―民俗学境界あざみ太郎220,000322install
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnSurfaceRestore
+Reference0: 15
+Reference1: 1
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \0\i[18]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \0\i[18]
+Reference1: 
+Reference2: OnSurfaceRestore
+Reference3: 151
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnNetworkStatusChange
+Reference0: online
+Reference1: 192.168.1.152a01:cb19:88a7:4000:b94c:c136:ded0:34e92a01:cb19:88a7:4000:cc9f:6094:27cf:a8eb
+Reference2: wifi
+Reference3: 390
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnMinuteChange
+Reference0: 19
+Reference1: 0
+Reference2: 0
+Reference3: 1
+Reference4: 0
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \i[11]\i[38]\i[39]\i[70]\i[50]\0\![embed,OnChangePose]\e
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \i[11]\i[38]\i[39]\i[70]\i[50]\0\![embed,OnChangePose]\e
+Reference1: 
+Reference2: OnMinuteChange
+Reference3: 190010
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: talking
+ID: OnChangePose
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \i[0]\w9\w5\0\s[10]\i[45]\i[71]\i[91]\w1
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \i[0]\w9\w5\0\s[10]\i[45]\i[71]\i[91]\w1
+Reference1: 
+Reference2: 
+Reference3: 
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: talking
+ID: OnSurfaceChange
+Reference0: 10
+Reference1: 1
+Reference2: 0,10,300,300
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnBatteryNotify
+Reference0: 100
+Reference1: -1
+Reference2: online
+Reference3: high
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: rateofusegraph
+Reference0: AzuraAzuraMusic_Player255522499536,237790boot
+Reference1: AzuraAzuraTriangle425418990130,585535install
+Reference2: Dr. W.D. GasterGasterBrothers5129878615,910515install
+Reference3: Underfell SansSans58158302,549586install
+Reference4: WheatleyWheatleyUranus43138552,231492install
+Reference5: JockeyJockey168115391,858476install
+Reference6: Multiverse SansMVSansphone169109671,766350install
+Reference7: FLELEflelenone11465571,056073install
+Reference8: Hunter and Smoker BetaHunter and Smoker Beta8250440,812389install
+Reference9: Mettaton EXMettatonTriangle12346920,755695install
+Reference10: Elise BETAElisenone2040050,645047install
+Reference11: S the SkeletonRYS-0825None1538510,620244install
+Reference12: Pet RockPet RockNone1335570,572892install
+Reference13: FoxTheoryリサbook835280,568221install
+Reference14: unknownunknownnone5026070,419885install
+Reference15: Your Test Friend FloweyFloweyTriangle4123450,377687install
+Reference16: Dusk_DawnDuskDawn2221860,352078install
+Reference17: Pokedex DemoPokédex DemoTriangle11419840,319544install
+Reference18: SparxSparn/a1418520,298284install
+Reference19: GT Ghost TemplateGirlTriangle7916810,270743install
+Reference20: Ghost Jam TemmieTemmieNO ONE!!!11916310,262690install
+Reference21: UnderfellSansSansPlaceholder914550,234343install
+Reference22: Ghost Jam TemmieTemmieTriangle6514540,234182install
+Reference23: BillBill612460,200681install
+Reference24: Dreamtale SansDreamtale Sans159600,154618install
+Reference25: CheeryBotCheeryBotTriangle118460,136257install
+Reference26: Pokedex WIPPokédexTriangle297490,120634install
+Reference27: Sans and PapsSP65500,088583install
+Reference28: taromati2‹k‰Ô“l˜a103910,062975install
+Reference29: Juan & ShaJuan & ShaJuan & Sha453230,052023install
+Reference30: Emily/Phase4.5EmilyTeddy762630,042359install
+Reference31: はろーYAYAわーるど紺野ややめマック朗132370,038171install
+Reference32: RalseiRalseiAsriel boOOOooOOoOOooo52070,033340install
+Reference33: Slimeslime42070,033340install
+Reference34: sam and stevestevesam31820,029313install
+Reference35: S the SkeletonSNone3900,014495install
+Reference36: Zacharie and the JudgeZachariePablo5860,013851install
+Reference37: いかがでしょうか？地道咲いかゅう4570,009180install
+Reference38: Prince ErikPrince ErikAva Wolf1550,008858install
+Reference39: The HandHandDummy4460,007409install
+Reference40: Ukaani_sampleモルフbook5430,006926install
+Reference41: AriAri1120,001933install
+Reference42: MiniDevMiniDev-190,001450install
+Reference43: EFKエミットフェイク480,001288install
+Reference44: Elise DemoElisenone760,000966install
+Reference45: CREEPYGHOSTCREEPYGHOST???550,000805install
+Reference46: Underfell FloweyFloweyTriangle130,000483install
+Reference47: 自然科学―民俗学境界あざみ太郎220,000322install
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnSurfaceRestore
+Reference0: 10
+Reference1: 1
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \0\i[18]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \0\i[18]
+Reference1: 
+Reference2: OnSurfaceRestore
+Reference3: 101
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnNetworkStatusChange
+Reference0: online
+Reference1: 192.168.1.152a01:cb19:88a7:4000:b94c:c136:ded0:34e92a01:cb19:88a7:4000:cc9f:6094:27cf:a8eb
+Reference2: wifi
+Reference3: 390
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnMinuteChange
+Reference0: 19
+Reference1: 0
+Reference2: 0
+Reference3: 1
+Reference4: 0
+
+
+// response (Execution time : 16[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \i[18]\i[38]\i[39]\i[70]\i[90]\i[45]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \i[18]\i[38]\i[39]\i[70]\i[90]\i[45]
+Reference1: 
+Reference2: OnMinuteChange
+Reference3: 190010
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnBatteryNotify
+Reference0: 100
+Reference1: -1
+Reference2: online
+Reference3: high
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: rateofusegraph
+Reference0: AzuraAzuraMusic_Player255522499636,237892boot
+Reference1: AzuraAzuraTriangle425418990130,585486install
+Reference2: Dr. W.D. GasterGasterBrothers5129878615,910489install
+Reference3: Underfell SansSans58158302,549582install
+Reference4: WheatleyWheatleyUranus43138552,231489install
+Reference5: JockeyJockey168115391,858473install
+Reference6: Multiverse SansMVSansphone169109671,766347install
+Reference7: FLELEflelenone11465571,056071install
+Reference8: Hunter and Smoker BetaHunter and Smoker Beta8250440,812387install
+Reference9: Mettaton EXMettatonTriangle12346920,755694install
+Reference10: Elise BETAElisenone2040050,645046install
+Reference11: S the SkeletonRYS-0825None1538510,620243install
+Reference12: Pet RockPet RockNone1335570,572891install
+Reference13: FoxTheoryリサbook835280,568220install
+Reference14: unknownunknownnone5026070,419884install
+Reference15: Your Test Friend FloweyFloweyTriangle4123450,377686install
+Reference16: Dusk_DawnDuskDawn2221860,352078install
+Reference17: Pokedex DemoPokédex DemoTriangle11419840,319543install
+Reference18: SparxSparn/a1418520,298283install
+Reference19: GT Ghost TemplateGirlTriangle7916810,270742install
+Reference20: Ghost Jam TemmieTemmieNO ONE!!!11916310,262689install
+Reference21: UnderfellSansSansPlaceholder914550,234343install
+Reference22: Ghost Jam TemmieTemmieTriangle6514540,234181install
+Reference23: BillBill612460,200681install
+Reference24: Dreamtale SansDreamtale Sans159600,154618install
+Reference25: CheeryBotCheeryBotTriangle118460,136257install
+Reference26: Pokedex WIPPokédexTriangle297490,120634install
+Reference27: Sans and PapsSP65500,088583install
+Reference28: taromati2‹k‰Ô“l˜a103910,062975install
+Reference29: Juan & ShaJuan & ShaJuan & Sha453230,052022install
+Reference30: Emily/Phase4.5EmilyTeddy762630,042359install
+Reference31: はろーYAYAわーるど紺野ややめマック朗132370,038171install
+Reference32: RalseiRalseiAsriel boOOOooOOoOOooo52070,033339install
+Reference33: Slimeslime42070,033339install
+Reference34: sam and stevestevesam31820,029313install
+Reference35: S the SkeletonSNone3900,014495install
+Reference36: Zacharie and the JudgeZachariePablo5860,013851install
+Reference37: いかがでしょうか？地道咲いかゅう4570,009180install
+Reference38: Prince ErikPrince ErikAva Wolf1550,008858install
+Reference39: The HandHandDummy4460,007409install
+Reference40: Ukaani_sampleモルフbook5430,006926install
+Reference41: AriAri1120,001933install
+Reference42: MiniDevMiniDev-190,001450install
+Reference43: EFKエミットフェイク480,001288install
+Reference44: Elise DemoElisenone760,000966install
+Reference45: CREEPYGHOSTCREEPYGHOST???550,000805install
+Reference46: Underfell FloweyFloweyTriangle130,000483install
+Reference47: 自然科学―民俗学境界あざみ太郎220,000322install
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnSurfaceRestore
+Reference0: 10
+Reference1: 1
+
+
+// response (Execution time : 15[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \0\i[18]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \0\i[18]
+Reference1: 
+Reference2: OnSurfaceRestore
+Reference3: 101
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnNetworkStatusChange
+Reference0: online
+Reference1: 192.168.1.152a01:cb19:88a7:4000:b94c:c136:ded0:34e92a01:cb19:88a7:4000:cc9f:6094:27cf:a8eb
+Reference2: wifi
+Reference3: 390
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnMinuteChange
+Reference0: 19
+Reference1: 0
+Reference2: 0
+Reference3: 1
+Reference4: 18
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \i[18]\i[38]\i[39]\i[71]\i[50]\0\![embed,OnDrawing]\e
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \i[18]\i[38]\i[39]\i[71]\i[50]\0\![embed,OnDrawing]\e
+Reference1: 
+Reference2: OnMinuteChange
+Reference3: 1900118
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: talking
+ID: OnDrawing
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \![embed,OnChangePose]\i[62]\i[14]
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \![embed,OnChangePose]\i[62]\i[14]
+Reference1: 
+Reference2: 
+Reference3: 
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: talking
+ID: OnChangePose
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Sender: AYA
+Charset: UTF-8
+Value: \i[0]\w9\w5\0\s[15]\i[45]\i[62]\w1
+
+
+// request
+GET SHIORI/3.0
+ID: OnTranslate
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Reference0: \i[0]\w9\w5\0\s[15]\i[45]\i[62]\w1
+Reference1: 
+Reference2: 
+Reference3: 
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+Status: talking
+ID: OnSurfaceChange
+Reference0: 15
+Reference1: 1
+Reference2: 0,15,300,300
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 200 OK
+Charset: UTF-8
+
+
+// request
+GET SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: OnBatteryNotify
+Reference0: 100
+Reference1: -1
+Reference2: online
+Reference3: high
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+
+// request
+NOTIFY SHIORI/3.0
+Charset: UTF-8
+Sender: SSP
+SecurityLevel: local
+ID: rateofusegraph
+Reference0: AzuraAzuraMusic_Player255522499736,237995boot
+Reference1: AzuraAzuraTriangle425418990130,585437install
+Reference2: Dr. W.D. GasterGasterBrothers5129878615,910464install
+Reference3: Underfell SansSans58158302,549578install
+Reference4: WheatleyWheatleyUranus43138552,231485install
+Reference5: JockeyJockey168115391,858470install
+Reference6: Multiverse SansMVSansphone169109671,766344install
+Reference7: FLELEflelenone11465571,056070install
+Reference8: Hunter and Smoker BetaHunter and Smoker Beta8250440,812386install
+Reference9: Mettaton EXMettatonTriangle12346920,755693install
+Reference10: Elise BETAElisenone2040050,645045install
+Reference11: S the SkeletonRYS-0825None1538510,620242install
+Reference12: Pet RockPet RockNone1335570,572890install
+Reference13: FoxTheoryリサbook835280,568219install
+Reference14: unknownunknownnone5026070,419883install
+Reference15: Your Test Friend FloweyFloweyTriangle4123450,377685install
+Reference16: Dusk_DawnDuskDawn2221860,352077install
+Reference17: Pokedex DemoPokédex DemoTriangle11419840,319543install
+Reference18: SparxSparn/a1418520,298283install
+Reference19: GT Ghost TemplateGirlTriangle7916810,270742install
+Reference20: Ghost Jam TemmieTemmieNO ONE!!!11916310,262689install
+Reference21: UnderfellSansSansPlaceholder914550,234342install
+Reference22: Ghost Jam TemmieTemmieTriangle6514540,234181install
+Reference23: BillBill612460,200681install
+Reference24: Dreamtale SansDreamtale Sans159600,154618install
+Reference25: CheeryBotCheeryBotTriangle118460,136257install
+Reference26: Pokedex WIPPokédexTriangle297490,120634install
+Reference27: Sans and PapsSP65500,088583install
+Reference28: taromati2‹k‰Ô“l˜a103910,062974install
+Reference29: Juan & ShaJuan & ShaJuan & Sha453230,052022install
+Reference30: Emily/Phase4.5EmilyTeddy762630,042359install
+Reference31: はろーYAYAわーるど紺野ややめマック朗132370,038171install
+Reference32: RalseiRalseiAsriel boOOOooOOoOOooo52070,033339install
+Reference33: Slimeslime42070,033339install
+Reference34: sam and stevestevesam31820,029313install
+Reference35: S the SkeletonSNone3900,014495install
+Reference36: Zacharie and the JudgeZachariePablo5860,013851install
+Reference37: いかがでしょうか？地道咲いかゅう4570,009180install
+Reference38: Prince ErikPrince ErikAva Wolf1550,008858install
+Reference39: The HandHandDummy4460,007409install
+Reference40: Ukaani_sampleモルフbook5430,006926install
+Reference41: AriAri1120,001933install
+Reference42: MiniDevMiniDev-190,001450install
+Reference43: EFKエミットフェイク480,001288install
+Reference44: Elise DemoElisenone760,000966install
+Reference45: CREEPYGHOSTCREEPYGHOST???550,000805install
+Reference46: Underfell FloweyFloweyTriangle130,000483install
+Reference47: 自然科学―民俗学境界あざみ太郎220,000322install
+
+
+// response (Execution time : 0[ms])
+SHIORI/3.0 204 No Content
+Charset: UTF-8
+
+

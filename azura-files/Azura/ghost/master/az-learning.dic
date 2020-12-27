@@ -1,0 +1,921 @@
+//The auto-learning functions
+
+
+LearnWord
+{
+	_result = DetermineType(_argv)
+	_word = _result[0]
+	_type = _result[1]
+	
+	//if there is two possibilities because the verb was at its past form
+	if _type == "verb" && "%(_word[1])" != ""
+	{
+		
+	}
+	else
+	{
+		if "verb" _in_ _type
+		{
+			verbslib ,= "%(_word),none,none,none,unknown,0,none"
+		}
+		
+		if "adj" _in_ _type
+		{
+			adjectiveslib ,= "%(_word),unknown,0"
+		}
+		
+		if "name" _in_ _type
+		{
+			nameslib ,= "%(_word),unknown,none,,,0,none,none,none,none"
+		}
+	}
+	
+}
+
+
+DetermineType
+{
+	
+	_sentence = IARRAY
+	_sentence = _argv
+	_j = TOINT(_argv[0])+3
+	_prepword = _argv[1]
+	_detword = _argv[2]
+	_word = _argv[_j]
+	_prevword = DetermineWord(_sentence[_j-1])[0]
+	_nextword = DetermineWord(_sentence[_j+1])[0]
+	_use = CheckWordUse(_word)
+	_newword = ""
+	_type = "none"
+	if "determinant" _in_ _prevword
+	{
+		if _nextword == "0" && "%(_sentence[_j+1])" != ""
+		{
+			LearnWord(_j+1,_prepword,_detword,_sentence)
+		}
+		if "adjectif" _in_ _nextword || "name" _in_ _nextword
+		{
+			if "poss" _in_ _use
+			{
+				if "plur" _in_ _use
+				{
+					_word = ChangeLastOccur(_word,"s'","s")
+					_word = DetermineSing(_word)
+				}
+				else
+				{
+					_word = ChangeLastOccur(_word,"'s","")
+				}
+				_type = "name"
+			}
+			else
+			{
+				if "plur" _in_ _use
+				{
+					_word = DetermineSing(_word)
+					_type = "name"
+				}
+				else
+				{
+					_type = "adj,name"
+				}
+			}
+		}
+		else
+		{
+			if "poss" _in_ _use
+			{
+				if "plur" _in_ _use
+				{
+					_word = ChangeLastOccur(_word,"s'","s")
+					_word = DetermineSing(_word)
+				}
+				else
+				{
+					_word = ChangeLastOccur(_word,"'s","")
+				}
+			}
+			else
+			{
+				if "plur" _in_ _use
+				{
+					_word = DetermineSing(_word)
+				}
+			}
+			_type = "name"
+		}
+	}
+	elseif "preposition" _in_ _prevword || "complement" _in_ _prevword
+	{
+		
+		if "ing" _in_ _use[0]
+		{
+			_type = "verb"
+			_word = ChangeLastOccur(_word,"ing","")
+		}
+		elseif _prepword == "to"
+		{
+			
+			_verb=_argv[TOINT(DetectNextVerb(6,_argv))]
+			_result = DetermineWord(_verb)
+			_type = SPLIT(_result[0]," ")
+			_index = SPLIT(_result[1]," ")
+			_indverb = ASEARCH("verb",_type)
+				
+			if _indverb != -1
+			{
+				if "mov" _in_ verbslib[_indverb]
+				{
+					_type = "verb,name"
+				}
+				else
+				{
+					_type = "verb"
+				}
+			}
+			else
+			{
+				_type = "verb"
+			}
+			
+		}
+		else
+		{
+			if _nextword == "0" && "%(_sentence[_j+1])" != ""
+			{
+				LearnWord(_j+1,_prepword,_detword,_sentence)
+			}
+			if "adjectif" _in_ _nextword || "name" _in_ _nextword
+			{
+				if "poss" _in_ _use
+				{
+					if "plur" _in_ _use
+					{
+						_word = ChangeLastOccur(_word,"s'","s")
+						_word = DetermineSing(_word)
+					}
+					else
+					{
+						_word = ChangeLastOccur(_word,"'s","")
+					}
+					_type = "name"
+				}
+				else
+				{
+					if "plur" _in_ _use
+					{
+						_word = DetermineSing(_word)
+						_type = "name"
+					}
+					else
+					{
+						_type = "adj,name"
+					}
+				}
+			}
+			else
+			{
+				if "poss" _in_ _use
+				{
+					if "plur" _in_ _use
+					{
+						_word = ChangeLastOccur(_word,"s'","s")
+						_word = DetermineSing(_word)
+					}
+					else
+					{
+						_word = ChangeLastOccur(_word,"'s","")
+					}
+				}
+				else
+				{
+					if "plur" _in_ _use
+					{
+						_word = DetermineSing(_word)
+					}
+				}
+				_type = "name"
+			}
+		}
+	}
+	elseif "verb" _in_ _prevword
+	{
+		if IsModal(_sentence[_j-1]) && "past" _in_ DetectTense(_word)
+		{
+			_type = "verb"
+			_first = ChangeLastOccur(_word,"ed","")
+			_second = ChangeLastOccur(_word,"ed","e")
+			_word = "%(_first),%(_second)"
+		}
+		elseif "ing" _in_ _use[0]
+		{
+			_type = "verb"
+			_word = ChangeLastOccur(_word,"ing","")
+		}
+		else
+		{
+			if _nextword == "0" && "%(_sentence[_j+1])" != ""
+			{
+				LearnWord(_j+1,_prepword,_detword,_sentence)
+			}
+			if "adjectif" _in_ _nextword || "name" _in_ _nextword
+			{
+				if "poss" _in_ _use
+				{
+					if "plur" _in_ _use
+					{
+						_word = ChangeLastOccur(_word,"s'","s")
+						_word = DetermineSing(_word)
+					}
+					else
+					{
+						_word = ChangeLastOccur(_word,"'s","")
+					}
+					_type = "name"
+				}
+				else
+				{
+					if "plur" _in_ _use
+					{
+						_word = DetermineSing(_word)
+						_type = "name"
+					}
+					else
+					{
+						_type = "adj,name"
+					}
+				}
+			}
+			else
+			{
+				if "poss" _in_ _use
+				{
+					if "plur" _in_ _use
+					{
+						_word = ChangeLastOccur(_word,"s'","s")
+						_word = DetermineSing(_word)
+					}
+					else
+					{
+						_word = ChangeLastOccur(_word,"'s","")
+					}
+				}
+				else
+				{
+					if "plur" _in_ _use
+					{
+						_word = DetermineSing(_word)
+					}
+				}
+				_type = "name"
+			}
+		}
+	}
+	elseif "name" _in_ _prevword
+	{
+		if "plur" _in_ DetectTense[_word]
+		{
+			if _nextword == "0" && "%(_sentence[_j+1])" != ""
+			{
+				LearnWord(_j+1,_prepGN,_detword,_sentence)
+			}
+			
+			if _detword == "a" && "sing" _in_ DetectTense(_sentence[_j+1])
+			{
+				_type = "verb"
+			}
+			elseif "adjectif" !_in_ _nextword && "name" !_in_ _nextword && _nextword != "0"
+			{
+				_type = "verb"
+			}
+			elseif "adjectif" !_in_ _nextword && "name" !_in_ _nextword
+			{
+				if "poss" _in_ DetectTense(_word)
+				{
+					_word = ChangeLastOccur(_word,"'","")
+				}
+				_word = DetermineSing(_word)
+				_type = "name"
+			}
+			else
+			{
+				if "poss" _in_ DetectTense(_word)
+				{
+					_word = ChangeLastOccur(_word,"'","")
+				}
+				_word = DetermineSing(_word)
+				_type = "name"
+			}
+		}
+		else
+		{
+			if _detword == "a"
+			{
+				if "name" _in_ _nextword || "adjectif" _in_ nextword
+				{
+					if "plur" _in_ CheckWordUse(_sentence[_j+1]) && "poss" !_in_ CheckWordUse(_sentence[_j+1])
+					{
+						if "poss" _in_ _use
+						{
+							_word = ChangeLastOccur(_word,"'s","")
+						}
+						_type = "name"
+					}/*
+					elseif  "name" _in_ _nextword && "poss" !_in_ DetectTense(_sentence[_j+1])
+					{
+						_type = "adj,name"
+					}*/
+					else
+					{
+						if _nextword == "0" && "%(_sentence[_j+1])" != ""
+						{
+							LearnWord(_j+1,_prepword,_detword,_sentence)
+						}
+						if "adjectif" _in_ _nextword || "name" _in_ _nextword
+						{
+							if "poss" _in_ _use
+							{
+								if "plur" _in_ _use
+								{
+									_word = ChangeLastOccur(_word,"s'","s")
+									_word = DetermineSing(_word)
+								}
+								else
+								{
+									_word = ChangeLastOccur(_word,"'s","")
+								}
+								_type = "name"
+							}
+							else
+							{
+								if "plur" _in_ _use
+								{
+									_word = DetermineSing(_word)
+									_type = "name"
+								}
+								else
+								{
+									_type = "adj,name"
+								}
+							}
+						}
+						else
+						{
+							if "poss" _in_ _use
+							{
+								if "plur" _in_ _use
+								{
+									_word = ChangeLastOccur(_word,"s'","s")
+									_word = DetermineSing(_word)
+								}
+								else
+								{
+									_word = ChangeLastOccur(_word,"'s","")
+								}
+							}
+							else
+							{
+								if "plur" _in_ _use
+								{
+									_word = DetermineSing(_word)
+								}
+							}
+							_type = "name"
+						}
+					}
+				}
+				else
+				{
+					if "poss" _in_ _use
+					{
+						_word = ChangeLastOccur(_word,"'","")
+					}
+					_type = "name"
+				}
+			}
+			elseif _detword != "" && _detword != "0"
+			{
+				if "name" _in_ _nextword || "adjectif" _in_ _nextword
+				{
+					if _nextword == "0" && "%(_sentence[_j+1])" != ""
+					{
+						LearnWord(_j+1,_prepword,_detword,_sentence)
+					}
+					if "adjectif" _in_ _nextword || "name" _in_ _nextword
+					{
+						if "poss" _in_ _use
+						{
+							if "plur" _in_ _use
+							{
+								_word = ChangeLastOccur(_word,"s'","s")
+								_word = DetermineSing(_word)
+							}
+							else
+							{
+								_word = ChangeLastOccur(_word,"'s","")
+							}
+							_type = "name"
+						}
+						else
+						{
+							if "plur" _in_ _use
+							{
+								_word = DetermineSing(_word)
+								_type = "name"
+							}
+							else
+							{
+								_type = "adj,name"
+							}
+						}
+					}
+					else
+					{
+						if "poss" _in_ _use
+						{
+							if "plur" _in_ _use
+							{
+								_word = ChangeLastOccur(_word,"s'","s")
+								_word = DetermineSing(_word)
+							}
+							else
+							{
+								_word = ChangeLastOccur(_word,"'s","")
+							}
+						}
+						else
+						{
+							if "plur" _in_ _use
+							{
+								_word = DetermineSing(_word)
+							}
+						}
+						_type = "name"
+					}
+				}
+				else
+				{
+					
+				}
+			}
+			else
+			{
+				if "plur" _in_ DetectTense(_sentence[_j-1]) && "poss" !_in_ DetectTense(_sentence[_j-1])
+				{
+					if "name" _in_ _nextword || "adjectif" _in_ nextword
+					{
+						_type = "verb,adj,name"
+					}
+					else
+					{
+						_type = "verb"
+					}
+				}
+				elseif "name" _in_ _nextword || "adjectif" _in_ _nextword
+				{
+					if _nextword == "0" && "%(_sentence[_j+1])" != ""
+					{
+						LearnWord(_j+1,_prepword,_detword,_sentence)
+					}
+					if "adjectif" _in_ _nextword || "name" _in_ _nextword
+					{
+						if "poss" _in_ _use
+						{
+							if "plur" _in_ _use
+							{
+								_word = ChangeLastOccur(_word,"s'","s")
+								_word = DetermineSing(_word)
+							}
+							else
+							{
+								_word = ChangeLastOccur(_word,"'s","")
+							}
+							_type = "name"
+						}
+						else
+						{
+							if "plur" _in_ _use
+							{
+								_word = DetermineSing(_word)
+								_type = "name"
+							}
+							else
+							{
+								_type = "adj,name"
+							}
+						}
+					}
+					else
+					{
+						if "poss" _in_ _use
+						{
+							if "plur" _in_ _use
+							{
+								_word = ChangeLastOccur(_word,"s'","s")
+								_word = DetermineSing(_word)
+							}
+							else
+							{
+								_word = ChangeLastOccur(_word,"'s","")
+							}
+						}
+						else
+						{
+							if "plur" _in_ _use
+							{
+								_word = DetermineSing(_word)
+							}
+						}
+						_type = "name"
+					}
+				}
+			}
+		}
+	}
+	_result = IARRAY
+	_result[0] = "%(_word)"
+	_result[1] = "%(_type)"
+	_result
+}
+
+TeachAzura
+{
+	unknownword = "%(_argv[0])"
+	if unknownword != "0" && unknownword != ""
+	{
+		"* I'm sorry but I don't understand %(unknownword),\w5 what is it ?\![enter,passivemode]\n\n[half]"
+		--
+		if alreadyteach != 1
+		{
+		"\![italic,true]She will ask you some questions to understand what it is. After that, she will always understand the word as you defined it unless her developer put a definition of this word in an update. So respond correctly, please.\![italic,false]\n\n[half]"
+		}
+		--
+		alreadyteach = 1
+		--
+		"\_q"
+		--
+		"\![*]\q[A noun,TeachAzuraName]\n\![*]\q[An adjective,adjectif]\n\![*]\q[A verb,TeachAzuraVerb]\n\n[half]\![*]\q[Oops\, typos...,typos]\e"
+	}
+}
+
+AddType
+{
+	_type = _argv[0]
+	foreach _argv ; _newtype
+	{
+		if _newtype !_in_ _type && _newtype != _argv[0] && "no%(_newtype)" !_in_ _type && REPLACE(_newtype,"no","") !_in_ _type
+		{
+			_type += " %(_newtype)"
+		}
+	}
+	_type
+}
+//To teach a word to Azura.
+Select.TeachAzuraName
+{
+	"* What is it ?\![enter,passivemode]\n\n[half]"
+	--
+	if alreadyteach != 1
+	{
+	"\![italic,true]She will ask you some questions to understand what it is. After that, she will always understand the word as you defined it unless her developer put a definition of this word in an update. So respond correctly, please.\![italic,false]\n\n[half]"
+	}
+	--
+	alreadyteach = 1
+	--
+	"\_q"
+	--
+	"\![*]\q[A piece of furniture,item]    \![*]\q[An object,object]\n\![*]\q[A human,human]    \![*]\q[An animal,animal]\n\![*]\q[A being,being]    \![*]\q[A game,game]\n\![*]\q[A place,place]   \![*]\q[Something else (no solid),nonconsistant]\n\![*]\q[Food,food]"
+}
+
+Select.typos
+{
+	"\i[10]* Ahah, \w5alright.\n\n[half]"
+	--
+	Select.saysthg
+}
+//The different type of word.
+Select.item
+{
+	newword = "%(unknownword),item,none,"
+	InfoShape
+}
+Select.object
+{
+	newword = "%(unknownword),object,none,"
+	InfoShape
+}
+Select.human
+{
+	newword = "%(unknownword),human,none,"
+	InfoShape
+}
+Select.animal
+{
+	newword = "%(unknownword),animal,none,"
+	InfoShape
+}
+Select.being
+{
+	newword = "%(unknownword),being,none,"
+	InfoShape
+}
+Select.game
+{
+	newword = "%(unknownword),game,none,"
+	InfoShape
+}
+Select.place
+{
+	newword = "%(unknownword),place,none,"
+	InfoShape
+}
+Select.nonconsistant
+{
+	newword = "%(unknownword),nonconsistant,none,"
+	InfoShape
+}
+Select.food
+{
+	newword = "%(unknownword),food,none,"
+	InfoShape
+}
+Select.adjectif
+{
+	adjtaught = 1
+	newword = "%(unknownword),"
+	"* What adjective is it ?\n\n[half]"
+	--
+	"\![*]\q[Physical description,adjdescript]    \![*]\q[Other description,adjstate]\n\![*]\q[A color,adjcolor]"
+}
+///The different information about the word.
+
+//For nouns
+InfoShape
+{
+	"* Now, \w5I want to know,\w5 what is the shape of this ?\n\n[half]\f[italic,true]Just put all the adjectives about the shape and the height separated by a space.\f[italic,false]\![open,inputbox,OnInfoConstitut,-1]"
+}
+
+OnInfoConstitut
+{
+	newword = newword + reference0 + ","
+	--
+	"* It's made of what please ?\n\n[half]\f[italic,true]The constituts must be separated by . to be saved properly.\f[italic,false]\![open,inputbox,OnInfoUtility,-1]"
+}
+
+OnInfoUtility
+{
+	newword = newword + reference0 + ",0,"
+	--
+	"* For what are you using it ?\n\n[half]\f[italic,true]A little clause is enough. So you're using it ...\f[italic,false]\![open,inputbox,OnInfoInteresting,-1]"
+}
+
+OnInfoInteresting
+{
+	newword = newword + reference0 + ",none,"
+	--
+	"* Do you have something interesting about this ?\n\n[half]\f[italic,true]Put whatever interesting thing you want. Yes, really, whatever interesting.\f[italic,false]\![open,inputbox,OnInfoFinishing,-1]"
+}
+
+OnInfoFinishing
+{
+	newword = newword + reference0 + ",none"
+	--
+	"* Thank you very much.\![leave,passivemode]\n"
+	--
+	nameslib ,= newword
+	SAVEVAR
+	hastaught =1
+	--
+	AnalyzingLoop
+}
+//For adjectives
+Select.adjdescript
+{
+	newword += "descript,"
+	"* How is this adjective ?\n\n[half]"
+	--
+	"\![*]\q[Positive,adjpositif]    \![*]\q[Very positive,adjverpositif]\n\![*]\q[Negative,adjnegatif]    \![*]\q[Very negative,adjvernegatif]\n\![*]\q[Neutral,adjneutral]"
+}
+Select.adjstate
+{
+	newword += "state,"
+	"* How is this adjective ?\n\n[half]"
+	--
+	"\![*]\q[Positive,adjpositif]    \![*]\q[Very positive,adjverpositif]\n\![*]\q[Negative,adjnegatif]    \![*]\q[Very negative,adjvernegatif]\n\![*]\q[Neutral,adjneutral]"
+}
+Select.adjcolor
+{
+	newword += "color,"
+	"* How is this adjective ?\n\n[half]"
+	--
+	"\![*]\q[Positive,adjpositif]    \![*]\q[Very positive,adjverpositif]\n\![*]\q[Negative,adjnegatif]    \![*]\q[Very negative,adjvernegatif]\n\![*]\q[Neutral,adjneutral]"
+}
+
+Select.adjpositif
+{
+	newword += "1"
+	adjectiveslist ,= "%(newword[0])"
+	adjectiveslib ,= "%(newword)"
+	hastaught = 1
+	"* Thank you very much.\![leave,passivemode]\n"
+	--
+	AnalyzingLoops
+}
+Select.adjverpositif
+{
+	newword += "2"
+	adjectiveslist ,= "%(newword[0])"
+	adjectiveslib ,= "%(newword)"
+	hastaught = 1
+	"* Thank you very much.\![leave,passivemode]\n"
+	--
+	AnalyzingLoops
+}
+Select.adjnegatif
+{
+	newword += "-1"
+	adjectiveslist ,= "%(newword[0])"
+	adjectiveslib ,= "%(newword)"
+	hastaugth = 1
+	"* Thank you very much.\![leave,passivemode]\n"
+	--
+	AnalyzingLoops
+}
+Select.adjvernegatif
+{
+	newword += "-2"
+	adjectiveslist ,= "%(newword[0])"
+	adjectiveslib ,= "%(newword)"
+	hastaught = 1
+	"* Thank you very much.\![leave,passivemode]\n"
+	--
+	
+	AnalyzingLoops
+}
+Select.adjneutral
+{
+	newword += "0"
+	adjectiveslist ,= "%(newword[0])"
+	adjectiveslib ,= "%(newword)"
+	hastaught = 1
+	"* Thank you very much.\![leave,passivemode]\n"
+	--
+	AnalyzingLoops
+}
+
+///For teaching a new verb
+Select.TeachAzuraVerb
+{
+	"\0* Huh,\w5 I don't understand what %(unknownverb) means. What is its verbal base ?\![open,inputbox,OnInfoBase,-1]" 
+}
+
+OnInfoBase
+{
+	newword = "%(reference0),"
+	--
+	"* What is its preterit ?\![open,inputbox,OnInfoPreterit,-1]"
+}
+OnInfoPreterit
+{
+	newword += "%(reference0),"
+	--
+	"* What is its infinitive ?\![open,inputbox,OnInfoInfinitif,-1]"
+}
+OnInfoInfinitif
+{
+	newword += "%(reference0),"
+	--
+	"* What is its ing form ?\![open,inputbox,OnInfoIng,-1]"
+}
+OnInfoIng
+{
+	newword += "%(reference0),"
+	"* Which type of verb it is ?\_q\n\n[half]"
+	--
+	//Classification of the verbs, stat/mov something to somewhere or from somewhere/action(good/verygood/bad/verybad)/imagine/sense/avis/creation/hobby
+	"\![*]\q[It affects a being,stat]   \![*]\q[Doing an action,action]\n\![*]\q[It affects your senses,sense]   \![*]\q[Figuring out,imagine]\n\![*]\q[Giving an opinion,avis]    \![*]\q[Creating,creation]\n\![*]\q[A moving verb,move]    \![*]\q[A hobby,hobby]"
+}
+
+Select.stat
+{
+	newword += "stat,"
+	--
+	"* How is this verb ?\n\n[half]"
+	--
+	"\![*]\q[Positive,verbpositif]    \![*]\q[Very positive,verbverpositif]\n\![*]\q[Negative,verbnegatif]    \![*]\q[Very negative,verbvernegatif]\n\![*]\q[Neutral,verbneutral]"
+
+}
+Select.sense
+{
+	newword += "sense,"
+	--
+	"* How is this verb ?\n\n[half]"
+	--
+	"\![*]\q[Positive,verbpositif]    \![*]\q[Very positive,verbverpositif]\n\![*]\q[Negative,verbnegatif]    \![*]\q[Very negative,verbvernegatif]\n\![*]\q[Neutral,verbneutral]"
+
+}
+Select.action
+{
+	newword += "action,"
+	--
+	"* How is this verb ?\n\n[half]"
+	--
+	"\![*]\q[Positive,verbpositif]    \![*]\q[Very positive,verbverpositif]\n\![*]\q[Negative,verbnegatif]    \![*]\q[Very negative,verbvernegatif]\n\![*]\q[Neutral,verbneutral]"
+
+}
+Select.creation
+{
+	newword += "creation,"
+	--
+	"* How is this verb ?\n\n[half]"
+	--
+	"\![*]\q[Positive,verbpositif]    \![*]\q[Very positive,verbverpositif]\n\![*]\q[Negative,verbnegatif]    \![*]\q[Very negative,verbvernegatif]\n\![*]\q[Neutral,verbneutral]"
+
+}
+Select.imagine
+{
+	newword += "imagine,"
+	--
+	"* How is this verb ?\n\n[half]"
+	--
+	"\![*]\q[Positive,verbpositif]    \![*]\q[Very positive,verbverpositif]\n\![*]\q[Negative,verbnegatif]    \![*]\q[Very negative,verbvernegatif]\n\![*]\q[Neutral,verbneutral]"
+
+}
+Select.avis
+{
+	newword += "avis,"
+	--
+	"* How is this verb ?\n\n[half]"
+	--
+	"\![*]\q[Positive,verbpositif]    \![*]\q[Very positive,verbverpositif]\n\![*]\q[Negative,verbnegatif]    \![*]\q[Very negative,verbvernegatif]\n\![*]\q[Neutral,verbneutral]"
+
+}
+Select.move
+{
+	newword += "mov,"
+	--
+	"* How is this verb ?\n\n[half]"
+	--
+	"\![*]\q[Positive,verbpositif]    \![*]\q[Very positive,verbverpositif]\n\![*]\q[Negative,verbnegatif]    \![*]\q[Very negative,verbvernegatif]\n\![*]\q[Neutral,verbneutral]"
+
+}
+Select.hobby
+{
+	newword += "hobby,"
+	--
+	"* How is this verb ?\n\n[half]"
+	--
+	"\![*]\q[Positive,verbpositif]    \![*]\q[Very positive,verbverpositif]\n\![*]\q[Negative,verbnegatif]    \![*]\q[Very negative,verbvernegatif]\n\![*]\q[Neutral,verbneutral]"
+
+}
+
+Select.verbpositif
+{
+	newword += "1"
+	verbslist ,= "%(newword[0])"
+	verbslib ,= "%(newword)"
+	hastaught =1
+	"* Thank you very much.\![leave,passivemode]\n"
+	--
+	AnalyzingLoop
+}
+Select.verbverpositif
+{
+	newword += "2"
+	verbslist ,= "%(newword[0])"
+	verbslib ,= "%(newword)"
+	hastaught =1
+	"* Thank you very much.\![leave,passivemode]\n"
+	--
+	AnalyzingLoop
+}
+Select.verbnegatif
+{
+	newword += "-1"
+	verbslist ,= "%(newword[0])"
+	verbslib ,= "%(newword)"
+	hastaught =1
+	"* Thank you very much.\![leave,passivemode]\n"
+	--
+	AnalyzingLoop
+}
+Select.verbvernegatif
+{
+	newword += "-2"
+	verbslist ,= "%(newword[0])"
+	verbslib ,= "%(newword)"
+	hastaught =1
+	"* Thank you very much.\![leave,passivemode]\n"
+	--
+	AnalyzingLoop
+}
+Select.verbneutral
+{
+	newword += "0"
+	verbslist ,= "%(newword[0])"
+	verbslib ,= "%(newword)"
+	hastaught =1
+	"* Thank you very much.\![leave,passivemode]\n"
+	--
+	AnalyzingLoop
+}

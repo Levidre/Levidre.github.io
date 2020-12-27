@@ -1,0 +1,2907 @@
+/// translate /////////////////////////////////////////////////
+//Parts of this were translated from Japanese to English by Zarla.
+//http://www.ashido.com or zarla.deviantart.com, email is Astronia@aol.com
+//Certain sections have been marked with "znote" for easy searching.
+//Those sections are usually places you can customize the message (provided you know ssp speech syntax).
+//I znoted the menus (for my own reference) but you probably shouldn't mess with those.
+//If you have better translations for anything in here let me know and I will update the file.
+
+
+
+OnTranslate
+{
+_text = reference0
+_text = REPLACE(_text, "”", "%(CHR(0x22))")
+
+if ○現在シェル=='Miku' && 'Meiko' _in_ ○着せ替えoption {
+	_text = REPLACE(_text, '\s[10]', '')
+	_text = REPLACE(_text, '\s[0]', '\s[0]\1\s[700]\0')
+	_text = REPLACE(_text, '\s[6]', '\s[6]\1\s[706]\0')
+	_text = REPLACE(_text, '\s[25]', '\s[25]\1\s[725]\0')
+	}
+_text
+}
+
+/// boot event /////////////////////////////////////////////////
+
+
+
+Select.SecFirstBoot {
+//---- 初回変数初期化---- //
+○ユーザ名 = "User"
+○演奏中曲No = 0
+○曲名ウィンドウON = 0
+○曲リスト = IARRAY
+○ホットキー操作 = "ON"
+○演奏法 = "random"
+○モード = "normal"
+○演奏中CDトラック = 0
+○CDトラック数 = -1
+ERASEVAR('○演奏中曲パス')
+//piste de lecture de chanson
+//----------------------- //
+
+}
+
+//Activation
+□起動 {
+
+//--- 起動毎変数初期化--- //
+ERASEVAR ("○曲の数")
+○サーフェス = "\s[0]"
+○演奏中 = 0
+○起動中演奏回 = 0
+○ヘルプメニュー表示中 = 0
+_path=(GETSETTING(2))
+_パス字数 = (STRLEN(_path))-13
+○現在パス = ERASE(_path,_パス字数,13)
+○sender = basewarename
+○起動時OS時間=systemuphour
+aitalkinterval=400
+
+//セーブデータRemove_Song対策
+if (ISVAR("○ダウンロード曲リスト"))==0 { ○ダウンロード曲リスト = IARRAY }
+if (ISVAR("○Playback時間帯"))==0 { ○Playback時間帯 = (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0) }
+if (ISVAR("○曲リストメニュー"))==0 { ○曲リストメニュー = "ON" }
+if (ISVAR("○ホットキー操作"))==0 { ○ホットキー操作 = "ON" }
+if (ISVAR("○m3u出力パス"))==0 { ○m3u出力パス = ○現在パス+"m3u_file\flele.m3u" }
+
+//左から/曲Playback/一時停止/メニュー/曲ウィンドウ/曲クリア/終了De gauche / piste Lecture / pause / menu / fenetre de musique / piste claire / fin
+if (ISVAR('○キー設定'))==0 { ○キー設定 = 'r,s,m,w,c,e,,,,,,,,,,,,,,,r,s,m,w,c,e' }
+
+//ogg設定確認ogg Confirmation de configuration
+	if (FOPEN('saori\mciaudior.txt','r'))==1 {
+	_txt = ''
+	_i=0
+		while _txt != -1 && _i<5000 {
+		_i++
+		_txt = (FREAD ('saori\mciaudior.txt'))
+			if _txt=="ogg.mode%(CHR(0x2c))mci" {
+			○ogg設定='mci'
+			_i=5000
+			}
+		}
+	(FCLOSE('saori\mciaudior.txt'))
+	}
+	else {
+	○ogg設定='playsound'
+	}
+
+
+□タスクトレイアイコン指定
+//Designation de l'icone de la barre
+--
+
+//SAORI準備
+//_i=LOADLIB('saori\mcidonut.dll')
+//------ Weirds.dll ------ //
+_i=SAORI("saori\Weirds.dll", "set_hwnd", ○hwnd)
+_i=SAORI("saori\Weirds.dll", "owner_id", ○uniqueid)
+//------ hotkey.dll------ //
+if ○ホットキー操作=="ON" {□ホットキー準備}
+--
+if ○モード == "CD" {○CDトラック数=(SAORI('saori\mcidonut.dll', 'trackcount'))}
+
+--
+□表示
+//□ Affichage
+□曲名ウィンドウONなら表示
+//Afficher la fenetre du titre de la chanson
+}
+
+//znote - when you boot the flele
+Select.SecBoot {
+□起動
+--
+"\0\s[0]FLELE is\noperational.\e"
+}
+
+
+ 
+
+
+//OnBalloonTimeout {□ヘルプメニュー消滅した}
+
+//OnBalloonBreak {□ヘルプメニュー消滅した}
+//Disparition du menu d'aide
+
+//シェル切り替え
+//Shell commutation
+
+
+
+//OnNotifySelfInfo {
+○現在シェル = reference3
+//Coque actuelle
+○現在バルーン = reference5
+//Ballon actuel
+}
+
+
+//着せ替え切り替え
+
+
+
+
+
+//□ Preparation de la touche de raccourci
+□ホットキー準備 {
+SAORI("saori\hotkey.dll",(○キー設定[0]),"flele","none")
+SAORI("saori\hotkey.dll",(○キー設定[1]),"flele","none")
+SAORI("saori\hotkey.dll",(○キー設定[2]),"flele","none")
+SAORI("saori\hotkey.dll",(○キー設定[3]),"flele","none")
+SAORI("saori\hotkey.dll",(○キー設定[4]),"flele","none")
+SAORI("saori\hotkey.dll",(○キー設定[5]),"flele","none")
+}
+□ホットキー停止 {_i=SAORI("saori\hotkey.dll")}
+
+/// window state //////////////////////////////////////////////
+
+OnWindowStateMinimize {
+// 最小化時には曲名ウィンドウも閉じる
+if ○曲名ウィンドウON==1 {_i=SAORI("saori\bln.dll", "win01", "", "0", "0", "kyokumei")}
+□ヘルプメニュー消滅した
+}
+OnWindowStateRestore {
+□表示
+//affichage
+// 最小化復元時に曲名ウィンドウもどすReduire Renvoie la fenetre du nom de la chanson lors de la restauration
+□曲名ウィンドウONなら表示
+//Afficher la fenetre du titre de la chanson
+--
+"\e"
+}
+
+/// end event /////////////////////////////////////////////////
+//Avant la fermeture
+□終了前 {
+
+_i=SAORI('saori\mciaudior.dll', 'stop')
+if ○モード=="CD" {_i=SAORI('saori\mcidonut.dll', 'stop')}
+//if ○演奏中==1 {_i=SAORI('saori\mcidonut.dll', 'play')}
+
+
+if ○ホットキー操作=="ON" {□ホットキー停止}
+//stop les raccourcis claviers
+//いらない変数けす
+//efface les variables inutiles
+ERASEVAR ("○演奏中")
+ERASEVAR ("○起動中演奏回")
+ERASEVAR ("○サーフェス")
+ERASEVAR ("○表示曲名")
+ERASEVAR ("○空白")
+ERASEVAR ("○DL開始")
+ERASEVAR ("○DL成功")
+ERASEVAR ("○ヘルプメニュー表示中")
+ERASEVAR ("○path")
+ERASEVAR ("○file")
+ERASEVAR ("○No")
+ERASEVAR ("○URL")
+ERASEVAR ("○AllFilepath")
+ERASEVAR ("○ディレクトリ")
+ERASEVAR ("○演奏中曲名")
+ERASEVAR ("○ナンバー")
+ERASEVAR ("○現在パス")
+ERASEVAR ("○演奏中CDトラック")
+ERASEVAR ("○weirdsリスト")
+ERASEVAR ("○曲リスト更新")
+ERASEVAR ("○hwnd")
+ERASEVAR ("○uniqueid")
+ERASEVAR ("○sender")
+ERASEVAR ("○成否")
+ERASEVAR ("txt")
+ERASEVAR ("url")
+ERASEVAR ("○イベント名")
+ERASEVAR ("○上書き曲DL")
+ERASEVAR ("○起動時OS時間")
+
+}
+
+
+□SAORI終了 {
+if ○モード=="CD" {UNLOADLIB("saori\mcidonut.dll")}
+//mode
+if ○曲名ウィンドウON==1 {_i=SAORI("saori\bln.dll", "win01", "", "0", "0", "kyokumei")}
+//Fenetre du titre de la chanson ON
+}
+
+//znote - when you close the flele
+Select.SecClose {
+	□終了前
+	//avant la fermeture
+--
+	"\e"
+□SAORI終了
+}
+
+//znote - when you change to another ghost (not a shell, a ghost)
+//OnGhostChanging {
+//	□終了前
+//--
+//□SAORI終了
+//--
+//	"\0\w4\s[0]\1\s[10]\w9\w5\e"
+//}
+
+//znote - I think this is when you uninstall it
+//OnVanishSelected {
+//	□終了前
+	//avant la fermeture
+//--
+//	"\0\w4\s[0]\1\s[10]\w9\w5\e"
+//□SAORI終了
+//}
+
+//pour finir
+//On_終了する { 
+//	□終了前
+	//avant la fermeture
+//--
+//	"\w4\s[0]\1\s[10]\-\e"
+//--
+//□SAORI終了
+//}
+/// mouse event /////////////////////////////////////////////////
+
+OnMouseClick {
+
+if (STRSTR(reference4,"o_",0))==0 && reference5 != 1  {
+	reference4 = (ERASE(reference4,0,2))
+	□クリック判定
+	//cliquer sur le jugement ...???
+ }
+elseif ○曲リストメニュー=="ON" {
+	//menu de liste de chansons
+	_i=SAORI("saori\Weirds.dll", "menu_close")
+	if reference5 == 1 && reference4 == "menu" {
+	"\0"
+	--
+	□weirds
+	}
+	elseif reference5 == 1 && reference4 == "o_menu" {
+	"\0"
+	--
+	□weirds
+	}
+ }
+
+}
+
+
+OnMouseDoubleClick {
+	if basewarename!="The%(CHR(0x20))Hand" {
+	□クリック判定
+	}
+}
+//cliquer sur le jugement ...???
+□クリック判定 {
+_c = reference4
+reference4 = 0
+	case _c {
+when "stop_button1"	{□演奏一時停止}
+//mettre en pause
+when "stop_button2"	{□演奏一時停止}
+when "k_window"		{□曲名ウィンドウ表示}
+//Affichage du titre de la chanson
+when "play_button"	{□曲ランダムPlayback}
+//chanson aleatoire
+when "clear_button"	{□曲リストクリア}
+//effacer la liste des chansons
+when "menu"		{□メニュー}
+//menu
+when "minimize"		{□アイコン化}
+//iconize
+when "end_sect"		{□終了する}
+//pour finir
+//others	;	{}
+			}
+}
+
+
+
+//　イージーバルーン（CROW非対応）
+//ballon facile non compatible avec crow
+//OnEBMouseDoubleClick {
+//if reference3 == "kyokumei" {□曲名ウィンドウ非表示}
+//fenetre de nom de morceau cache
+//}
+
+
+
+//　カーソル移動
+//OnMouseMove
+//{
+ if reference3 == 0
+ {
+ //---- 本体側の撫で
+
+	if reference4 != ""
+	{
+		//----どこかが撫でられている
+		stroke++
+		//---- 撫でられた量が一定量に達したら「なでられている」と判断
+		if stroke >= 80
+		{
+			//---- 撫でられた。撫でられた部位を見てトークする
+			if reference4 == "stroke_p"
+			{
+				□撫で反応
+			}
+			elseif ○現在シェル=="Sorcerer-F" && reference4 == "stop_button1"
+			{
+				□撫で反応
+			}
+			stroke = 0
+		}
+	}
+	else
+	{
+		// 定義された部位はどこも撫でられていない
+		stroke = 0
+	}
+
+ }
+}
+//znote - reactions when flele is petted
+//□撫で反応 {
+//"\0\s[1]\w5‥\w5‥\w5‥\w9\w9\w9\w9\w9\w9\w9\w9\w9%(○サーフェス)\b[-1]\e"
+//}
+
+/// key event ///////////////////////////////////////////////////
+
+
+
+OnKeyPress {
+_s = SAORI("saori\Weirds.dll","notify_keypress",reference0)
+txt=reference0
+□キー判定
+//jugement cle
+
+}
+OnHotKeyPress {
+txt=reference0
+□キー判定
+//jugement cle
+}
+
+//jugement cle
+□キー判定 {
+if txt=="￥" {txt = "\"}
+//les raccourcis claviers
+_key0=(○キー設定[0])
+_key1=(○キー設定[1])
+_key2=(○キー設定[2])
+_key3=(○キー設定[3])
+_key4=(○キー設定[4])
+_key5=(○キー設定[5])
+
+if txt==_key0 {□曲ランダムPlayback}
+elseif txt==_key1 {□演奏一時停止}
+elseif txt==_key2 {□メニュー}
+elseif txt==_key3 {□曲名ウィンドウ表示}
+elseif txt==_key4 {□曲リストクリア}
+elseif txt==_key5 {"\0\![raise,On_終了する]"}
+
+}
+
+//□曲ランダムPlayback
+
+
+
+/// communicate //////////////////////////////////////////////////
+
+//OnHandActivate {
+	//　さわりはじまった
+	if reference0=="NormalStart" {
+		//　ダブルクリックはセリフ変更
+		if reference2=="OnMouseDoubleClick" {"\0\b[-1]\w9\w9\b[1]\c…\w2…\w2…\w2…\w2…\w2…\w2。\w9\w9\e"}
+		//　ダブルクリック以外
+		else {"\0\b[-1]\w9\w9\w9\w9\b[1]\c…\w2…\w2…\w2。\e"}
+	}
+	//　ダブルクリックし終わった
+	elseif reference0 == "NormalEnd" && reference2 == "OnMouseDoubleClick" {
+	"\0%(○サーフェス)\s[0]\b[-1]\w9\b[1]…\w7…\w7…\w7…\w7…\w7…\w7。\w9\w9\w9\w9%(○サーフェス)\e"
+	}
+}
+
+
+//OnCommunicate {
+
+//	if reference0 != "user" && reference0 != "User" {
+//		if "音楽" _in_ reference1 || "サウンド" _in_ reference1 || "曲" _in_ reference1 {
+//			if "Playback" _in_ reference1 || "演奏" _in_ reference1 || "かけて" _in_ reference1 || "歌って" _in_ reference1 {
+//				res_reference0 = ""
+//				"\0\s[0]\c…\w7…\w7…。\w9\w9\w5\b[-1]\s[25]\w9"
+//				--
+//				□曲ランダムPlayback
+//			}
+//		}
+//	}
+
+//}
+
+
+/// help menu ////////////////////////////////////////////////////
+//Plus le menu principal qu'une aide
+
+
+
+
+//En-tete
+□メニューヘッダ {
+
+"\0\b[2]\c\![set,autoscroll,disable]\*\_q"}
+
+//menu
+□メニュー {
+
+// 既にメニュー表示されてたら消す
+if ○ヘルプメニュー表示中 == 1 {
+	//Affichage du menu d'aide
+	○ヘルプメニュー表示中 = 0
+	//Affichage du menu d'aide
+	"\0\b[-1]\e"
+	}
+else {
+// 表示されてなかったら表示
+□メニュー_index
+	}
+}
+
+□メニュー_index {
+	//menu index
+
+
+
+○ヘルプメニュー表示中 = 1
+	□メニューヘッダ
+--
+
+_gtime=systemuphour-○起動時OS時間
+// 「%(_gtime)」
+
+"\v%(menu_bg)"
+--
+if 'for flele'_in_○現在バルーン {"\_l[3,2]"}
+--
+// 曲インフォ -------------------------
+  if ○曲の数 >=1 {"Playlist: %(fcl)"
+		--
+		if ○モード=='CD' {
+			_曲数=SAORI('saori\mcidonut.dll', 'trackcount')
+			if _曲数<0{"--"}
+			else{ _曲数 }
+	}
+		else {"%(○曲の数)"}
+		--
+		"%(def)　"
+  --
+	if ○演奏中 == 1 { 
+
+
+			//　文字数12を越えたら省略
+			if ○曲名文字数 > 12 {
+				_抜き出し = SUBSTR ("%(○演奏中曲名)",0,12)
+				○表示曲名 = "%(_抜き出し)…"
+    				}
+			else {○表示曲名 = "%(○演奏中曲名)"}
+		if ○モード=='CD' {
+		"%(fcl)CD Track %(○演奏中CDトラック)%(def) is playing"
+		}
+		else {
+		"%(fcl)%(○表示曲名)%(def) is playing"
+		}
+	}
+	else { "%(fcl)Player is idle%(def)" }
+  }
+else {"Playlist is empty."}
+--
+	if ○現在バルーン=='for flele' {"\_l[0,94]"}
+	elseif ○現在バルーン=='for flele / wide' {"\_l[0,110]"}
+	else {'\n\n'}
+--
+// キーインフォ -------------------------
+//informations cle
+" %(アイコン2('point','□'))Hotkeys ［\q[Config,□キー設定_pre]］\n[half]/
+\n　Playback %(fcl)\f[bold,1]%(キー設定表示名(0))\f[bold,default]%(def)　Stop Playback %(fcl)\f[bold,1]%(キー設定表示名(1))\f[bold,default]%(def)/
+\n　Menu %(fcl)\f[bold,1]%(キー設定表示名(2))\f[bold,default]%(def)　Song Window %(fcl)\f[bold,1]%(キー設定表示名(3))\f[bold,default]%(def)/
+\n　Playlist Clear %(fcl)\f[bold,1]%(キー設定表示名(4))\f[bold,default]%(def)　Exit Program %(fcl)\f[bold,1]%(キー設定表示名(5))\f[bold,default]%(def)/
+"
+
+--
+// 1段目 -------------------------
+//premiere etape
+"\n\n\n[half]　%(アイコン('info','>')) \q[Readme,□readme開く]"
+--
+if ○モード!="CD" && ○曲の数 >= 1 && ○起動中演奏回 >= 1 {"　 　%(アイコン2('music'))\q[Current Song_Info,□現在曲Song_Info]"}
+--
+if ○モード=="CD" {"　 　 　 %(アイコン('cd','>')) \q[CDを出す,□CD取り出し]/\q[入れる,□CD入れ]"}
+--
+
+// 2段目 -------------------------
+//deuzieme etape
+"\n　%(アイコン('hotkey','>')) \q[Key Settings,□設定]"
+--
+
+"　%(アイコン('fopen','>')) \q[Add file/m3u,□手動で曲を追加]"
+
+
+//"　 %(アイコン('k_win','>')) \q["
+//--
+//	if ○曲名ウィンドウON != 1 {
+//	"曲名ウィンドウ表示"
+//	}
+//	else {
+//	"曲名ウィンドウ非表示"
+//	}
+//--
+//",□ヘルプメニューから曲ウィンドウ]"
+--
+
+// 3段目 -------------------------
+//troisieme etape
+if ○sender == "SSP" {
+	"\n　%(アイコン('urldl','>')) \q[Download URL,□URL入力ダウンロード]"
+	}
+--
+if (ARRAYSIZE(○ダウンロード曲リスト))>0 {
+	"　　%(アイコン('urlfor','>')) \q[DL Folder,□DL曲のSong_Folder]"
+	}
+--
+
+// 4段目 -------------------------
+"\n　%(アイコン('clear','>')) \q[Playlist Clear,□曲リストクリア]　%(アイコン('m3u','>')) \q[Save Playlist,□曲リスト出力]"
+--
+// ナビ -------------------------
+"\n\n　　　　　　　　\q[CLOSE,□close]\e"
+
+}
+
+
+//□readme開く {
+//	if ○sender=='SSP'{
+//	"\c\![open,readme]"
+//	}
+//--
+//□ヘルプメニュー消滅した
+//disparition du menu d'aide
+//}
+
+
+
+//menu explications
+□メニュー_説明
+{
+	□メニューヘッダ
+	//En-tete de menu
+--
+": %(アイコン2('info'))説明 :::::::::::::::::::::::::\n\n[half]/
+%(アイコン2('point','□'))%(fcl)midi/wave/mp3/wma/ogg/au%(def)形式の音楽ファイル、又は%(fcl)m3u%(def)形式の曲リストファイルをFLELEにドロップすると曲リストに追加されます。/
+\n[half]/
+\nウェブサイトから曲をダウンロードする場合はサウンドファイルのリンクをドロップするか、%(fcl)”URL入力ダウンロード”%(def)からURLを直接入力してください。/
+\n[half]"
+--
+if ○ホットキー操作=="ON" {
+"\n%(アイコン2('point','□'))FLELEがアクティブになっていない時、ショートカットキーはshift+ctrlと一緒に押してください。\n[half]"}
+--
+if ○曲リストメニュー=="ON" {
+"\n%(アイコン2('point','□'))FLELEのヘルプメニューを出す場所を右クリックすると曲個別操作ができる曲リストメニューが出ます。\n[half]"}
+--
+"\n\n　　　　　　 \q[CLOSE,□close]｜\q[BACK,□メニュー_index]\e"
+}
+
+
+//info chanson actuelle
+□現在曲Song_Info {
+○path = ○演奏中曲絶対パス
+//chemin absolu chanson jouee
+i=○path
+○No = ○演奏中曲No
+//chansons pas en cours de lecture
+○イベント名 = "□現在曲Song_Info"
+//Nom de l'evenement
+	□メニューヘッダ
+	//en-tete
+--
+": %(アイコン('music'))Current Song_Info ::::::::::\n\n[half]"
+//icone
+--
+□曲Song_Info中身
+////Song Song_Info Sommaire
+--
+"\n[half]/
+\n　　　　　　 \q[［RELOAD］,□現在曲Song_Info]\n\n[half]/
+\n　　　　　　\q[CLOSE,□close]｜\q[BACK,□メニュー_index]\e"
+}
+
+//Song Song_Info Sommaire
+□曲Song_Info中身 {
+
+	if (FATTRIB(○演奏中曲パス2)) == -1 {
+"%(fcl)* ファイルが存在しません *%(def)\n/
+%(fcl)Number　 %(def): %(○No)　( Total %(○曲の数) )\n/
+%(fcl)Filepath %(def): \_!%(○path)\_!\n/
+"
+	}
+	else {
+"/
+%(fcl)number　 %(def): %(○No)　( Total %(○曲の数) )\n/
+%(fcl)track 　 %(def): %(曲解析('GetTrack')) \n/
+%(fcl)artist 　%(def): %(曲解析('GetArtist')) \n/
+%(fcl)genre 　 %(def): %(ジャンル番号解析)\n/
+%(fcl)year 　　%(def): %(曲解析('GetYear'))\n/
+%(fcl)filepath %(def): \_!%(絶対パス変換(○path))\_!\n/
+%(fcl)filesize %(def): %(○現在曲サイズ)\n/
+%(fcl)comment　%(def): %(曲解析('GetComment'))\n/
+"
+	}
+}
+
+
+//Insert de CD
+□CD入れ {
+_i=SAORI("saori\mcidonut.dll", "doorclose")
+□メニュー_index
+//Menu_index
+}
+
+//Suppression de CD
+□CD取り出し {
+_i=SAORI("saori\mcidonut.dll", "dooropen")
+□メニュー_index
+//Menu_index
+}
+
+//znote - add file menu
+//Ajouter des chansons manuellement
+□手動で曲を追加
+{
+	□メニューヘッダ
+	//En-tete
+--
+": %(アイコン2('fopen'))Add file/m3u ::::::::::::::::\n\n"
+--
+"%(アイコン2('point','□'))%(fcl)%(fcc)\q[Add file individually,□曲を参照して追加]\n　/
+└\q[Add folder containing file,□フォルダを参照して追加]%(def)%(defc)\n\n[half]/
+%(アイコン2('point','□'))%(fcl)%(fcc)\q[Type in file location,□曲をパス入力で追加]\n　/
+└\q[Type in folder location,□フォルダをパス入力で追加]%(def)%(defc)\n\n[half]/
+"
+--
+"\n\n　　　　　　 \q[CLOSE,□close]｜\q[BACK,□メニュー_index]\e"
+//Menu_index
+}
+
+
+//Ajouter une chanson comme entree de chemin
+□曲をパス入力で追加 {
+	"\0\![open,inputbox,mpath,-1]\e"
+□ヘルプメニュー消滅した
+//Disparition du menu d'aide
+}
+
+
+// Ajouter un dossier par entree de chemin
+□フォルダをパス入力で追加 {
+	"\0\![open,inputbox,mfpath,-1]\e"
+□ヘルプメニュー消滅した
+//Disparition du menu d'aide
+}
+
+
+//Reportez-vous aux chansons et ajoutez
+□曲を参照して追加 {
+○path=0
+○path=□ファイル選択ダイアログ
+//Dialogue de selection de fichier
+	if ○path!=0 {
+	□ファイルがドロップされた
+	//Le fichier a ete depose
+	}
+	else {□手動で曲を追加}
+	//Ajouter des chansons manuellement
+}
+
+
+//Reportez-vous au dossier et ajoutez
+□フォルダを参照して追加 {
+○ディレクトリ=0
+//Annuaire
+○path=0
+○path=□ファイル選択ダイアログ
+//Dialogue de selection de fichier
+○ディレクトリ=(SPLITPATH(○path)[0])+(SPLITPATH(○path)[1])
+//Annuaire
+
+	if ○ディレクトリ!=0 {
+		//Annuaire
+	□ディレクトリドロップ処理
+	//Traitement de suppression de repertoire
+	}
+	else {□手動で曲を追加}
+	// Ajouter des chansons manuellement
+}
+
+
+//Telechargement d'entree URL
+□URL入力ダウンロード {
+○ヘルプメニュー表示中 = 0
+//Affichage du menu d'aide
+	"\0\![open,inputbox,url,-1]\e"
+}
+
+//Song_Folder de la chanson DL
+□DL曲のSong_Folder {
+	"\0\![open,file,..\..\sound_file]\c"
+	--
+	□メニュー_index
+	//Menu_index
+}
+
+
+
+//Reglage
+□設定
+{
+	□メニューヘッダ
+	//En-tete de menu
+--
+": %(アイコン2('hotkey'))Key Settings :::::::::::::::::::::::::\n\n"
+--
+
+"%(アイコン2('point','□'))%(fcl)%(fcc)\q[Music Playback Settings,□Playback設定]%(def)%(defc)\n\n[half]"
+//Parametre de lecture
+--
+"%(アイコン2('point','□'))%(fcl)%(fcc)\q[Operation Settings,□動作設定]%(def)%(defc)\n\n"
+//Parametre de fonctionnement
+--
+
+"\n　　　　　　　\q[CLOSE,□close]｜\q[BACK,□メニュー_index]\e"
+Menu_index
+}
+
+
+//Parametre de fonctionnement
+□動作設定 {
+	□メニューヘッダ
+	//En-tete
+--
+": %(アイコン2('hotkey'))Operation Settings :::::::::::::::::::::\n\n"
+--
+//znote - operation settings menu
+
+"%(アイコン2('point','□'))Inactive when %(fcl)Ctrl + Shift + Key%(def)\nare pressed\n\n[half]"
+--
+if ○ホットキー操作=="ON" {"　　　　%(fcl)ON%(def) ［\q[Change,□ホットキーOFF]］"}
+//Fonctionnement a cle chaude
+else {"　　　　%(fcl)OFF%(def)［\q[Change,□ホットキーON]］"}
+//Touche de raccourci
+--
+"\n\n%(アイコン2('point','□'))Enable right click (music list)\nmenu\n\n[half]"
+--
+if ○曲リストメニュー=="ON" {"　　　　%(fcl)ON%(def) ［\q[Change,□曲リストメニューOFF]］"}
+else {"　　　　%(fcl)OFF%(def)［\q[Change,□曲リストメニューON]］"}
+//Menu de liste de chansons
+--
+
+"\n\n[half]/
+\n　　　　　　　\q[CLOSE,□close]｜\q[BACK,□設定]\e"
+// Parametres
+}
+
+
+//Touche de raccourci OFF
+□ホットキーOFF {
+	○ホットキー操作 = "OFF"
+	//Fonctionnement a cle chaude
+	□ホットキー停止
+	//Arret de touche d'acces rapide
+	--
+	"\![reload,shiori]"
+	--
+	□動作設定
+	//Parametre de fonctionnement
+}
+
+
+//Touche de raccourci
+□ホットキーON {
+	○ホットキー操作 = "ON"
+	//Fonctionnement a cle chaude
+	□ホットキー準備
+	//Preparation de cle chaude
+	--
+	"\![reload,shiori]"
+	--
+	□動作設定
+	//Parametre de fonctionnement
+}
+
+
+//Menu de liste de chansons
+□曲リストメニューOFF {○曲リストメニュー = "OFF";□動作設定}
+□曲リストメニューON {○曲リストメニュー = "ON";□動作設定}
+//Parametre de fonctionnement
+
+
+
+//Parametre de lecture
+□Playback設定 {
+□演奏ストップ
+//Arret de performance
+--
+	□メニューヘッダ
+	//En-tete
+--
+": %(アイコン2('hotkey'))Music Playback Settings :::::::::::::::\n\n[half]"
+--
+"%(アイコン2('point','□'))Mode\n\n[half]"
+--
+case  ○モード {
+	//mode
+	when "CD" {"　　%(fcl)CDPlayback%(def)［\q[変更,□モードnormal]］"}
+	//Changement, mode normal
+	others {
+	
+	"　　%(fcl)Music File Playback%(def)"
+	--
+	"［\q[変更,□モードCD]］"
+	}
+ }
+--
+"\n\n%(アイコン2('point','□'))Playback Settings\n\n[half]"
+--
+case ○演奏法 {
+	//Methode de performance
+	when "one" {"　　 %(fcl)Play song once%(def)［\q[Change,□演奏法loop]］"}
+	when "loop" {"　　 %(fcl)Loop song%(def)［\q[Change,□演奏法random]］"}
+	when "seq_loop" {"　　 %(fcl)Loop in order%(def)［\q[Change,□演奏法seq_one]］"}
+	when "seq_one" {"　　 %(fcl)Play in order%(def)［\q[Change,□演奏法one]］"}
+	others {"　　 %(fcl)Shuffle songs%(def)［\q[Change,□演奏法seq_loop]］" }
+}
+--
+"\n\n"
+--
+//znote - music playback settings menu
+
+"%(アイコン2('point','□')).ogg Playback Settings\n\n[half]"
+//Icone 2
+--
+	if ○ogg設定=="mci" {
+		//reglage ogg
+	"　　%(fcl).wav Playback conversion%(def)［\q[Change,□oggモードplaysound]］\n/
+	（Can pause if conflicts with\nPlaySound, is heavy）"
+	// mode ogg mci
+	}
+	else {
+	
+	"　　%(fcl)Memory Playback%(def)［\q[Change,□oggモードmci]］\n/
+	（Can't pause if conflicts with\nPlaySound, is light）"
+	// mode ogg mci
+	}
+
+
+--
+"\n\n\n[half]　　　　　　　\q[CLOSE,□close]｜\q[BACK,□設定]\e"
+//Reglage
+}
+
+//mode...
+□モードnormal {□曲を全て停止;○モード = "normal";□Playback設定}
+□モードCD { □曲を全て停止;○モード = "CD";□Playback設定}
+//Arrete toutes les chansons,parametre de lecture
+
+//同じ曲を繰り返し
+□演奏法loop {○演奏法 = "loop";□Playback設定}
+//ランダムで延々と
+□演奏法random {○演奏法 = "random";□Playback設定}
+//一度だけPlayback
+□演奏法one {○演奏法 = "one";□Playback設定}
+//曲順演奏繰り返し
+□演奏法seq_loop {○演奏法 = "seq_loop";□Playback設定}
+//曲順に一周のみ
+□演奏法seq_one {○演奏法 = "seq_one";□Playback設定}
+//Methode de performance
+
+
+
+//mode de jeu ogg
+□oggモードplaysound {
+
+○ogg設定="playsound"
+//reglage ogg
+if (FOPEN('saori\mciaudior.txt','w'))==1 {
+	_i=FWRITE('saori\mciaudior.txt',"ogg.mode%(CHR(0x2c))playsound")
+	_i=FCLOSE('saori\mciaudior.txt')
+	}
+_i=UNLOADLIB('saori\mciaudior.dll')
+_i=LOADLIB('saori\mciaudior.dll')
+--
+□Playback設定
+//Parametre de lecture
+}
+
+
+// mode ogg mci
+□oggモードmci {
+
+○ogg設定="mci"
+//reglage ogg
+if (FOPEN('saori\mciaudior.txt','w'))==1 {
+	_i=FWRITE('saori\mciaudior.txt',"ogg.mode%(CHR(0x2c))mci")
+	_i=FCLOSE('saori\mciaudior.txt')
+	}
+_i=UNLOADLIB('saori\mciaudior.dll')
+_i=LOADLIB('saori\mciaudior.dll')
+
+--
+□Playback設定
+//Parametre de lecture
+}
+
+
+//Sortie de la liste des chansons
+□曲リスト出力 {
+	□メニューヘッダ
+	//En-tete
+--
+//znote - save playlist menu
+": %(アイコン2('m3u'))Save Playlist :::::::::::::::::\n\n[half]"
+--
+"This will create an m3u of your \nplaylist. Choose a location then type\nin the desired filename followed by [.m3u].\n/
+\n%(アイコン2('point','□'))Output File ［\q[Change,□出力先ディレクトリ変更]］［\q[Folder,□m3uSong_Folder]］/
+\n%(fcl)\_!%(○m3u出力パス)\_!%(def)"
+--
+if ○曲の数>=1 {
+	//Nombre de chansons
+	"\n\n　　　　　　 ［\q[Create,□m3uで出力]］\n"
+	//Sortie avec m3u
+	}
+else {
+	"\n\n　　　　　 - no data -\n"
+	}
+--
+"\n\n[half]　　　　　　 \q[CLOSE,□close]｜\q[BACK,□メニュー_index]\e"
+//Menu_index
+}
+
+//\![open,inputbox,m3u,-1]
+
+//znote - message for if you don't put in a proper path while using the save playlist feature
+//Modification du repertoire de destination
+□出力先ディレクトリ変更 {
+_path=□ファイル選択ダイアログ
+//Dialogue de selection de fichier
+_拡張子=TOLOWER((SPLITPATH(_path))[3])
+//Dialogue de selection de fichier
+
+		if FATTRIB((SPLITPATH(_path)[0])+(SPLITPATH(_path)[1]))[2] != 1 || _path==0 {
+		□曲リスト出力
+		// Sortie de la liste de chansons
+		}
+		elseif _拡張子!=".m3u" {
+			//Extension
+			"Please choose an \nm3u file, or enter\na filename ending\nwith [.m3u].\n[half]/
+			\n　 \q[CLOSE,□close]｜\q[RETRY,□出力先ディレクトリ変更]/
+			\e"
+			// Changer le repertoire de destination
+		}
+		else {
+			○m3u出力パス=_path
+			//chemin de sortie m3u
+			□曲リスト出力
+			//Sortie de la liste des chansons
+		}
+
+
+
+}
+
+//"\![open,inputbox,m3u_d,-1,%(○m3u出力パス)]"
+
+□m3uSong_Folder {
+_dpath = ((SPLITPATH(○m3u出力パス))[0])+((SPLITPATH(○m3u出力パス))[1])
+--
+"I want %(_dpath)"
+--
+//chemin de sortie m3u
+_i=(STRLEN(_dpath))-1
+_dpath=(SUBSTR(_dpath,0,_i))
+-
+"And %(_dpath)\0\![open,file,%(_dpath)]\c"
+--
+"And %(_dpath)"
+-- 
+□曲リスト出力
+//Sortie de la liste des chansons
+}
+
+
+//changement de nom de fichier m3u
+□m3uファイル名変更 {"\![open,inputbox,m3u_f,-1,%(○m3uファイル名)]"}
+//nom de fichier m3u
+
+□m3u時刻OFF{○m3u時刻=0;□曲リスト出力}
+□m3u時刻ON{○m3u時刻=1;□曲リスト出力}
+//temps m3u
+□m3u上書きOFF{○m3u上書き=0;□曲リスト出力}
+□m3u上書きON{○m3u上書き=1;□曲リスト出力}
+//ecraser m3u
+//Sortie de la liste des chansons
+
+//znote - when you're using the save playlist feature to make a m3u and are overwriting a file
+//Sortie avec m3u
+□m3uで出力 {
+○ヘルプメニュー表示中 = 0
+//Affichage du menu d'aide
+if (FATTRIB(○m3u出力パス)) != -1 {
+	"A file with this\nname already\nexists.\w5 Do you\nwant to overwrite? \w4\n[half]/
+	\n　　　 \q[OK,□m3u上書き出力]｜\q[NO,□曲リスト出力]/
+	\e"
+	//sortie d'ecriture m3u, Sortie de la liste des chansons
+	}
+else {
+	□m3u上書き出力
+	//sortie d'ecriture m3u
+	}
+
+}
+
+
+
+//□m3u別名出力 {
+//}
+
+
+//sortie d'ecriture m3u
+□m3u上書き出力 {
+
+□m3u生成
+////Creer m3u
+
+--
+if ○成否==1 {
+	//Succes
+//znote - when the save playlist successfully makes a playlist
+_file=(SPLITPATH(○m3u出力パス)[2])+(SPLITPATH(○m3u出力パス)[3])
+//chemin de sortie m3u
+	"\0%(○サーフェス)\s[0]Playlist %(fcl)”%(_file)”%(def) was created./
+	\n\n　　\q[OPEN FOLDER,□m3uSong_Folder]/
+	\n　　　 \q[CLOSE,□close]/
+	\w9\w9\w9\w9%(○サーフェス)/
+	\e"
+	}
+else {
+	"\0Failed to create playlist.\e"
+	}
+
+}
+
+//Creer m3u
+□m3u生成 {
+○成否 = 0
+//Succes
+_di = (SPLITPATH(reference1)[0])+(SPLITPATH(reference1)[1])
+_f = FDEL(_di+"\tmp.m3u")
+_f = FDEL(○m3u出力パス)
+//chemin de sortie m3u
+FCHARSET (0)
+if (FOPEN ("dat\tmp.m3u","w")) != 0 {
+	foreach ○曲リスト ; _i {
+		//Liste des chansons
+		_i = 絶対パス変換(_i)
+		//Conversion de chemin absolu
+		FWRITE ("dat\tmp.m3u",_i)
+		}
+	FCLOSE ("dat\tmp.m3u")
+	if (FCOPY ("dat\tmp.m3u",_di))==1 {
+		○成否 = FRENAME (_di+"\tmp.m3u",○m3u出力パス)
+		//succes, chemin de sortie m3u
+		}
+	}
+}
+
+/// キーコンフィグ
+//Config cle
+// Reglage des touches _ pre
+□キー設定_pre {
+_key0=(○キー設定[0])
+_key1=(○キー設定[1])
+_key2=(○キー設定[2])
+_key3=(○キー設定[3])
+_key4=(○キー設定[4])
+_key5=(○キー設定[5])
+○キー設定[20]=_key0
+○キー設定[21]=_key1
+○キー設定[22]=_key2
+○キー設定[23]=_key3
+○キー設定[24]=_key4
+○キー設定[25]=_key5
+□キー設定
+}
+
+□キーコンフィグヘッダ {": %(アイコン2('keycon'))Key Config :::::::::::::::\n\n[half]"}
+//Reglage de la cle, Icone 2
+
+
+//znote - hotkey config menu
+//Reglage de la cle
+□キー設定 {
+	□メニューヘッダ
+	//En-tete
+--
+	□キーコンフィグヘッダ
+	//En-tete de configuration cle
+--
+"Click [change] to change a key.\nWhen you're satisfied with the\nchanges, click [save changes].\n/
+\n/
+%(アイコン2('point','□'))Song Playback　　　　［%(キー設定表示名(20))］［\q[Change,□曲Playbackキー変更]］\n\n[half]/
+%(アイコン2('point','□'))Stop Playback　　　［%(キー設定表示名(21))］［\q[Change,□一時停止キー変更]］\n\n[half]/
+%(アイコン2('point','□'))Menu　　　［%(キー設定表示名(22))］［\q[Change,□メニューキー変更]］\n\n[half]/
+%(アイコン2('point','□'))Song Window   ［%(キー設定表示名(23))］［\q[Change,□曲ウィンドウキー変更]］\n\n[half]/
+%(アイコン2('point','□'))Playlist Clear　　　［%(キー設定表示名(24))］［\q[Change,□曲クリアキー変更]］\n\n[half]/
+%(アイコン2('point','□'))Exit Program　　　　　［%(キー設定表示名(25))］［\q[Change,□終了キー変更]］\n\n[half]/
+\n　　　　　　［\q[Save Changes,□キー設定完了]］/
+"
+//Nom d'affichage du parametre de cle, Changer la cle de fin, Parametre de cle termine
+--
+"\n\n\n[half]　　　　　　 \q[CLOSE,□close]｜\q[BACK,□メニュー_index]\e"
+}
+
+
+//Nom d'affichage du parametre de cle
+キー設定表示名 {
+
+_i=TOINT(_argv[0])
+_キー名=(○キー設定[(_i)])
+//Nom de la cle = ( reglage de la cle
+
+
+	if (_キー名) == 'up'			{'↑'}
+	elseif (_キー名) == 'left'		{'←'}
+	elseif (_キー名) == 'down'		{'↓'}
+	elseif (_キー名) == 'right'		{'→'}
+	elseif (_キー名) == ':'			{'*'}
+	elseif (_キー名) == ';'			{'+'}
+	elseif (_キー名) == 'return'	{'enter'}
+	//「/」の時
+	elseif (_キー名) == (CHR(0x2f))	{'?'}
+	//「\の時」
+	elseif (_キー名) == '￥'	{'\\'}
+	elseif (STRLEN(_キー名))<=1||(SUBSTR(_キー名,0,1))=='f' {
+		TOUPPER(_キー名)
+		}
+	else {(_キー名)}
+
+
+}
+
+//Changer la chanson Playback key
+□曲Playbackキー変更{
+○イベント名 = "キー変更0"
+//Nom de l'evenement
+□キー設定2
+//Parametre de cle 2
+}
+□一時停止キー変更{
+○イベント名 = "キー変更1"
+□キー設定2
+}
+□メニューキー変更{
+○イベント名 = "キー変更2"
+□キー設定2
+}
+□曲ウィンドウキー変更{
+○イベント名 = "キー変更3"
+□キー設定2
+}
+□曲クリアキー変更{
+○イベント名 = "キー変更4"
+□キー設定2
+}
+□終了キー変更{
+○イベント名 = "キー変更5"
+□キー設定2
+}
+
+
+□キー設定2 {
+	□メニューヘッダ
+--
+	□キーコンフィグヘッダ
+--
+"%(アイコン2('point','□'))Select the key you want to set.\n/
+\n/
+\q[ A ,□key_a]\q[ B ,□key_b]\q[ C ,□key_c]\q[ D ,□key_d]\q[ E ,□key_e]\q[ F ,□key_f]\q[ G ,□key_g]\q[ H ,□key_h]\q[ I ,□key_i]\q[ J ,□key_j]\q[ K ,□key_k]\q[ L ,□key_l]\n/
+\q[ M ,□key_m]\q[ N ,□key_n]\q[ O ,□key_o]\q[ P ,□key_p]\q[ Q ,□key_q]\q[ R ,□key_r]\q[ S ,□key_s]\q[ T ,□key_t]\q[ U ,□key_u]\q[ V ,□key_v]\q[ W ,□key_w]\q[ X ,□key_x]\n/
+\q[ Y ,□key_y]\q[ Z ,□key_z]\n/
+\n \q[enter,□key_return]　\q[space,□key_space]　\q[backspace,□key_back]　\q[tab,□key_tab]/
+\n \q[insert,□key_insert]　\q[delete,□key_delete]/
+\n/
+\n \q[Up ↑,□key_up] \q[Left ←,□key_left] \q[Down ↓,□key_down] \q[Right →,□key_right]/
+\n\n\n　　　　　　 \q[CLOSE,□close]｜\q[BACK,□キー設定]\e"
+
+}
+
+
+//HOTKEYでつかえないもの
+//
+//\q[ ^ ,□key_^]\q[ %(CHR(0x5c)) ,□key_￥]\q[ @ ,□key_@]\q[ + ,□key_;]\q[ * ,□key_:]\q[ ? ,□key_/]\n/
+//\q[ F1 ,□key_f1]\q[ F2 ,□key_f2]\q[ F3 ,□key_f3]\q[ F4 ,□key_f4]\q[ F5 ,□key_f5]\q[ F6 ,□key_f6]\q[ F7 ,□key_f7]\q[ F8 ,□key_f8]\q[ F9 ,□key_f9]/
+//\n \q[F10,□key_f10] \q[F11,□key_f11] \q[F12,□key_f12]\n/
+//\q[home,□key_home]　\q[end,□key_end]　\q[shift,□key_shift]　
+
+
+//Selection de cle
+□キー選択 {
+	_選択key = (REPLACE(reference0,"□key_",""))
+	//Touche Selectionner
+	_設定箇所 = (TOINT((REPLACE(○イベント名,"キー変更",""))))
+	//Lieu de reglage
+	_i=_設定箇所+20
+	//Lieu de reglage
+
+	_仮キー配列 = (○キー設定[20],○キー設定[21],○キー設定[22],○キー設定[23],○キー設定[24],○キー設定[25])
+	_仮キー配列[_設定箇所]='_'
+	//Disposition temporaire des touches [_ lieu de reglage]
+	if (ASEARCH(_選択key,_仮キー配列))!=-1 {
+		//Touche Selectionner,Cle temporaire
+	□メニューヘッダ
+--
+// En-tete de menu
+	□キーコンフィグヘッダ
+	// En-tete de configuration de cle
+--
+	"\0%(アイコン2('point','□'))That key is already set to a shortcut.\_q\x"
+	--
+	□キー設定
+	//Reglage de la cle
+	}
+	else {
+		○キー設定[_i]=_選択key
+		//Reglage de la cle, Touche Selectionner
+		--
+		□キー設定
+		//Reglage de la cle
+	}
+}
+
+
+//Parametre de cle termine
+□キー設定完了 {
+_key0=(○キー設定[20])
+_key1=(○キー設定[21])
+_key2=(○キー設定[22])
+_key3=(○キー設定[23])
+_key4=(○キー設定[24])
+_key5=(○キー設定[25])
+○キー設定[0]=_key0
+○キー設定[1]=_key1
+○キー設定[2]=_key2
+○キー設定[3]=_key3
+○キー設定[4]=_key4
+○キー設定[5]=_key5
+//Reglage de la cle
+	if ○ホットキー操作=="ON" {
+		//Fonctionnement a cle chaude
+	SAORI("saori\hotkey.dll")
+	□ホットキー準備
+	//Preparation de cle chaude
+	}
+	□メニューヘッダ
+	//En-tete
+--
+	□キーコンフィグヘッダ
+	//En-tete de configuration cle
+--
+"\v%(アイコン2('point','□'))Key settings are saved.\_q\x"
+	--
+	□メニュー_index
+}
+
+
+/// input box ///////////////////////////////////////////////////
+
+//znote - when you type in an address for adding a file
+OnUserInput {
+"\0"
+--
+//　空打ち確認
+ if reference1 == "" {
+	"\b[-1]"
+	}
+else {
+//　InputBoxID確認
+//Confirmation InputBoxID
+  if reference0 == "url" {
+		//　URLだったらダウンロード
+		//Telechargement de la chanson depuis l'URL
+		if "http://" _in_ reference1 {
+			○URL = reference1
+			□URLから曲ダウンロード
+			//Telechargement de la chanson depuis l'URL
+			}
+		elseif !reference1 {"\0\b[-1]\e"} 
+		//　URLじゃなかったら警告
+		//Attention si non URL
+		else {"Please enter the\nURL of the sound\nfile.\n[half]/
+		\n　 \q[CLOSE,□close]｜\q[RETRY,□URL入力ダウンロード]/
+		\e"}
+		//Telechargement d'entree d'URL
+		}
+	elseif reference0 == "m3u_d" {
+		if FATTRIB((SPLITPATH(reference1)[0])+(SPLITPATH(reference1)[1]))[2] != 1 {
+			"That directory\ndoes not exist.\n[half]/
+			\n　 \q[CLOSE,□close]｜\q[RETRY,□出力先ディレクトリ変更]/
+			\e"
+		}
+		//Modification du repertoire de destination
+		elseif (SPLITPATH(reference1)[3])!=".m3u" {
+			"Please input a\npath to a file\nending with .m3u.\n[half]/
+			\n　 \q[CLOSE,□close]｜\q[RETRY,□出力先ディレクトリ変更]/
+			\e"
+			//Modification du repertoire de destination
+			}
+		else {
+			○m3u出力パス=reference1
+			//○ chemin de sortie m3u
+			□曲リスト出力
+			//Sortie de la liste des chansons
+			}
+		}
+
+  elseif reference0 == "mpath" {
+	○path=0
+	○path=reference1
+		if ○path!=0 {
+		□ファイルがドロップされた
+		//Le fichier a ete depose
+		}
+	}
+  elseif reference0 == "mfpath" {
+	○ディレクトリ=0
+	//Annuaire
+	○path=reference1
+		if (FATTRIB(○path)[2])==1 {
+		○ディレクトリ=○path
+		//Annuaire
+		□ディレクトリドロップ処理
+		//Traitement de suppression de repertoire
+		}
+	}
+ }
+}
+
+
+/// k_window ////////////////////////////////////////////////////
+
+//　マウスやキーで曲名ウィンドウオンオフ
+//Fenetre de nom de morceau activee / desactivee avec la souris et la touche
+//Affichage de la fenetre du titre de chanson
+□曲名ウィンドウ表示 {
+if ○曲名ウィンドウON != 1
+//Fenetre du titre de la chanson ON
+	{
+	○曲名ウィンドウON = 1
+	//Fenetre du titre de la chanson ON
+	_i=SAORI("saori\bln.dll", "win01", "%(○ウィンドウ表示用曲名)", "0", "0", "kyokumei")
+	}
+	//Nom de la chanson pour l'affichage de la fenetre
+else {□曲名ウィンドウ非表示}
+//Fenetre de nom de morceau cachee
+}
+
+
+//Fenetre de nom de morceau cachee
+□曲名ウィンドウ非表示 {
+	○曲名ウィンドウON = 0
+	//Fenetre du titre de la chanson ON
+	_i=SAORI("saori\bln.dll", "win01", "", "0", "0", "kyokumei")
+}
+
+//　曲名表示更新
+//Mettre a jour le titre du morceau
+
+// Afficher le titre de la chanson dans la fenetre
+□ウィンドウに曲名表示 {
+	_i=SAORI("saori\bln.dll", "win01", "%(○ウィンドウ表示用曲名)", "0", "0", "kyokumei", "1")
+}
+
+//　曲名ウィンドウONの場合何かあって一時的に非表示にした後再表示
+□曲名ウィンドウONなら表示 {
+if ○曲名ウィンドウON == 1	{□ウィンドウに曲名表示}
+//Fenetre du titre de la chanson ON, Afficher le titre de la chanson dans la fenetre
+}
+
+
+//Nom de la chanson pour l'affichage de la fenetre
+○ウィンドウ表示用曲名 {
+	
+if ○演奏中 == 1 {
+	//jouer
+	if ○モード == "CD" {○ナンバー=○演奏中CDトラック}
+	//mode, numero, Piste de CD pendant la performance
+	else {○ナンバー=○演奏中曲No}
+	//numero, Chanson jouee Non
+
+			//　文字数18を越えると省略
+			//Lorsque le nombre de caracteres depasse 18, il est omis
+			if ○曲名文字数 > 18 {
+				//Song nombre de caracteres
+				_抜き出し = SUBSTR ("%(○演奏中曲名)",0,18)
+				//Retirer, Nom de la chanson en cours de lecture
+				○表示曲名 = "%(_抜き出し)…"
+				//Afficher le titre de la chanson, Retirer
+    				}
+			else {○表示曲名 = "%(○演奏中曲名)"}
+			//Afficher le titre de la chanson, Nom de la chanson en cours de lecture
+			
+			// 曲No位置調整
+			//Chanson sans ajustement
+			_曲No文字数 = STRLEN (○ナンバー)
+			//Numero
+				if _曲No文字数==1 { ○空白 = "\_q　" }
+				elseif _曲No文字数==2 { ○空白 = "\_q%(CHR(0x20))" }
+				//numero de charactere chanson, blank
+				else { ○空白 = "\_q" }
+				//Blank
+				
+	//　表示
+	//Affichage
+
+		if ○モード == "CD" {
+			//mode
+		"%(○空白)%(○演奏中CDトラック)/%(○CDトラック数)\_q　CD - Track %(○演奏中CDトラック)"
+		}
+		//Blank,Piste de CD pendant la performance, Nombre de pistes de CD,Piste de CD pendant la performance
+		else {
+		"%(○空白)%(○ナンバー)/%(○曲の数)\_q %(○表示曲名)"
+		//Blank, Numero, Nombre de chansons, Afficher le nom du morceau
+		}
+}
+else {
+	if ○モード == "CD" {"\_q　0/%(○CDトラック数) - NO PLAYING -\_q"}
+	//Nombre de pistes de CD
+	else {"\_q　0/%(○曲の数) - NO PLAYING -\_q"}
+	// Nombre de chansons
+
+}
+}
+
+//_バイト数 = GETSTRBYTES ("%(○演奏中曲No)/%(○曲の数) %(○演奏中曲名)")
+
+//Fenetre de morceau du menu d'aide
+□ヘルプメニューから曲ウィンドウ {
+□ヘルプメニュー消滅した
+//Disparition du menu d'aide
+□曲名ウィンドウ表示
+//Affichage de la fenetre du titre de chanson
+}
+
+
+/// weirds /////////////////////////////////////////////////////
+
+
+□weirds {
+○ヘルプメニュー表示中 = 0
+//Affichage du menu d'aide
+_i=SAORI("saori\Weirds.dll", "show", "/
+//メニュー
+%(ASC(1))%(ASC(1))　- music list -%(ASC(1))Dummy%(ASC(2))/
+%(ASC(1))%(ASC(1))%(ASC(1))Separator%(ASC(2))/
+%(□weirds曲メニュー判別)/
+","/
+//Weirds chanson menus discrimination
+//デザイン
+//Design
+background.font.color%(ASC(1))0,0,0%(ASC(2))/
+background.base.color%(ASC(1))255,255,255%(ASC(2))/
+foreground.font.color%(ASC(1))%(mffc)%(ASC(2))/
+foreground.base.color%(ASC(1))%(mfbc)%(ASC(2))/
+menu.disable.font.color%(ASC(1))150,150,150%(ASC(2))/
+menu.item.fontname%(ASC(1))MS UI Gothic%(ASC(2))/
+sidebar.base.color%(ASC(1))255,255,255%(ASC(2))/
+menu.item.width%(ASC(1))100%(ASC(2))/
+sidebar.width%(ASC(1))0%(ASC(2))/
+")
+--
+"\e"
+}
+//%(fbgc)
+
+//Weirds chanson menus discrimination
+□weirds曲メニュー判別 {
+	if ○モード=="CD" { ○weirdsCDメニュー }
+	//mode,menu bizarreCD
+	else { ○weirds曲メニュー }
+	//menu de chansons bizarres
+}
+
+//menu de chansons bizarres
+○weirds曲メニュー {
+if ○曲の数>=1 {
+	//Nombre de chansons
+//キャッシュ更新
+//Actualisation
+if ○曲リスト更新!=0 {□weirdsリスト生成}
+//Mettre a jour la liste des chansons,Generation de listes bizarres
+--
+//znote - changes playlist display, breaks behaviors unless you replace them everywhere
+"/
+
+%(REPLACE(○weirdsリスト,ASC(4),'Playback'))/
+
+%(REPLACE(○weirdsリスト,ASC(4),'Song_Info'))/
+
+%(REPLACE(○weirdsリスト,ASC(4),'Song_Folder'))/
+
+%(REPLACE(○weirdsリスト,ASC(4),'Remove_Song'))/
+
+
+//znote - these change the menu display
+"
+	}
+	else {"%(ASC(1))%(ASC(1))　　 no data%(ASC(1))Dummy%(ASC(2))"}
+--
+"%(ASC(1))%(ASC(1))%(ASC(1))Separator%(ASC(2))"
+--
+	□weirdsPlayback法("Shuffle songs","ランダムで連続Playback","random")
+--
+	□weirdsPlayback法("Loop in order","seq_loop")
+--
+	□weirdsPlayback法("Play in order","seq_one")
+--
+	□weirdsPlayback法("Play song once","one")
+--
+	□weirdsPlayback法("Loop song","loop")
+--
+}
+
+//Generation de listes bizarres
+□weirdsリスト生成 {
+ERASEVAR("○weirdsリスト")
+//liste des etranges
+//○曲リスト配列の各要素値を順番に取り出し
+//Chaque valeur d'element du tableau de liste de chansons est recuperee dans l'ordre
+_c=0
+  //25曲以下ならフォルダにいれない
+  //Si c'est moins de 25 chansons, vous ne pouvez pas rester dans le dossier
+  if ○曲の数<=25 {
+	  //Nombre de chansons
+	foreach ○曲リスト ; _i {
+		//Liste des chansons
+	// ファイル名を曲名に
+	//Nom du fichier en tant que titre de la chanson
+	_曲名 = ((SPLITPATH (_i))[2]) + ((SPLITPATH (_i))[3])
+	//Nom de la chanson
+
+	○weirdsリスト = ○weirdsリスト + ASC(4) + ASC(1) + ASC(1) + _曲名 + ASC(1) + "Event" + ASC(1) + "On_weirds曲%(ASC(4))" + ASC(1) + _c + ASC(2)
+	_c++
+	
+	}
+  }
+  else {
+	foreach ○曲リスト ; _i {
+		//Liste des chansons
+	// ファイル名を曲名に
+	//Nom du fichier en tant que titre de la chanson
+	_曲名 = ((SPLITPATH (_i))[2]) + ((SPLITPATH (_i))[3])
+	//Nom de la chanson
+	_フォルダ = (_c/25)*25+25
+	//Dossir
+	○weirdsリスト = ○weirdsリスト + ASC(4) + "\" + "～ " + _フォルダ + ASC(1) + ASC(1) + _曲名 + ASC(1) + "Event" + ASC(1) + "On_weirds曲%(ASC(4))" + ASC(1) + _c + ASC(2)
+	_c++
+	//liste des etranges, dossier, Nom de la chanson
+
+	}
+  }
+
+
+○曲リスト更新=0
+//Mise a jour de la liste de chansons
+}
+
+On_weirds曲Playback {
+○指定曲番号 = TOINT(reference0)+1
+//Numero de chanson specifie
+□曲ランダムPlayback
+//Lecture aleatoire de morceau
+}
+
+
+//Lecture aleatoire de morceau
+On_曲ランダムPlayback {
+□曲ランダムPlayback
+//Lecture aleatoire de morceau
+}
+
+On_weirds曲Remove_Song {
+//曲の数が１の場合全て消去
+//Effacer tout quand le nombre de chansons est 1
+if ○曲の数<=1 {
+	//Nombre de chansons
+	□演奏ストップ
+	//Arret de performance
+	--
+	○曲リスト = IARRAY
+	//Liste des chansons
+	FDEL(○ダウンロード曲リスト)
+	//Telecharger la liste des chansons
+	○ダウンロード曲リスト = IARRAY
+	//Telecharger la liste des chansons
+	}
+else {
+	_i=○曲リスト[(TOINT(reference0))]
+	//Liste des chansons
+	if ○演奏中曲パス==_i {
+		//Chanson jouee
+		ERASEVAR('○演奏中曲パス')
+		//Chanson jouee
+		□演奏ストップ
+		//Arret de performance
+		}
+	//ダウンロード曲かどうか調べる
+	//Verifier les chansons telechargees
+	_d = ASEARCH(reference0,○ダウンロード曲リスト)
+	//Telecharger la liste des chansons
+	//ダウンロード曲だったらそれもRemove_Song
+	//Si c'est une chanson de telechargement, c'est aussi Remove_Song
+	if _d != -1 { 
+		FDEL(○ダウンロード曲リスト[_d]) 
+		//Telecharger la liste des chansons
+		//リストからもRemove_Song
+		//Remove_Song de la liste
+		if (ARRAYSIZE(○ダウンロード曲リスト))<=1 {○ダウンロード曲リスト = IARRAY}
+		//Telecharger la liste des chansons
+		else {○ダウンロード曲リスト[_d] = IARRAY }
+		//Telecharger la liste des chansons
+		}
+	○曲リスト[(TOINT(reference0))] = IARRAY
+	//Liste des chansons
+	}
+○曲リスト更新=1
+//Mettre a jour la liste
+}
+
+
+//Effacer la liste des chansons
+On_曲リストクリア {
+"\0\v"
+--
+□曲リストクリア
+//Effacer la liste des chansons
+}
+
+
+//chanson bizarre Song_Info
+On_weirds曲Song_Info {
+○path = ○曲リスト[reference0]
+//Liste des chansons
+○No = reference0+1
+□weirds曲Song_Info
+//chanson bizarre Song_Info
+}
+
+//chanson bizarre Song_Info
+□weirds曲Song_Info {
+○イベント名 = "□weirds曲Song_Info"
+//Nom de l'evenement, chanson bizarre Song_Info
+□メニューヘッダ
+//En-tete
+--
+"\v: %(アイコン2('music'))Song_Info ::::::::::\n\n[half]"
+--
+□曲Song_Info中身
+//Song Song_Info Sommaire
+--
+"\n[half]/
+\n　　　　　　　　\q[CLOSE,□close]\e"
+}
+
+//chanson bizarre Song_Folder
+On_weirds曲Song_Folder {
+□weirds曲フォルダ
+//dossier de chansons bizarres
+}
+
+//dossier de chansons bizarres
+□weirds曲フォルダ {
+_path = ○曲リスト[reference0]
+//Liste des chansons
+_dpath = ((SPLITPATH(_path))[0])+((SPLITPATH(_path))[1])
+if _dpath == "..\..\..\sound_file\" {_dpath = "..\..\sound_file"}
+else {
+	_i=(STRLEN(_dpath))-1
+	_dpath=(SUBSTR(_dpath,0,_i))
+	}
+"\0\![open,file,%(_dpath)]\e"
+}
+
+//menu bizarreCD
+○weirdsCDメニュー {
+
+//キャッシュ更新
+//Actualisation
+	if ○CDトラック数>0 {
+		//Nombre de pistes de CD
+	□weirdsCDリスト生成
+	//etranges generation de listes de CD
+
+	}
+	else {"%(ASC(1))%(ASC(1))　　 no data%(ASC(1))Dummy%(ASC(2))"}
+--
+"%(ASC(1))%(ASC(1))%(ASC(1))Separator%(ASC(2))"
+--
+//Methode weirdsPlayback
+	□weirdsPlayback法("Shuffle songs","ランダムで連続Playback","random")
+	//Lecture aleatoire et continue
+--
+	□weirdsPlayback法("リスト順にエンドレス","seq_loop")
+	//Sans fin dans l'ordre de la liste
+--
+	□weirdsPlayback法("リスト順に一周だけ","seq_one")
+	//Un seul tour dans l'ordre de la liste
+--
+	□weirdsPlayback法("一曲を一度だけ","one")
+	//Une chanson seulement une fois
+--
+	□weirdsPlayback法("同じ曲をエンドレス","loop")
+	//Sans fin la meme chanson
+--
+"/
+%(ASC(1))%(ASC(1))%(ASC(1))Separator%(ASC(2))/
+%(ASC(1))%(ASC(1))CDを取り出す%(ASC(1))Event%(ASC(1))On_CDを取り出す%(ASC(2))/
+%(ASC(1))%(ASC(1))CDをセットする%(ASC(1))Event%(ASC(1))On_CDをセットする%(ASC(2))/
+"
+//Ejecter le CD, Definir le CD
+}
+
+
+//Methode weirdsPlayback
+□weirdsPlayback法 {
+
+"Playback Options%(ASC(1))"
+--
+if ○演奏法==_argv[1] ; "C"
+//Methode de performance
+elseif (ISVAR("○演奏法"))==0 && _argv[1]=="random" ; "C"
+//Methode de performance
+--
+"%(ASC(1))%(_argv[0])%(ASC(1))"
+--
+if ○演奏法==_argv[1] ; "Dummy"
+//Methode de performance
+elseif (ISVAR("○演奏法"))==0 && _argv[1]=="random" ; "Dummy"
+//Methode de performance
+else {"Event"}
+--
+"%(ASC(1))On_Playback法変更%(ASC(1))%(_argv[1])%(ASC(2))"
+//Changer a la loi de lecture
+}
+
+
+//etranges generation de listes de CD
+□weirdsCDリスト生成 {
+ERASEVAR("○weirdsリスト")
+_c=0
+
+	//20曲以下ならフォルダにいれない
+	if ○CDトラック数<=20 {
+		// Nombre de pistes de CD
+		for _c = 1 ; _c <= ○CDトラック数 ; _c++ {
+			// Nombre de pistes de CD
+		○weirdsリスト = ○weirdsリスト  + ASC(1) + ASC(1) + "Track %(_c)" + ASC(1) + "Event" + ASC(1) + "On_weirdsCD指定Playback" + ASC(1) + _c + ASC(2)
+		}
+	}
+	else {
+		for _c = 1 ; _c <= ○CDトラック数 ; _c++ {
+			// Nombre de pistes de CD
+		_フォルダ = (_c/25)*25+25
+		// Dossier
+		○weirdsリスト = ○weirdsリスト + "～ " + _フォルダ  + ASC(1) + ASC(1) + "Track %(_c)" + ASC(1) + "Event" + ASC(1) + "On_weirdsCD指定Playback" + ASC(1) + _c + ASC(2)
+		// liste bizarre = ○ liste bizarre + "~" + _ dossier + ASC (1) + ASC (1) + "Piste% (_ c)" + ASC (1) + "Evenement" + ASC (1) + "Specification On_weirdsCD Lecture "+ ASC (1) + _ c + ASC 
+		}
+	}
+
+○weirdsリスト
+//liste des etranges
+○CD曲リスト更新=0
+//Mise a jour de la liste de chansons
+}
+
+
+//weirdsCD designe lecture
+On_weirdsCD指定Playback {
+○指定曲番号 = 0
+//Numero de chanson specifie
+○指定曲番号 = TOINT(reference0)
+□曲ランダムPlayback
+//Lecture aleatoire de morceau
+}
+
+
+//Ejecter le CD
+On_CDを取り出す { _i=SAORI("saori\mcidonut.dll", "dooropen") }
+
+//Definir le CD
+On_CDをセットする { _i=SAORI("saori\mcidonut.dll", "doorclose") }
+
+
+//Changer a la loi de lecture
+On_Playback法変更 {
+○演奏法=reference0
+//Methode de performance
+"\0\e"
+}
+
+
+/// url drop ///////////////////////////////////////////////////
+
+OnURLQuery {
+
+if "audio" _in_ reference2 {
+	○URL=reference0
+	□URLから曲ダウンロード
+	//Telechargement de la chanson de URL
+	}
+
+}
+
+
+//Telechargement de la chanson de URL
+□URLから曲ダウンロード {
+//znote - when downloading files
+	//　URLが音楽ファイルかどうか確認
+	//Confirmer si l'URL est un fichier musical
+	_拡張子 = TOLOWER ((SPLITPATH (○URL))[3])
+	//Extension
+	if (ASEARCH(_拡張子,'.mid','.mp3','.wav','.wma','.ogg')) != -1 {
+		//Extension
+	○DL開始 = 0
+	//Demarrer DL
+	○DL成功 = 0
+	//DL succes
+	○URL = reference0
+		"\0"
+	--
+	○上書き曲DL=0
+	//Remplacer la chanson DL
+		_file = ((SPLITPATH (○URL))[2])+((SPLITPATH (○URL))[3])
+file=_file
+		if (FATTRIB("..\..\sound_file\%(_file)")) != -1 {
+			"\b[0]A song with this\nname has already\nbeen downloaded. \w5\nDo you want to\noverwrite? \w4\n[half]/
+			\n　　　 \q[OK,□上書き曲ダウンロード]｜\q[NO,□close]/
+			\e"
+		}
+		else {□曲ダウンロード開始}
+		//Commencez la chanson a telecharger
+	}
+}
+
+
+
+//Remplacer le telechargement de la chanson
+□上書き曲ダウンロード {
+	○上書き曲DL=1
+	//Remplacer la chanson DL
+	○演奏中 = 0
+	//jouer
+	○サーフェス = "\s[0]"
+	//surface
+	_i=SAORI("saori\mciaudior.dll", "stop")
+	_ファイル名 = ((SPLITPATH (○URL))[2])+((SPLITPATH (○URL))[3])
+	//Nom du fichier
+	_i=FDEL ("..\..\sound_file\%(_ファイル名)")
+--
+□曲ダウンロード開始
+//Commencez la chanson a telecharger
+}
+
+
+//Commencez la chanson a telecharger
+□曲ダウンロード開始 {
+		○DL開始 = 1
+		//Demarrer DL
+		_file=(SPLITPATH(○URL))[2]+(SPLITPATH(○URL))[3]
+		"\0\s[6]%(fcl)”%(_file)”%(def)\n now loading...\![execute,http-get,%(○URL),--timeout=40,--async=soundfile,--file=%(_file)]\e"
+}
+
+
+OnExecuteHTTPComplete {
+	if reference0=="get"&& reference1=="soundfile" {
+
+		_ファイル名 = ((SPLITPATH (○URL))[2])+((SPLITPATH (○URL))[3])
+		//Nom du fichier
+		//DLファイル移動
+		//Deplacement de fichier DL
+		_i=FMOVE ( "var\%(_ファイル名)","..\..\sound_file\" )
+--
+		if ○上書き曲DL==1 {
+			//Remplacer la chanson DL
+		"\0\s[0]%(_ファイル名) has been redownloaded./
+		\n\n[half]　　 \q[PLAY,□上書き曲Playback]｜\q[CLOSE,□close]/
+		\e"
+		//Remplacer la chanson
+		○上書き曲DL=0
+		//Remplacer la chanson DL
+		}
+		else {
+			_Filename = "..\..\..\sound_file\%(_ファイル名)"
+		
+				//　まだ入ってないならダウンロード曲リストに追加
+				if (ASEARCH(_Filename,○ダウンロード曲リスト)) == -1 {
+					//Telecharger la liste des chansons
+					if (ARRAYSIZE(○ダウンロード曲リスト))==0 {
+						//Telecharger la liste des chansons
+					○ダウンロード曲リスト = _Filename
+					//Telecharger la liste des chansons
+					}
+					else {○ダウンロード曲リスト = (○ダウンロード曲リスト,_Filename)}
+					//○ Telecharger la liste des chansons = (○ Telecharger la liste des chansons, _Nom du fichier)}
+				}
+				○DL成功 = 1
+				//DL succes
+				//　ファイルパスをAllFilepathに保存し処理
+				//Enregistrez le chemin du fichier dans AllFilepath
+				○AllFilepath = _Filename
+				□ドロップファイル処理
+				//Traitement du fichier de depot
+		}
+	}
+
+}
+
+OnExecuteHTTPFailure {"\0\s[6]\n\n　> Download-error\w9\w9\w9\w9%(○サーフェス)\b[-1]\e"}
+
+//Remplacer la chanson
+□上書き曲Playback {
+_ファイル名 = ((SPLITPATH (○URL))[2])+((SPLITPATH (○URL))[3])
+//Nom du fichier
+_Filename = "..\..\..\sound_file\%(_ファイル名)"
+○指定曲番号=(ASEARCH(_Filename,○曲リスト))+1
+//Numero de morceau specifie = (ASEARCH (_Filename, liste de chansons)) + 1
+□曲ランダムPlayback
+// Lecture aleatoire de morceau
+}
+
+/// file drop //////////////////////////////////////////////////
+
+OnDirectoryDrop
+{
+○ディレクトリ=0
+//Annuaire
+○ディレクトリ=reference0
+□ディレクトリドロップ処理
+////Traitement de suppression de repertoire
+}
+
+// Ajustement du chemin du repertoire
+□ディレクトリパス調整 {
+	if ○sender == "SSP" {○ディレクトリ = ○path}
+	else {○ディレクトリ = ○path + "\"}
+□ディレクトリドロップ処理
+//Traitement de suppression de repertoire
+}
+
+
+//repertoire est un dossier de fichier, donc on enregistre tous les fichier qu'il y a dedans
+//Traitement de suppression de repertoire
+□ディレクトリドロップ処理 {
+"\0\b[6]\b[-1]"
+--
+	//　ディレクトリに入ってるファイルを全て配列保存
+	//Enregistrer tous les fichiers contenus dans le repertoire
+	○AllFilepath = FENUM (○ディレクトリ)
+	//Annuaire
+	--
+	□ドロップファイル処理
+	// Traitement du fichier de depot
+--
+"\e"
+}
+//Annuaire = repath
+
+//Le fichier a ete depose
+//et reference0 et path sont le chemin absolu vers ce fichier
+□ファイルがドロップされた {
+"\0"
+--
+	//　ディレクトリかどうか判断
+	//Determiner s'il s'agit d'un repertoire
+	if (FATTRIB (○path))[2] == 1 {
+	○ディレクトリ=0
+	//Annuaire
+	○ディレクトリ=reference0
+	//Annuaire
+	□ディレクトリパス調整
+	//Ajustement du chemin du repertoire
+	}
+	
+	//　ディレクトリじゃなかったらファイルとして処理
+	//Traitez-le comme un fichier s'il ne s'agit pas d'un repertoire
+	else {
+	○ディレクトリ = 0
+	//Annuaire
+	//　簡易配列を汎用配列へ変換
+	//Convertir un tableau simple en tableau general
+	○AllFilepath = SPLIT (○path, ",")
+	○path = (○AllFilepath[0])
+	_拡張子 = TOLOWER ((SPLITPATH (○path))[3])
+	//extension
+		// m3uを投げられた
+		//J'ai ete jete m3u
+	if _拡張子 == ".m3u" || _拡張子 == ".pls" {
+		//extension
+		□プレイリスト処理
+		// Traitement de la playlist
+		}
+		else {
+		□ドロップファイル処理
+		// Traitement du fichier de depot
+		}
+	}
+--
+"\e"
+}
+
+
+// Traitement du fichier de depot
+□ドロップファイル処理 {
+	_ドロップファイル数 = ARRAYSIZE (○AllFilepath)
+	//Deposer le nombre de fichiers
+	_追加した曲数 = 0
+	//Nombre de chansons ajoutees
+	_既に入ってた曲数 = 0
+	//Nombre de chansons deja entrees = 0
+//ドロップされたファイル配列の各要素値を順番に取り出し
+//Chaque valeur d'element du tableau de fichiers depose est retiree dans l'ordre
+foreach ○AllFilepath ; _Filename {
+	//音楽ファイルかどうか拡張子で判断
+	//Juger par extension si le fichier de musique
+	_拡張子 = TOLOWER ((SPLITPATH (_Filename))[3])
+	//Extension
+	if (ASEARCH(_拡張子,'.mid','.mp3','.wav','.wma','.ogg')) != -1
+	//Extension
+		{
+		//ディレクトリパスが付いてなかったら付ける
+		//Si vous n'avez pas de chemin de repertoire,
+		if ○ディレクトリ != 0 {_Filename = ○ディレクトリ + _Filename}
+		//Annuaire
+		
+		//音楽ファイルならリストに入っているか判断(無い場合-1)
+		//S'il s'agit d'un fichier musical, il est juge s'il figure dans la liste (dans le cas contraire -1)
+		if (ASEARCH(_Filename,○曲リスト)) == -1
+		//liste de chansons
+			{
+			//入っていない曲ならリストに追加
+			//Ajouter des chansons qui ne sont pas incluses dans la liste
+			if ○曲の数<=0 {○曲リスト = _Filename}
+			//Nombre de chansons, liste de chansons
+			else {○曲リスト = (○曲リスト,_Filename)}
+			//○ Liste de chansons = (○ liste de chansons, _Filename
+			_追加した曲数++
+			//Nombre de chansons ajoutees ++
+			}
+			//既に入ってた曲なら何もしないでカウント
+			//Ne faites rien si vous avez deja des chansons comptees
+			else { _既に入ってた曲数++ }
+			//Nombre de chansons deja dans
+		}
+
+	}
+//曲追加した場合曲数報告
+//znote - when adding songs to the playlist
+--
+if _追加した曲数 >= 1 {
+	//Nombre de chansons ajoutees
+	○曲リスト更新=1
+	//Mettre a jour la liste
+	□ヘルプメニュー消滅した
+	//Disparition du menu d'aide
+	--
+	if ○曲の数 == 1 {○曲リスト = ○曲リスト[0]}
+	// Nombre de chansons == 1 {○ liste de chansons = 0 liste de chansons [0]}
+	"\b[0]\c%(○サーフェス)\s[0] %(_追加した曲数) song(s) added! \w5\n There are %(○曲の数)\nsong(s) in the\nplaylist."
+	--
+	if _追加した曲数 == 1 && ○モード != "CD" {
+		//Nombre de chansons ajoutees, mode
+	"\n\n[half]　　 \q[PLAY,□ドロップ曲Playback]｜\q[CLOSE,□close]"
+		}
+	--
+	"\w9\w9\w9\w9%(○サーフェス)"
+	}
+	
+//曲追加できなかった
+//Je ne pouvais pas ajouter de chansons
+else {
+	□ヘルプメニュー消滅した
+	//Disparition du menu d'aide
+	--
+	//既に入ってた曲を1つ以上ドロップされた
+	//Une ou plusieurs chansons deja entrees ont ete supprimees
+	if _既に入ってた曲数 >0	{"\b[0]\s[0]You already added\nthat song!\w9\w9\w9\w9%(○サーフェス)"}
+	//Nombre de chansons deja dans
+	}
+//　セーブ
+//sauvegarder
+SAVEVAR
+}
+
+
+
+// Lecture de la chanson Drop
+□ドロップ曲Playback {
+○指定曲番号=○曲の数
+//Numero de chanson specifie = Nombre de chansons
+□曲ランダムPlayback
+//Lecture aleatoire du morceau
+}
+
+
+//Traitement de la playlist
+□プレイリスト処理 {
+_f=FOPEN (○path,"r")
+_txt=0
+_i=0
+○AllFilepath = IARRAY
+	while _txt != -1 && _i<5000 {
+	_i++
+	_txt = FREAD (○path)
+	_d = _i-2
+		//先頭にFile*=がついてたらRemove_Song
+		if (STRSTR(_txt,"File%(_d)=",0))==0 {
+		_txt = REPLACE(_txt, "File%(_d)=", "")
+		}
+		//先頭に#EXTM3Uや#EXTINFや[playlist]がついてなかったら○AllFilepathに追加
+		//Si # EXTM 3 U, # EXT NF ou [playlist] n'est pas attache au debut ○ ajoute a AllFilepath
+		if (STRSTR(_txt,"[playlist]",0))!=0 && (STRSTR(_txt,"#EXTM3U:",0))!=0 && (STRSTR(_txt,"#EXTINF:",0))!=0 && _txt!=-1 
+{
+		○AllFilepath = (○AllFilepath,_txt)
+		}
+	}
+FCLOSE (○path)
+	if (ARRAYSIZE(○AllFilepath)) >=1 {
+	□ドロップファイル処理
+	// Traitement du fichier de depot
+	}
+}
+
+
+
+/// music //////////////////////////////////////////////////////
+
+//Lecture aleatoire de morceau
+□曲ランダムPlayback {
+○ヘルプメニュー表示中=0
+//Affichage du menu d'aide
+ //CDモードの時===========================
+ if ○モード =="CD" {
+	 //mode
+ ○CDトラック数=(SAORI('saori\mcidonut.dll', 'trackcount'))
+ //Nombre de pistes de CD
+	if ○CDトラック数 >= 1 {
+		//Nombre de pistes de CD
+			//指定番号がある場合
+			//Quand il y a un numero designe
+			if ○指定曲番号>=1 {
+				//Numero de chanson specifie
+			○演奏中CDトラック = ○指定曲番号
+			//Piste de CD pendant la performance = Numero de chanson specifie
+			ERASEVAR ("○指定曲番号")
+			//Numero de chanson specifie
+			}
+			//トラック数が1か
+			//Le nombre de pistes est un
+			elseif ○CDトラック数==1 {○演奏中CDトラック = 1}
+			////Nombre de pistes de CD, Piste de CD pendant la performance
+			elseif ○演奏法=="seq_one"&&(ISVAR("○指定曲番号"))==0 {
+				//Methode de performance,Numero de chanson specifie
+			○演奏中CDトラック = 1
+			//Piste de CD pendant la performance
+			}
+
+			elseif ○演奏法=="seq_loop" {
+				//○ Methode de performance
+				if ○演奏中CDトラック == ○CDトラック数 {
+				//Pendant la lecture d'une piste de CD == ○ Nombre de pistes de CD
+				○演奏中CDトラック = 1
+				}
+				else {
+				_i=TOINT(○演奏中CDトラック)
+				○演奏中CDトラック=_i+1
+				}
+			}
+
+			//2以上なら前回Playbackしたトラック以外を演奏
+			else {
+				_選択トラック=○演奏中CDトラック
+				while _選択トラック==○演奏中CDトラック {
+				_t = ○CDトラック数-1
+				_選択トラック = (RAND(_t))+1 
+				}
+			○演奏中CDトラック = _選択トラック
+			}
+
+		_e=SAORI("saori\mcidonut.dll", "stop")
+		_e=SAORI("saori\mcidonut.dll", "seek", ○演奏中CDトラック)
+		_e=SAORI("saori\mcidonut.dll", "play")
+		○サーフェス = "\s[25]"
+
+		if ○演奏中 == 0 {"\b[6]\0\b[-1]\s[25]\e"
+		--
+		□ヘルプメニュー消滅した
+		}
+		○演奏中 = 1
+		○起動中演奏回++
+		○Playback時間帯[hour] = (○Playback時間帯[hour])+1
+		--
+		//曲名ウィンドウ表示してたら曲名更新
+		□曲名ウィンドウONなら表示
+	}
+ }
+ //通常モードの時===========================
+ else {
+   //曲が一曲以上あれば実行
+   if ○曲の数 >= 1 {
+   	//演奏していない状態だったら歌サーフェスにする
+	if ○演奏中 == 0 {"\0\b[-1]\s[25]\e"
+		//jouer
+		□ヘルプメニュー消滅した}
+		//Didparition du menu d'aide
+	_前回演奏曲パス = ○演奏中曲パス
+	//Dernier chemin de musique de performance = chemin de musique de performance
+		//曲が1曲しかない場合それを演奏
+		// Jouer s'il n'y a qu'une seule chanson
+		//又は演奏法がseq_oneの場合1から演奏
+		//Ou en jouant a partir de 1 si la methode de performance est seq_one
+		if ○曲の数 == 1 {
+			○演奏中曲パス = ○曲リスト
+			○演奏中曲No = 1
+		}
+		elseif ○演奏法 == "seq_one"&& (ISVAR("○指定曲番号"))==0 {
+			○演奏中曲パス = ○曲リスト[0]
+			○演奏中曲No = 1
+		}
+		elseif (ISVAR("○指定曲番号"))==1 {
+			○演奏中曲パス = ○曲リスト[(○指定曲番号-1)]
+			○演奏中曲No = ○指定曲番号
+		}
+		//曲が2曲以上ある場合ランダム演奏
+		else {
+		_演奏する曲パス = (ANY(○曲リスト))
+		//Chemin du morceau a jouer = = (ANY (liste de musique))
+		○演奏中曲No = TOINT(LSO+1)
+		//Chanson jouee Non
+			//前回と違う曲を選ぶまでループ
+			//Boucle jusqu'a ce que vous choisissiez une chanson differente de la derniere
+			while _演奏する曲パス == _前回演奏曲パス {
+				//Chemin de la chanson a jouer == dernier chemin de musique de performance
+			_演奏する曲パス = (ANY(○曲リスト))
+			//Chemin du morceau a jouer = = (ANY (liste de musique))
+			○演奏中曲No = TOINT(LSO+1)
+			}
+		○演奏中曲パス = _演奏する曲パス
+		//Chanson jouee Path = _ Chemin du morceau a jouer
+		}
+	//選んだファイルを演奏
+	_i=SAORI("saori\mciaudior.dll", "load", "%(○演奏中曲パス)")
+	--
+	"I want %(○演奏中曲パス)"
+	//piste de lecture de chanson
+	_i=SAORI("saori\mciaudior.dll", "play")
+	○Playback時間帯[hour] = TOINT((○Playback時間帯[hour])+1)
+	○サーフェス = "\s[25]"
+	//surface
+	○演奏中 = 1
+	//jouer
+	○起動中演奏回++
+	ERASEVAR ("○指定曲番号")
+	// ファイル名を曲名にする
+	○演奏中曲名 = "%((SPLITPATH (○演奏中曲パス))[2])%((SPLITPATH (○演奏中曲パス))[3])"
+	if ○演奏曲拡張子 == ".mp3"
+	{
+
+		_トラック = SAORI("saori\KI.dll","ExtractMP3","%(○演奏中曲絶対パス)","GetTrack")
+		
+		// トラック取得成功したら曲名にする
+		if "id3%(CHR(0x20))tag%(CHR(0x28))v1%(CHR(0x29))%(CHR(0x20))is%(CHR(0x20))not%(CHR(0x20))found" !_in_ _トラック && "204%(CHR(0x20))No%(CHR(0x20))Content" !_in_ _トラック && "Not%(CHR(0x20))Found" !_in_ _トラック { ○演奏中曲名 = _トラック }
+	}
+
+	--
+	//曲名ウィンドウ表示してたら曲名更新
+	□曲名ウィンドウONなら表示
+   }
+ }
+}
+
+//effectuer une pause
+□演奏一時停止 {
+//CDモード
+//mode CD
+ if ○モード=="CD" && ○CDトラック数 >= 1 && ○起動中演奏回 >= 1 {
+	 //mode, nombre de pistes, pendant la performance de lecture
+	_i = SAORI("saori\mcidonut.dll", "play")
+		if ○演奏中 == 1 {
+		○演奏中 = 0
+		//pendant la lecture
+		○サーフェス = "\s[0]"
+		//surface
+		"\0\b[-1]\s[0]\e"
+		--
+		□ヘルプメニュー消滅した
+		//disparition du menu d'aide
+		}
+		else {
+		○演奏中 = 1
+		//pendant la lecture
+		○サーフェス = "\s[25]"
+		//surface
+		"\0\b[-1]\s[25]\e"
+		--
+		□ヘルプメニュー消滅した
+		//disparition du menu d'aide
+		}
+	
+ }
+//通常モード
+//mode normal
+ elseif ○曲の数 >= 1 && (ISVAR('○演奏中曲パス')) >= 1 {
+	 // Nombre de chansons> = 1 && (ISVAR ('○ piste de lecture de chanson')
+
+
+
+		//　演奏曲の拡張子が.oggかつmciモードではない場合停止/同じ曲をPlayback
+		if ○演奏曲拡張子 == ".ogg" && ○ogg設定!="mci" {
+			//Extension d'extension de performance == ".ogg" && ○ ogg setting! = "Mci"
+			if ○演奏中 == 1 {
+				//Jouer
+			_i=SAORI("saori\mciaudior.dll", "stop")
+			}
+			else {
+			_i=SAORI("saori\mciaudior.dll", "play")
+			}
+		□演奏中かどうか判断
+		//determiner s'il joue
+		}
+		//　起動した直後の場合前回終了時の曲を演奏
+		//Immediatement apres le demarrage Execution de la derniere chanson a la fin
+		elseif ○起動中演奏回 < 1 {
+			//Pendant la performance de lecture
+		○指定曲番号 = ○演奏中曲No
+		//Numero de chanson specifie= Chanson jouee Non
+		□曲ランダムPlayback
+		//Lecture aleatoire de morceau
+		}
+		//　その他の場合一時停止/解除
+		//Dans les autres cas Pause / liberation
+		else {
+		_i=SAORI("saori\mciaudior.dll", "play")
+		□演奏中かどうか判断
+		//Determiner s'il joue
+		}
+
+	--
+	□ヘルプメニュー消滅した
+	//disparition du menu d'aide
+	--
+	"\0%(○サーフェス)\e"
+
+ }
+
+}
+
+// Determine s'il joue
+□演奏中かどうか判断 {
+		if ○演奏中 == 1 {
+			//jouer
+		○演奏中 = 0
+		//jouer
+		○サーフェス = "\s[0]"
+		//surface
+		}
+		else {
+		○演奏中 = 1
+		//jouer
+		○サーフェス = "\s[25]"
+		//surface
+		}
+}
+
+
+//Arrete de jouer
+□演奏停止 {
+	□ヘルプメニュー消滅した
+	//Disparition  du menu d'aide
+	--
+	○サーフェス = "\s[0]"
+	//surface
+	○演奏中 = 0
+	//jouer
+	_i=SAORI("saori\mciaudior.dll", "stop")
+	"\0\s[0]\e"
+}
+
+//曲が演奏終了した
+OnMAAPlayFinish {
+	_i=SAORI("saori\mciaudior.dll", "stop")
+	if ○演奏法 == "one" {
+		//Methode de performance
+	○サーフェス = "\s[0]"
+	○演奏中 = 0
+	//jouer
+	"\0\c\s[0]\e"
+	}
+	elseif ○演奏法 == "loop" {
+		//Methode de performance
+	○指定曲番号=○演奏中曲No
+	//Numero de morceau specifie = Morceau en cours de lecture Non + 1
+	□曲ランダムPlayback
+	//Lecture aleatoire de morceau
+	}
+	elseif ○演奏法 == "seq_one" {
+		//Methode de performance
+		if ○曲の数 == ○演奏中曲No {
+			//Nombre de chansons == ○ Chansons en cours de lecture Non
+		○サーフェス = "\s[0]"
+		//surface
+		○演奏中 = 0
+		//jouer
+		"\0\c\s[0]\e"
+		}
+		else {
+		○指定曲番号=○演奏中曲No+1
+		//Numero de morceau specifie = Morceau en cours de lecture Non + 1
+		□曲ランダムPlayback
+		//Lecture aleatoire de morceau
+		}
+	}
+	elseif ○演奏法 == "seq_loop" {
+		//Methode de performance
+		if ○曲の数 == ○演奏中曲No {
+			//Nombre de chansons == Chansons en cours de lecture Non
+		○指定曲番号=1
+		//Numero de morceau specifie = 1
+		□曲ランダムPlayback
+		//Lecture aleatoire de morceau
+		}
+		else {
+		○指定曲番号=○演奏中曲No+1
+		//Numero de morceau specifie = Morceau en cours de lecture Non + 1
+		□曲ランダムPlayback
+		//Lecture aleatoire de morceau
+		}
+	}
+	else {□曲ランダムPlayback}
+	//Lecture aleatoire de morceau
+}
+
+//CD1トラック終了
+//CD 1 fin de piste
+OnMCIDonutTrackFinish {
+	if ○演奏法 == "one" {
+		//Methode de performance
+	_i=SAORI("saori\mcidonut.dll", "stop")
+	○サーフェス = "\s[0]"
+	//surface
+	○演奏中 = 0
+	//jouer
+	"\0\s[0]\e"
+	}
+	elseif ○演奏法 == "seq_one" {
+		//Methode de performance
+		if ○演奏中CDトラック == ○CDトラック数 {
+			//Piste de CD pendant la lecture = Numero de piste de CD
+		_i=SAORI("saori\mcidonut.dll", "stop")
+		○サーフェス = "\s[0]"
+		//surface
+		○演奏中 = 0
+		//Jouer
+		"\0\s[0]\e"
+		}
+		else {
+		○起動中演奏回++
+		//Pendant la performance de lecture
+		○演奏中CDトラック++
+		//Piste de CD pendant la performance
+		○Playback時間帯[hour] = (○Playback時間帯[hour])+1
+		//Fuseau horaire de lecture
+		□曲名ウィンドウONなら表示
+		//Afficher la fenetre du titre de la chanson
+		}
+	}
+	elseif ○演奏法 == "loop" {
+		//Methode de performance
+	○指定曲番号=○演奏中CDトラック
+	//Numero de morceau specifie = Lecture d'une piste de CD
+	□曲ランダムPlayback
+	//Lecture aleatoire de morceau
+	}
+	elseif ○演奏法 == "seq_loop" {
+		if ○演奏中CDトラック == ○CDトラック数 {
+			//Pendant la lecture d'une piste de CD = Nombre de pistes de CD
+		○指定曲番号=1
+		//Numero de chanson specifie
+		□曲ランダムPlayback
+		//Lecture aleatoire de morceau
+		}
+		else {
+		○起動中演奏回++
+		//Pendant la performance de lecture
+		○演奏中CDトラック++
+		//Piste de CD pendant la performance
+		○Playback時間帯[hour] = (○Playback時間帯[hour])+1
+		//Fuseau horaire de lecture
+		□曲名ウィンドウONなら表示
+		//Afficher la fenetre du titre de la chanson
+		}
+	}
+	else {
+	_i=SAORI("saori\mcidonut.dll", "stop")
+	□曲ランダムPlayback
+	//Lecture aleatoire de morceau
+	}
+}
+
+
+//CDが取り出された
+//Le cd a ete enleve
+OnMCIDonutCDEject {
+○CDトラック数 = -1
+//Nombre de pistes de CD
+if ○モード=="CD" {□CDストップ}
+//mode, arret de cd
+}
+
+
+//CDがセットされた
+//CD a ete mis
+OnMCIDonutCDInsert {
+if ○モード=="CD" {○CDトラック数=(SAORI('saori\mcidonut.dll', 'trackcount'))}
+//mode,Nombre de pistes de CD
+}
+
+/// list clear /////////////////////////////////////////////////
+
+//Effacer la liste des chansons
+□曲リストクリア {
+_ダウンロード曲数 = (ARRAYSIZE(○ダウンロード曲リスト))
+//Nombre de chansons, Telecharger la liste des chansons
+□ヘルプメニュー消滅した
+--
+　// 曲が一曲以上あれば実行
+//znote - for clearing the playlist
+   if ○曲の数 >= 1 {
+	   //Nombre de chansons
+   	if _ダウンロード曲数 >= 1 {
+		//Nombre de chansons telechargees
+	"\0\s[0]There are %(○曲の数)\nsong(s) \w3 and %(_ダウンロード曲数)\ndownloaded song(s)\nin the playlist. \w5\nShould I clear\nthe list?"
+	}
+	else {
+	"\0\s[0] There are %(○曲の数) songs\nin the playlist. \n\w4/
+	Should I clear\nthe playlist? \w5\n[half]"
+	}
+	//Nombre de chansons
+--
+"\n　　　 \q[OK,□曲リストクリア実行]｜\q[NO,□close]\e"
+//Executer la suppression de la liste de chansons
+   }
+   // 曲がなかった
+   //Il n'y avait pas de chanson
+   else { "\0\s[0]There are no songs\nin the playlist... \e" }
+}
+
+
+
+//Executer la suppression de la liste de chansons
+□曲リストクリア実行 {
+	//　ダウンロードした曲を全てRemove_Song
+	//Remove_Song toutes les chansons telechargees
+	foreach ○ダウンロード曲リスト ; _Filename {
+	_ファイルRemove_Song = FDEL("\"+_Filename)
+	}
+	//Telecharger Song Squirrel,Fichier Remove_Song
+	○曲リスト = IARRAY
+	//Liste des chansons
+	○ダウンロード曲リスト = IARRAY
+	//Telecharger la liste des chansons
+	○曲リスト更新=1
+	//Mettre a jour la liste
+	ERASEVAR('○演奏中曲パス')
+	//○ Chanson jouee Pass
+	--
+	□演奏ストップ
+	// Arret de performance
+	--
+	"\c Playlist cleared!\e"
+	--
+	□曲名ウィンドウONなら表示
+	// Nom de la chanson si elle est activee
+}
+
+
+
+/// test ////////////////////////////////////////////////////////
+//Test de fonctionnement
+□動作テスト {
+_i=SAORI("saori\mcidonut.dll", "play")
+_i=SAORI("saori\mcidonut.dll", "trackcount")
+_d=SAORI("saori\mcidonut.dll", "validtrack")
+	□メニューヘッダ
+	//En-tete
+--
+"/
+%(_i)/
+%(_d)/
+"
+--
+"\n\n[half]\n　　　　　　\q[CLOSE,□close]\e"
+}
+
+
+/// event ///////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////
+
+//znote - when you check mail
+
+/////////////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////
+
+
+
+/////////////////////////////////////////////////////////////////
+
+
+
+/////////////////////////////////////////////////////////////////
+
+
+
+/////////////////////////////////////////////////////////////////
+
+// デフォサーフェスと違うサーフェスが一定時間続いたらもどす
+//Surface differente de la surface par defaut reviendra apres une certaine periode de temps
+
+/////////////////////////////////////////////////////////////////
+
+□EventBegin {
+"\0\s[6]waiting\w7.\w7.\w7.\e"
+--
+□ヘルプメニュー消滅した
+//disparition du menu d'aide
+}
+
+□ConnectError { "\0\s[6]connect-error\w9\w9\w9\w9%(○サーフェス)\b[-1]\e" }
+
+□InstallError { "\0\s[6]install-error\w9\w9\w9\w9%(○サーフェス)\b[-1]\e" }
+
+
+
+□close {
+"\0\b[-1]\w9\w9\w9%(○サーフェス)\e"
+--
+□ヘルプメニュー消滅した
+//disparition du menu d'aide
+}
+
+
+//Affichage
+□表示 {
+"\0%(○サーフェス)\1\s[10]"
+--
+□ヘルプメニュー消滅した
+//disparition du menu d'aide
+}
+
+
+//temporairement devant
+□一時的に手前に {
+"\0\v\e" 
+--
+□ヘルプメニュー消滅した
+//disparition du menu d'aide
+}
+
+
+//iconize
+□アイコン化 { "\0\![set,windowstate,minimize]\e" }
+
+
+//disparition du menu d'aide
+□ヘルプメニュー消滅した {○ヘルプメニュー表示中=0}
+//affichage du menu d'aide
+
+
+
+//演奏中の曲Remove_Songされたときとか
+//Lorsque vous avez joue la chanson Remove_Song ou quelque chose...???
+□演奏ストップ {
+	//Arret de performance
+	○演奏中 = 0
+	//jouer
+	○サーフェス = "\s[0]"
+	//surface
+	_i=SAORI("saori\mciaudior.dll", "stop")
+	"\0\s[0]"
+}
+
+//CDを停めたい時
+//Lorsque vous voulez arreter le CD
+□CDストップ {
+	//arret de cd
+	○演奏中 = 0
+	//jouer
+	○サーフェス = "\s[0]"
+	//surface
+	_i=SAORI("saori\mcidonut.dll", "stop")
+	"\0\s[0]"
+}
+
+//両方停める
+//Les deux arrets
+□曲を全て停止 {
+	//Arrete toutes les chansons
+	_i=SAORI("saori\mcidonut.dll", "stop")
+	_i=SAORI("saori\mciaudior.dll", "stop")
+	○演奏中 = 0
+	//jouer
+	○サーフェス = "\s[0]"
+	//surface
+	"\0\s[0]"
+}
+
+//Designation de l'icone de la barre
+□タスクトレイアイコン指定 {
+if ○sender == "SSP"
+	{
+		case ○現在シェル {
+		when "Black" ; "\![set,tasktrayicon,img\fle_b.ico]"
+		when "White" ; "\![set,tasktrayicon,img\fle_w.ico]"
+		when "MA564J/A" ; "\![set,tasktrayicon,img\fle_m.ico]"
+		others ; "\![set,tasktrayicon,img\fle_n.ico]"
+		}
+	}
+
+}
+
+//Affiche la boite de dialogue de selection de fichier et renvoie le chemin du fichier selectionne
+//ファイル選択ダイアログを表示し選択したファイルのパスを返す
+□ファイル選択ダイアログ {
+FUNCTIONEX("saori\proxy.dll","wvt.exe","OpenDialog")
+}
+
+
+/////////////////////////////////////////////////////////////////
+
+○曲の数 { TOINT((ARRAYSIZE(○曲リスト))) }
+//Chanson jouee Chemin absolu
+○演奏中曲絶対パス {絶対パス変換(○演奏中曲パス)}
+//Conversion de chemin absolu (piste musicale en cours de lecture)
+//Extension de chanson de performance
+○演奏曲拡張子 {TOLOWER ((SPLITPATH (○演奏中曲パス))[3])}
+//Chanson jouee
+//Song nombre de caracteres
+○曲名文字数 {STRLEN (○演奏中曲名)}
+//○ Nom du morceau en cours de lecture
+
+//○ Taille actuelle de la chanson
+○現在曲サイズ {
+_i = FSIZE(○path)
+
+if _i == -1 {"　"}
+elseif _i>=1000000000 {
+	_i/1000000000 + "." + _i%1000000000/100000000 + "GB"
+	}
+elseif _i>=1000000 {
+	_i/1000000 + "." + _i%1000000/100000 + "MB"
+	}
+elseif _i>=1000 {
+	_i/1000 + "." + _i%1000/100 + "KB"
+	}
+else {
+	"%(_i)byte"
+	}
+}
+
+/////////////////////////////////////////////////////////////////
+
+絶対パス変換 {
+//相対パスなら絶対パスになおす
+if "..\..\..\sound_file\" _in_ _argv[0] {
+	REPLACE(_argv[0],"..\..\..\sound_file\","%(○現在パス)sound_file\")
+	}
+else {_argv[0]}
+}
+
+//ExtractMP3全般
+曲解析 {
+_i = SAORI("saori\KI.dll","ExtractMP3",○path,_argv[0])
+if (ASEARCH(_i,'id3 tag(v1) is not found','Target Not Found','204 No Content','arg0 is error','arg1 is error','arg2 is error')) != -1 {_i=''}
+_i = REPLACE(_i,"[","［")
+_i = REPLACE(_i,"]","］")
+_i = REPLACE(_i,"\","￥")
+_i
+}
+
+ジャンル番号解析 {
+_i = SAORI("saori\KI.dll","ExtractMP3",○path,"GetGenre")
+if _i==255 {""}
+elseif _i>=0 && _i<=147 {
+	ジャンル番号[(_i)]
+	}
+elseif _i==248 {'Heavy Rock'}
+elseif _i==249 {'Doom Rock'}
+elseif _i==250 {'J-POP'}
+elseif _i==251 {'Seiyu'}
+elseif _i==252 {'Tecno Ambient'}
+elseif _i==253 {'Moemoe'}
+elseif _i==254 {'Tokusatsu'}
+else {''}
+}
+
+
+/// string //////////////////////////////////////////////////////
+
+On_portalrootbutton.caption	{"　"}
+On_portalrootbutton.visible	{"0"}
+On_recommendrootbutton.caption	{"Link(&R)"}
+On_kero.recommendbutton.caption	{"　"}
+On_kero.recommendbutton.visible	{"0"}
+On_hidebutton.caption		{"Hide Flele(&I)"}
+On_readmebutton.caption		{"FLELE Readme(&G)"}
+
+On_headlinesenserootbutton.caption	{
+	if ○sender=="SSP" {"ヘッドライン/RSS(&H)"}
+	else {"ヘッドライン(&H)"}
+}
+
+//リンク
+On_sakura.recommendsites {"/
+
+Home%(ASC(1))/
+http://navy.nm.land.to/ukgk/flele/%(ASC(2))/
+
+iPod shuffle%(ASC(1))/
+http://www.apple.com/jp/ipodshuffle/%(ASC(2))/
+
+SSP%(ASC(1))/
+http://ssp.shillest.net/%(ASC(2))/
+
+FLELE translated by%(ASC(1))/
+http://zarla.deviantart.net/%(ASC(2))/
+"}
+
+//ネットワーク更新
+On_updatebutton.caption		{"　"}
+On_updatebutton.visible		{"0"}
+On_homeurl {"http://navy.nm.land.to/ukgk/flele/update/"}
+

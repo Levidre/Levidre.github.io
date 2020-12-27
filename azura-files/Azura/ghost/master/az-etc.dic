@@ -1,0 +1,1264 @@
+﻿//---------------------------Miscellaneous Functions--------------------------
+
+//This .dic file is concerned with a number of functions that didn't quite fit in anywhere else. If you're adding new functions, this may be the place to do it! This also has the functions related to updating your ghost, among others. Most of this will just be replacing placeholder dialogue with dialogue more appropriate for your ghost, and this file is fairly long. On the positive side, you'll probably only have to go through it once.
+//Make sure to read the walkthrough page (http://www.ashido.com/ukagaka/walkthrough.html) for more details about how to properly format ghost dialogue!
+//I will reiterate that you should be editing these in Notepad++, and in particular, you should set the Language to C (or Java I guess) to properly highlight all the text. It will make things A LOT EASIER for you, trust me! It will also help you keep track of your brackets in case you forget some. If you click on a line with a bracket in Notepad++, it should highlight where the other bracket ends, or turn purple if there's no finishing bracket (which you should definitely fix!)
+//It will also highlight my commented lines in green, so you'll know where they are. Any line beginning with // is a commented line that the code will not read. It's just for your reference!
+
+
+//--OnFileDrop2
+
+//OnFileDrop2 handles how your ghost will set an image as the desktop background when someone drags and drops an image on them. You don't need to touch any of the coding here, just replace the dialogue as needed and leave the \q options alone. More about \q options in bootend.dic and in the walkthrough.
+
+OnFileDrop2
+{
+	//ref0 = reference0
+	
+	//_filelist = SPLIT(reference0
+	foreach reference0 ; _ref0
+	{
+		_droppedfilepath = SPLITPATH(_ref0)
+		_filepath = _droppedfilepath[1]
+		_filename = _droppedfilepath[2]
+		_fileext = TOLOWER(_droppedfilepath[3])
+		nbmudropped = 0
+		nbmuinside = 0
+		addaplaylist = 0
+		case _fileext
+		{
+			when ".jpg", ".jpeg", ".bmp" //These are the formats your ghost will recognize as image files to set as the background. I tested this with .png files and it does not work, so don't bother adding that as an option.
+			{
+				Wallpaperfile = _ref0
+				
+				"%(lsto)* The file you dropped is %(_filename)%(_fileext).\w8How would you like us to set this picture as your wallpaper?\n\n[half]/
+				\q[Centered,SetWallpaper_0]\n/
+				\q[Tiled,SetWallpaper_1]\n/
+				\q[Stretched,SetWallpaper_2]\n\n[half]/
+				\q[No thanks,SetWallpaper_Cancel]\e"
+			}
+			when ".mid", ".wav", ".mp3", ".wma", ".au", ".ogg"//Other file formats you might want to give your ghost a specific response to.
+			{
+				"%(lsto)* I add %(_filename) to our playlist.\n"
+				--
+				reppath = _ref0
+				--
+				addfiledropped(reppath)
+			}
+			when ".m3u",".pls"
+			{
+				"%(lsto)* I add the musics of a playlist to our playlist.\n"
+				--
+				AddPlaylistDropped
+			}
+			others //Any other file format. As a note here, if you drop something ghost-related on them that does not have an install.txt, then they won't install it and will just say this response. If you are testing your balloon or nar files and you get this response instead of a proper installation, you should check and make sure you have an install.txt in the file!
+			{
+				//This verify if you added a folder, then it would take all the musics inside this folder and add them to the playlist.
+				if backuping != 1
+				{
+					if (FATTRIB (_ref0))[2] == 1 {
+					//Annuaire
+					reppath=0
+					repdropped(_ref0)
+					//Ajustement du chemin du repertoire
+					}
+					//Traitez-le comme un fichier s'il ne s'agit pas d'un repertoire
+					else 
+					{
+					
+						"\0%(lsto)* This is %(_filename)%(_fileext).\e"
+					}
+				}
+				else
+				{
+					//Backup(reference0)
+				}
+				
+			}
+		}
+	}
+}
+
+//This set of options sets the wallpaper up. You can replace the dialogue, but make sure to leave the \![set,wallpaper, etc.] tag at the beginning.
+
+Select.SetWallpaper_0
+{
+	"\![set,wallpaper,%(Wallpaperfile),center]* The image is centered.\e"
+}
+Select.SetWallpaper_1
+{
+	"\![set,wallpaper,%(Wallpaperfile),tile]* The image is tiled.\e"
+}
+Select.SetWallpaper_2
+{
+	"\![set,wallpaper,%(Wallpaperfile),stretch]* The image is stretched.\e"
+}
+Select.SetWallpaper_Cancel
+{
+	"* So you don't want to set the file as your desktop background. \w7Okay.\e"
+}
+
+
+//Les installations à effectuer pour les fichiers ajoutés pour le lecteur mp3/The functions for the musics and playlists drop
+//This add the musics of a playlist to our playlist and is the next step of loading a playlist. This only works if you already have a music in the current playlist. If not, only the last music will be added.
+AddPlaylistDropped
+{
+	_f=FOPEN (ref0,"r")
+	_txt=0
+	_i=0
+	AllFilepath = IARRAY
+	--
+	if displaytest == 1
+	{
+		"\b2%(lsto)* I bring all the musics of the playlist.\n"
+	}
+	--
+	while _txt != -1 && _i<5000 {
+		_i++
+		_txt = FREAD (ref0)
+		_d = _i-2
+		//先頭にFile*=がついてたらRemove_Song
+		if (STRSTR(_txt,"File%(_d)=",0))==0 
+		{
+			_txt = REPLACE(_txt, "File%(_d)=", "")
+		}
+		//先頭に#EXTM3Uや#EXTINFや[playlist]がついてなかったら○AllFilepathに追加
+		//Si # EXTM 3 U, # EXT NF ou [playlist] n'est pas attache au debut ○ ajoute a AllFilepath
+		if (STRSTR(_txt,"[playlist]",0))!=0 && (STRSTR(_txt,"#EXTM3U:",0))!=0 && (STRSTR(_txt,"#EXTINF:",0))!=0 && _txt!=-1 
+		{
+			AllFilepath = (AllFilepath,_txt)
+			--
+			//"Before, I want %(AllFilepath[0]) and %(AllFilepath[1])."
+			--
+		}
+	}
+	--
+	"* I add the playlist.\n"
+	--
+	addaplaylist = 1
+	FCLOSE (ref0)
+	if (ARRAYSIZE(AllFilepath)) >=1 {
+	addfiledropped(AllFilepath)
+	// Traitement du fichier de depot
+	}
+}
+
+//If the user added a folder.
+repdropped
+{
+	//Enregistrer tous les fichiers contenus dans le repertoire
+	//It add all the path of the files inside the folder to a list (for advanced users, it's actually an array)
+	_reppath = ""
+	_folderpath=_argv[0]
+	--
+	if displaytest == 1
+	{
+		"%(lsto)* I take all the music files in the folder.\n"
+		
+	}
+	--
+	_path = SPLIT(FENUM(_folderpath),",")
+	foreach _path ; _file
+	{
+			_reppath = _reppath + "," +_folderpath +_file
+	}
+	-- 
+	addfiledropped(_reppath)
+}
+
+addfiledropped
+{
+	//If I add a playlist, Allfilepath already have all the musics so there is nothing to do. 
+	_AllFilepath = IARRAY
+	if addaplaylist != 1
+	{
+		_AllFilepath = SPLIT(_argv[0],",")
+	}
+	else
+	{
+		_AllFilepath = _argv
+	}
+	_nbfiledropped = ARRAYSIZE(_AllFilepath)
+	_nbmudroppedyet = 0
+	
+	--
+	if displaytest == 1
+	{
+		"I try %(_AllFilepath)"
+		//"* Now I add the songs and want %(_AllFilepath[0]) and %(_AllFilepath[1]), the first and the second music.\n"
+	}
+	--
+	foreach _AllFilepath ; _Filename
+	{
+		//"I want %(_Filename)"
+		_nbsong = ARRAYSIZE(songlist)
+		--
+		_extent = TOLOWER ((SPLITPATH (_Filename[0]))[3])
+		//Extension
+		_i = REPLACE(_Filename,",","CHR(0x2c)")
+		_i = REPLACE(_Filename,"!","CHR(0x21)")
+		//Verify that the file is a music. It avoids some problems, as adding to the playlist something that aren't a music.
+		if (ASEARCH(_extent,'.mid','.mp3','.wav','.wma','.ogg')) != -1
+		//Extension
+		{
+			//Si vous n'avez pas de chemin de repertoire,
+			//if reppath != 0 {_Filename = reppath + _Filename}
+			//Annuaire
+			
+			
+			//S'il s'agit d'un fichier musical, il est juge s'il figure dans la liste (dans le cas contraire -1)
+			//We check if the song is already inside the playlist. If not, ASEARCH will return -1.
+			if (ASEARCH(_Filename,songlist)) == -1
+			//liste de chansons
+			{
+				//Add songs that aren't in the list
+				//Ajouter des chansons qui ne sont pas incluses dans la liste
+				if nbsong <=0 
+				{
+					songlist = _Filename
+				}
+				else 
+				{
+					songlist = (songlist,_Filename)
+					--
+					if displaytest == 1
+					{
+						"* I add %(_Filename).\n"
+					}
+					--
+					//We add the path of the new music into the playlist
+					nbmudropped++
+				}
+			}
+			//Ne faites rien si vous avez deja des chansons comptees
+			//If there is musics already inside the playlist
+			else
+			{
+				nbmuinside += 1
+			//Nombre de chansons deja dans
+			}
+		}
+		elseif (FATTRIB(_Filename))[2] == 1 && _Filename != ""
+		{
+			_r = repdropped(_Filename)
+		}
+	}
+	--
+	if nbmudropped >= 1 
+	{
+		//Mettre a jour la liste
+		//Disparition du menu d'aide
+		--
+		if ARRAYSIZE(songlist) == 1 {songlist = songlist[0]}
+		nbsong = ARRAYSIZE(songlist)
+		// Nombre de chansons == 1 { liste de chansons =  liste de chansons [0]}
+		"\0%(lsto)* %(nbmudropped) song(s) added ! \w5\n There are %(nbsong)\nsong(s) in the\nplaylist."
+		--
+		if mode != "CD" 
+		{
+			//Nombre de chansons ajoutees, mode
+			"\n\n[half]\![*]\q[Play a music,muinplaylist]    \![*]\q[Close,□close]"
+		}
+	}
+//Je ne pouvais pas ajouter de chansons
+//Can't add some musics to the playlist
+	else 
+	{
+		//Disparition du menu d'aide
+		--
+		//Une ou plusieurs chansons deja entrees ont ete supprimees
+		if nbmuinside >0	{"* There were songs that I already have."}
+		//Nombre de chansons deja dans
+	}
+	//It was the final step of loading a playlist, so playlistload become 0 again. The playlist has been loaded.
+	playlistload = 0
+	//sauvegarder
+	SAVEVAR
+	--
+	"\e"
+}
+
+OnDeviceArrival
+{
+	if isleeping && enablebackup == 1
+	{}
+	elseif enablebackup == 1
+	{
+		if autobackup
+		{
+			"\0%(lsto)* There is a new device.\w7 Do you want me to check for repositories to save ?\n\n[half]\![*]\q[Yup\, go ahead,startBackup]\n\[Show me,showBackup]\[]\n\![*]\q[No\, thanks,stopBackup]"
+		}	
+		else
+		{
+			//"\0* There is a new device,\w5 do you want me to check for repositories to save ?\n\n[half]\![*]\q[Yes\, show me,showBackup]\n\![*]\q[No\, don't do anything,stopBackup]"
+		}
+	}
+	
+}
+
+//The information about Azura
+Select.AzDescript
+{
+	"\b2\f[italic,true]\i[2001]Azura knows she is on a computer and would herself check if she has an update when you boot her. She knows that her conversion into a software isn't perfect and that she wouldn't be able to fully interact with you and understand you but she doesn't care, she would do her best. \nShe takes advantage of her software status to set up the battle settings as the HP that she defines to 100. She has her own computer and is able to put songs you gave her on it to play music, it's a way for her to not being bored.\n\n[half]Some people like doing some theories about some things as the narrator, not need of that here. I'm Levidre, Azura's narrator (and developper). My job is letting you and Azura interact each other the most possible without saying myself anything. So I will only comment on something if it's needed.\e"
+}
+
+//When an update ends, initializing the new variables and little message of the dev.
+Select.AfterUpdate
+{
+	
+	"\0\i[2001]\f[italic,true]%(azpose)%(arms)\b2"
+	--
+	"Normal update, not as big as the previous one.\n\n[half]Azura can now hold Obsidian, Dusty's cat (Dusty and Obsidian is Zichqec's ghost, you can download them \_a[https://zichqec.github.io/s-the-skeleton/index.html]on their website\_a). Azura has dialogues related to when she is holding Obsidian.\nThere are some ghosts interactions in plus (not a lot but still).\n\n[half]A bug for the pose when Azura boots up at lunch time has been solved and something to handle better the shell has been added. This will allow more animations in the futur.\nIt's now possible to give many songs to Azura at the same time for the music player."
+	//"Halloween update, and at the same time bug solving update.\n\n[half]Let's start with the new nice things. Azura now has her new Halloween shell, the trident she was having has been replaced by something else. It's up to you to discover what and its new dialogues. \nThere is something new unlockable too.\n\n[half]For the bugs, the number of animations got too big what caused some issues as animations not starting correctly. To solve this, a reorganisation of animations calls has been made and everything should be fine now. A shell issue making Azura disappearing (again) when she was sleeping has been solved as a bug making her having her normal outfit instead of pyjamas when she boots the evening and the night. And last shell bug solved : the computer staying even if Azura is supposed to have closed it.\n\n[half]An other type of bug has been solved, a little more rare kind of bug. Azura was crashing during listing the files to backup when a folder was empty, what shouldn't be happening anymore. This bug survived to many tests but now the backup feature should work just fine."
+	//"Mostly bug solving update but not only.\n\n[half]The transparency issues of the new shell has been solved for other basewares than SSP. Azura's smiles are a little bit darker to be more visible and the shell bugs have been solved.\n\n[half]Azura now has her own mood, so she can be either happy or depressed when you open her (and there is a new pool of dialogues for it). Of course her mood can change...\nNew unlockable feature too : the todo lists."
+	//"It's a hella big update.\n\n[half]Shell revamp ! There are some things that still need to be fixed but they should be fixed in the next update.\nSpeaking of bugs, there is now an option in the functions menu to send a report, either Azura's dictionary or a little message you write.\n\n[half]The options insult and music are finally completed. So you can actually insult Azura.\n\n[half]Any report, feedback, dictionary, bug report or even little message, is welcome so feel free to send anything. The known bugs as far are a possible one with the food, the tail for the transition between poses and the arm of the battle pose that isn't disappearing while an animation is playing.\n\n\n[half]Do you wanna switch to the old shell ?\n\n[half]\![*]\q[Yes,changeshellver]     \![*]\q[No,close]"
+	//"A little update. The birthday one.\n\n[half]It's bug-solving centered, in fact there isn't a lot in this update. Animations bugs have been solved, including the one for when Azura is eating. One new dialogue has been added lol.\n\n[half]Anyway, birthday event added. There would be a post on tumblr for the birthday soon." 
+	//"This is an animation-centered update.\n\n[half]Azura has new eyebrows, new eyes, new smiles and tail animations. She has now an animation for sitting down and standing up. The scales of some wings and tails have been redone. The pictures of the shell have been reorganized too.\n\n[half]The collision for the sleeping pose has been added, so Azura is pettable when asleep and the collision for the face has been modified.\n\n[half]And finally a bug with the information about the renamed songs has been solved."
+	//"It's a big update, with two new features and a change.\nAzura migrated from AYA to YAYA (coding languages). It shouldn't affect anything but if there is any problem, please report it. It would be highly appreciated.\n\n[half]The first one is a backup system unlockable. It's highly advised to \f[bold,true]limit Azura's researches\f[bold,false]. You can do it by either choosing what drives she is checking or/and what repositories.\n\n[half]The second new feature is a hard mode for her little battle. It won't be as easy as the older mode.\n\n[half]Besides them, there are some new dialogues and a few new responses."
+	//"Big update !\n\n[half]The battle bug has finally been found and solved. An other bug with the self-learning feature has been found and solved too.\n\n[half]Now, let's see the new stuff. Some AI responses are done, a lot of the what questions though not all of them. There are new dialogues, a complete new set, and a new animation.\n\n[half]And people can now support the dev, all the infomation are on tumblr."
+	//"This update only solves a bug for the Halloween event, a bug of the passive mode and add some responses to the AI."
+	//"It's not a very big update, but it's not a small one either.\n\n[half]There was a problem with the petting and punching variables that were reinitialized to 0 if the user was checking them in the menu, it's solved.\n\n[half]Azura has new wings, her old ones weren't very nice done.\n\n[half]About her AI, a bug was affecting the subject causing most responses not working, it's solved. And all the responses for normal sentences (anything that isn't a question) are done.\n\n[half]Something is new : with the first page of Azurtale, some questions that can be asked to Azura have changed."
+	//"This update is pretty big and music player centered.\n\n[half]Azura now have a voice recognition menu with different recognition modes. The menu would show up by saying 'music player' and then the navigation is possible by saying the choices.\nSince some songs name can be long and complicated to say at once, songs can now be renamed. It won't rename the file, just its name inside Azura's playlist. The new name will be saved when the playlist is saved and loaded as well.\nThe voice recognition modes are here to keep Azura to react to anything anyone would say in front of her.\n\n[half]About the AI, the code for the self-learned words has been implemented for the normal sentences, still not for the questions. So Azura responses should be accurate for the normal sentences.\nAzura was searching for the rest of the sentence if it was just something as a greeting or just not a sentence with a subject and a verb, she shouldn't anymore.\n\n[half]There are new dialogues too."
+	//"It's only a little update.\n\n[half]New dialogues have been added and a bug with the AI has been solved. This bug was for some questions and was making Azura crash, so Azura shouldn't crash anymore. There was a problem with the waking up dialogue too, now it's solved."
+	
+	//"It's the beta release update.\n\n[half]Bugs have been solved, the self-learning feature is now fully working despite Azura's responses about self-learned words being still not accurate.\nThe thing for the negative path is set up and working, so expect a surprise if you're mean."
+	//"So much stuffs have been done, thought the most are invisible.\n\n[half]A whole restructuration of the AI has been done to make it more accurate and allow self-learning. The verb 'think' raises problems again but some negative sentences are available now. \nPlural propositions in the same sentence are supposed to be available but isn't working yet (that's why 'think' isn't working). Azura has a new option in her config menu, the self-learning feature is available thought still very basic. It could make some of Azura's answers inaccurate or making her saying something's wrong while no.\n\n[half]The dashboard of the music player has an animation and the play button is now accurate.\n\n[half]For the more normal stuffs, Azura has now her sleeping pose and most of surfaces bugs have been corrected."
+	//"This is a little update about the AI.\n\n[half]There isn't a lot of new stuffs. Bugs have been corrected and the questions starting by 'what' have been added. Keep in mind it's not finished so Azura wouldn't be able to answer to everything and it's not accurate for now."
+	//"This is only a little update, for once. And it's an AI update.\n\n[half]So some AI bugs are solved. In plus, you can now greet her or use some complement you couldn't before, as yesterday, wednesday, anyway, even, and some other ones.\w\n\n[half]Internal changes have been made. They aren't visible but would be useful later when the AI would be bigger and more complicated.\nThe changes are about the analyse of the words in the sentences. The process has been optimized and futur changes into it, so futur improvement of the AI, would be easier. And that's all.\nA new dialogue have been added. Good luck to see it. You may find it quickly, or not. Anyway, it would be more developped in a next update.\n\n[half]Finally, as always, any feedbacks are welcome. Bugs reports or dictionaries too. And reporting the complements Azura doesn't recognize would be very useful too."
+	//"Can this update be said to be about the communication between ghosts ? There isn't only this.\nSo Azura would now be able to communicate with other ghosts, starting to talk to them or responding to them.\n\n[half]A lot of new dialogues are added. It's not a lot for each relationship step but a few in each relationship step so the total is big. There isn't anymore relationship steps empty.\nThe joke option is ready.\n\n[half]For the AI, some bugs are fixed, you can now speak of food with Azura and new vocabulary have been added.\n\n[half]All feedbacks are welcome. And any dictionnary file sent would be wonderful since it tells the dev which words to add next, so it's very useful."
+	//"This is an AI update. Azura's AI is now working.\nFor now only basic stuffs are implemented. The questions and the negative sentences aren't  implemented so Azura wouldn't respond to one of them. Everything about how to chat with the AI for now and what is working and what isn't is in the help and explanations menu. If there is a problem where it shouldn't, Azura would tell it for some. Any feedback is welcome. If some responses doesn't seem normal or seem weird, any report is welcome too because it could be a problem. \n\n[half]Azura doesn't know a lot of vocabulary, so you would need to teach her some while chatting with her. If you want to send your dictionary to Levidre, it's welcome and appreciated since Levidre would use it to know which words implement in Azura."
+	//"More dialogues are added, some bugs are fixed. \n\n[half]Last update, because of bugtesting, the dialogue that allows Azura to sleep was commented and forgotten commented. It's now uncommented so Azura can fall asleep.\nA reset function has been added and is accessible from the Config menu. All the variables are resetted to 0 but the time. The time limits the progress of the relationship so to keep the user to have Azura opened during a long time again, the time wouldn't be resetted. It would be useful too for the people who wanted to explore the relationship system of Azura and would have missed some sleeping dialogues. No music stuff is resetted though.\nA bug report for the battle system is available in the Funtions. A bug occurs sometimes during battles but is rare so this report could be useful to know from where comes this bug and how to solve it.\n\n[half]Some placeholders have been put for the ACT options that aren't available yet. One option is available now though.\n\n[half]A last thing has been added : a return button for the menu.\x\c\f[italic,true]And Happy Halloween !"
+	--
+	"\f[italic,false]\x"
+	--
+	"\e"
+	--
+	InitializeNewVariables
+	
+}
+
+InitializeNewVariables
+{
+	if useraffection != TOINT(useraffection)
+	{
+		useraffection = 0
+	}
+	if azpets != TOINT(azpets)
+	{
+		azpets = 0
+	}
+	if azpunched != TOINT(azpunched)
+	{
+		azpunched = 0
+	}
+	if cumuhour != TOINT(cumuhour)
+	{
+		cumuhour = 0
+	}
+	if touchedwings != TOINT(touchedwings)
+	{
+		touchedwings = 0
+	}
+	if gavepony != TOINT(gavepony)
+	{
+		gavepony = 0
+	}
+	if gavecube != TOINT(gavecube)
+	{
+		gavecube = 0
+	}
+	if loveshojo == ""
+	{
+		loveshojo = "unknown"
+	}
+	if lovetrashanime == ""
+	{
+		lovetrashanime = "unknown"
+	}
+	if likemange == ""
+	{
+		likemanga = "unknown"
+	}
+	if gavepokesquirt != TOINT(gavepokesquirt)
+	{
+		gavepokesquirt = 0
+	}
+	if gavepokecharm != TOINT(gavepokecharm)
+	{
+		gavepokecharm = 0
+	}
+	if gavepokebulb != TOINT(gavepokebulb)
+	{
+		gavepokebulb = 0
+	}
+	if gavepokepidg != TOINT(gavepokepidg)
+	{
+		gavepokepidg = 0
+	}
+	if conversation == ""
+	{
+		conversation = "ready"
+	}
+	if "%(nbconv)" == ""
+	{
+		nbconv = 0
+	}
+	if "%(weektodo)" == ""
+	{
+		weektodo = IARRAY
+	}
+	if "%(monthtodo)" == ""
+	{
+		monthtodo = IARRAY
+	}
+	if "%(normaltodo)" == ""
+	{
+		normaltodo = IARRAY
+	}
+	if "%(rename)" == ""
+	{
+		rename = 0
+	}
+	if "%(SRmode)" == ""
+	{
+		SRmode="full"
+	}
+	if "%(backupports)" == ""
+	{
+		backupports = IARRAY
+	}
+	if "%(backupfolders)" == ""
+	{
+		backupfolders = IARRAY
+	}
+	if "%(positiveaction)" == ""
+	{
+		positiveaction = 0
+	}
+	if "%(moodchange)" == ""
+	{
+		moodchange = 0
+	}
+	if "%(ghostsencountered)" == ""
+	{
+		ghostsencountered = IARRAY
+	}
+}
+
+//It's used to change some variables to 1
+OnChangeBool
+{
+	if reference0 == "gavecube"
+	{
+		gavecube = 1
+	}
+	elseif reference0 == "gavepony"
+	{
+		gavepony = 1
+	}
+	elseif reference0 == "gavepokebulb"
+	{
+		gavepokebulb = 1
+	}
+	elseif reference0 == "gavepokesquirt"
+	{
+		gavepokesquirt = 1
+	}
+	elseif reference0 == "gavepokecharm"
+	{
+		gavepokecharm = 1
+	}
+	elseif reference0 == "gavepokepidg"
+	{
+		gavepokepidg = 1
+	}
+	elseif reference0 == "askedanime"
+	{
+		askedanime = 1
+	}
+	elseif reference0 == "askedbooks"
+	{
+		askedbooks = 1
+	}
+	elseif reference0 == "askedgame"
+	{
+		askedgame = 1
+	}
+	elseif reference0 == "enablebackup"
+	{
+		enablebackup = 1
+	}
+}
+
+
+Select.ResetRelation
+{
+	if asleep != 1
+	{
+		useraffection = 0
+		azpunched = 0
+		askedanime = 0
+		askedbooks = 0
+		askedgame = 0
+		oncomputer = 0
+		isdrawing = 0
+		if issat == 1
+		{
+			"\![embed,OnChangePose]"
+		}
+		--
+		"\0%(lsto)* A reset ? \w7I don't know if I can reset my own memory of what happened on your computer.\w7 \i[15]\i[3]\i[4]\i[72]\i[92]I will try.\w9\n\n[half]\i[2001]\f[italic,true]She is concentrating. You can see a golden halo on her wings and her tail. Her eyes are glowing in gold. You never saw her like this, not even when she was using her magic. She seems to be using a strong power.\n\n[half]\i[2002]\f[italic,false]\w9\w9* Goodbye %(username),\w5 see you after the reset.\1\i[2001]\f[bold,true]\f[height,+20]\w9\w9Reset Completed\w9\w9\f[default]\0\n\n\n[half]\f[italic,true]%(azpose)%(arms)\w1%(smile)She did it, she resetted her memory.\i[2002]\f[italic,false]\n\n[half]\w7* Hello.\w7 %(username),\w5 isn'it ? \w7I don't know why but I don't remember anything else about you but your name.\w7 That's stange,\w5 you seems familiar but I can't remember why.\w7 I have the feeling I already have been here too,\w5 it's your computer, isn'it ?\e"
+	}
+	else
+	{
+		"\0\f[italic,true]\i[2001]This isn't the right moment.\e"
+	}
+}
+
+OnPunchedUninstalled
+{
+	
+	_i = FATTRIB(".\..\..\..\unknown-ghost")
+	if _i[2] != 1
+	{
+		_i=MKDIR(".\..\..\..\unknown-ghost")
+		_i=MKDIR(".\..\..\..\unknown-ghost\ghost")
+		_i=MKDIR(".\..\..\..\unknown-ghost\ghost\master")
+		_i=MKDIR(".\..\..\..\unknown-ghost\shell")
+		_i=MKDIR(".\..\..\..\unknown-ghost\shell\master")
+		_i=MKDIR(".\..\..\..\unknown-ghost\m3u_file")
+		
+	}
+	_i=FRENAME("saving_ghost\readme.txt",".\..\..\..\unknown-ghost\readme.txt")
+	_i=FRENAME("saving_ghost\install.txt",".\..\..\..\unknown-ghost\install.txt")
+	
+	_path = SPLIT(FENUM("saving_ghost\shell"),",")
+	foreach _path ; _file
+	{
+		//_i = FRENAME ("\saving_ghost\%(file)","..\..\..\..\?????\%(file)")
+		_i=FRENAME("saving_ghost\shell\%(_file)",".\..\..\..\unknown-ghost\shell\master\%(_file)")
+	}
+	_path = SPLIT(FENUM("saving_ghost"),",")
+	foreach _path ; _file
+	{
+		_i=FRENAME("saving_ghost\%(_file)",".\..\..\..\unknown-ghost\ghost\master\%(_file)")
+	}
+	
+	_path = SPLIT(FENUM(".\..\..\m3u_file"),",")
+	foreach _path ; _file
+	{
+		_i=FRENAME(".\..\..\m3u_file\%(_file)",".\..\..\..\unknown-ghost\m3u_file\%(_file)")
+	}
+	_i=FRENAME("yaya_variable.cfg",".\..\..\..\unknown-ghost\ghost\master\aya5_variable.cfg")
+	
+	
+	
+	"\![vanishbymyself]\e"
+}
+
+//If the user has the good idea to close the input box.
+OnUserInputCancel
+{
+	"\![leave,passivemode]"
+	--
+	"%(lsto)* So you don't want to tell me anything ?\w7 Ok.\e"
+}
+
+ //---- OnInstallBegin -------------------------------------------------------
+ //OnInstallBegin is called when a file with an included install.txt is dropped on your ghost. This primarily means things like .nar files for other ghosts or .zip files containing balloons or shells for your ghosts. Primarily ghost-related things. Replace as you want.
+ 
+OnInstallBegin
+ {
+	"%(lsto)* I will install the file.\w8It contains an install.txt file.\e"
+ }
+
+ //---- OnInstallComplete -------------------------------------------------------
+ //OnInstallComplete runs once the file above has finished installing.
+ 
+OnInstallComplete
+ {
+	"%(lsto)"
+	//this means your main character will be speaking first, therefore the \s[] at the beginning of each line will be defining your main character's pose.
+ 	--
+	if reference0 == "shell" //This is checking to see if what you installed is classified as a shell in the install.txt. Remember the line in install.txt that said type,ghost or type,shell? This is why that line is important, that's what tells the program what it's installing like so.
+ 	{	
+		if reference1 == "Hypothetical Shell that doesn't actually exist" //This is the name of your shell as you defined in descript.txt in the shell folder.
+		{
+		"\0* I have installed Hypothetical Shell.\w8Truncated for space.\e"
+		//Replace if needed.
+		}
+		elseif reference1 == "Another totally real shell wow" //As in other files, you can use elseif to expand a list like this to include as many shells as you have or think you'll make. See bootend.dic for more details about elseif.
+		{
+		"\0* We have installed another totally real shell.\e"
+		//Replace if needed.
+		}
+		else //For any other shell they may install.
+		{
+		"\0* We've installed a new shell.\w8It's called  %(reference1).\e"
+		//%(reference1) here would be the name of the shell they installed. Replace if needed.
+		}
+ 	}
+	elseif reference0 == "ghost" //if the type of the file they're installing is a ghost.
+ 	{
+		"* I have installed a new Ghost.\w7It's called %(reference1).\e"
+		//Reference1 here would be the name of the ghost. Replace as needed.
+ 	}
+	elseif reference0 == "balloon" //if the type of file is a balloon
+ 	{
+		"* I have installed a new balloon.\w7It's called %(reference1).\e"
+		//Reference1 here would be the name of the balloon. Replace as needed.
+ 	}
+	elseif reference0 == "plugin" //if the type of file is a plug-in, like a saori of some kind.
+ 	{
+		"* I have installed a plug-in.\w7It's called %(reference1).\e"
+		//Reference1 here would be the name of the plug-in. Replace as needed.
+ 	}
+}
+
+//---- OnInstallFailure -------------------------------------------------------
+//If the file you dropped fails to install for one reason or another.
+
+OnInstallFailure
+ {
+	"\0%(lsto)* The installation has failed.\n\n[half]\w5" //this first bit of dialogue begins the explanation of what happened. You can replace this with an appropriate intro statement.
+	--
+	if reference0 == "unsupported" //These if statements determine how it happened to finish the piece of dialogue. This checks if the reason it failed is because it was unsupported.
+	{
+	"* This file is unsupported.\e"
+	//Replace with whatever dialogue for an unsupported file you may come up with.
+	}	
+	elseif reference0 == "extraction" //This checks if the file didn't extract properly.
+	{
+	"* The file could not be extracted properly.\e"
+	//See above but for a failed extraction.
+	}
+ }
+ 
+ //--OnInstallRefuse
+ //If the file you dropped can't be installed with this ghost.
+ 
+OnInstallRefuse
+ {
+	"%(lsto)* I can't install this. \w7It may be for %(reference0) instead."
+	--
+	if ASEARCH("%(reference0)",ghostexlist) != -1
+	{
+		"\w8\n\n[half]* They are just here, \w5give it to them."
+	}
+	--
+	"\e"
+	
+	//reference0 in this function refers to the ghost this file is associated with, probably the name of the ghost listed in its install.txt file. You would see this if you dropped a shell made for a different ghost on your current ghost, for example. They can't install a shell for themselves they can't use, right? Anyway, replace this with what you wish, you can use the reference0 envelope or not if you want.
+ }
+
+
+//**** Uninstallation ******************************************
+//You may have noticed in the configuration menus in menu.dic an option to turn Uninstall on or off, as well as a greyed out option to uninstall in the right click menu. These following functions relate to the uninstallation process when it's on. Replace the dialogue in each function as we go along.
+
+
+//--OnVanishSelecting
+//When you select the uninstall option in the menu.
+
+OnVanishSelecting
+{
+	"%(lsto)* So you don't want to see me anymore.\e"
+}
+
+//OnVanishSelected
+//When you decide to uninstall them. 
+
+OnVanishSelected
+{
+	"%(lsto)* Right, \w5I wish you joy and happiness in you life. \w7Good bye.\w9\w9\e"
+}
+
+
+//--OnVanishCancel
+//If you select Uninstall from the menu, but decide not to do it.
+
+OnVanishCancel
+{
+	"%(lsto)* You want me to stay ? \w7Well, \w5everybody can change their mind.\e"
+}
+
+//--TalkVanishButtonHold
+//I believe this calls if you click and hold the button on either the menu option for uninstalling them, or possibly the option itself. Be careful if you're trying to test this! You'd hate to uninstall all your hard work, right? I'd probably just make sure the dialogue looks right via Script Input and leave it at that.
+
+TalkVanishButtonHold
+{
+	"%(lsto)* ? \w7What are you doing ?\e"
+}
+
+
+ //---- OnVanished -----------------------------------------
+ //OnVanished is a weird little function. Basically, if you uninstall a ghost, it'll automatically go back to the last ghost you were using. They'll then say this line of dialogue about the ghost you just uninstalled. This is very annoying to test as you can imagine! But unlikely to come up super often, I bet. You might as well be thorough and fill this out as well. Make sure to set up both their poses immediately so they both appear when it switches back to them.
+ 
+OnVanished
+ {
+	"%(lsto)* Well, \w5good bye %(reference0).\e"
+	
+	//reference0 here is the name of the other ghost.
+}
+
+
+//**** Mail Checking *******************************************************************
+//The next set of functions have to do with checking your email. This function is a slippery little thing - I've had people test it following my directions and have it work, but I've never actually gotten it to report back the right amount of emails myself. Very frustrating. But perhaps you'll have more luck with it, haha.
+
+
+//*********************Advanced User Info*******************************
+//These text boxes are meant for those who have an interest in expanding or using more complicated functions in their ghost. Also for my own reference in the future since I plan on using this template too, haha. If you have no interest in any of this and just want to keep things as simple as possible, feel free to skip these boxes.
+
+//If you want to set up your ghost to check your mail so you can more easily check these messages instead of just writing the dialogue and moving on, it's a little bit tricky, but not super hard.
+//Basically, you're going to need to find your POP settings for your email account. Googling your provider + POP should bring it up pretty quick. Once you have the info, you'll go to the right click menu, options, then preferences. A big menu should pop up, and you should see POP in the left side. Click that, and input all the info from the POP page you looked up for your account. Tell your ghost to check your email, and if it works, then congratulations!
+//***********************************************************************
+
+
+ //---- OnBIFFBegin ---------------------------------------------------------------
+ //When you first tell the ghost to check your email. An intro statement, if you will. Replace with whatever you like.
+ 
+OnBIFFBegin
+ {
+	"%(lsto)* Checking email, \w5huh ?\e"
+	
+ }
+
+ 
+ //---- OnBIFFComplete ---------------------------------------------------------------
+ //After they've succeeded in checking your mail, they'll report back with how many new emails you have. Replace the dialogue with whatever would be character appropriate.
+ 
+OnBIFFComplete
+ {
+	"%(lsto)"
+	--
+	if reference0 == 0 //If you have no new mail.
+ 	{
+ 		"* There is no new mail.\e"
+	}
+	elseif reference0 == 1 //If you have one new email.
+ 	{
+ 		"* There is one new email.\e"
+	}
+	elseif reference0 > 1 && reference0 < 11 //If you have more than one email but less than eleven.
+	{
+		"* There are %(reference0) emails.\e"
+		//reference0 here stores the amount of new email it finds.
+	}
+	elseif reference0 > 100 //If there are over one hundred new emails.
+	{
+		"* There are %(reference0) emails unread.\w7You should check them more often."
+	}
+ 	else //For any other number of emails.
+	{
+		"* There are %(reference0) emails.\e"
+ 	}
+}
+
+ //---- OnBIFFFailure ---------------------------------------------------------------
+ //Various error messages that can happen when your ghost tries to connect to an email account. Replace the dialogue as appropriate.
+ 
+OnBIFFFailure
+ {
+	"%(lsto)"
+	if reference0 == "timeout" //If the connection times out.
+ 	{
+ 		"* The connection has timed out.\e"
+	}
+ 	elseif reference0 == "kick" //If the account blocks the ghost from accessing it. I think gmail may do this at first to try and protect your account from unapproved applications using it. It gives you the option to change the setting in the warning email they send you about it.
+	{
+		"* I can't access the account.\e"
+ 	}
+	elseif reference0 == "defect" //If the information put into the POP menu is wrong.
+ 	{
+ 		"* The email account was not set up properly.\w7It can be reset at the POP menu.\![open,configurationdialog]\e"
+		
+		//Note that this ends with \![open,configurationdialog]. This will open up the preferences menu I described above automatically. More on \! functions in the walkthrough. You can delete the \! tag here if you want to.
+	}
+ 	else //if there's some other kind of error.
+	{
+		"* I can't connect to the account.\w7The error returned is '%(reference[0])'.\e"
+		
+		//reference0 here stores the error message the email server would have given the ghost, hopefully.
+ 	}
+}
+
+
+ //**** Network Update *****************************************************************
+ //The following functions are for the Network Update of your ghost, where it will connect to your website, check for new files, and update itself. This is a handy feature, but tricky to set up. If you have no intention of using Network Update, you can disregard these, but it won't hurt to fill them out anyway just in case. More details about how to set up Network Update are in the walkthrough (http://www.ashido.com/ukagaka/walkthrough.html).
+ 
+ //Replace the dialogue in the next set of functions as appropriate. You can easily test these messages using the Developer panel. Go to Open at the bottom of it and choose one of the four Update Event options to simulate a Ghost's update process. I highly recommend doing this at LEAST once if you're going to use this feature to make sure it flows well.
+
+ OnUpdateCheckComplete
+ {
+	 if STRLEN("%(reference1)") > 3
+	 {
+		 "%(lsto)* Little off topic,\w5 but there is an update.\e"
+	 }
+	
+	
+ }
+ //---- OnUpdateBegin -------------------------------------------------------------
+ //When you first tell your ghost to update. An introductory statement, like OnBIFFBegin above. Replace or add more dialogue as appropriate. Note that they end with \w8 to give a little breather time.
+ 
+OnUpdateBegin
+ {
+	"%(lsto)* I start the update process.\w8\e"
+	
+ }
+
+ //---- OnUpdateReady ---------------------------------------------------------
+ //If the ghost finds new files to update with.
+ 
+OnUpdateReady
+ {
+	"%(lsto)* There are %(reference0) new files.\w8\e"
+	
+	//reference0 here storing the number of new files. You don't have to use it if you don't want to.
+ }
+
+
+//---- OnUpdateComplete -------------------------------------------------------------
+//When the ghost has finished the update process.
+
+OnUpdateComplete
+ {
+	
+	if reference0 == "none" //if the ghost had nothing to update with
+ 	{
+ 		"* There are no new files.\e"
+		
+		"* Nothing's new.\e"
+	}
+ 	else //if the ghost has updated successfully
+	{
+		updatingghost = 1
+		if (nowshell == "Azura Default Shell") && ("\s[2" _in_ azpose || "\s[3" _in_ azpose)
+		{
+			azpose = "\0\s[10]%(smile)"
+			inpyjama = 0
+			issat = 0
+			
+		}
+		else
+		{
+			azpose = SUBSTR(azpose,0,8) + "%(smile)"
+		}
+		if alreadyeat >= 2
+		{
+			plateate = ""
+			alreadyeat = 1
+		}
+		--
+		"\0%(lsto)%(azpose)%(arms)"
+		--
+		"* The update ended successfully.\n\n[half]"
+		--
+		"%(lsta)Starting the dictionary update.\![raise,OnUpdateLibrary]"
+		
+ 	}
+}
+
+ //---- OnUpdateFailure -------------------------------------------------------------
+ //Error messages if the update process fails in some way.
+ 
+OnUpdateFailure
+ {
+	"%(lsto)"
+	--
+	if reference0 == "timeout" //if the connection times out
+ 	{
+ 		"* The update connection has timed out.\e"
+	}
+ 	elseif reference0 == "md5 miss" //This is the final message displayed when you've run into an md5 error below at some point.
+	{
+		"* The MD5 hash of the files don't match. \w7That means I didn't update all the files because one of the file wasn't updated correctly.\n\n[half]* You should wait a little time before trying again. This kind of errors can happen when Levidre is currently setting up an update.\e"
+ 	}
+	else //for other errors
+ 	{
+ 		"* The update could not be completed.\w8The error is '%(reference0)'.\n\n[half]\w7* Maybe you should wait a little. \w7Some errors can happen when Levidre is setting up an update.\e"
+	}
+ }
+
+
+ //---- OnUpdate.OnDownloadBegin ------------------------------------------------
+ //This dialogue plays when they begin downloading a new file. WARNING: if you have big plans for your ghost and are going to make a lot of new image files for it (like... i do, cough) at some point, you're going to want to make these messages very brief, if you even have them at all. The reason is because the user will see these messages for EVERY individual file that they have to download, and if you have, say, 50 pna files in the queue, they will see this dialogue 50 times. Not only that, but displaying the dialogue takes some time, so it also extends the download process.
+ //If you aren't planning on adding a ton of files at any point, or are only intending to update the .dic files which will be at most a handful of files, then you can go ahead and put a short message in here. But if your ghost is going to grow in leaps and bounds as you work on it, try and keep these messages as brief as possible to make the process that much faster for your user.
+ 
+OnUpdate.OnDownloadBegin
+ {
+	"%(lsto)"
+	--
+ 	if "aitalk" _in_ reference0 //this is checking to see what kind of files are being downloaded. In this case, it's looking for files called aitalk in the download queue. If you want to have a specialized bit of dialogue for each type of file, you can expand this with elseifs and by replacing aitalk with whatever file you have in mind. Keep in mind my warning above though.
+ 	{
+ 		"* Oh, \w5new dialogues.\e"
+ 	}
+	elseif "musics" _in_ reference0
+	{
+		"* hop, \w5an update of the music player.\e"
+	}
+	elseif "etc" _in_ reference0
+	{
+		"* Some settings are done.\e"
+	}
+	elseif "commu" _in_ reference0
+	{
+		"* My communication with other ghost would be better.\e"
+	}
+	elseif "az-IA" _in_ reference0
+	{
+		"* I will understand more things of you.\e"
+	}
+	elseif "menu" _in_ reference0
+	{
+		"* Your interface is better.\e"
+	}
+	elseif "anchor" _in_ reference0
+	{
+		"* Some links have changed.\e"
+	}
+ 	/*else //for files not specified above
+ 	{
+		"* I found a new file.\e"
+	}*/
+ }
+
+ //---- OnUpdate.OnMD5CompareBegin ---------------------------------------------------
+ //This checks the hash value of the files in the directory and the files listed in updates.dau, I believe. It will do this for every file the user downloads, so I again remind you of my warning above! For every file they download, they will have to go through three sets of unique dialogue, and it can get old fast. Not to mention it slows things down a lot. Again, I would recommend keeping this very brief, if not just replacing it with "..." instead.
+ 
+OnUpdate.OnMD5CompareBegin
+ {
+ }
+
+ //---- OnUpdate.OnMD5CompareComplete --------------------------------------------------
+ //After they've checked the MD5 value and it matches. See above about the length of this message.
+ 
+OnUpdate.OnMD5CompareComplete
+{
+}
+
+ //---- OnUpdate.OnMD5CompareFailure ---------------------------------------------------
+ //If the MD5 values don't match, meaning if the file is missing or damaged or incomplete in some way. If you follow my Network Update directions carefully, this shouldn't come up very often, but don't be surprised if you run into it every now and then by forgetting a file here or there.
+ 
+OnUpdate.OnMD5CompareFailure
+ {
+ }
+
+ 
+ 
+ //**** Headlines and RSS Feeds *********************************************************
+ //This section has to do with the RSS feeds option on your ghost. If you drag and drop a url on them, they'll add it to a list you can access via the right-click menu, and they'll tell you the last set of updates for the site. This works best with RSS feeds I think, but you can experiment with other sites to see how it works.
+ //The headlines you see under the tab are in the headline folder under your base SSP install. So it'd be SSP\headlines. You should see the folders for each linked headline in there. I've very rarely ever messed with them or used them. Likewise, your RSS feeds you've added will be under SSP\rss and I don't think that option will appear in the headlines/RSS tab until you add an RSS feed to a ghost. If you want to clear your RSS feeds or headlines, just delete either of those two folders.
+ 
+
+ //---- OnHeadlinesenseBegin -----------------------------------------------------------
+ //This dialogue comes up when you select something in your RSS feed as an intro, like the other On[Thing]Begin things we've seen so far. Replace as you need.
+ 
+OnHeadlinesenseBegin
+ {
+	"\0%(lsto)* You've selected %(reference0).\e"
+ }
+
+ //---- OnHeadlinesense.OnFind --------------------------------------------------------
+ //This actually displays the feed. My set-up for it is pretty simple but gets the job done, it just has the name of the feed, a line space, then a list of links. You shouldn't have to edit any of these and I probably wouldn't honestly.
+ 
+OnHeadlinesense.OnFind
+{
+	"%(lsto)"
+	--
+	//----  What page You're on
+ 	if reference2 == "First" || reference2 == "First and Last"
+	{
+ 		//---- First page
+		"\0\b2%(reference0):"
+ 	}
+	elseif reference2 == "Next"
+ 	{
+		//---- Second page
+ 		"\0\b2%(reference0):"
+	}
+ 	elseif reference2 == "Last"
+	{
+ 		//---- Last page
+		"\0\b2%(reference0):"
+ 	}
+	--
+ 	//---- Headlines
+	"\n\n%reference3\n"
+ 	--
+	//---- Pages
+ 	if reference2 == "First" || reference2 == "Next"
+	{
+ 		//---- Bottom buttons
+		"\![*]\q[Next,] - \![*]\q[Stop,Headline_Cancel]\e"
+ 	}
+	else
+ 	{
+		//---- Bottom buttons
+ 		"\![*]\q[Stop,Headline_Cancel]\e"
+ 	}
+	
+}
+
+
+Select.Headline_Cancel
+{
+	"\0%(lsto)* Headline viewing complete.\e"
+	//Actually I take that back, you can change this line of dialogue here for when you're done looking at a headline to something else if you want.
+}
+
+ //---- OnHeadlinesenseComplete -------------------------------------------------------
+ //This is an odd function. As far as I can gather, this is if the headline information gathering was successful, but there's no new information to report. Possibly if none of the feeds have updated? I'm a little fuzzy on this one.
+ 
+OnHeadlinesenseComplete
+ {
+	"\0%(lsto)* No update. %(reference0).\e"
+	//reference0 here supposedly always stores the value no update? Again this isn't hugely clear from what I can see. Anyway, this dialogue has never come up for me while using a ghost, so perhaps someone else who runs into it can offer more clarity. For now, you can leave it as is, or write up something else in here if you like.
+ }
+
+ //---- OnHeadlinesenseFailure ---------------------------------------------------------
+ //This one is more clearly for when the ghost can't get the information it needs about the RSS feed in question.
+ 
+OnHeadlinesenseFailure
+  {
+	"\0%(lsto)* The feed can't updated.\w8Why not?\w8\n\n[half]" //This sets up an exchange between the two characters. The final part of the exchange continues below in the if statements.
+ 	--
+	if reference0 == "can't download" //if they can't download the rss feed for some reason
+ 	{
+		"* It can't be downloaded."
+ 	}
+	elseif reference0 == "can't analyze" //if they can't read the file for some reason
+ 	{
+		"* It can't be analyzed."
+ 	}
+	else //other errors
+ 	{
+		"* I don't know."
+ 	}
+	--
+ 	"\e" //And here is the final /e, so you don't need to include it in the if statements above. Another one of the very rare cases this occurs.
+}
+
+
+//**** Ghost Creation and Updating ******************************************************
+//These next few are related to creating updates2.dau and .nar files for your ghosts. You'll want to at least make a .nar to distribute your ghost, and if you're going to be using Network Update, you'll also want to make updates2.dau as well. It's unlikely that anyone other than you will see these messages, but you should be thorough and replace them anyway.
+//Primarily, you will see these messages when you're creating your updates file or updating your ghost.nar file. More on this on the walkthrough page. However, you could potentially drag and drop another ghost's folder onto them, and they'll also create a nar for that as well, though I've never done that myself. I really wouldn't mess around too much with this. Just follow the directions on the walkthrough page and fill out the dialogue here as required.
+
+
+ //---- OnUpdatedataCreating -----------------------------------------------------------
+ //This will begin the creation of the updates2.dau file. Not unlike the other beginning functions you've seen throughout this file. Replace with whatever you like.
+ 
+OnUpdatedataCreating
+ {
+	"%(lsto)* Creating the updates2.dau file.\e"
+ }
+
+ //---- OnUpdatedataCreated -------------------------------------------------------------
+ //After the updates2.dau file has been successfully created. Replace with whatever.
+ 
+OnUpdatedataCreated
+ {
+	"%(lsto)* Successfully created updates2.dau.\e"
+ }
+
+ //---- OnNarCreating ------------------------------------------------------------------
+ //Along the same lines, this is when they begin creating a .nar file for your ghost. .nars are the format most ghosts will be in, something similar to a .zip file, and this is the format you'll be distributing your ghost in most likely. Replace the dialogue with whatever you like.
+ 
+OnNarCreating
+ {
+	"%(lsto)* Creating the .nar file.\e"
+ }
+
+ //---- OnNarCreated -------------------------------------------------------------------
+ //After the nar file has been successfully created.
+ 
+OnNarCreated
+ {
+	"%(lsto)* Successfully created '%(reference0)'.\e"
+	//reference0 here will be the filename of the nar you just created. It should drop the nar in the folder where all your ghosts are listed, ssp\ghost\.
+ }
+
+ //****　Clock Synchronization　**********************************************************
+//**** 미카 (http://homepage2.nifty.com/ko-ki/)의 사전을 참고했습니다．감사＞こ 나무 성
+//This set of functions was done by the above Korean coder, I think. I'll leave their comment there untouched. 
+//If you right click your ghost and go into the Utilities menu, there's an option called NTP Time Sync. That's what this is for!
+ 
+
+ //----OnSNTPBegin ------------------------------------------------------------------
+ //As with the others you've seen above, this is the beginning bit of dialogue for this process.
+ 
+OnSNTPBegin
+ {
+	"%(lsto)* I am going to check the time.\w9I am connecting to %(reference0).\e"
+	//%(reference0) here is the site they'll be using to check your clock. I wouldn't worry too much about what the site is or where it's defined, it should be accurate. Replace the dialogue with what you need, you don't have to use reference0 if you don't want to.
+ }
+
+
+ //----　OnSNTPCompare----------------------------------------------------------
+ //Now the ghost is going to compare the current time of your computer's system to the time of the site they connected to. Most of this you don't have to touch, just replace the dialogue as indicated.
+ 
+OnSNTPCompare
+ {
+ 	"%(lsto)* Retrieved Time: %reference1[1]/%reference1[2]/%reference1[0] %reference1[3]:%reference1[4]:%reference1[5]\w2\n/
+	Your Time: %reference2[1]/%reference2[2]/%reference2[0] %reference2[3]:%reference2[4]:%reference2[5]\w2\n/
+ 	\n"
+	--
+ 	if reference3 == 0 //if your clock is already accurate.
+	{
+ 		"* Your clock is accurate.\e" //replace this with whatever message you like.
+	}
+ 	else //if your clock doesn't match
+	{
+	//you can redo this top line up to the \n\n[half] part, but leave the \q options alone.
+ 		"* Your clock doesn't match.\w7\nShould I fix it?\n\n[half]/
+		\![*]\q[Fix it,OnSNTPEXECUTE]\n/
+ 		\![*]\q[Leave it alone,OnSNTPCANCEL]\e"
+	}
+ }
+
+ //----　OnSNTPEXECUTE ------------------------------------------------------------------
+ //After they've fixed your clock. Note the \6 tag - that's what actually changes the clock. Do not remove that tag. Replace the rest with what you want.
+ 
+OnSNTPEXECUTE
+ {
+	"%(lsto)* The clock has been fixed.\6\e"
+ }
+
+ //----　OnSNTPCANCEL ------------------------------------------------------------------
+ //If you decide not to change your clock when they tell you it doesn't match. Replace with what you want.
+ 
+OnSNTPCANCEL
+ {
+	"%(lsto)* No ? \w7Well.\e"
+ }
+
+ //----　OnSNTPFailure ------------------------------------------------------------------
+ //If they can't change the clock for some reason, possibly because the site timed out but it could be anything. Replace with what you want.
+ 
+OnSNTPFailure
+ {
+	"%(lsto)* I didn't success.\w8Something went wrong.\e"
+ }
+
+
+ //--OnDisplayChange----------------------------------------------------------------
+ //This is when you change the resolution of your monitor while your ghost is running. Don't mess with any of this, it should be fine as is.
+ 
+OnDisplayChange
+ {
+	displaybpp    = reference0
+ 	displaywidth  = reference1
+	displayheight = reference2
+ }
+
+
+
+ //---- OnScreenSaverStart -------------------------------------------------------
+ //This happens if your ghost is running when your screensaver starts up. This and OnScreenSaverEnd are optional, you can delete them both if you like. In fact, you can just delete the rest of the functions from this point on if you're tired and lazy, but we're close to the end, so don't give up yet!
+ 
+OnScreenSaverStart
+ {
+	"%(lsto)* The screensaver is starting.\w7Wiggle your mouse!\e"
+	//Replace with what you want.
+ }
+
+ //---- OnScreenSaverEnd -------------------------------------------------------
+ //When you wiggle your mouse and stop your screensaver.
+ 
+OnScreenSaverEnd
+ {
+	"%(lsto)* The screensaver is gone.\e"
+	//Replace with what you want.
+ }
+
+
+ //---- OnApplicationBoot ---------------------------------------------------------------
+ //This supposedly is for when a program starts but I have honestly never gotten it to work or seen it happen. I wouldn't sweat these three related functions too much.
+ 
+OnApplicationBoot
+ {
+	"%(lsto)* %(reference0) just started.\e"
+ }
+
+ //---- OnApplicationClose --------------------------------------------------------------
+ //See above, but for the program closing.
+ 
+OnApplicationClose
+ {
+	"%(lsto)* %(reference0) has closed.\e"
+ }
+
+ //---- OnApplicationFileOpen ----------------------------------------------------------
+ //I believe this is for when the program detailed above opens a document file of some kind.
+ 
+OnApplicationFileOpen
+ {
+	"%(lsto)* Opening %(reference1).\e"
+ }
+
+
+
+
+ //---- OnBatteryLow -----------------------------------------------------------------
+ //This is for when your laptop's battery is low. I don't have a laptop, so I've never really been able to test this. Perhaps someone with a laptop can report back to me with more details about the battery related functions?
+ 
+OnBatteryLow
+ {
+	"%(lsto)* The laptop's battery is low. \w8There is %(reference0) power left.\e"
+	//reference0 here is the amount of battery power. Replace as you like.
+ }
+ 
+ //--OnBatteryCritical-----------------------------------------------------------------
+ //Likewise, this is for if your battery is REALLY low. Replace as you like.
+ 
+OnBatteryCritical
+{
+	"%(lsto)* The laptop's battery is critically low.\e"
+}
+ 
+//--OnBatteryNotify--------------------------------------------------------------------
+//This I believe checks to see if your laptop is plugged in or not. Originally this bit of code was commented out, so I suspect it may not work. It may need a plug-in of some sort. Either way, you can delete it or fill it out as you like.
+//Actually investigating this, leaving this in makes it so the ghost updates you about whether or not your computer is plugged-in constantly, which makes no sense for desktops. No doubt why it was commented out. Just leave it be.
+
+/*
+OnBatteryNotify
+{
+	if reference2 == "online" //If your laptop is plugged in
+	{
+		"\0\s[0]The laptop is plugged in.\e"
+	}
+	elseif reference2 == "offline" //If you unplug your laptop
+	{
+		"\1\s[10]The laptop is not plugged in.\w8\0\s[0]Watch your battery.\e"
+	}
+}
+*/
+
+
+ //---- OnSysResourceLow -----------------------------------------------------------
+ //A notification for if your system resources are low. I've never seen this happen and my system resources can run pretty low sometimes (woo windows xp woooo), so I suspect this one also may not work without the right plug-in, but I could be wrong. You might as well fill it out.
+ 
+OnSysResourceLow
+ {
+	"%(lsto)* The system resources are low.\e"
+ }
+
+
+ //--OnShellScaling
+ //This is a function however that you may actually use! Or at least, I often use it when desktop space is at a premium (which it always is on my computer). If you right click the ghost, you can go to Shell Scaling, which lists a number of different percentages. Those are the percentages your ghost can be scaled in size up or down. You can try them out yourself to get an idea of what I mean. I often scale mine down to get them out of the way sometimes. This adds dialogue whenever you change their scale. You don't have to do this if you don't want to, in which case they will just stay silent when you size them up or down. If that's what you want, just delete the whole thing.
+ 
+OnShellScaling
+{
+	currentscale = reference0
+	"%(lsto)"
+	--
+	if reference0 >= 150 //this number is the percentage that you're scaling the ghost up to. In this case, it's 150%.
+	{
+		"* I am now %(reference0)% my original size.\e"
+	}
+	elseif reference0 == 100 //this is 100%
+	{
+		"* I am normal sized.\e"
+	}
+	elseif reference0 == 50 //this is 50%. You can add any percentage that's listed under shell scaling if you want using more elseifs.
+	{
+		"* I am now 50% my original size.\e"
+	}
+}

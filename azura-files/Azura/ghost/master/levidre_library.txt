@@ -1,0 +1,156 @@
+book,object,10,rectangle small,paper,0,hobby||to study,Eon and the Twelft Dragon.Eragon,I prefer fantasy books,I like mangas too
+bag,object,5,rectangle moyen tool,fabric,0,for transport things like for a walk or to rise,back bags,none
+game,game,7,not all the sames,depends of the game,0,reunit the family or having fun with some pals,cart.horses.video games.no monopoly,I played a lot of card games with my friends.I find monopoly boring.It's nice to play with its whole family,I prefer video games.
+videogame,game,10,nonconsistant,code,0,hobby,Undertale.The Legend of Zelda.Pokemon.Spectrobes,Some people consider that people could be addict to video games & I don't think a person is addict without any reason & Maybe they are just extremely lonely or rejected by the other and find a comfort in them,none
+arcadegame,game,8,rectangle big,code,0,hobby,none,I played some games on an arcade like Sonic.Gunstar Heroes looks like an arcade game.I already played Pac Man on an arcade,I prefer video games.
+skeleton,being,10,big human,bones.magic in Undertale,0,none,Sans,Undertale's skeletons are the nicer.I wonder how are Papyrus gaster blasters,Skeletons are my favorites monsters in Undertale
+moldsmal,being,6,small jigglish,magic,0,none,none,I heard that Moldsmals were good dancer&I don't know if it's true though,It isn't my favorite monster
+house,place,8,big tal,bricks cement,0,to live inside,sweet ones.Toriel's house,It's quit empty when you live alone,Nothing beats the coming back home after a hard day
+bed,item,10,big rectangle comfy,plush.pillow.mattress.duvet,0,to sleep,big and comfy ones,Sleeping in the better activity in the world,Nothing beats the sleep in a good bed
+school,place,3, big tal,bricks cement,0,to make people learn things,none,It's supposed to make people learn things but people who like it are few,It isn't the better activity in the world
+bedroom,place,10,small comfy,0,to do whatever you want inside,my own room of course,It's where you would have most of your free time,It's the best place in a house
+cinema,place,8,big tal,bricks cement,0,hobby||to watch movies,none,It's a good activity to do with friends,It's a lot better than stay home to watch a movie but it's more expensive
+street,place,5,big straight,tarmac ground,0,to go somewhere,none,There is nothing interesting about streets,none
+doodle,object,8,small rectangle,paper,0,to practice drawing,none,none,I draw more than I doodle
+drawing,object,8,small rectangle,paper,0,to express ourself,none,Drawing is relaxing,none
+mother,family,10,human feminine,flesh.bones.spirit,0,none,The person who gave you life,none
+father,family,10,human masculine,flesh.bones.spirit,0,none,The person who gave you life,none
+sibling,family,10,human,flesh.bones.spirit,0,none,One of the most important person in your life,none
+brother,family,10,human masculine,flesh.bones.spirit,0,none,One of the most important person in your life,none
+sister,family,10,human feminine,flesh.bones.spirit,0,none,One of the most important person in your life,none
+uncle,family,8,human masculine,flesh.bones.spirit,0,none,It's the brother of your father or your mother,none
+aunt,family,8,human feminine,flesh.bones.spirit,0,none,It's the sister of your father or your mother,none
+grand-ma,family,8,human feminine,flesh.bones.spirit,0,none,It's the mother of your father or your mother,none
+grand-pa,family,8,human masculine,flesh.bones.spirit,0,none,It's the father of your father or your mother,none
+son,family,8,human masculine,flesh.bones.spirit,0,none,It's normally the most precious person for his parents,none
+daughter,family,8,human feminine,flesh.bones.spirit,0,none,It's normally the most precious person for her parents,none
+child,family,8,human,flesh.bones.spirit,0,none,It's normally the most precious person for their parents,none
+cousin,family,8,human,flesh.bones.spirit,0,none,It's an uncle's or an aunt's child,none
+parent,family,10,human,flesh.bones.spirit,0,none,The person who gave you life,none
+grand-parent,family,8,human masculine,flesh.bones.spirit,0,none,It's the parent of your father or your mother,none
+computer,object,7,small,screen.keyboard.cards.mouse.code.program.software.hardware,0,to surf on the web||to watch a movie||to do a lot of stuffs,laptop ones,It's easy to keep mine with me with the dimensional box,It's hard to compare it to other stuffs since you can all do with it
+movie,nonconsistant,7,nonconsistant,pictures.music.actors,0,hobby,Avatar.Narnia.Miyazaki ones,I prefer action or fantastic movies
+pen,object,5,small long thin,ink.plastic,0,to write,none,You can use it to do an urgent tracheotomy,I use them for lineart as pencils
+crayon,object,5,small long,carbon.wood,0,to write or to draw,none,The carbon there is inside is used in nuclear centrals to stop the electrons,none,I use them for lineart as pens
+i,human,5,human,flesh.bones.spirit,0,to have some company,none,none,none
+cat,animal,8,flesh.bones.spirit,0,to have some company,none,Cat's purring frequences are good for health,I prefer cats than dogs
+dog,animal,6,flesh.bones.spirit,0,to have some company,none,They would always love their master whatever their master did to them,I prefer cats than dogs
+rabbit,animal,7,flesh.bones.spirit,0,to eat it with a mustard sauce,none,It's a rabbit who bring the chocolate eggs for Easter in some countries,none
+banana,food,5,long,skin.fruit,0,to be eaten as a snack or something else,none,Banana with chocolate is pretty good,I prefer apples
+apple,food,7,round,seed.fruit,0,to put them in a pie or have a snack,apple pies,You can make a pie with almost all fruits,Apple pies are my favorite pies after butterscotch-cinnamon ones
+cinnamon,food,8,powder,spice,0,to put it in some plate that are mostly desserts,none,Cinnamon is in my two favorite desserts||Cinnamon is in both butterscotch-cinnamon pies and apple pies,It's my favorite spice
+pencil,object,5,small long,carbon.wood,0,to write or to draw,none,The carbon there is inside is used in nuclear centrals to stop the electrons,none
+butterscotch,food,8,bit,sugar,0,to put it in some desserts,none,It's one of the two main ingredients of butterscotch-cinnamon pies,It's not my favorite treat because it stick to the teeth
+pizza,food,8,round big plate,tomato.mushroom.cheese.base.pastry.ham,0,to be eaten,margarita ones,The original recipe is only the base with tomato and cheese,I eat rather pizza than McDonald's
+noodle,food,7,little long,floor.watter,0,to be eaten for a quick lunch or dinner,bolognese and carbonara ones,It's the fastiest and the easier meal to cook,It can be accomodate with kind of everything in contrary of other plates
+mouse,animal,6,little thin,bones.flesh.spirit,0,to go in your house during winter,little mouses that are living outside are so cute,It's one of the animals that reproduce the faster,I prefer mouses than rats
+rat,animal,5,little,bones.flesh.spirit,0,to go in a house where they aren't welcome,none,It's one of the more intelligent and fast to reproduce species,I prefer little mouses
+candy,food,7,little,sugar.colorant,0,to have a nice snack,orange taste ones,It can make teeth rotten,I prefer a big epiphany cake
+candies,food,7,little,sugar.colorant,0,to have a nice snack,orange taste ones,It can make teeth rotten,I prefer a big epiphany cake
+sweet,food,7,little,sugar,0,to have a nice snack,I love calissons,There are a lot of sweets,I prefer a big epiphany cake
+azura,human,7,human,bones.flesh.spirit.soul.magic.wing.tail,0,to supposely be your friend I guess,none,I'm a real person who became a character,I'm not the better being but I do my best
+user,human,5,human,bones.flesh.spirit.soul,0,to give me some company,none,You're one,none
+cake,food,7,moyen,flour.egg.water,0,to have a snack or for birthdays,epiphany cakes,There are a lot of cakes that exist,Nothing beats the epiphany cakes
+chocolate,food,8,little,cocoa.butter,0,to do some cakes or just enjoy it as it is,milk chocolate.Marzipane with chocolate around,Chocolate is full of minerals,I prefer chocolate than fruits
+fruit,food,5,little,juice.sugar,0,to do some cakes or desserts or just to be eaten as snacks,apples or pears,The skin of fruits is having the most vitamins but also pesticids,I prefer cakes than fruits
+stuff,object,5,undefined,undefined,0,to be something I guess,none,none,none
+honey,food,7,liquid,sugar.pollen,0,to eat it on some spread,all type of honey,Honey is done to feed the larvas,It does the healthier spread
+table,item,6,big rectangle,wood,0,to do some stuffs on it,none,The height of the table depends on the culture,It's better to use a table to draw or eat
+chair,item,6,rectangle,wood.seat.back,0,to rest after a walk,comfortable seats,There are a lot of different types,I prefer it than stools
+seat,item,6,rectangle,wood.seat.back,0,to rest after a walk,comfortable seats,There are a lot of different types,I prefer it than stools
+stool,item,6,round,wood.seat,0,to have a rest or reach something high,none,It's not very conmfortable,I prefer normal chairs
+chairiel,item,7,big,fabric.soft,0,to allow Toriel to read stories,Toriel's chairiel,There is a chairiel everywhere Toriel lived,It's a very comfortable chair
+spaghetti,food,8,thin,floor.water,0,to make us having a good meal,carbonara or bolognese ones,It's pretty easy to cook but I would kill people who put a lot of onions in spaghetties carbonara,Spaghetties with carbonara or bolognese are the better noodles
+home,place,8,big tal,bricks.cement,0,to live inside,sweet ones.Toriel's house,It's quit empty when you live alone,Nothing beats the coming back home after a hard day
+you,human,7,human,bones.flesh.spirit.soul.magic.wing.tail,0,to supposely be your friend I guess,none,I'm a real person who became a character,I'm not the better being but I do my best
+week,nonconsistant,5,none,day.time,0,count a certain amount of time,none,They are gone so fast,It's bigger than a single day
+day,nonconsistant,5,none,hour.time,0,count a certain amount of time,none,They are gone so fast,It's bigger than a single hour
+hour,nonconsistant,5,none,minute.time,0,count a certain amount of time,none,They are gone so fast,It's bigger than a single hour
+minute,nonconsistant,5,none,second.time,0,count a certain amount of time,none,They are so little,It's bigger than a single second
+second,nonconsistant,5,none,time,0,count a certain amount of time,none,It's hard to count them,It's the smaller thing to count the time
+month,nonconsistant,5,none,week.time,0,count a certain amount of time,none,It's a good amount of time,It's bigger than a single week
+year,nonconsistant,5,none,month.time,0,count a certain amount of time,none,It's a good amount of time,It's bigger than a single month
+decade,nonconsistant,5,none,year.time,0,count a certain amount of time,none,It's a very good amount of time,It's bigger than a single year
+century,nonconsistant,5,none,year.time,0,count a certain amount of time,none,It's a life-time,It's bigger than a single decade
+Adjectif
+blue,color,0
+red,color,0
+orange,color,0
+magenta,color,0
+purple,color,0
+brown,color,0
+green,color,0
+grey,color,0
+yellow,color,0
+white,color,0
+black,color,0
+cyan,color,0
+turquoise,color,0
+rose,color,0
+nice,state,1
+bad,state,-1
+sweet,state,1
+cute,state,1
+angry,state,-1
+pretty,state,1
+good,state,1
+ugly,state,-1
+awful,state,-1
+rude,state,-1
+horrible,state,-1
+smart,state,1
+intelligent,state,1
+idiot,state,-1
+stupid,state,-1
+soft,descript,0
+heavy,descript,0
+complicated,state,0
+thin,descript,0
+right,descript,0
+left,descript,0
+top,descript,0
+borrom,descript,0
+
+
+
+Verb
+be-am-is-are,was-were,been,being,stat,none,0
+go,went,gone,going,mov,none,0
+move,moved,moved,moving,mov,none,0
+feel,felt,felt,feeling,stat,none,0
+smell,smelt,smelt,smelling,sense,none,0
+touch,touched,touched,touching,sense,none,0
+taste,tasted,tasted,tasting,sense,none,0
+see,saw,seen,seeing,sense,none,0
+camp,
+like,liked,liked,liking,avis,none,1
+love,loved,loved,loving,avis,none,2
+hate,hated,hated,hating,avis,none,-1
+think,thought,thought,thinking,avis,none,0
+break,broke,broken,breaking,action,none,-1
+read,read,read,reading,hobby,none,1
+draw,drew,drawn,drawing,hobby,none,1
+eat,ate,eaten,eating,action,none,1
+grow,grew,grown,growing,action,none,0
+mean,meant,meant,meaning,avis,none,0
+have-has,had,had,having,sense,none,0
+dream,dreamt,dreamt,dreaming,imagin,none,1
+imagine,imagined,imagined,imagining,imagin,none,1
+figure,figured,figured,figuring,imagin,none,1
+understand,understood,understood,understanding,imagin,none,0
+search,searched,searched,searching,action,none,-1
+learn,learnt,learnt,learning,imagin,none,1
+teach,taught,taught,teaching,action,none,1
+buy,bought,bought,buying,action,none,0
+build,built,built,building,action,none,0
+create,created,created,creating,creation,none,1
+sleep,slept,slept,sleeping,action,none,1
+walk,walked,walked,walking,action,mov,0
+play,played,played,playing,hobby,none,1
+dance,danced,danced,dancing,hobby,none,0
+do,did,done,doing,action,none,0
+
+
+
+
+

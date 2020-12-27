@@ -1,0 +1,803 @@
+
+
+WhenAvisP
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+}
+WhenAvisN
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+}
+
+WhenThinkP
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+}
+WhenThinkN
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+}
+
+WhenMovementP
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+}
+WhenMovementN
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+}
+
+WhenHobbyP
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+}
+WhenHobbyN
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+}
+
+WhenStatusP
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+}
+WhenStatusN
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+}
+
+WhenImagineP
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+}
+WhenImagineN
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+}
+
+WhenActionP
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+}
+WhenActionN
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+}
+
+WhenCreationP
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+}
+WhenCreationN
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+}
+
+WhenSeeP
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+}
+WhenSeeN
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+}
+
+WhenSmellP
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+}
+WhenSmellN
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+}
+
+WhenTouchP
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+}
+WhenTouchN
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+}
+
+WhenHearP
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+}
+WhenHearN
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_detCOD = _argv[6]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[7],";")
+	_COD = _argv[8]
+	_prepCOI = _argv[9]
+	_detCOI = _argv[10]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[11],";")
+	_COI = _argv[12]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 12
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+}
+
+WhenTasteP
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_prepCOD = _argv[6]
+	_detCOD = _argv[7]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[8],";")
+	_COD = _argv[9]
+	_prepCOI = _argv[10]
+	_detCOI = _argv[11]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[12],";")
+	_COI = _argv[13]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 13
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+}
+WhenTasteN
+{
+	_allCO = IARRAY
+	_tense = _argv[0]
+	_complement = _argv[1]
+	_verb = _argv[2]
+	_detsubject = _argv[3]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[4],";")
+	_subject = _argv[5]
+	_prepCOD = _argv[6]
+	_detCOD = _argv[7]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[8],";")
+	_COD = _argv[9]
+	_prepCOI = _argv[10]
+	_detCOI = _argv[11]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[12],";")
+	_COI = _argv[13]
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 13
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+}
+
+WhenHaveP
+{}
+WhenHaveN
+{}
+
+

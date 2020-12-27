@@ -1,0 +1,540 @@
+//---------------------------Anchors and OnTranslate--------------------------
+
+//This .dic file is for setting up anchor words, which are links to set conversations attached to certain words automatically. It also deals with OnTranslate, which is a fairly unique function. All text goes through OnTranslate first before it displays on your ghost, which is how it knows to turn certain words into links. Before you try it yourself, I've already tried adding automatic \w8 pauses after periods and that totally breaks everything.
+//Why should I care about anchor words, you ask? Or what can I use them for? Well, you can set up anchor words to easy explanations for things your ghost might talk about that might confuse your user. People they know, places they've been, pop culture references the user might not get, information about you the creator or the world the characters from, items in an item menu, basically any number of things. Anchor words can be a handy repository of information! Or just an easy way to set up some cheap jokes. The power is yours!
+
+//Make sure to read the walkthrough (http://www.ashido.com/ukagaka/walkthrough.html) for more details about how to properly format ghost dialogue!
+//I will reiterate that you should be editing these in Notepad++, and in particular, you should set the Language to C to properly highlight all the text. It will make things A LOT EASIER for you, trust me! It will also help you keep track of your brackets in case you forget some. If you click on a line with a bracket in Notepad++, it should highlight where the other bracket ends, or turn purple if there's no finishing bracket (which you should definitely fix!)
+//It will also highlight my commented lines in green, so you'll know where they are. Any line beginning with // is a commented line that the code will not read. It's just for your reference!
+
+//This file is very short, so don't worry! And if you aren't planning on using anchor words, you just have to delete a few things and you'll be done!
+
+
+//--OnTranslate
+
+//As I said above, OnTranslate filters through all the text your ghost displays and does whatever you specify to it. This is a powerful function that can be used in a lot of creative ways I bet, but I wouldn't mess with it too much since you can pretty easily break stuff.
+//If you're not interested in any anchor words, delete all the lines that start with _talk = REPLACE under OnTranslate.
+
+OnTranslate
+{
+	_talk = reference0
+ 	
+	if oncomputer == 1 || iseating >= 2 || isdrawing == 1 || holdobsidian == 1
+	{
+		_talk = REPLACE(_talk,"\i[70]","")
+		_talk = REPLACE(_talk,"\i[71]","")
+		_talk = REPLACE(_talk,"\i[72]","")
+		_talk = REPLACE(_talk,"\i[73]","")
+		_talk = REPLACE(_talk,"\i[74]","")
+		_talk = REPLACE(_talk,"\i[75]","")
+		_talk = REPLACE(_talk,"\i[76]","")
+		_talk = REPLACE(_talk,"\i[77]","")
+		_talk = REPLACE(_talk,"\i[78]","")
+		_talk = REPLACE(_talk,"\i[90]","")
+		_talk = REPLACE(_talk,"\i[91]","")
+		_talk = REPLACE(_talk,"\i[92]","")
+		_talk = REPLACE(_talk,"\i[93]","")
+		_talk = REPLACE(_talk,"\i[94]","")
+		_talk = REPLACE(_talk,"\i[95]","")
+		_talk = REPLACE(_talk,"\i[96]","")
+		_talk = REPLACE(_talk,"\i[97]","")
+		_talk = REPLACE(_talk,"\i[98]","")
+	}
+	
+   _talk
+}
+	//Some brief explanation about what's going on in those REPLACE lines! Basically, the function looks through the script and looks for a defined word or set of words. In this case, it's "Anchor 1". It then replaces "Anchor 1" with the second set of text, "\_a[anchor1]Anchor 1\_a". \_a if you recall is the dialogue code for linking something, so this is linking the words Anchor 1 to something called anchor1 set up in the next function, OnAnchorSelect.
+	//This is being used to change a word into a link, but you could conceivably use this to replace any text with any other kind of text if you wanted. I tried to replace . with .\w8  as I mentioned above which did not turn out well, haha, but there are probably other ways this could be used successfully.
+
+
+//--OnAnchorSelect
+//OnAnchorSelect runs whenever someone clicks one of the links as specified above, or a link that begins with http://.
+
+OnAnchorSelect
+{
+	if "http://" _in_ reference0 || "https://" _in_ reference0//checking to see if the link is a web address
+	{
+	"\j[%(reference0)]\e" // \j is a tag that will open a specified url in the user's browser of choice. This basically just tells the ghost to open the webpage stored in reference0, which would be the address that the user just clicked. I didn't get too much into \j in the walkthrough page because I have literally never used it except here.
+	}
+	else //if it's NOT a web address
+	{
+		case reference0 //case is a unique thing I've only really seen here in anchor.dic, and as far as I can tell it sets up reference0 for evaluation to see if matches any of the below criteria, which are all tagged with when. I wouldn't mess with much of this stuff unless you have a better grasp of this kind of thing than I do, haha. You can add as many things here as you want to set up above as long as you follow the basic format.
+		{
+			//It's if the user want to change the playing mode. This will reset the playlists already read except for randomly because if the user doesn't want to quit the random mode, the player will continue to play normally.
+			when "onemu" //if the link is this value
+			{
+				muplayed = IARRAY
+				--
+				"\![leave,passivemode]"
+				--
+				"* One music will be played."
+				--
+				playmode = reference0
+				--
+				"\e"
+				--
+				break
+			}
+			when "onemuloop" //if the link is this value
+			{
+				muplayed = IARRAY
+				--
+				"\![leave,passivemode]"
+				--
+				"* The same music will be played in loop."
+				--
+				playmode = reference0
+				--
+				"\e"
+				--
+				break
+			}
+			when "oneplaylist" //if the link is this value
+			{
+				muplayed = IARRAY
+				--
+				"\![leave,passivemode]"
+				--
+				"* The whole playlist will be played."
+				--
+				playmode = reference0
+				--
+				"\e"
+				--
+				break
+			}
+			when "playlistloop"
+			{
+				muplayed = IARRAY
+				--
+				"\![leave,passivemode]"
+				--
+				"* The playlist will be played in loop."
+				--
+				playmode = reference0
+				--
+				"\e"
+				--
+				break
+			}
+			when "random"
+			{
+				"\![leave,passivemode]"
+				--
+				"* The musics will be played randomly."
+				--
+				playmode = reference0
+				--
+				"\e"
+				--
+				break
+			}
+			when "prevplaylist"
+            {   
+				"\![leave,passivemode]\![raise,OnChoiceSelect,loadprevplaylist]"
+				--
+				break
+            }
+		}
+		
+		if suppr == 1
+		{
+			_temp = IARRAY
+			_size = ARRAYSIZE(surfacesfilter)
+			foreach surfacesfilter ; _filter
+			{
+				if "surfacesfilter%(_filter)" != reference0
+				{
+					_temp ,= _filter
+				}
+			}
+			surfacesfilter = _temp
+			if _size <= ARRAYSIZE(_temp)
+			{
+				Select.displaySurfacesFilter
+			}
+			_temp = IARRAY
+			_size = ARRAYSIZE(intervalsfilter)
+			foreach intervalsfilter ; _filter
+			{
+				if "intervalsfilter%(_filter)" != reference0
+				{
+					_temp ,= _filter
+				}
+			}
+			intervalsfilter = _temp
+			if _size < ARRAYSIZE(_temp)
+			{
+				Select.displayIntervalsFilter
+			}
+		}
+		
+		
+		foreach totalsongs ; song 
+		{
+			//If the user selected a music
+			_name = "%((SPLITPATH(song[0]))[2])"
+			_name = REPLACE(_name,"[","t")
+			_name = REPLACE(_name,"]","t")
+			_name = REPLACE(_name,"(","t")
+			_name = REPLACE(_name,")","t")
+			_name = REPLACE(_name,"{","t")
+			_name = REPLACE(_name,"}","t")
+			_name = REPLACE(_name,",","t")
+			_name = REPLACE(_name,"\","t")
+			_name = REPLACE(_name,"!","t")
+			if reference0 == "%(_name)"
+			{
+				"\![leave,passivemode]"
+				//This music would be removed or played depending on what he wanted.
+				--
+				if rename == 1
+				{
+					if "%(song[1])" != ""
+					{
+						RenameSong(song[1])
+					}
+					else
+					{
+						RenameSong(_name)
+					}
+				}
+				elseif suppr != 1
+				{
+					isplayed = 0
+					songplayed = song
+					Select.playmu
+				}
+				else
+				{
+					suppr = 0
+					songremoved = song
+					Removesong
+				}
+				rename=0
+			}
+			
+		}
+		--
+		if reference0 == TOINT(reference0)
+		{
+			"\![leave,passivemode]"
+			//This music would be removed or played depending on what he wanted.
+			--
+			if suppr != 1
+			{
+				isplayed = 0
+				songplayed = TOINT(reference0)
+				if displaytest == 1
+				{
+					"* I want %(songplayed)"
+				}
+				Select.playmu
+			}
+			else
+			{
+				"* You cannot remove a song of a CD.\e"
+			}
+		}
+		--
+		foreach playlistlist ; playlist
+		{
+			//The same things than for the musics but for the playlists.
+			//The change is that instead of playing a music begin the processus for loading the playlist, so playlistload change to 1. This will change the use of the other functions called.
+			if reference0 == "%(playlist)"
+			{
+				"\![leave,passivemode]"
+				--
+				if suppr != 1
+				{
+					if displaytest == 1
+					{
+						"* I load a playlist so I will save first the one I already have.\n"
+					}
+					--
+					nbmudropped = 0
+					//The fist step in loading a playlist is saving the current one.
+					if currentplaylist != "newone" || ARRAYSIZE(songlist) < 1
+					{
+						currentplaylist = "%(playlist)"
+						playlistloaded = "%(playlist)"
+						playlistload = 1
+						Select.cleanplaylist
+					}
+					else
+					{
+						currentplaylist = "%(playlist)"
+						playlistname = "tempplaylist"
+						playlistloaded = "%(playlist)"
+						playlistload = 1
+						Select.Saveplaylist
+					}
+				}
+				else
+				{
+					//If the user want to remove a playlist. I have to do a function to erase the file too.
+					suppr = 0
+					playlistremoved = playlist
+					Removeplaylist
+				}
+			}
+
+		}
+		
+		foreach surfaceslist ; _surface
+		{
+			if "surface%(_surface[0])" == reference0
+			{
+				surfacetargeted = _surface
+				IntervalsList
+				
+			}
+			elseif "surfaceinfo%(_surface[0])" == reference0
+			{
+				SurfaceDescription
+			}
+		}
+		
+		
+		foreach intervalslist ; _interval
+		{
+			if "interval%(_interval[0])" == reference0 && _interval[2] == surfacetargeted[0]
+			{
+				intervaltargeted = _interval
+				IntervalDescription
+			}
+		}
+		
+		foreach weektodo ; _element
+		{
+			_link = REPLACE(_element,",","t")
+			_link = REPLACE(_link,"[","t")
+			_link = REPLACE(_link,"]","t")
+			_link = REPLACE(_link,"(","t")
+			_link = REPLACE(_link,")","t")
+			_link = REPLACE(_link,"{","t")
+			_link = REPLACE(_link,"}","t")
+			_link = REPLACE(_link,"'","t")
+			_link = REPLACE(_link,",","t")
+			_link = REPLACE(_link,"\","t")
+			_link = REPLACE(_link,"!","t")
+			if _link == "%(reference0)"
+			{
+				if suppr == 1
+				{
+					suppr = 0
+					RemoveTodoList(_element)
+				}
+			}
+		}
+		
+		foreach monthtodo ; _element
+		{
+			_link = REPLACE(_element,",","t")
+			_link = REPLACE(_link,"[","t")
+			_link = REPLACE(_link,"]","t")
+			_link = REPLACE(_link,"(","t")
+			_link = REPLACE(_link,")","t")
+			_link = REPLACE(_link,"{","t")
+			_link = REPLACE(_link,"}","t")
+			_link = REPLACE(_link,"'","t")
+			_link = REPLACE(_link,",","t")
+			_link = REPLACE(_link,"\","t")
+			_link = REPLACE(_link,"!","t")
+			if _link == "%(reference0)"
+			{
+				if suppr == 1
+				{
+					suppr = 0
+					RemoveTodoList(_element)
+				}
+			}
+		}
+		
+		foreach normaltodo ; _element
+		{
+			_link = REPLACE(_element,",","t")
+			_link = REPLACE(_link,"[","t")
+			_link = REPLACE(_link,"]","t")
+			_link = REPLACE(_link,"(","t")
+			_link = REPLACE(_link,")","t")
+			_link = REPLACE(_link,"{","t")
+			_link = REPLACE(_link,"}","t")
+			_link = REPLACE(_link,"'","t")
+			_link = REPLACE(_link,",","t")
+			_link = REPLACE(_link,"\","t")
+			_link = REPLACE(_link,"!","t")
+			if _link == "%(reference0)"
+			{
+				if suppr == 1
+				{
+					suppr = 0
+					RemoveTodoList(_element)
+				}
+				elseif adddeadline == 1
+				{
+					adddeadline = 0
+					normaltododeadline = _element
+					"\0%(lsto)* What is the deadline ?\n\n[half]%(lsta)Type the date this way : month/day/year\![open,inputbox,OnListDeadline,-1]"
+				}
+			}
+		}
+		
+		
+		
+		foreach backupfound ; _path
+		{
+			_backup = REPLACE(_path,"[","t")
+			_backup = REPLACE(_backup,"]","t")
+			_backup = REPLACE(_backup,"(","t")
+			_backup = REPLACE(_backup,")","t")
+			_backup = REPLACE(_backup,"{","t")
+			_backup = REPLACE(_backup,"}","t")
+			_backup = REPLACE(_backup,"'","t")
+			_backup = REPLACE(_backup,",","t")
+			_backup = REPLACE(_backup,"\","t")
+			_backup = REPLACE(_backup,"!","t")
+			if _backup == reference0
+			{
+				if changeBackup
+				{
+					sourcepath = _path
+					Select.changeAzuraMarker
+	
+					changeBackup = 0
+				}
+				else
+				{
+					conflictlist = IARRAY
+					conflictlist = Backup(_path)
+					if "%(conflictlist)" != ""
+					{
+						HandleConflicts
+					}
+					else
+					{
+						"\0* Done.\e"
+					}
+
+				}
+				
+			}
+			
+		}
+		
+		foreach backupfolders ; _path
+		{
+			_backup = REPLACE(_path,"[","t")
+			_backup = REPLACE(_backup,"]","t")
+			_backup = REPLACE(_backup,"(","t")
+			_backup = REPLACE(_backup,")","t")
+			_backup = REPLACE(_backup,"{","t")
+			_backup = REPLACE(_backup,"}","t")
+			_backup = REPLACE(_backup,"'","t")
+			_backup = REPLACE(_backup,",","t")
+			_backup = REPLACE(_backup,"\","t")
+			_backup = REPLACE(_backup,"!","t")
+			if _backup == reference0
+			{
+				
+				_temp = IARRAY
+				foreach backupfolders ; _repository
+				{
+					if _repository != _path
+					{
+						_temp ,= _repository
+					}
+				}
+				backupfolders = _temp
+				Select.backupRepositories
+				
+			}
+			
+		}
+		
+		foreach conflictlist ; _conflict
+		{
+			//backupconflict = IARRAY
+			
+			_path = _conflict[0]
+			_source = REPLACE(_path,"[","t")
+			_source = REPLACE(_source,"]","t")
+			_source = REPLACE(_source,"(","t")
+			_source = REPLACE(_source,")","t")
+			_source = REPLACE(_source,"{","t")
+			_source = REPLACE(_source,"}","t")
+			_source = REPLACE(_source,"'","t")
+			_source = REPLACE(_source,",","t")
+			_source = REPLACE(_source,"\","t")
+			_source = REPLACE(_source,"!","t")
+			
+			namefile = REPLACE(_conflict[0],"\","/")
+			namefile = REPLACE(namefile,"//","/")
+			
+			namebackup = REPLACE(_conflict[1],"\","/")
+			namebackup = REPLACE(namebackup,"//","/")
+			
+			if _source == reference0
+			{
+				backupconflict = "%(_conflict)"
+				"\0* Which one do you want to keep ?\n\n[half]"
+				--
+				"\![*]\q[%(namefile),backupFile]\n"
+				--
+				if _conflict[2] == "sync"
+				{
+					"\![*]\q[%(namebackup),backupBackupSync]"
+				}
+				else
+				{
+					"\![*]\q[%(namebackup),backupBackup]"
+				}
+				
+			}
+		}
+	}
+}
+
+RenameSong
+{
+	oldname=_argv[0]
+	"\![open,inputbox,OnRenameSong,-1,%(oldname)]"
+}
+
+OnRenameSong
+{
+	_newname = reference0
+	_size= ARRAYSIZE(songlist)
+	
+	for _i=0 ; _i<_size ; _i++
+	{
+		if "%(songlist[_i][1])" == "" && "%(songlist[_i][0])" != ""
+		{
+			_song = "%((SPLITPATH(songlist[_i][0]))[2])"
+			_song = REPLACE(_song,"[","t")
+			_song = REPLACE(_song,"]","t")
+			_song = REPLACE(_song,"(","t")
+			_song = REPLACE(_song,")","t")
+			_song = REPLACE(_song,"{","t")
+			_song = REPLACE(_song,"}","t")
+			_song = REPLACE(_song,"'","t")
+			_song = REPLACE(_song,",","t")
+			_song = REPLACE(_song,"\","t")
+			_song = REPLACE(_song,"!","t") 
+			if _song == oldname
+			{
+				songlist[_i] = "%(songlist[_i][0]),%(_newname)"
+				"\0* The song has been renamed. And I want %(oldname) and %(_newname)\e"
+				break
+			}
+		}
+		elseif songlist[_i][1] == oldname
+		{
+			songlist[_i] = "%(songlist[_i][0]),%(_newname)"
+			"\0* The song has been renamed. And I want %(oldname) and %(_newname)\e"
+			break
+		}
+	}
+	--
+	"\0* I didn't find the song to rename. And I want %(oldname) and %(_newname)\e"
+}

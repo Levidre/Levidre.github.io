@@ -1,0 +1,11 @@
+static
+5.000000
+pixel
+100.000000
+200.000000
+10
+OnMoveLeft,37
+OnMoveRight,39
+OnMoveTop,38
+OnMoveBottom,40
+OnKeyDetected,73

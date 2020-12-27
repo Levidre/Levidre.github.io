@@ -1,0 +1,1337 @@
+//Something to synchronize a backup between devices, I thought it could be useful though I hope no antivirus would scream about it since it would check all the device searching for its file
+
+//Once a device is detected
+
+Select.startBackup
+{
+	"\0* Alright,\w5 I start."
+	--
+	ListBackup
+	conflictlist = IARRAY
+	foreach backupfound ; _backup
+	{
+		conflictlist ,= Backup(_backup)
+	}
+	
+	--
+	if "%(conflictlist)" != ""
+	{
+		HandleConflicts
+	}
+	else
+	{
+		"\0* Done.\e"
+	}
+	
+}
+
+HandleConflicts
+{
+	"\0\_q* There are the conflicts, \w5you told me you wanted to choose youself for this ones :\n\n[half]\_q"
+	--
+	_list = ""
+	foreach conflictlist ; _conflict
+	{
+		_path = _conflict[0]
+		_source = REPLACE(_path,"[","t")
+		_source = REPLACE(_source,"]","t")
+		_source = REPLACE(_source,"(","t")
+		_source = REPLACE(_source,")","t")
+		_source = REPLACE(_source,"{","t")
+		_source = REPLACE(_source,"}","t")
+		_source = REPLACE(_source,"'","t")
+		_source = REPLACE(_source,",","t")
+		_source = REPLACE(_source,"\","t")
+		_source = REPLACE(_source,"!","t")
+		_name = REPLACE(_path,"\","/")
+		_name = REPLACE(_name,"//","/")
+		
+		_list = _list + "\_a[%(_source)]\_q\![*]%(_name)\_a"+"\_q\n"
+	}
+	_list
+}
+
+Select.stopBackup
+{
+	"\0* Ok,\w5 you can still ask me if you want.\e"
+}
+
+Select.showBackup
+{
+	"\0* Here are the folders I found, \w5you can chose one to save.\n\n[half]"
+	ListBackup
+	--
+	_list = ""
+	foreach backupfound ; _path
+	{
+		
+		_backup = REPLACE(_path,"[","t")
+		_backup = REPLACE(_backup,"]","t")
+		_backup = REPLACE(_backup,"(","t")
+		_backup = REPLACE(_backup,")","t")
+		_backup = REPLACE(_backup,"{","t")
+		_backup = REPLACE(_backup,"}","t")
+		_backup = REPLACE(_backup,"'","t")
+		_backup = REPLACE(_backup,",","t")
+		_backup = REPLACE(_backup,"\","t")
+		_backup = REPLACE(_backup,"!","t")
+		_name = REPLACE(_path,"\","/")
+		_name = REPLACE(_name,"//","/")
+		
+		_list = _list + "\_a[%(_backup)]\_q\![*]%(_name)\_a"+"\_q\n"
+	}
+	--
+	if checkbackupfolder && ARRAYSIZE(backupfolders) == 0
+	{
+		"%(lsta)You didn't put any directory to check.%(lsto)\n"
+	}
+	--
+	if checkbackupport && ARRAYSIZE(backupports) == 0
+	{
+		"%(lsta)You didn't put any port to check.%(lsto)\n"
+	}
+	--
+	"%(_list)\n[half]\![*]\q[Do all,startBackup]     \![*]\q[Go back,BackupMenu]\n\![*]\q[Nevermind,close]"
+	--
+	
+}
+
+//The menu options------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Select.BackupMenu
+{
+	if alreadybackup == 1
+	{
+		"\0%(lsta)What do you want to do ?%(lsto)\n\n[half]\_q"
+		--
+		changeBackup = 0
+		sourcepath = ""
+		"\![*]\q[Pick up a new folder to save,addBackup]\n/
+		\![*]\q[The folders detected,showBackup]\n/
+		\![*]\q[Change a folder settings,changeBackup]\n\n[half]/
+		\![*]\q[Ports checked,backupPorts]\n/
+		\![*]\q[Repositories checked,backupRepositories]\n\n[half]/
+		\![*]\q[Change the settings,backupSettings]\n/
+		\![*]\q[Have some information,backupHelp]\n\n[half]/
+		\![*]\q[Go back,BACKTOMENU]\e"
+		//alreadybackup = 0
+	}
+	else
+	{
+		alreadybackup = 1
+		"\![enter,passivemode]\0\b2%(lsta)Since it's your first time here, let's explain some things.\n\n[half]You can choose two folders, one to save into an other. In case of a file present in both, it would be replaced depending of the folder settings (date or size is more important or you're asked which to keep). \nThere are three posibilities for the folders : the first is saved in the second, the second into the first, or both are synchronized (keep the same version of the files in both, the most recent). Of course this settings can be changed. Azura will let a little file with all this information into the first folder you picked up."
+		--
+		"\n\n[half]If you plug in a device, Azura can ask you if you want her to search folders to save. She would search them too each time you want to see them or to change their settings. By default, she won't do it depending on particular ports or directories, but it's \f[bold,true]highly advised she does one or the other\f[bold,false].If she check your whole main drive, she would freeze. A long time. This can be activated in the settings. If you do so, she would only check the port and/or the directories you chose.%(lsto)"
+		--
+		"\x\![leave,passivemode]\c%(Select.BackupMenu)"
+		
+	}
+}
+
+Select.changeBackup
+{
+	ListBackup
+	_list = ""
+	changeBackup = 1
+	foreach backupfound ; _path
+	{
+		
+		_backup = REPLACE(_path,"[","t")
+		_backup = REPLACE(_backup,"]","t")
+		_backup = REPLACE(_backup,"(","t")
+		_backup = REPLACE(_backup,")","t")
+		_backup = REPLACE(_backup,"{","t")
+		_backup = REPLACE(_backup,"}","t")
+		_backup = REPLACE(_backup,"'","t")
+		_backup = REPLACE(_backup,",","t")
+		_backup = REPLACE(_backup,"\","t")
+		_backup = REPLACE(_backup,"!","t")
+		_name = REPLACE(_path,"\","/")
+		_name = REPLACE(_name,"//","/")
+		_list = _list + "\_a[%(_backup)]\_q\![*]%(_name)\_a"+"\_q\n"
+	}
+	"\0* Here are the folders.\n\n[half]"
+	--
+	if checkbackupfolder && ARRAYSIZE(backupfolders) == 0
+	{	
+		"%(lsta)You didn't put any directory to check.%(lsto)\n"
+	}
+	--
+	if checkbackupport && ARRAYSIZE(backupports) == 0
+	{
+		"%(lsta)You didn't put any port to check.%(lsto)\n"
+	}
+	--
+	"%(_list)\n[half]\![*]\q[Go back,BackupMenu]     \![*]\q[Nevermind,close]"
+}
+
+Select.addBackup
+{
+	"\0* What folder do you want me to save ?\![open,dialog,folder,--id=OnAddBackup]"
+}
+
+Select.backupPorts
+{
+	"\0* Here are all the ports checked.\n[half]\_q"
+	--
+	_res = ""
+	foreach backupports ; _port
+	{
+		_res += "\n     - %(_port)"
+	}
+	"%(_res)\n\n[half]\![*]\q[Add one,addBackupPort]          \![*]\q[Remove one,removeBackupPort]\n\![*]\q[Nevermind,BackupMenu]"
+}
+
+
+Select.addBackupPort
+{
+	"\0* What port do you want me to check ?\![open,inputbox,OnAddBackupPort,-1]"
+}
+
+OnAddBackupPort
+{
+	backupports ,= reference0
+	Select.backupPorts
+}
+
+Select.removeBackupPort
+{
+	"\0* What port do ?\![open,inputbox,OnRemoveBackupPort,-1]"
+}
+
+OnRemoveBackupPort
+{
+	_temp = IARRAY
+	foreach backupports ; _port
+	{
+		if _port != reference0
+		{
+			_temp ,= _port
+		}
+	}
+	backupports = _temp
+	Select.backupPorts
+}
+
+Select.backupRepositories
+{
+	"\0* Here are all the repositories checked.\n[half]\_q"
+	--
+	_res = ""
+	foreach backupfolders; _repository
+	{
+		_name = REPLACE(_repository,"\","/")
+		_res += "\n     - %(_name)"
+	}	
+	"%(_res)\n\n[half]\![*]\q[Add one,addBackupRepository]          \![*]\q[Remove one,removeBackupRepository]\n\![*]\q[Nevermind,BackupMenu]"
+}
+
+
+
+Select.addBackupRepository
+{
+	"\0* What directory do you want me to check ?\![open,dialog,folder,--id=OnAddBackupRepository,-1]"
+}
+
+OnAddBackupRepository
+{
+	backupfolders ,= (SPLITPATH(reference2))[1] + (SPLITPATH(reference2))[2] 
+	Select.backupRepositories
+}
+
+Select.removeBackupRepository
+{
+	"\0* What folder ?\n\n[half]\_q"//\![open,dialog,folder,--id=OnRemoveBackupRepository]"
+	_list = ""
+	foreach backupfolders ; _path
+	{
+		
+		_backup = REPLACE(_path,"[","t")
+		_backup = REPLACE(_backup,"]","t")
+		_backup = REPLACE(_backup,"(","t")
+		_backup = REPLACE(_backup,")","t")
+		_backup = REPLACE(_backup,"{","t")
+		_backup = REPLACE(_backup,"}","t")
+		_backup = REPLACE(_backup,"'","t")
+		_backup = REPLACE(_backup,",","t")
+		_backup = REPLACE(_backup,"\","t")
+		_backup = REPLACE(_backup,"!","t")
+		_name = REPLACE(_path,"\","/")
+		_list = _list + "\_a[%(_backup)]\_q\![*]%(_name)\_a"+"\_q\n"
+	}
+	--
+	"coucou%(_list)"
+}
+
+OnRemoveBackupRepository
+{
+	_temp = IARRAY
+	foreach backupfolders ; _repository
+	{
+		if _repository != (SPLITPATH(reference2))[1] + (SPLITPATH(reference2))[2]
+		{
+			_temp ,= _repository
+		}
+	}
+	backupfolders = _temp
+	Select.backupRepositories
+}
+
+Select.backupHelp
+{
+	"\0\b2%(lsta)The backup feature would save the data you want somewhere you chose.\n\n[half]You pick up the repository you want to save and the repository where you want to save it as a backup, then you choose your settings about it.\nAzura detects when a new device is plugged in and verify if there is a folder to save. If she finds one, she would ask you before saving your data into the backup folder. She would replace the files already existing depending on your settings. Keep in mind that if there are a lot of folders and files into your device, she would freeze for a while the time to check them all.%(lsto)"
+	--
+	"\n\n[half]\![*]\q[Go back,BackupMenu]     \![*]\q[Nevermind,close]"
+}
+
+Select.backupSettings
+{
+	"\0* Mmh ?\w7 Changing your backup settings ?\w7 Here are your current ones.\_q\n\n[half]"
+	--
+	"\![*]\q[Check only specific ports,checkPorts]\n        \f[italic,true](currently "
+	--
+	if checkbackupport
+	{
+		"yes"
+	}
+	else
+	{
+		"no"
+	}
+	--
+	")\f[italic,false]\n/
+	\![*]\q[Check only specific repositories,checkFolders]\n        \f[italic,true](currently "
+	--
+	if checkbackupfolder
+	{
+		"yes"
+	}
+	else
+	{
+		"no"
+	}
+	--
+	")\f[italic,false]\n/
+	\![*]\q[Check the devices authomatically,autoBackup]\n        \f[italic,true](currently "
+	--
+	if autobackup
+	{
+		"yes"
+	}
+	else
+	{
+		"no"
+	}
+	--
+	")\f[italic,false]\n\n[half]\![*]\q[Go back,BackupMenu]     \![*]\q[Nevermind,close]"
+}
+
+Select.checkPorts
+{
+	if checkbackupport
+	{
+		checkbackupport = 0
+		"\0* Ok,\w5 I will check all the ports of your computer."
+	}
+	else
+	{
+		checkbackupport = 1
+		"\0* Ok,\w5 I will check only some ports of your computer."
+	}
+	
+}
+
+Select.checkFolders
+{
+	if checkbackupfolder
+	{
+		checkbackupfolder = 0
+		"\0* Ok,\w5 I will check all the repositories.\e"
+	}
+	else
+	{
+		checkbackupfolder = 1
+		"\0* Ok,\w5 I will check only some specific repositories.\e"
+	}
+}
+
+Select.autoBackup
+{
+	if autobackup
+	{
+		autobackup = 0
+		"\0* Ok,\w5 I let you ask me to search a repository to save.\e"
+	}
+	else
+	{
+		autobackup = 1
+		"\0* Ok,\w5 I will search myself the repositories to save.\e"
+	}
+}
+
+
+
+//Adding or modifying a backup-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+OnAddBackup
+{
+	sourcepath = reference2
+	if reference0=="folder"
+	{
+		"\0* Where do you want me to save it ?\![open,dialog,folder,--id=OnAddBackup2]"
+	}
+	else
+	{
+		"* I can't do anything with a file.\e"
+	}
+}
+
+OnAddBackup2
+{
+	_path = reference2
+	if reference0
+	{
+		backuppath = (SPLITPATH(_path))[1] + (SPLITPATH(_path))[2]
+		
+		"\0* Thanks,\w5 now I would like to know your preference about the files.\n\n[half]"
+		--
+		"\![*]\q[Compare the dates,backupDate]\n/
+		\![*]\q[Compare the sizes,backupSize]\n/
+		\![*]\q[I choose in case of conflict,backupBothDS]"
+	}
+	else
+	{
+		"* I can't do anything with a file.\e"
+	}
+}
+
+Select.backupDate
+{
+	_f = FOPEN(sourcepath + "\azura_marker.txt","w")
+	_f  = FWRITE(sourcepath + "\azura_marker.txt",backuppath)
+	_f  = FWRITE(sourcepath + "\azura_marker.txt","date")
+	_f  = FWRITE(sourcepath + "\azura_marker.txt","to backup")
+	_f = FCLOSE(sourcepath + "\azura_marker.txt")
+	_tempsource = REPLACE(sourcepath,"\","/")
+	_tempbackup = REPLACE(backuppath,"\","/")
+	"\0* I will resume a bit.\w7 I will copy all the things in '%(_tempsource)' into '%(_tempbackup)' when you ask me,\w5 and replace the files already existing depending on the date.\w7 Do you want to change anything ?\n\n[half]"
+	--
+	"\![*]\q[Something is wrong,changeAzuraMarker]\n\![*]\q[Everything is right,BackupMenu]\n\![*]\q[Do it now please,doBackupImmediately]"
+}
+
+Select.backupSize
+{
+	_f = FOPEN(sourcepath + "\azura_marker.txt","w")
+	_f  = FWRITE(sourcepath + "\azura_marker.txt",backuppath)
+	_f  = FWRITE(sourcepath + "\azura_marker.txt","size")
+	_f  = FWRITE(sourcepath + "\azura_marker.txt","to backup")
+	_f = FCLOSE(sourcepath + "\azura_marker.txt")
+	_tempsource = REPLACE(sourcepath,"\","/")
+	_tempbackup = REPLACE(backuppath,"\","/")
+	"\0* I will resume a bit.\w7 I will copy all the things in '%(_tempsource)' into '%(_tempbackup)' when you ask me,\w5 and replace the files already existing depending on the size.\w7 Do you want to change anything ?\n\n[half]"
+	--
+	"\![*]\q[Something is wrong,changeAzuraMarker]\n\![*]\q[Everything is right,BackupMenu]\n\![*]\q[Do it now please,doBackupImmediately]"
+}
+
+Select.backupBothDS
+{
+	_f = FOPEN(sourcepath + "\azura_marker.txt","w")
+	_f  = FWRITE(sourcepath + "\azura_marker.txt",backuppath)
+	_f  = FWRITE(sourcepath + "\azura_marker.txt","both")
+	_f  = FWRITE(sourcepath + "\azura_marker.txt","date and size")
+	_f = FCLOSE(sourcepath + "\azura_marker.txt")
+	_tempsource = REPLACE(sourcepath,"\","/")
+	_tempbackup = REPLACE(backuppath,"\","/")
+	"\0* I will resume a bit.\w7 I will copy all the things in '%(_tempsource)' into '%(_tempbackup)' when you ask me,\w5 and ask you when there is a conflict between two files.\w7 Do you want to change anything ?\n\n[half]"
+	--
+	"\![*]\q[Something is wrong,changeAzuraMarker]\n\![*]\q[Everything is right,BackupMenu]\n\![*]\q[Do it now please,doBackupImmediately]"
+}
+
+Select.doBackupImmediately
+{
+	conflictlist = IARRAY
+	conflictlist ,= Backup(sourcepath)
+	if "%(conflictlist)" != ""
+	{
+		HandleConflicts
+	}
+	else
+	{
+		"\0* Done.\e"
+	}
+}
+
+Select.changeAzuraMarker
+{
+	_tempsource = REPLACE(sourcepath,"\","/")
+	_tempsource = REPLACE(sourcepath,"//","/")
+	_f = FOPEN(sourcepath + "\azura_marker.txt","r")
+	_f  = FREAD(sourcepath + "\azura_marker.txt")
+	_backup = _f
+	_tempbackup = REPLACE(_backup,"\","/")
+	_tempbackup = REPLACE(_backup,"//","/")
+	_f  = FREAD(sourcepath + "\azura_marker.txt")
+	_reference = _f
+	_f  = FREAD(sourcepath + "\azura_marker.txt")
+	_direction = _f
+	_f = FCLOSE(sourcepath + "\azura_marker.txt")
+	"\0* The folder we're speaking of is '%(_tempsource)'. Here are the settings about it.\n\n[half]\_q"
+	--
+	"\![*]\q[Change the other repository,changeBackupRepository]\n        \f[italic,true](currently '%(_tempbackup)')\f[italic,false]/
+	\n\![*]\q[Change what is used,changeBackupReference]\n        \f[italic,true]"
+	--
+	if _reference == "date and size"
+	{
+		"(you're asked if conflict between size and date)"
+	}
+	else
+	{
+		"(currently the %(_reference))"
+	}
+	--
+	"\f[italic,false]\n\![*]\q[Change the direction of saving,changeBackupDirection]\n        \f[italic,true]"
+	--
+	if _direction == "to backup"
+	{
+		"('%(_tempbackup)' is overwritten by the other)"
+	}
+	elseif _direction == "from backup"
+	{
+		"('%(_tempbackup)' overwrites the other)"
+	}
+	elseif _direction == "synchronize"
+	{
+		"(the file kept will be in both repositories)"
+	}
+	--
+	"\f[italic,false]\n\n[half]\![*]\q[Go back,BackupMenu]     \![*]\q[Nevermind,close]"
+}
+
+Select.changeBackupRepository
+{
+	"\0* What is the new folder ?\![open,dialog,folder,--id=OnChangeBackupRepository]"
+}
+
+
+
+OnChangeBackupRepository
+{
+	_f = FOPEN(sourcepath + "\azura_marker.txt","r")
+	_f  = FREAD(sourcepath + "\azura_marker.txt")
+	_f  = FREAD(sourcepath + "\azura_marker.txt")
+	_reference = _f
+	_f  = FREAD(sourcepath + "\azura_marker.txt")
+	_direction = _f
+	_f = FCLOSE(sourcepath + "\azura_marker.txt")
+	_f = FDEL(sourcepath + "\azura_marker.txt")
+	
+	_f = FOPEN(sourcepath + "\azura_marker.txt","w")
+	_f  = FWRITE(sourcepath + "\azura_marker.txt",reference2)
+	_f  = FWRITE(sourcepath + "\azura_marker.txt",_reference)
+	_f  = FWRITE(sourcepath + "\azura_marker.txt",_direction)
+	_f = FCLOSE(sourcepath + "\azura_marker.txt")
+}
+
+Select.changeBackupReference
+{
+	"\0* What do you want for your files ?\_q\n\n[half]"
+	--
+	"\![*]\q[The date is more important,backupReferenceDate]\n/
+	\![*]\q[The size is more important,backupReferenceSize]\n/
+	\![*]\q[Let me chose in case of conflict,backupReferenceBoth]"
+}
+
+Select.backupReferenceDate
+{
+	_f = FOPEN(sourcepath + "\azura_marker.txt","r")
+	_f  = FREAD(sourcepath + "\azura_marker.txt")
+	_backup = _f
+	_f  = FREAD(sourcepath + "\azura_marker.txt")
+	_f  = FREAD(sourcepath + "\azura_marker.txt")
+	_direction = _f
+	_f = FCLOSE(sourcepath + "\azura_marker.txt")
+	_f = FDEL(sourcepath + "\azura_marker.txt")
+	
+	_f = FOPEN(sourcepath + "\azura_marker.txt","w")
+	_f  = FWRITE(sourcepath + "\azura_marker.txt",_backup)
+	_f  = FWRITE(sourcepath + "\azura_marker.txt","date")
+	_f  = FWRITE(sourcepath + "\azura_marker.txt",_direction)
+	_f = FCLOSE(sourcepath + "\azura_marker.txt")
+}
+
+Select.backupReferenceSize
+{
+	_f = FOPEN(sourcepath + "\azura_marker.txt","r")
+	_f  = FREAD(sourcepath + "\azura_marker.txt")
+	_backup = _f
+	_f  = FREAD(sourcepath + "\azura_marker.txt")
+	_f  = FREAD(sourcepath + "\azura_marker.txt")
+	_direction = _f
+	_f = FCLOSE(sourcepath + "\azura_marker.txt")
+	_f = FDEL(sourcepath + "\azura_marker.txt")
+	
+	_f = FOPEN(sourcepath + "\azura_marker.txt","w")
+	_f  = FWRITE(sourcepath + "\azura_marker.txt",_backup)
+	_f  = FWRITE(sourcepath + "\azura_marker.txt","size")
+	_f  = FWRITE(sourcepath + "\azura_marker.txt",_direction)
+	_f = FCLOSE(sourcepath + "\azura_marker.txt")
+}
+
+Select.backupReferenceBoth
+{
+	_f = FOPEN(sourcepath + "\azura_marker.txt","r")
+	_f  = FREAD(sourcepath + "\azura_marker.txt")
+	_backup = _f
+	_f  = FREAD(sourcepath + "\azura_marker.txt")
+	_f  = FREAD(sourcepath + "\azura_marker.txt")
+	_direction = _f
+	_f = FCLOSE(sourcepath + "\azura_marker.txt")
+	_f = FDEL(sourcepath + "\azura_marker.txt")
+	
+	_f = FOPEN(sourcepath + "\azura_marker.txt","w")
+	_f  = FWRITE(sourcepath + "\azura_marker.txt",_backup)
+	_f  = FWRITE(sourcepath + "\azura_marker.txt","date and size")
+	_f  = FWRITE(sourcepath + "\azura_marker.txt",_direction)
+	_f = FCLOSE(sourcepath + "\azura_marker.txt")
+}
+
+Select.changeBackupDirection
+{
+	"\0* What do you want for your folder ?\_q\n\n[half]"
+	--
+	"\![*]\q[Save the data to the backup,backupDirectionTo]\n/
+	\![*]\q[Restore the data from the backup,backupDirectionFrom]\n/
+	\![*]\q[Synchonize the data of the two folders,backupDirectionSync]"
+}
+
+Select.backupDirectionTo
+{
+	_f = FOPEN(sourcepath + "\azura_marker.txt","r")
+	_f  = FREAD(sourcepath + "\azura_marker.txt")
+	_backup = _f
+	_f  = FREAD(sourcepath + "\azura_marker.txt")
+	_reference = _f
+	_f  = FREAD(sourcepath + "\azura_marker.txt")
+	_f = FCLOSE(sourcepath + "\azura_marker.txt")
+	_f = FDEL(sourcepath + "\azura_marker.txt")
+	
+	_f = FOPEN(sourcepath + "\azura_marker.txt","w")
+	_f  = FWRITE(sourcepath + "\azura_marker.txt",_backup)
+	_f  = FWRITE(sourcepath + "\azura_marker.txt",_reference)
+	_f  = FWRITE(sourcepath + "\azura_marker.txt","to backup")
+	_f = FCLOSE(sourcepath + "\azura_marker.txt")
+	
+}
+
+Select.backupDirectionFrom
+{
+	_f = FOPEN(sourcepath + "\azura_marker.txt","r")
+	_f  = FREAD(sourcepath + "\azura_marker.txt")
+	_backup = _f
+	_f  = FREAD(sourcepath + "\azura_marker.txt")
+	_reference = _f
+	_f  = FREAD(sourcepath + "\azura_marker.txt")
+	_f = FCLOSE(sourcepath + "\azura_marker.txt")
+	_f = FDEL(sourcepath + "\azura_marker.txt")
+	
+	_f = FOPEN(sourcepath + "\azura_marker.txt","w")
+	_f  = FWRITE(sourcepath + "\azura_marker.txt",_backup)
+	_f  = FWRITE(sourcepath + "\azura_marker.txt",_reference)
+	_f  = FWRITE(sourcepath + "\azura_marker.txt","from backup")
+	_f = FCLOSE(sourcepath + "\azura_marker.txt")
+}
+
+Select.backupDirectionSync
+{
+	_f = FOPEN(sourcepath + "\azura_marker.txt","r")
+	_f  = FREAD(sourcepath + "\azura_marker.txt")
+	_backup = _f
+	_f  = FREAD(sourcepath + "\azura_marker.txt")
+	_reference = _f
+	_f  = FREAD(sourcepath + "\azura_marker.txt")
+	_f = FCLOSE(sourcepath + "\azura_marker.txt")
+	_f = FDEL(sourcepath + "\azura_marker.txt")
+	
+	_f = FOPEN(sourcepath + "\azura_marker.txt","w")
+	_f  = FWRITE(sourcepath + "\azura_marker.txt",_backup)
+	_f  = FWRITE(sourcepath + "\azura_marker.txt",_reference)
+	_f  = FWRITE(sourcepath + "\azura_marker.txt","synchronize")
+	_f = FCLOSE(sourcepath + "\azura_marker.txt")
+}
+
+
+
+//Doing the backup-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+SearchBackup
+{
+	_directory = _argv[0]
+	_paths = IARRAY
+	_temppaths = FENUM(_directory)
+	if _temppaths != ""
+	{
+		_paths = SPLIT(_temppaths,",")
+	}
+	
+	_list = ""
+	if ASEARCH("azura_marker.txt",_paths) != -1
+	{
+		_f = FOPEN(_directory+"\azura_marker.txt","r")
+		_p = FREAD(_directory+"\azura_marker.txt")
+		_f = FCLOSE(_directory+"\azura_marker.txt")
+		if (FATTRIB(_p))[2] == 1
+		{
+			backupfound ,= "%(_directory)"
+			//backupfound ,= "oui"
+		}
+		else
+		{	
+			//If the backup doesn't exist
+			/*
+			_paths = SPLIT(FENUM(_f),",")
+			for _i=0 ; _i< ARRAYSIZE(_paths) ; _i++
+			{
+				_paths[_i] = _f + _paths[_i]
+			}
+			//_backup = SearchOtherBackups(_f,_directory,_paths)
+			if "%(_backup)" != ""
+			{
+				_list ,= _backup
+			}
+			*/
+			//backupfound ,= "non"
+			_p = SPLITPATH(_p)[1] + SPLITPATH(_p)[2]
+			if (FATTRIB("C:" + _p))[2] == 1
+			{
+				backupfound ,= "%(_directory)"
+			}
+			elseif (FATTRIB("D:" + _p))[2] == 1
+			{
+				backupfound ,= "%(_directory)"
+			}
+			elseif (FATTRIB("E:" + _p))[2] == 1
+			{
+				backupfound ,= "%(_directory)"
+			}
+			elseif (FATTRIB("F:" + _p))[2] == 1
+			{
+				backupfound ,= "%(_directory)"
+			}
+			elseif (FATTRIB("G:" + _p))[2] == 1
+			{
+				backupfound ,= "%(_directory)"
+			}
+			elseif (FATTRIB("H:" + _p))[2] == 1
+			{
+				backupfound ,= "%(_directory)"
+			}
+			elseif (FATTRIB("I:" + _p))[2] == 1
+			{
+				backupfound ,= "%(_directory)"
+			}
+			elseif (FATTRIB("J:" + _p))[2] == 1
+			{
+				backupfound ,= "%(_directory)"
+			}
+			elseif (FATTRIB("K:" + _p))[2] == 1
+			{
+				backupfound ,= "%(_directory)"
+			}
+			elseif (FATTRIB("L:" + _p))[2] == 1
+			{
+				backupfound ,= "%(_directory)"
+			}
+			elseif (FATTRIB("M:" + _p))[2] == 1
+			{
+				backupfound ,= "%(_directory)"
+			}
+			elseif (FATTRIB("N:" + _p))[2] == 1
+			{
+				backupfound ,= "%(_directory)"
+			}
+			elseif (FATTRIB("O:" + _p))[2] == 1
+			{
+				backupfound ,= "%(_directory)"
+			}
+			elseif (FATTRIB("P:" + _p))[2] == 1
+			{
+				backupfound ,= "%(_directory)"
+			}
+		}
+		
+	}
+	else
+	{
+		foreach _paths ; _path
+		{
+			if (FATTRIB(_directory+_path))[2] == 1
+			{
+	
+				_temp = _directory+_path
+				if "%(_path)" != "" && "%(_path)" != "\" && "%(_path)" != "/"
+				{
+					SearchBackup(_temp)
+					
+					
+				}
+			
+				
+			}
+		}
+		
+	}
+}
+
+SearchOtherBackups
+{
+	_directories = IARRAY
+	_directories = _argv
+	_list = IARRAY
+	foreach _directories ; _directory
+	{
+		if (FATTRIB(_directory))[2] == 1
+		{
+			if _directory != _directories[0] && _directory != _directories[1] && _directories[0] _in_ _directory
+			{
+				
+				_list ,= _directories[1]
+			}
+			elseif _directory != _directories[0] && _directory != _directories[1]
+			{
+				_temppaths = FENUM(_directory)
+				_paths = IARRAY
+				if _temppaths != ""
+				{
+					_paths = SPLIT(_temppaths,",")
+				}
+				
+				for _i=0 ; _i< ARRAYSIZE(_paths) ; _i++
+				{
+					_paths[_i] = _directory + _paths[_i]
+				}
+				_list ,= SearchOtherBackups(_directories[0],_directories[1],_paths)
+			}
+		}
+	}
+	_list
+}
+
+
+
+Backup
+{
+	_conflictlist = IARRAY
+	_listrepositories = IARRAY
+	_listfiles = IARRAY
+	_source = _argv[0]
+	_f = FOPEN(_source+"\azura_marker.txt","r")
+	_f = FREAD(_source+"\azura_marker.txt")
+	_backup = SPLITPATH(_f)[1] + SPLITPATH(_f)[2]
+	_f = FREAD(_source+"\azura_marker.txt")
+	_reference = _f
+	_f = FREAD(_source+"\azura_marker.txt")
+	_direction = _f
+	_f = FCLOSE(_source+"\azura_marker.txt")
+	
+	if (FATTRIB("C:" + _backup))[2] == 1
+	{
+		_backup = "C:" + _backup
+	}
+	elseif (FATTRIB("D:" + _backup))[2] == 1
+	{
+		_backup = "D:" + _backup
+	}
+	elseif (FATTRIB("E:" + _backup))[2] == 1
+	{
+		_backup = "E:" + _backup
+	}
+	elseif (FATTRIB("F:" + _backup))[2] == 1
+	{
+		_backup = "F:" + _backup
+	}
+	elseif (FATTRIB("G:" + _backup))[2] == 1
+	{
+		_backup = "G:" + _backup
+	}
+	elseif (FATTRIB("H:" + _backup))[2] == 1
+	{
+		_backup = "H:" + _backup
+	}
+	elseif (FATTRIB("I:" + _backup))[2] == 1
+	{
+		_backup = "I:" + _backup
+	}
+	elseif (FATTRIB("J:" + _backup))[2] == 1
+	{
+		_backup = "J:" + _backup
+	}
+	elseif (FATTRIB("K:" + _backup))[2] == 1
+	{
+		_backup = "K:" + _backup
+	}
+	elseif (FATTRIB("L:" + _backup))[2] == 1
+	{
+		_backup = "L:" + _backup
+	}
+	elseif (FATTRIB("M:" + _backup))[2] == 1
+	{
+		_backup = "M:" + _backup
+	}
+	elseif (FATTRIB("N:" + _backup))[2] == 1
+	{
+		_backup = "N:" + _backup
+	}
+	elseif (FATTRIB("O:" + _backup))[2] == 1
+	{
+		_backup = "O:" + _backup
+	}
+	elseif (FATTRIB("P:" + _backup))[2] == 1
+	{
+		_backup = "P:" + _backup
+	}
+	
+	if _direction == "from backup"
+	{
+		_temp = _backup
+		_backup = _source
+		_source = _temp
+	}
+	
+	_paths = IARRAY
+	_temppaths = FENUM(_source)
+	if _temppaths != ""
+	{
+		_paths = SPLIT(_temppaths,",")
+	}
+	
+	foreach _paths ; _path
+	{
+		if (FATTRIB(_source+_path))[2] == 1
+		{
+			_listrepositories ,= _source + _path
+			
+		}
+		elseif _path != "azura_marker.txt"
+		{
+			_listfiles ,= _source + "\" + _path
+		}
+	}
+	_temprepositories = IARRAY
+	_temprepositories = _listrepositories
+	foreach _temprepositories ; _repository
+	{
+		_listrepositories ,= ListRepositories(_repository)
+		_listfiles ,= ListFiles(_repository)
+	}
+
+	foreach _listrepositories ; _repository
+	{
+		if (FATTRIB(REPLACE(_repository,_source,_backup)))[2] != 1
+		{
+			_r = MKDIR(REPLACE(_repository,_source,_backup))
+		}
+	}
+	
+	
+	foreach _listfiles ; _file
+	{
+		_s  = FSIZE(REPLACE(_file,_source,_backup))
+
+		if _file != ""
+		{
+			if _s < 0
+			{
+				_f = FDEL(REPLACE(_file,_source,_backup))
+				_f = FCOPY(_file,REPLACE(REPLACE(_file,_source,_backup),(SPLITPATH(_file))[2] + (SPLITPATH(_file))[3],""))
+			}
+			elseif _s <= FSIZE(_file) && (FATTRIB(_file))[10] >= (FATTRIB(REPLACE(_file,_source,_backup)))[10]
+			{
+				_f = FDEL(REPLACE(_file,_source,_backup))
+				_f = FCOPY(_file,REPLACE(REPLACE(_file,_source,_backup),(SPLITPATH(_file))[2] + (SPLITPATH(_file))[3],""))
+			}
+			elseif _reference == "size" && _s <= FSIZE(_file)
+			{
+				_f = FDEL(REPLACE(_file,_source,_backup))
+				_f = FCOPY(_file,REPLACE(REPLACE(_file,_source,_backup),(SPLITPATH(_file))[2] + (SPLITPATH(_file))[3],""))
+			}
+			elseif _reference == "date" && (FATTRIB(_file))[10] >= (FATTRIB(REPLACE(_file,_source,_backup)))[10]
+			{
+				_f = FDEL(REPLACE(_file,_source,_backup))
+				_f = FCOPY(_file,REPLACE(REPLACE(_file,_source,_backup),(SPLITPATH(_file))[2] + (SPLITPATH(_file))[3],""))
+			}
+			elseif _reference == "date and size" && _s != FSIZE(_file) && (FATTRIB(_file))[10] != (FATTRIB(REPLACE(_file,_source,_backup)))[10]
+			{
+				_temp = REPLACE(_file,_source,_backup)
+				if _direction == "synchronize"
+				{
+					_conflictlist ,= "%(_file),%(_temp),sync"
+				}
+				else
+				{
+					_conflictlist ,= "%(_file),%(_temp)"
+				}
+				
+			}
+
+			//_conflictlist ,= (FATTRIB(REPLACE(_file,_source,_backup)))
+			if _direction == "synchronize"
+			{
+				sourcepath = _source
+				Select.backupDirectionFrom
+				_uselesslist = Backup(_source)
+				Select.backupDirectionSync
+				
+			}
+		}
+		
+
+	}
+	_conflictlist
+}
+
+
+Select.backupFile
+{
+	"\0* Alright.\n"
+	--
+	_list = IARRAY
+	_f = FDEL(backupconflict[1])
+	_f = FCOPY(backupconflict[0],REPLACE(backupconflict[1],(SPLITPATH(backupconflict[1]))[2] + (SPLITPATH(backupconflict[1]))[3],""))
+	foreach conflictlist ; _conflict
+	{
+		_temp = IARRAY
+		_temp = (backupconflict[1],backupconflict[0])
+		if _conflict != backupconflict && _conflict != _temp
+		{
+			_list ,= _conflict
+		}
+	}
+	if ARRAYSIZE(_list) > 0
+	{
+		conflictlist = _list
+		--
+		HandleConflicts
+	}
+	else
+	{
+		"\0* All the conflicts have been solved.\e"
+	}
+}
+
+Select.backupBackup
+{
+	"\0* Alright.\n"
+	--
+	_list = IARRAY
+	foreach conflictlist ; _conflict
+	{
+		_temp = IARRAY
+		_temp = (backupconflict[1],backupconflict[0])
+		if _conflict != backupconflict && _conflict != _temp
+		{
+			_list ,= _conflict
+		}
+	}
+	if ARRAYSIZE(_list) > 0
+	{
+		conflictlist = _list
+		--
+		HandleConflicts
+	}
+	else
+	{
+		"\0* All the conflicts have been solved.\e"
+	}
+	
+}
+
+Select.backupBackupSync
+{
+	"\0* Alright.\n"
+	--
+	_list = IARRAY
+	_f = FDEL(backupconflict[0])
+	_f = FCOPY(backupconflict[1],REPLACE(backupconflict[0],(SPLITPATH(backupconflict[0]))[2] + (SPLITPATH(backupconflict[0]))[3],""))
+	foreach conflictlist ; _conflict
+	{
+		_temp = IARRAY
+		_temp = (backupconflict[1],backupconflict[0])
+		if _conflict != backupconflict && _conflict != _temp
+		{
+			_list ,= _conflict
+		}
+	}
+	if ARRAYSIZE(_list) > 0
+	{
+		conflictlist = _list
+		--
+		HandleConflicts
+	}
+	else
+	{
+		"\0* All the conflicts have been solved.\e"
+	}
+}
+
+ListRepositories
+{
+	
+	_listrepositories = IARRAY
+	_templistrepositories = IARRAY
+	_source = _argv[0]
+	_paths = IARRAY
+	
+	if _source != ""
+	{
+		_temppaths = FENUM(_source)[0]
+		if _temppaths != ""
+		{
+			_paths = SPLIT(_temppaths,",")
+		}
+	}
+	
+	foreach _paths ; _path
+	{
+		if (FATTRIB(_source+_path))[2] == 1 && _path != "" 
+		{
+			_listrepositories ,= _source + _path
+			
+		}
+	}
+	templistrepositories = _listrepositories
+	
+	foreach _templistrepositories ; _repository
+	{
+		if _repository != ""
+		{
+			_listrepositories ,= ListRepositories(_repository)
+		}
+		
+	}
+	
+	_listrepositories
+	
+}
+
+ListFiles
+{
+	_listrepositories = IARRAY
+	_listfiles = IARRAY
+	_source = _argv[0]
+	_paths = IARRAY
+	truc++
+	much,= _source
+	//much ,= _source
+	machin = much[truc-1]
+	chose = ARRAYSIZE(much)
+	//chose2 = truc - truc
+	SAVEVAR
+	
+	//_source = "C:/Users/lisou/Documents/TP info ensisa/\2A\cryptographie\securite\docs\api\javax\management\remote\rmi\class-use"
+	if _source != ""
+	{
+		_temppaths = FENUM(_source)[0]
+		if _temppaths != ""
+		{
+			_paths = SPLIT(_temppaths,",")
+		}
+	}
+		foreach _paths ; _path
+		{
+			if (FATTRIB(_source+_path))[2] != 1 && _path != "azura_marker.txt"
+			{
+				_listfiles ,= _source + "\" + _path
+			}
+			elseif (FATTRIB(_source+_path))[2] == 1 && _path != "" 
+			{
+				_listrepositories ,= _source + _path
+				
+			}
+		}
+		
+		if ARRAYSIZE(_listrepositories) > 0
+		{
+			foreach _listrepositories ; _repository
+			{
+				_listfiles ,= ListFiles(_repository)
+				
+			}
+		}
+	
+	_listfiles	
+}
+
+ListBackup
+{
+	backupfound = IARRAY
+	if checkbackupport
+	{
+		foreach backupports ; _port
+		{
+			if checkbackupfolder
+			{
+				foreach backupfolders ; _repository
+				{
+					if (FATTRIB(_port + _repository))[2] == 1
+					{
+						SearchBackup(_port + _repository) 
+					}
+				}
+			}
+			else
+			{
+				SearchBackup(_port)
+			}
+		}
+	}
+	elseif checkbackupfolder
+	{
+		_backup = IARRAY
+		foreach backupfolders ; _repository
+		{
+			if (FATTRIB("C:" + _repository))[2] == 1
+			{
+				SearchBackup("C:" + _repository)
+			}
+			
+			if (FATTRIB("D:" + _repository))[2] == 1
+			{
+				SearchBackup("D:" + _repository)
+			}
+			if (FATTRIB("E:" + _repository))[2] == 1
+			{
+				SearchBackup("E:" + _repository)
+			}
+
+			if (FATTRIB("F:" + _repository))[2] == 1
+			{
+				SearchBackup("F:" + _repository)
+			}
+			
+			if (FATTRIB("G:" + _repository))[2] == 1
+			{
+				SearchBackup("G:" + _repository)
+			}
+		
+			if (FATTRIB("H:" + _repository))[2] == 1
+			{
+				SearchBackup("H:" + _repository)
+			}
+			
+			if (FATTRIB("I:" + _repository))[2] == 1
+			{
+				SearchBackup("I:" + _repository)
+			}
+			
+			if (FATTRIB("J:" + _repository))[2] == 1
+			{
+				SearchBackup("J:" + _repository)
+			}
+			
+			if (FATTRIB("K:" + _repository))[2] == 1
+			{
+				SearchBackup("K:" + _repository)
+			}
+			
+			if (FATTRIB("L:" + _repository))[2] == 1
+			{
+				SearchBackup("L:" + _repository)
+			}
+			
+			if (FATTRIB("M:" + _repository))[2] == 1
+			{
+				SearchBackup("M:" + _repository)
+			}
+			
+			if (FATTRIB("N:" + _repository))[2] == 1
+			{
+				SearchBackup("N:" + _repository)
+			}
+			
+			if (FATTRIB("O:" + _repository))[2] == 1
+			{
+				SearchBackup("O:" + _repository)
+			}
+			
+			if (FATTRIB("P:" + _repository))[2] == 1
+			{
+				SearchBackup("P:" + _repository)
+			}
+			
+		}
+	}
+	else
+	{
+		_backup = IARRAY
+		if (FATTRIB("C:"))[2] == 1
+		{
+			SearchBackup("C:")
+		}
+		
+		if (FATTRIB("D:"))[2] == 1
+		{
+			SearchBackup("D:")
+		}
+	
+		if (FATTRIB("E:"))[2] == 1
+		{
+			SearchBackup("E:")
+		}
+		
+		if (FATTRIB("F:"))[2] == 1
+		{
+			SearchBackup("F:")
+		}
+	
+		if (FATTRIB("G:"))[2] == 1
+		{
+			SearchBackup("G:")
+		}
+	
+		if (FATTRIB("H:"))[2] == 1
+		{
+			SearchBackup("H:")
+		}
+		
+		if (FATTRIB("I:"))[2] == 1
+		{
+			SearchBackup("I:")
+		}
+	
+		if (FATTRIB("J:"))[2] == 1
+		{
+			SearchBackup("J:")
+		}
+	
+		if (FATTRIB("K:"))[2] == 1
+		{
+			SearchBackup("K:")
+		}
+	
+		if (FATTRIB("L:"))[2] == 1
+		{
+			SearchBackup("L:")
+		}
+		
+		if (FATTRIB("M:"))[2] == 1
+		{
+			SearchBackup("M:")
+		}
+		
+		if (FATTRIB("N:"))[2] == 1
+		{
+			SearchBackup("N:")
+		}
+		
+		if (FATTRIB("O:"))[2] == 1
+		{
+			SearchBackup("O:")
+		}
+		
+		if (FATTRIB("P:"))[2] == 1
+		{
+			SearchBackup("P:")
+		}
+		
+	}
+}

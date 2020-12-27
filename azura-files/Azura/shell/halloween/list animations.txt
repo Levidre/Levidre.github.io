@@ -1,0 +1,59 @@
+9-19 eyes
+16-17 wings
+20-23 29 right arm
+30-33 38-39 two arms
+40-42 49 left arm
+50-62 spaghettis
+70-89 battle 
+
+
+
+0-10 wings
+11-30 eyes
+30-40 eyebrows
+40-50 smile
+
+
+50-70 two arms
+70-85 right arm
+85-100 left arm
+
+
+100-110 tail
+
+
+120 animations (inscluding spaghettis)
+170-192 battle
+
+
+
+
+
+100-109 eyes
+201-204 smile
+300-400 eyebrows
+400-404 left wing
+500-505 right wing
+600-715 animations (+ battle)
+700-715 battle
+790-792 tail
+
+
+1000-1001 position				-1019
+1020-1028 right arm			1040-1070 normal-up:done
+1035-1037 battle right arm	in the right arm normal-up:done
+1039 both arms				1020-1040 already done
+1040-1059 left arm			1070-1099 normal-up:done  
+
+
+
+
+
+1050-1070 two arms
+1070-1085 right arm
+1085-1100 left arm
+
+ordre renommage :  bras en commun
+					bras en synchro
+					bras en plus
+

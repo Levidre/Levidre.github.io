@@ -1,0 +1,109 @@
+//Here are the chains of Azura. Since I want to make a lot of them, I decided to put them in a separated file to not make my aitalk file a big mess.
+
+
+
+///Computer chains-----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+//For when Azura is up.
+computer\e
+{{CHAIN
+
+	if askedanime != 1
+	{
+		"\0\i[2001]\f[italic,true]What is she doing ?\f[italic,false]\i[2002]\e:chain=secondcomputerchain"
+	}
+	else
+	{	
+		"\0\i[2001]\f[italic,true]Is she watching an anime ?\f[italic,false]\i[2002]\e:chain=secondcomputerchain"
+	}
+	--
+	//"\e"
+}}CHAIN
+
+secondcomputerchain
+{{CHAIN
+	if askedanime != 1
+	{
+		"\0\i[2001]\f[italic,true]Is this an anime ?\f[italic,false]\i[2002]"
+		"\0\i[2001]\f[italic,true]She is playing a video game.\f[italic,false]\i[2002]"
+		"\0\i[2001]\f[italic,true]She is watching a movie.\f[italic,false]\i[2002]"
+		"\0\i[2001]\f[italic,true]She is on the undernet.\f[italic,false]\i[2002]"
+	}
+	else
+	{
+		"\0\i[2001]\f[italic,true]Hehe, yes, she's watching an anime.\f[italic,false]\i[2002]"
+		"\0\i[2001]\f[italic,true]No, she is watching a movie.\f[italic,false]\i[2002]"
+		"\0\i[2001]\f[italic,true]No, she is playing a video game.\f[italic,false]\i[2002]"
+		"\0\i[2001]\f[italic,true]She is on the undernet.\f[italic,false]\i[2002]"
+	}
+	--
+	"\e:chain=endcomputerchain"
+	
+}}CHAIN
+
+endcomputerchain
+{{CHAIN
+	if isplayed != 1
+	{	
+		"\0\![embed,OnOCComputer]\i[2001]\f[italic,true]She closes her computer.\f[italic,false]\i[2002]\e:chain=end"
+	}
+	else
+	{
+		"\e:chain=end"
+	}
+
+}}CHAIN
+
+//The drawing chain
+drawingchain\e
+{{CHAIN
+	if issat != 1
+	{
+		"\0\i[2001]\f[italic,true]She is drawing a dragon.\f[italic,true]\i[2002]"
+		"\0\i[2001]\f[italic,true]She is drawing an unicorn.\f[italic,true]\i[2002]"
+		"\0\i[2001]\f[italic,true]She is drawing a horse.\f[italic,true]\i[2002]"
+		"\0\i[2001]\f[italic,true]She is drawing something cute.\f[italic,true]\i[2002]"
+		"\0\i[2001]\f[italic,true]She is drawing a ghost...\f[italic,true]\i[2002]"
+		"\0\i[2001]\f[italic,true]She is drawing a... monster ?\f[italic,true]\i[2002]"
+		--
+		"\e:chain=enddrawingchain"
+	}
+	else
+	{
+		"\0\i[2001]\f[italic,true]She is drawing a dragon.\f[italic,true]\i[2002]"
+		"\0\i[2001]\f[italic,true]She is drawing an unicorn.\f[italic,true]\i[2002]"
+		"\0\i[2001]\f[italic,true]She is drawing a horse.\f[italic,true]\i[2002]"
+		"\0\i[2001]\f[italic,true]She is drawing something cute.\f[italic,true]\i[2002]"
+		"\0\i[2001]\f[italic,true]She is drawing a ghost...\f[italic,true]\i[2002]"
+		"\0\i[2001]\f[italic,true]She is drawing a... monster ?\f[italic,true]\i[2002]"
+		--
+		"\e:chain=nextdrawingchain"
+	}
+}}CHAIN
+
+nextdrawingchain
+{{CHAIN
+	if 1
+	{
+		"\0\i[2001]\f[italic,true]She is doing the background now.\f[italic,false]\i[2002]"
+		"\0\i[2001]\f[italic,true]She is doing the trees and the grass.\f[italic,false]\i[2002]"
+		"\0\i[2001]\f[italic,true]She is so much concentrated on her drawing.\f[italic,false]\i[2002]"
+	}
+	--
+	"\e:chain=enddrawingchain"
+}}CHAIN
+
+enddrawingchain
+{{CHAIN
+	if 1
+	{
+		"\0\![embed,OnDrawing]\i[2001]\f[italic,true]It would be a very nice drawing.\f[italic,false]\i[2002]"
+		"\0\![embed,OnDrawing]\i[2001]\f[italic,true]Looks like she is over with her drawing for now.\f[italic,false]\i[2002]"
+		"\0\![embed,OnDrawing]\i[2001]\f[italic,true]She finished her drawing.\f[italic,false]\i[2002]"
+		"\0\![embed,OnDrawing]* Enough drawing for now,\w5 I think."
+	}
+	--
+	"\e:chain=end"
+	
+}}CHAIN
