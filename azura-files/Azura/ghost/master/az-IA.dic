@@ -3,6 +3,7 @@
 // Organization of sentencesdata : (negation,phrasetype,tense,detsubject,adjsubject,subject,firstprep,detCOD,adjCOD,COD,,secondprep,adjCOI,COI,others)
 //For non french people, COD means object's direct complement, it's the answer of what like the mouse ? the mouse likes cheese. Here the COD is cheese.
 
+
 Select.saysthg
 {
 	"\![leave,passivemode]* What do you want to say to me ?\![open,inputbox,OnRespondInput,-1]\e"

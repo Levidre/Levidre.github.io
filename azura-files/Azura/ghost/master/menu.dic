@@ -154,10 +154,16 @@ MenuRun
 //Would run whatever you want.
 Select.testfunction
 {
-	ParseShell("\master")
+	//ParseShell
+	//ParseShell("\master")
 	--
 	//Select.chooseSurface
-	Select.scanShellMenu
+	//Select.scanShellMenu
+	//OnIntervalStackerMenu
+	_test = IARRAY
+	_test[0] ="test"
+	_nb = ARRAYSIZE(_test)
+	"%(_nb)"
 	//Select.revealself
 	//RemindingStuff
 	//DescriptionList()

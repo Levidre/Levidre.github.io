@@ -19,7 +19,7 @@ OnTranslate
 {
 	_talk = reference0
  	
-	if oncomputer == 1 || iseating >= 2 || isdrawing == 1 || holdobsidian == 1
+	if ((oncomputer == 1 || isdrawing == 1) && issat != 1) || alreadyeat >= 2  || holdobsidian == 1
 	{
 		_talk = REPLACE(_talk,"\i[70]","")
 		_talk = REPLACE(_talk,"\i[71]","")
@@ -39,6 +39,27 @@ OnTranslate
 		_talk = REPLACE(_talk,"\i[96]","")
 		_talk = REPLACE(_talk,"\i[97]","")
 		_talk = REPLACE(_talk,"\i[98]","")
+	}
+	elseif "\s[14]" _in_ _talk
+	{
+		_talk = REPLACE(_talk,"\i[70]","\i[83]")
+		_talk = REPLACE(_talk,"\i[71]","\i[83]")
+		_talk = REPLACE(_talk,"\i[72]","\i[83]")
+		_talk = REPLACE(_talk,"\i[73]","\i[83]")
+		_talk = REPLACE(_talk,"\i[74]","\i[83]")
+		_talk = REPLACE(_talk,"\i[75]","\i[83]")
+		_talk = REPLACE(_talk,"\i[76]","\i[83]")
+		_talk = REPLACE(_talk,"\i[77]","\i[83]")
+		_talk = REPLACE(_talk,"\i[78]","\i[83]")
+		_talk = REPLACE(_talk,"\i[90]","\i[86]")
+		_talk = REPLACE(_talk,"\i[91]","\i[86]")
+		_talk = REPLACE(_talk,"\i[92]","\i[86]")
+		_talk = REPLACE(_talk,"\i[93]","\i[86]")
+		_talk = REPLACE(_talk,"\i[94]","\i[86]")
+		_talk = REPLACE(_talk,"\i[95]","\i[86]")
+		_talk = REPLACE(_talk,"\i[96]","\i[86]")
+		_talk = REPLACE(_talk,"\i[97]","\i[86]")
+		_talk = REPLACE(_talk,"\i[98]","\i[86]")
 	}
 	
    _talk

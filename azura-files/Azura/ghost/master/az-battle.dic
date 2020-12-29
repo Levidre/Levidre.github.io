@@ -10,7 +10,7 @@
 	}
 	else
 	{
-		"\![enter,passivemode]* You want to fight me ? \0\s[11]\w7Ok, \w5I'm ready to fight.\n"
+		"\![enter,passivemode]* You want to fight me ? \0\s[11]\i[32]\i[33]\i[45]\i[18]\i[83]\i[86]\w7Ok, \w5I'm ready to fight.\n"
 	}
 	--
 	"\n[half]\f[italic,true]The HP would be shown in percent.\f[italic,false]\n"

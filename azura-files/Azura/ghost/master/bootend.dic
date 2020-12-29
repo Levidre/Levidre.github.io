@@ -106,6 +106,7 @@ OnFirstBoot
 		hardbattle = 0
 		alreadybackup = 0
 		moodchange = 0
+		metminidev = 0
 		azpose = "\0\s[10]%(smile)"
 		if reference0 == 0 //Don't touch this line.
 		{
@@ -401,6 +402,7 @@ OnInitBootVariables
 	saidgfood = 0
 	rename = 0
 	saw_dusk_dawn = 0
+	checkmirror = 0
 }
 
 //--normalboottalk
@@ -1014,6 +1016,7 @@ OnClose
 	_i = SAORI("saori\mciaudior.dll","stop")
 	_i = UNLOADLIB("saori\mcidonut.dll")
 	_i = UNLOADLIB("saori\mciaudior.dll")
+	SAVEVAR
 	--
 	"\-\e" //this bit of code actually closes and ends the ghost. Because \e is here, you don't have to end each line above with it. Again, this will come up very rarely, so OnClose is an unusual case.
  }
@@ -1166,7 +1169,7 @@ OnShellChanged
 		}
 		elseif battleshell == 1
 		{
-			"\0\s[11]Ok, \w5I'm ready to fight."
+			"\0\s[11]\i[32]\i[33]\i[45]\i[18]\i[83]\i[86]Ok, \w5I'm ready to fight."
 			--
 			UserTurn
 		}

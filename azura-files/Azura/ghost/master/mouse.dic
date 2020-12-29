@@ -614,7 +614,7 @@ MouseDoubleClickSakura
 				{
 					azpose = "\0\s[10]%(smile)"
 				}
-				"%(azpose)\w2"
+				"%(azpose)%(arms)\w2"
 				issat = 0
 			}
 			oncomputer = 0
@@ -632,7 +632,7 @@ MouseDoubleClickSakura
 			}
 			elseif azpunched <= 2
 			{
-				"\0\i[13]\i[49]\i[36]\i[37]\i[179]* Eehhh ! \w6%(azpose)\i[70]\i[40]I did nothing bad.\w7 Why are you mean with me ?"
+				"\0%(azpose)\i[70]\i[13]\i[49]\i[36]\i[37]\i[179]* Eehhh ! \w6%(azpose)\i[90]\i[70]\i[40]I did nothing bad.\w7 Why are you mean with me ?"
 			}
 			elseif azpunched <= 4
 			{

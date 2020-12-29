@@ -7,10 +7,7 @@ ghost/master/moves.dic
 ghost/master/aya5.dll
 ghost/master/aya5.txt
 
-shell/master/surface1021.pna
-shell/master/surface1021.png
-shell/master/surface1022.pna
-shell/master/surface1022.png
+
 shell/master/surface1023.pna
 shell/master/surface1023.png
 shell/master/surface1024.pna
@@ -23,8 +20,6 @@ shell/master/surface1035.pna
 shell/master/surface1035.png
 shell/master/surface1036.pna
 shell/master/surface1036.png
-shell/master/surface1037.pna
-shell/master/surface1037.png
 shell/master/surface1045.pna
 shell/master/surface1045.png
 shell/master/surface1047.pna
@@ -41,8 +36,6 @@ shell/master/surface1059.pna
 shell/master/surface1059.png
 shell/master/surface1520.pna
 shell/master/surface1520.png
-shell/master/surface1521.pna
-shell/master/surface1521.png
 shell/master/surface1522.pna
 shell/master/surface1522.png
 shell/master/surface1523.pna

@@ -25,6 +25,7 @@ dic, menu.dic
 dic, az-saoritest.dic
 dic, az-trueself.dic
 dic, az-serikoparser.dic
+//dic, intervalstacker.dic
 
 dic, word.dic
 dic, commu.dic

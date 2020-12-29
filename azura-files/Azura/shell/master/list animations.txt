@@ -30,7 +30,7 @@
 
 
 100-109 eyes
-201-204 smile
+201-213 smile
 300-400 eyebrows
 400-404 left wing
 500-505 right wing
