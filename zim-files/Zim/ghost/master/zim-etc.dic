@@ -86,7 +86,7 @@ OnDeviceArrival
 Select.AfterUpdate
 {
 	
-	"\0\b2%(defaultpose)\i[2001]("
+	"\0\b2\i[2001]("
 	--
 	"Surfaces fixed and a few dialogues are added."
 	--
@@ -408,7 +408,9 @@ OnUpdateComplete
  	else //if the ghost has updated successfully
 	{
 		updatingghost = 1
-		"\0The update is done,\w5\i[101] whatever it is."
+		"\0%(defaultpose)The update is done,\w5\i[101] whatever it is.\x"
+		--
+		Select.AfterUpdate
 		
  	}
 }
