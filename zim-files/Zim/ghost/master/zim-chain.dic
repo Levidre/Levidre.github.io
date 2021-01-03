@@ -1,0 +1,26 @@
+doomsong1\e
+{{CHAIN
+	{
+		"\0\i[65]\i[52]\1\i[92]Doom doo doom doomdoom...\0\i[68]\i[43]\i[92]\i[101]\i[143]\i[193]\i[127]\i[130]GIR I told you to stop.\1\n\n[half]But I like the Doom song...\e:chain=doomsong2"
+		"\0\i[65]\i[52]\1\i[92]Doom doo doom doomdoom...\0\i[68]\i[43]\i[92]\i[101]\i[143]\i[193]\i[127]\i[130]GIR I told you to stop.\1\n\n[half]But I like the Doom song...\e:chain=end"
+	}
+}}CHAIN
+
+doomsong2
+{{CHAIN
+	"\0\i[65]\i[52]\1\i[92]\i[119]\i[120]Doo doom doom doo...\0\i[96]\i[40]\i[101]\i[133]\i[134]\i[145]\i[195]GIR!!!\i[112]\i[114]\i[123]\i[124] Just stop!\i[101]\i[144]\i[194]\1\n\n[half]\i[92]\i[121]\i[122]Aww....\e:chain=end"
+}}CHAIN
+
+girterrible
+{{CHAIN
+	{
+		"\0Gir,\w5 you're terrible.\1"
+		--
+		"\i[136]\i[137]\i[62]"
+		--
+		if discovered == 1
+		{
+			"I know."
+		}
+	}
+}}CHAIN

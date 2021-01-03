@@ -1,0 +1,1402 @@
+﻿//---------------------------Booting and Ending--------------------------
+
+//This .dic file is set aside for booting and ending dialogue, as well as a few other functions. Make sure to read the walkthrough (http://www.ashido.com/ukagaka/walkthrough.html), in particular the page about SakuraScript, for more details about how to properly format ghost dialogue! I don't want to have to repeat myself in every .dic file we go through, we'll both get tired of that by the time we're through, haha.
+//I will however reiterate that you should be editing these in Notepad++, and in particular, you should set the Language to C to properly highlight all the text. It will make things A LOT EASIER for you, trust me! It will also help you keep track of your brackets in case you forget some. If you click on a line with a bracket in Notepad++, it should highlight where the other bracket ends, or turn purple if there's no finishing bracket (which you should definitely fix!)
+//It will also highlight my commented lines in green, so you'll know where they are. Any line beginning with // is a commented line that the code will not read. It's just for your reference!
+
+//Much of this file you will only have to set up once, so take heart!
+
+
+//*********************Advanced User Info*******************************
+//These text boxes are meant for those who have an interest in expanding or using more complicated functions in their ghost. Also for my own reference in the future since I plan on using this template too, haha. If you have no interest in any of this and just want to keep things as simple as possible, feel free to skip these boxes.
+
+//--A Note about Functions--
+//A function that begins with On, such as OnFirstBoot here, can be called from anywhere in any .dic file by using \![raise]. A function that does NOT, however, can only be called within that .dic file, I believe. You can create your own On functions all over the place if you want, there's just a difference between OnDoodlebop and Doodlebop, if you get me. See the walkthrough page about coding for more about creating functions.
+//***********************************************************************
+OnInitialize
+{
+
+}
+
+//--OnFirstBoot--
+
+//OnFirstBoot is, as you can probably guess, what happens when your user first boots up your ghost. This is where you'll want to set up an introduction and ask your user for information your ghost will need, like their name and what pronouns they'll be using. This will only run the first time they are booted!
+
+//*********************Advanced User Info*******************************
+//Because this only runs once and under an odd set of circumstances, it can be hard to test if this function is working properly. Trying to run the entire function using \![raise,OnFirstBoot] will instead bring up your alternate dialogue, so sadly you can't check it that way. Because OnFirstBoot has the / slash I talked about in the walkthrough page on scripting, you can't run it very easily through Script Input either unless you do so in pieces, and you won't be able to check your menu options. You CAN however paste it all into your Test Variable in menu.dic, so you can try that instead to test it properly. Only paste your dialogue/choices, not the values, and make sure to delete it from the test variable when you're through.
+
+//If you're going to be adding new variables and values and such, make sure you define them all in OnFirstBoot! You can make any value you want, but it has to equal SOMEthing to exist at first. Then you can do whatever with it.
+//***********************************************************************
+
+
+OnFirstBoot
+{
+//OnFirstBoot begins with some code at first to define some values your ghost will be using. I'll briefly touch on what they are, but for the most part you should not need to edit any of these and you can safely ignore most of them (except nowshell if you've changed your shell folder's name from default_shell). Definitely don't delete them unless you know what you're doing.
+
+	dayslot = GetDaySlot
+	timeslot = GetTimeSlot
+ 	lastTalk = "" //This is part of how chained conversations work (see aitalk.dic).
+	passmin = 0 
+	passsec = 0 // These two keep track of the time.
+	passhour = 0
+	
+	conversation = "ready"
+	nbconv = 0
+	mikireflag       = 0	// Determines behavior at certain points.
+	sleepingtime = 0 //The time he has been asleep
+	rename = 0
+	disguised = 1
+	discovered = 0
+	zimpets = 0
+	girpets = 0
+	zimpunched = 0
+	toldcomputer = 0
+	worried = 0
+	askedirkens = 0
+	askedgaz = 0
+	askeddib = 0
+	askedpak = 0
+	findgircute = 0
+	isally = 0
+	girspoke = 0
+
+		cumuhour = 0
+		username = "USER" //This sets a temporary name for the user. It'll be replaced when they tell the ghost their name.
+		teachusername    = 0	// Related to them learning your name.
+		aitalkinterval = 400 //Their default talk rate.
+		birthdayprint = "????" //A temporary value for the user's birthday.
+		talktime = "5 minutes" //How the value aitalkinterval will display in the config menu.
+		deleteshitai = "OFF" //Sets whether or not the user can uninstall the ghost to "OFF". The user can change it later in the config menu (see menu.dic). 
+		nowshell = "Normal shell" //This is for a special if check in aitalk.dic to see what shell the ghost is using. You should use the name of your default shell folder here.
+		chename = 0 //If the user has a weird name
+		useraffection = 0 
+		helloday = IARRAY
+		helloday = (month,day,0)
+
+		
+		--
+		if reference0 == 0 //Don't touch this line.
+		{
+			"\0\s[11]\i[50]\i[121]\i[122]\1\s[80]\i[50]\i[100]\i[101]\i[66]\i[140]\i[190]"
+			--
+			"\![enter,passivemode]\0\i[60]\i[101]\i[149]\i[191] What?\w7\i[102] Where am I?\i[101]\i[127]\i[128]\1\i[148]\i[198]\i[54]\i[127]\i[128]\i[54]\i[96]Hahaha!!!\w7 New place!\w8\i[100]\i[101]\i[50]\i[62]\i[140]\i[190]\0\n\n[half]\i[133]\i[134]\i[98]\i[143]\i[193]Gir!\w7\i[129]\i[130] It's not the right moment.\w7 We must determine where we are.\n\w7\w7\w7\i[126]\i[100]\i[64]Mmh?!?\w7 Who are you?\x\w5\0\c\i[2001](What are your pronouns?)\n\n[half]"
+			//5,5     7,1
+			--
+			
+			"\w5\_q\![*]\q[He/Him/His,choicefirsthehim]\n/
+			\![*]\q[She/Her/Hers,choicefirstsheher]\n/
+			\![*]\q[They/Them/Their,choicefirsttheythem]"
+
+			
+			//There's a lot going on here, but what you mostly need to remember is to enter Passivemode at the beginning, and make sure not to touch the bottom part that starts with \w5\_q where the options are set up. Do whatever you like with the rest of the dialogue though! Make sure to set up poses for both characters right when you start, otherwise one will be invisible until they speak.
+			//Note also the use of the \x and \c tags. Read more about them in the intermediate SakuraScript section of the walkthrough if you're curious.
+			
+			//*********************Advanced User Info*******************************
+			//You can rename the choices at the bottom anything you like. The basic structure of a choice goes like \q[Displayed Name,Linkedfunction]. So for example, \q[Do a Dance,danceitup] would display "Do a Dance" in the balloon and it would link to the function titled "danceitup".
+			//Note - Do not include quotation marks in the displayed name, or any other symbols like brackets or dialogue coding like \_a, since that'll break the option in the balloon. If you do this you'll notice pretty quickly. Also option names do not word wrap, so don't make them too long if your balloon is small.
+			
+			//If you remember my note from above about the difference between On functions, this is one place it comes up. If your linked function in this menu doesn't start with On, like danceitup up there, you'll have to preface it in the following code with Select.danceitup. You can see this at work below here. However, if it does have On, such as OnDanceitup, then you can simply name the function in the code as OnDanceitup. Take a look whenever functions are defined and how they're called in the files,and it should come together for you.
+			
+			//If you link to a function that doesn't exist, the ghost will do nothing. This can be handy for "Cancel" type functions, just point it at something that doesn't exist if you don't want to have a specific bit of cancel dialogue.
+			
+			//If you want your ghost to just refer to your user as "they" and want to skip the pronoun business altogether, then you can just delete the choices and end the dialogue with \e. You'll want to go into menu.dic and delete the pronoun choice option from the config menu as well.
+			//***********************************************************************
+		}
+		else
+		{
+			//---- This is dialogue for when you load them after the first time. It's a failsafe, as the OnBoot dialogue will mostly pre-empt it, but you can't be too careful. You'll see this if you try to run OnFirstBoot using ![raise].
+			{
+			"\1\s[1]\0\s[10]\i[45]* This is the alternate OnFirstBoot dialogue."
+			}
+		}
+		
+	--
+	"\![set,otherghosttalk,true]\![set,otherghosttalk,before]\![raise,OnFirstBootStuff]\e"
+}
+
+OnFirstBootStuff
+{
+	CreateGhostList
+}
+
+//Below are the choices that were defined at the end of the OnFirstBoot dialogue up there. These define the values your ghost will be using for pronouns according to what the user selected. On the whole, you should not need to touch these.
+Select.choicefirsthehim
+{
+	presuffix = "masculine"
+	himher = "him"
+	heshe = "he"
+	hisher = "his"
+	--
+	NameInput
+}
+
+Select.choicefirstsheher
+{
+	presuffix = "feminine"
+	himher = "her"
+	heshe = "she"
+	hisher = "her"
+	--
+	NameInput
+}
+
+Select.choicefirsttheythem
+{
+	himher = "them"
+	heshe = "they"
+	hisher = "theirs"
+	--
+	NameInput
+}
+
+
+//--NameInput
+
+//NameInput is the next step in our introduction sequence. Now that the ghost has the pronouns set properly, they can ask the user for their name. It's done in this order so they'll know what prefixes will be appropriate for their name, like Mr. to he/him for example.
+
+NameInput
+{
+	"\0\i[2001]\![leave,passivemode](What's your name?)\![open,inputbox,OnNameTeach,-1]\e"
+	
+}
+
+//--GetTimeSlot
+
+//This is another unique function to tell what time of day it is. This is used for specialized dialogue related to the day. If you're uninterested, just ignore it. Either way, don't touch it. If you are going to use it though, make a note of the names used for each chunk of time, like earlymorning or lunch. Those are the names you'll be using later.
+
+GetTimeSlot
+{
+	if hour >= 5 && hour <= 7
+	{
+		"earlymorning"
+	}
+	elseif hour >= 8 && hour <= 10
+	{
+		"morning"
+	}
+	elseif hour >= 11 && hour <= 13
+	{
+		"lunch"
+	}
+	elseif hour >= 14 && hour <= 17
+	{
+		"afternoon"
+	}
+	elseif hour >= 18 && hour <= 20
+	{
+		"evening"
+	}
+	elseif hour >= 21 && hour <= 24
+	{
+		"latenight"
+	}
+	else
+	{
+		"midnight"
+	}
+}
+
+//--GetDaySlot
+
+GetDaySlot
+{
+	"%(month)month %(day)day"
+}
+
+
+//-----------------------Normal Booting----------------------------
+
+//--OnBoot
+
+//As you can probably guess, OnBoot runs when you boot your ghost. It will run every time you boot your ghost, as a matter of fact.
+
+OnBoot
+ {	
+	OnInitBootVariables
+	
+ 	//"\1\s[1]\![set,otherghosttalk,true]\![set,otherghosttalk,before]\0" //This sets them up in their neutral pose for now.
+	--
+
+	if dayslot != "11month 1day" && dayslot != "10month 31day"
+	{
+	}		
+	--
+	OnGreetingDialogue
+}
+
+OnBootStuff
+{
+	CreateGhostList
+}
+
+OnInitBootVariables
+{
+	lastTalk = "" //These values you may recognize from OnFirstBoot up there. Just pay them no mind.
+	passmin = 0
+	passsec = 0	
+	passhour = 0
+	conversation = "ready"
+	nbconv = 0
+	dayslot = GetDaySlot
+	timeslot = GetTimeSlot
+	rename = 0
+	worried = 0
+}
+
+//--normalboottalk
+
+//This is another unique bit of coding from cindysuke's ghost. OnBoot above checks for the day when you open them, but normalboottalk will vary their dialogue in a few different ways depending on the time and weekday. If you don't want to use these, you can delete everything under normalboottalk and write your own lines of general boot dialogue, so it'd look something like.
+
+//Otherwise, just replace the upcoming pieces of dialogue with what you like.
+OnGreetingDialogue
+{
+	"%(defaultpose)\w5"
+	--
+	//This check if it's the first time of the day that Azura is booted.
+	if month > helloday[0]
+	{
+		helloday[2] = 0
+	}
+	elseif month == helloday[0]
+	{
+		if day > helloday[1]
+		{
+			helloday[2] = 0
+		}
+	}
+	if dayslot != "10month 31day"
+	{
+	}
+	else
+	{
+		
+	}
+	--
+	//If it's the first time of the day Zim sees the user, she will greet them.
+	if helloday[2] != 1 && dayslot != "11month 1day"
+	{
+		if timeslot == "morning" || timeslot == "earlymorning"
+		{
+		}
+		elseif timeslot == "lunch"
+		{
+		}
+		elseif timeslot == "afternoon"
+		{
+		}
+		elseif timeslot == "evening"
+		{
+		}
+		elseif timeslot == "latenight"
+		{
+		}
+		else
+		{
+		}
+	}
+	else
+	{
+		/*if dayslot == "10month 31day" || dayslot == "11month 1day"
+		{
+			
+		}*/
+	}
+	--
+
+	/*if dayslot == userbirthday //Now we're getting into the if statements. These check what the date is and, if it's a certain value, displays special dialogue. Here, the if statement is looking at the dayslot value (which we just defined) and evaluating it using the == operator to see if it equals another value, in this case the value "userbirthday". Basically this is checking to see if it's the user's birthday.
+	{
+		"%(arms)* It's %(bornmonthprint) %(borndayprint).\w8Happy birthday, %(username).\e" 
+	}*/
+	
+	/*elseif dayslot == "6month 6day" //Like above, this if statement is checking the date. It's looking for the sixth month and the sixth day.
+	
+	//*********************Advanced User Info*******************************
+	//elseif may be a unique function to AYA, I'm not sure, but anyway, the name itself is pretty self-explanatory. elseif statements always go after an if statement, and essentially are just what they sound like... if this thing happens, do this; else, if this thing happens, do this. elseifs are good if you have multiple things you want to check for in one function, like multiple days of the year as we're doing right now. elseifs go in descending order, so it'll always check if one is true, then if two is true, then if three is true, and so on.
+	//***********************************************************************
+	{
+		"%(arms)* Today is June 6th.\e"
+	}
+	elseif dayslot == "7month 4day"
+	{
+		"\0It's the fourth of July.\e"
+		//You can see how these basically work. You can add in new elseif statements along these same lines with your own dayslots if you want to have them say things for all sorts of days. You can also change these existing ones I put in as examples to other dates, like your character's birthdays, perhaps. This is up to you! If you don't care about this, you can delete all the elseifs and just leave the one for the user's birthday.
+	}*/
+	--
+	normalboottalk
+}
+
+normalboottalk
+{
+	if dayslot == "10month 31day"
+	{
+		
+	
+	}
+	elseif dayslot == "11month 1day"
+	{
+		
+	}
+	--
+	if discovered != 1
+	{
+		if weekday != 6 && weekday != 7
+		{
+			if timeslot == "morning"
+			{
+				"\0I will miss skool by staying here."
+				"\0I have to go to skool at this hour."
+				"\0\i[142]Shouldn't you let me go to skool?"
+			}
+			elseif timeslot == "earlymorning"
+			{
+				"\0\i[143]\i[193]Hey! I need to prepare for school!"
+			}
+			elseif timeslot == "lunch"
+			{
+				"\0\i[101]\i[149]At least won't miss a lot,\w7 the cafetaria food was awful."
+				"\0\i[63]\i[119]\i[120]\i[127]\i[128]Saved from the skool food."
+			}
+			elseif timeslot == "afternoon"
+			{
+				"\0\i[69]\i[112]\i[114]\i[127]\i[128]I should be in class."
+			}
+			elseif timeslot == "evening"
+			{
+				"\0\i[65]\i[41]\i[112]\i[114]\i[127]\i[128]I wanted to stay at home."
+			}
+			elseif timeslot == "latenight"
+			{
+				"\0\i[65]\i[41]\i[112]\i[114]\i[129]\i[128]\i[143]\i[193]It's late! \w7\i[151]Can't you just let me have my daily rest?"
+			}
+			else
+			{
+				"\0\i[41]\i[151]\i[201]\i[121]\i[130]I need to sleep as any normal human child right now!"
+			}
+
+		}
+		else
+		{
+			if timeslot == "morning"
+			{
+				"\0Can't I have a breakfast as any normal child?"
+			}
+			elseif timeslot == "earlymorning"
+			{
+				"\0Isn't it a little early?"
+			}
+			elseif timeslot == "lunch"
+			{
+				"\0It was a good occasion to have my lunch at home!"
+			}
+			elseif timeslot == "afternoon"
+			{
+				"\0\i[40]\i[143]\i[193]\i[65]\i[123]\i[130]Eh!\w7 Right in the middle of an exp... of my homework!"
+			}
+			elseif timeslot == "evening"
+			{
+				"\0\i[65]\i[41]\i[112]\i[114]\i[127]\i[128]I wanted to stay at home."
+			}
+			elseif timeslot == "latenight"
+			{
+				"\0\i[65]\i[41]\i[112]\i[114]\i[129]\i[128]\i[143]\i[193]It's late! \w7\i[151]Can't you just let me have my daily rest?"
+			}
+			else
+			{
+				"\0\i[41]\i[151]\i[201]\i[121]\i[130]I need to sleep as any normal human child right now!"
+			}
+		}
+		--
+		"\1\i[136]\i[137]\i[66]"
+		--
+		"Whoof!"
+		"Whaaaaoof!"
+		"Whof"
+	}
+	else
+	{
+		if weekday != 6 && weekday != 7
+		{
+			if timeslot == "morning"
+			{
+				"\0I will miss skool by staying here."
+				"\0I have to go to skool at this hour."
+				"\0\i[142]Shouldn't you let me go to skool?"
+			}
+			elseif timeslot == "earlymorning"
+			{
+				"\0\i[143]\i[193]Hey! I need to prepare for school!"
+			}
+			elseif timeslot == "lunch"
+			{
+				"\0\i[101]\i[149]At least I won't miss a lot,\w7 the cafetaria food was awful."
+				"\0\i[63]\i[119]\i[120]\i[127]\i[128]Saved from the skool food."
+			}
+			elseif timeslot == "afternoon"
+			{
+				"\0\i[69]\i[112]\i[114]\i[127]\i[128]I should be in class."
+			}
+			elseif timeslot == "evening"
+			{
+				"\0\i[65]\i[41]\i[112]\i[114]\i[127]\i[128]I wanted to stay at home."
+			}
+			elseif timeslot == "latenight"
+			{
+				"\0\i[65]\i[41]\i[112]\i[114]\i[129]\i[128]\i[143]\i[193]It's late! \w7\i[151]Can't you just let me have my daily rest?"
+			}
+			else
+			{
+				"\0\i[41]\i[151]\i[201]\i[121]\i[130]Shouldn't you sleep as any filthy human being?"
+			}
+
+		}
+		else
+		{
+			if timeslot == "morning"
+			{
+				"\0I guess I'll have to work later."
+			}
+			elseif timeslot == "earlymorning"
+			{
+				"\0Isn't it a little early?"
+			}
+			elseif timeslot == "lunch"
+			{
+				"\0It was a good occasion to have my lunch at home!"
+				
+			}
+			elseif timeslot == "afternoon"
+			{
+				"\0\i[40]\i[143]\i[193]\i[65]\i[123]\i[130]Eh!\w7 I was working on something!"
+			}
+			elseif timeslot == "evening"
+			{
+				"\0\i[65]\i[41]\i[112]\i[114]\i[127]\i[128]I wanted to stay at home."
+			}
+			elseif timeslot == "latenight"
+			{
+				"\0\i[65]\i[41]\i[112]\i[114]\i[129]\i[128]\i[143]\i[193]It's late! \w7\i[151]Can't you just let me have my daily rest?"
+			}
+			else
+			{
+				"\0\i[41]\i[151]\i[201]\i[121]\i[130]Shouldn't you sleep as any filthy human being?"
+			}
+		}
+		--
+		"\1\i[127]\i[128]\i[62]"
+		--
+		"Hi!!!"
+		"Hello!!!"
+	}
+	
+	
+	--
+	helloday = (month,day,1)
+	"\![embed,OnBootStuff]\x\![updatebymyself,checkonly]\e"
+}
+
+
+//--OnClose
+
+//OnClose runs when you close your ghost. Like OnBoot, this can be customized for times and days if you like, as you saw above. It can also be easily simplified down to
+//OnClose
+//{
+//[insert your dialogue here]
+//}
+//if you don't want to deal with the time slots. Although do note, close dialogue must end with a \- instead of \e. \- will close the program.
+//Like above with OnBoot, just replace all the following pieces of dialogue with your own. It feels a bit redundant for me to point out every single piece and say "replace this", you know? If you've read the SakuraScript walkthrough page, you should know what a piece of dialogue looks like by now within code. Just go through OnClose and replace each bit with dialogue more suited for your ghost.
+//Note though that each bit here ends with \w8 instead of \e. That's because the actual end statement to close the ghost is at the very end, one of the very very rare times you won't have to end a line with \e. Instead, end it with \w8 so there's a little bit of a pause for the user before your ghost closes so they can read the last message.
+
+OnClose
+ {
+	timeslot = GetTimeSlot //as you saw above, it's checking the time.
+	--
+	if passhour >= 10
+	{
+		"\0\i[136]\i[137]\i[62]\i[54]\i[40]Finally!!!"
+	}
+	elseif passmin >= 5	//This checks to see if you've had them open for at least five minutes.
+	{
+		
+		if discovered != 1
+		{
+			if weekday != 6 && weekday != 7
+			{
+				if timeslot == "morning"
+				{
+					"\0Just in time for skool."
+				}
+				elseif timeslot == "earlymorning"
+				{
+					"\0At least I have time to prepare for skool."
+				}
+				elseif timeslot == "lunch"
+				{
+					"\0I guess I won't go to skool. \w7I'll say I'm sick."
+				}
+				elseif timeslot == "afternoon"
+				{
+					"\0I guess I won't go to skool. \w7I'll say I'm sick."
+				}
+				elseif timeslot == "evening"
+				{
+					"\0Home,\w5 sweet home."
+				}
+				elseif timeslot == "latenight"
+				{
+					"\0Shouldn't you have let me gone earlier to let me have a proper rest or something?"
+				}
+				else
+				{
+					"\0Shouldn't you have let me gone earlier to let me have a proper rest or something?"
+				}
+
+			}
+			else
+			{
+				if timeslot == "morning"
+				{
+					"\0Nice,\w5 I have my whole day left."
+				}
+				elseif timeslot == "earlymorning"
+				{
+					"\0Nice,\w5 I have my whole day left."
+				}
+				elseif timeslot == "lunch"
+				{
+					"\0Nice,\w5 I have my whole afternoon left."
+				}
+				elseif timeslot == "afternoon"
+				{
+					"\0Mmph, only the evening left..."
+				}
+				elseif timeslot == "evening"
+				{
+					"\0Home,\w5 sweet home."
+				}
+				elseif timeslot == "latenight"
+				{
+					"\0Shouldn't you have let me gone earlier to let me have a proper rest or something?"
+				}
+				else
+				{
+					"\0Shouldn't you have let me gone earlier to let me have a proper rest or something?"
+				}
+
+			}
+		}
+		else
+		{
+			if weekday != 6 && weekday != 7
+			{
+				if timeslot == "morning"
+				{
+					"\0Just in time for skool."
+				}
+				elseif timeslot == "earlymorning"
+				{
+					"\0At least I have time to prepare for skool."
+				}
+				elseif timeslot == "lunch"
+				{
+					"\0I guess I won't go to skool. \w7I'll say I'm sick."
+				}
+				elseif timeslot == "afternoon"
+				{
+					"\0I guess I won't go to skool. \w7I'll say I'm sick."
+				}
+				elseif timeslot == "evening"
+				{
+					"\Home,\w5 sweet home."
+				}
+				elseif timeslot == "latenight"
+				{
+					"\0None of the day is left."
+				}
+				else
+				{
+					"\0It's very late for human standards."
+				}
+
+			}
+			else
+			{
+				if timeslot == "morning"
+				{
+					"\0Nice,\w5 I have my whole day left."
+				}
+				elseif timeslot == "earlymorning"
+				{
+					"\0Nice,\w5 I have my whole day left."
+				}
+				elseif timeslot == "lunch"
+				{
+					"\0Nice,\w5 I have my whole afternoon left."
+				}
+				elseif timeslot == "afternoon"
+				{
+					"\0Mmph, only the evening left..."
+				}
+				elseif timeslot == "evening"
+				{
+					"\Home,\w5 sweet home."
+				}
+				elseif timeslot == "latenight"
+				{
+					"\0None of the day is left."
+				}
+				else
+				{
+					"\0It's very late for human standards."
+				}
+
+			}
+		}
+ 	}	
+ 	else //This dialogue is for if they haven't been open for at least five minutes.
+ 	{
+ 		"\0So soon? \w7Well,\w5 that's good."
+		"\0Why have you brought me here for nothing!"
+ 	}
+	
+	
+	SAVEVAR
+	--
+	"\-\e" //this bit of code actually closes and ends the ghost. Because \e is here, you don't have to end each line above with it. Again, this will come up very rarely, so OnClose is an unusual case.
+ }
+
+
+ //-------------------------State Changing--------------------
+ //From here on, most of the dialogue will have to do with changing shells, ghosts, or states in some way.
+ 
+ 
+ OnWindowStateMinimize
+{
+	"%(defaultpose)"
+}
+
+//--OnWindowStateRestore
+
+//This will run when you minimize them and then bring them back up. Replace with what you like.
+
+OnWindowStateRestore
+ {
+	"%(defaultpose)"
+}
+
+
+//--OnGhostChanging
+
+//This runs whenever you change or reload the ghost. You can change ghosts by going into the right click menu and going to Change Ghost, but this dialogue will also be called if you reload them using Utilities->Reload Ghost. Protip: If you are going to make a ghost, you will be reloading it A LOT.
+//Note: If you reload your ghost using the developer console instead of Utilities->Reload Ghost, it won't do this dialogue, so don't freak out if it doesn't show up.
+ 
+OnGhostChanging
+ {
+	"%(defaultpose)"
+	--
+	if reference0 == "Zim" //Replace this with the name of your Sakura character as you put in install.txt or descript.txt. I set this up to use the full ghost's name with Hunter and Smoker but I forget exactly how I did it and I'm having trouble getting it to work again. I think I just didn't define the Sakura or Kero names in either descript.txt or install.txt. You can experiment with it yourself. Otherwise, leave it as your Sakura character's name.
+	{
+	}
+ 	else //If you're switching to another Ghost.
+	{
+		"\0Mmh,\w5 what or who is %(reference0)?\w8\w8"
+
+		//Replace this dialogue with whatever you like. Notice the use of the %(reference0) envelope here? In OnGhostChanging, %(reference0) stores the name of the ghost being swapped to, so if you want to display what you're switching to, you can use %(reference0) as in this example. You don't have to use %(reference0) if you don't want to though.
+	}
+	--
+	//"\0\s[10]\1\s[1]\e"
+}
+
+
+//--OnGhostChanged
+
+//A sister to the above, this runs after the ghost has either reloaded itself, or when you switch from another ghost to this ghost.
+
+OnGhostChanged
+{
+	//"\0\s[10]\1\s[1]" //this sets up their default poses
+	"%(defaultpose)"
+	--
+	if reference0 == "Zim" //As above, this should be the name of your ghost as in install.txt or descript.txt.
+	{
+		"\0Not even able to code correctly,\w5 filthy human?"
+	}
+	else //If you're switching to them from another ghost...
+	{
+		OnInitBootVariables
+		"\0Don't you want to stay with %(reference0)."
+		--
+		if discovered == 1
+		{
+			"\w7 I have stuff to do.\e"
+		}
+		else
+		{
+			"\w7 I have an experience to finish.\e"
+		}
+
+		//Again, %(reference0) in this function is the name of the ghost in question. As above, replace these two lines of dialogue what what'd be appropriate for your ghost.
+	}
+}
+
+
+//--OnShellChanging
+
+//This will run when you change your ghost's shell. If you don't have any other shells for your ghost, you can safely ignore this but don't delete it, you might as well keep it just in case. I probably won't add a different shell to this template because shells are a lot of work ugh, but for the sake of argument, let's pretend I did.
+
+OnShellChanging
+ {
+	nowshell = reference0
+ }
+ 
+ 
+ //--OnShellChanged
+ 
+ //The sister to the above, this is the dialogue after you've changed the shell.
+ 
+OnShellChanged
+ {
+	 if updatingghost != 1
+	 {
+		if resumingchangeshell == 1
+		{
+
+			ResumeSystemDialogue
+		} 
+		elseif bootingchangeshell == 1
+		{
+			OnGreetingDialogue
+			bootingchangeshell = ""
+		}
+		elseif nowshell != reference0
+		{
+		}
+	 }
+	resumingchangeshell = ""
+	updatingghost = ""
+	nowshell = "%(reference0)"
+ }
+
+
+ //--OnDressupChanged
+ 
+ //This runs whenever you fiddle with their clothing via the dress-up option, if you've set any for your ghost. Honestly setting up clothing is a nightmare and I hate doing it, and if your ghost is going to be moving around substantially or at all, clothing won't stay in the right place anyway. So unless you're like a real expert on surfaces.txt coding and rigging up clothing for different poses or you're intense or dedicated enough to set up clothing in the right place for every pose you do, I would not bother with clothing for your ghost.
+ //HOWEVER I can't begrudge people who actually would put in that effort! And in that case, this function is for you. For now, I'll fill this in with some hypothetical items. Replace the dialogue below with whatever you need.
+
+OnDressupChanged
+{
+if reference0 == 0 //in OnDressupChanged, reference0 refers to the character, therefore this is evaluating which character in question is getting dressed up. 0 is the main character, as you know from the walkthrough by now.
+	{
+	if reference1 == "Clothing for Girl" //This is the name of the clothing item in the descript.txt file, I'm pretty sure.
+		{
+			if reference2 == 1 //This checks if you're putting it on.
+			{
+			"\0\s[10]You put my clothing item on me.\w8lol like zar would ever bother with clothes for a ghost.\w8\n\n[half]Shut up dude you're going to get us in trouble.\e"
+			}
+			else // This checks if you're taking it off.
+			{
+			"\0\s[10]You took the clothing item off.\e"
+			}
+		}		
+	}
+else //if reference0 isn't the main character, then it has to be the side character.
+	{
+	if reference1 == "some kind of clothing for triangle??" //The name of the item of clothing in the descript.txt file in your shell folder.
+		{
+			if reference2 == 1 //If you put it on
+			{
+			"\1\s[1]I'm wearing some kind of clothing.\w8Maybe a hat?\e"
+			}
+			else //When you take it off.
+			{
+			"\1\s[1]You took off some kind of clothing.\e"
+			}
+		}
+	elseif reference1 == "i'm gonna say a propeller beanie" //As you've seen above, you can use elseifs to expand the list if you have more than one item.
+		{
+			if reference2 == 1 //if you're putting it on
+			{
+			"\1\s[1]You put a hat on me.\w8lol.\w8\1\n\n[half]Shaddap.\e"
+			}
+			else //when you take it off
+			{
+			"\1\s[1]You took off the hat.\e"
+			}
+		}
+	}
+}
+
+//If you are super dedicated to doing clothes, I'd recommend checking out some more in-depth FLELE tutorials for stuff about clothing until I muster up the energy to write a walkthrough page for it.
+
+CreateGhostList
+{
+	ghostsfilelist = FENUM("..\..\..")
+	ghostsfilelist = SPLIT(ghostsfilelist,",")
+	otherghosts = IARRAY
+	foreach ghostsfilelist ; ghost
+	{
+		otherghosts ,=  SHIORI3FW.GetGhostNameFromDescriptTxt("..\..\.."+ghost)[0]
+	}
+}
+
+
+//Functions for the sleep mode--------------------------------------------------------------------------------------------------------------------------------------------------------------
+OnSysSuspend
+{
+	sleepslot = (month,day,timeslot,hour,minute)
+	passhour = 0
+}
+OnSysResume
+{
+	
+	timeslot = GetTimeSlot
+	dayslot = GetDaySlot
+	passhour = 0
+	if dayslot != "11month 1day" && dayslot != "10month 31day"
+	{
+		if sleepslot[0] == month && sleepslot[1] == day
+		{
+			
+		}
+		elseif sleepslot[0] == month && day-1 == sleepslot[1]
+		{
+			
+		}
+		elseif sleepslot[0] == month
+		{
+		}
+		elseif (sleepslot[0] == month-1 && day == 1) || (sleepslot[0] == 12 && month == 1 && day == 1)
+		{
+			
+		}
+		else
+		{
+			
+		}
+	}
+	else
+	{
+	}
+	--
+	ResumeSystemDialogue
+
+}
+
+ResumeSystemDialogue
+{
+	timeslot = GetTimeSlot
+	dayslot = GetDaySlot
+	passhour = 0
+	/*if sleepslot[0] == month && sleepslot[1] == day
+	{
+		if sleepslot[3] == hour
+		{
+			if (minute - sleepslot[4]) <= 15
+			{
+				"\0* You were fast."
+			}
+			elseif (minute - sleepslot[3]) <= 30
+			{
+				"\0* Did you have a nice break ?"
+			}
+			else
+			{
+				"\0* You already missed me ?"
+			}
+		}
+		elseif sleepslot[2] == "midnight"
+		{
+			if timeslot == "midnight"
+			{
+				"\0* I was almost thinking you were gone to bed."
+			}
+			elseif timeslot == "earlymorning"
+			{
+				"\0\i[119]* Yawn ! \w9\i[110]I don't know what you're doing, \w5but I can tell you you didn't sleep enough for your health."
+				"\0* You didn't sleep a lot."
+			}
+			elseif timeslot == "morning"
+			{
+				"\0* Slept well ?"
+			}
+			elseif timeslot == "lunch"
+			{
+				"\0* Hello,\w5 just in time for lunch."
+			}
+			elseif timeslot == "afternoon"
+			{
+				"\0\s[-1]\w9\w9\f[italic,true]You hear humming.\nAzura is nowhere, it musts be her you're hearing.\f[italic,false]\n\n[half]\w9\w9* Oh ?%(azpose)%(arms) \w7You're back ? \w7\n"
+				--
+				Askmood
+			}
+			elseif timeslot == "evening"
+			{
+
+				"\0* Hi,\w5 busy today ?\w7\n"
+				--
+				Askmood
+			}
+			else
+			{
+				"\0\i[119]* Yawn !\w9\i[111] Almost as late as when you quited me.\w7\n"
+				--
+				Askmood
+			}
+		}
+		elseif sleepslot[2] == "earlymorning"
+		{
+			if timeslot == "midnight"
+			{
+				"\0* Congrats,\w5 you're gone back in time,\w5 as I see."
+			}
+			elseif timeslot == "earlymorning"
+			{
+				"\0* Welcome back."
+			}
+			elseif timeslot == "morning"
+			{
+				"\0* Welcome back."
+			}
+			elseif timeslot == "lunch"
+			{
+				"\0* Lunch break I guess ?\w7 Good appetite if it's the case."
+			}
+			elseif timeslot == "afternoon"
+			{
+				"\0\s[-1]\w9\w9\f[italic,true]You hear humming.\nAzura is nowhere, it must be her you're hearing.\f[italic,false]\n\n[half]\w9\w9* Oh ?%(azpose)%(arms) \w7You're back ? \w7\n"
+				--
+				Askmood
+			}
+			elseif timeslot == "evening"
+			{
+				"\0* I hope you had a nice day.\w7\n"
+				--
+				Askmood
+			}
+			else
+			{
+				"\0\i[119]* Yawn ! \w9\i[111]Did you see the time ?\w7 I was about to go to bed.\w7 I didn't think you would come now."
+			}
+		}
+		elseif sleepslot[2] == "morning"
+		{
+			if timeslot == "midnight"
+			{
+				"\0* Congrats,\w5 you're gone back in time,\w5 as I see."
+			}
+			elseif timeslot == "earlymorning"
+			{
+				"\0* Congrats,\w5 you're gone back in time,\w5 as I see."
+			}
+			elseif timeslot == "morning"
+			{
+				"\0* Welcome back."
+			}
+			elseif timeslot == "lunch"
+			{
+				"\0* Lunch break,\w5 I guess ?\w7 Good appetite if you're eating."
+			}
+			elseif timeslot == "afternoon"
+			{
+				"\0\s[-1]\w9\w9%(lsta)You doesn't see Azura. She seems to have disappear. You try to call her.%(lsto)\n\n[half]* ???\w9 %(azpose)%(arms)Oh ! You're here,\w5 well,\w5 welcome back."
+			}
+			elseif timeslot == "evening"
+			{
+				"\0\s[-1]\w9%(lsta)She seems to be gone. You're waiting for her to come back.\w9.\w9.\w9. \w9%(azpose)%(arms)Here she is !%(lsto)\n\n[half]* Hi,\w5 busy today ?"
+			}
+			else
+			{
+				"\0\i[119]* Yawn ! \w9\i[111]Did you see the time ?\w7 I was about to go to bed.\w7 I didn't think you would come now."
+			}
+		}
+		elseif sleepslot[2] == "lunch"
+		{
+			if timeslot == "midnight"
+			{
+				"\0* Congrats,\w5 you're gone back in time,\w5 as I see."
+			}
+			elseif timeslot == "earlymorning"
+			{
+				"\0* Congrats,\w5 you're gone back in time,\w5 as I see."
+			}
+			elseif timeslot == "morning"
+			{
+				"\0* Congrats,\w5 you're gone back in time,\w5 as I see."
+			}
+			elseif timeslot == "lunch"
+			{
+				"\0* Gone to eat,\w5 I suppose ?"
+			}
+			elseif timeslot == "afternoon"
+			{
+				"\0* Welcome back."
+			}
+			elseif timeslot == "evening"
+			{
+				"\0* I suppose you had something planned this afternoon. \w7Did you have fun ?"
+			}
+			else
+			{
+				"\0\i[119]* Yawn ! \w9\i[111]Did you see the time ?\w7 I was about to go to bed.\w7 I didn't think you would come now."
+			}
+		}
+		elseif sleepslot[2] == "afternoon"
+		{
+			if timeslot == "afternoon"
+			{
+				"\0\i[110]%(lsta)She hides a book. Did she already start to read ?%(lsto)\n\n[half]* Oh, \w5\i[11]welcome back."
+			}
+			elseif timeslot == "evening"
+			{
+				"\0\i[16]%(lsta)She seems happy. You give her a curious look.%(lsto)\n\n[half]* Hmm ? \w7I just had a snack, \w5butterscotch-cinnamon pie."
+			}
+			elseif timeslot == "latenight"
+			{
+				"\0\i[119]* Yawn ! \w9\i[111]Did you see the time ?\w7 I was about to go to bed.\w7 I didn't think you would come now."
+			}
+			else
+			{
+				"\0* Congrats,\w5 you're gone back in time,\w5 as I see."
+			}
+		}
+		elseif sleepslot[2] == "evening"
+		{
+			if timeslot == "evening"
+			{
+				"\0* It's beginning to be late."
+			}
+			elseif timeslot == "latenight"
+			{
+				"\0* Still not sleeping ?\w7 I hope you don't have insomnia."
+			}
+			else
+			{
+				"\0* Congrats,\w5 you're gone back in time,\w5 as I see."
+			}
+		}
+		else
+		{
+			if timeslot == "midnight"
+			{
+				"\0* Congrats,\w5 you're gone back in time,\w5 as I see."
+			}
+			else
+			{
+				"\0* You really should go to bed."
+			}
+		}
+	}
+	elseif sleepslot[0] == month && day-1 == sleepslot[1]
+	{
+		
+		if sleepslot[2] == "midnight"
+		{
+			if timeslot == "midnight"
+			{
+				"\0\s[-1]%(lsta)You hear loud steps.%(lsto)\n\n[half]\w9\w9%(azpose)\i[110]\i[130]* Are you seriously opening your computer in the middle of the night ?\w7\i[111]\i[12] Well,\w5 seeing at which hour you closed it, \w5it's not totally unexpected."
+			}
+			elseif timeslot == "earlymorning"
+			{
+				"\0\s[-1]%(lsta)You hear loud steps.%(lsto)\n\n[half]\w9\w9%(azpose)\i[110]\i[130]* It's early, \i[12]\w9too much for me.\n\w9\w9\i[15]* sigh\w3.\w3.\w3.\w9\i[18]\n"
+				--
+				Askmood
+			}
+			elseif timeslot == "morning"
+			{
+				"* Hi %(username), \w5had a nice day yesterday ?\n\w7"
+				--
+				Askmood
+			}
+			elseif timeslot == "lunch"
+			{
+				"\0* Hi %(username),\w5 good appetite."
+			}
+			elseif timeslot == "afternoon"
+			{
+				"\0\s[-1]\w9%(lsta)She seems to be gone. You shouldn't have expected her to stay here. You hear her coming\w9.\w9.\w9. \w9%(azpose)%(arms)Here she is !%(lsto)\n\n[half]* Hi %(username), \w5was it nice yesterday ?\n\w7"
+				--
+				Askmood
+			}
+			elseif timeslot == "evening"
+			{
+				"\0* Hi %(username),\w5 had a nice day ?\n\w7"
+				--
+				Askmood
+			}
+			else
+			{
+				"\0* Hi %(username),\w5 had a nice day ?\w7 It's very late, \w5you know.\n\w7"
+				--
+				Askmood
+			}
+		}		
+		elseif sleepslot[2] == "earlymorning"
+		{
+			if timeslot == "midnight"
+			{
+				"\0\s[-1]%(lsta)You hear loud steps.%(lsto)\n\n[half]\w9\w9%(azpose)\i[110]\i[130]* Are you seriously opening your computer in the middle of the night ?\w7\i[111]\i[12] Well,\w5 seeing at which hour you closed it, \w5it's not totally unexpected."
+			}
+			elseif timeslot == "earlymorning"
+			{
+				"\0\s[-1]%(lsta)You hear loud steps.%(lsto)\n\n[half]\w9\w9%(azpose)\i[110]\i[130]* It's early, \i[12]\w9too much for me.\n\w9\w9\i[15]* sigh\w3.\w3.\w3.\w9\i[18]\n"
+				--
+				Askmood
+			}
+			elseif timeslot == "morning"
+			{
+				"\0* Hi %(username), \w5had a nice day yesterday ?\n\w7"
+				--
+				Askmood
+			}
+			elseif timeslot == "lunch"
+			{
+				"\0* Hi %(username),\w5 good appetite."
+			}
+			elseif timeslot == "afternoon"
+			{
+				"\0\s[-1]\w9%(lsta)She seems to be gone. You shouldn't have expected her to stay here. You hear her coming\w9.\w9.\w9. \w9%(azpose)%(arms)Here she is !%(lsto)\n\n[half]* Hi %(username), \w5was it nice yesterday ?\n\w7"
+				--
+				Askmood
+			}
+			elseif timeslot == "evening"
+			{
+				"\0* Hi %(username),\w5 had a nice day ?\n\w7"
+				--
+				Askmood
+			}
+			else
+			{
+				"\0* Hi %(username),\w5 had a nice day ?\w7 It's very late, \w5you know.\n\w7"
+				--
+				Askmood
+			}
+		}
+		elseif sleepslot[2] == "morning"
+		{
+			if timeslot == "midnight"
+			{
+				"\0\s[-1]%(lsta)You hear loud steps.%(lsto)\n\n[half]\w9\w9%(azpose)\i[110]\i[130]* Are you seriously opening your computer in the middle of the night ?\w7\i[111]\i[12] You should be sleeping."
+			}
+			elseif timeslot == "earlymorning"
+			{
+				"\0\s[-1]%(lsta)You hear loud steps.%(lsto)\n\n[half]\w9\w9%(azpose)\i[110]\i[130]* It's early, \i[12]\w9too much for me.\n\w9\w9\i[15]* sigh\w3.\w3.\w3.\w9\i[18]\n"
+				--
+				Askmood
+			}
+			elseif timeslot == "morning"
+			{
+				"\0* Hi %(username), \w5had a nice day yesterday ?\n\w7"
+				--
+				Askmood
+			}
+			elseif timeslot == "lunch"
+			{
+				"\0* Hi %(username),\w5 good appetite."
+			}
+			elseif timeslot == "afternoon"
+			{
+				"\0\s[-1]\w9%(lsta)She seems to be gone. You shouldn't have expected her to stay here. You hear her coming\w9.\w9.\w9. \w9%(azpose)%(arms)Here she is !%(lsto)\n\n[half]* Hi %(username), \w5busy yesterday ?\n\w7"
+				--
+				Askmood
+			}
+			elseif timeslot == "evening"
+			{
+				"\0* Hi %(username),\w5 had a nice day ?\n\w7"
+				--
+				Askmood
+			}
+			else
+			{
+				"\0* Hi %(username),\w5 had a nice day ?\w7 It's very late, \w5you know.\n\w7"
+				--
+				Askmood
+			}
+		}
+		elseif sleepslot[2] == "lunch"
+		{
+			if timeslot == "midnight"
+			{
+				"\0\s[-1]%(lsta)You hear loud steps.%(lsto)\n\n[half]\w9\w9%(azpose)\i[110]\i[130]* Are you seriously opening your computer in the middle of the night ?\w7\i[111]\i[12] You should be sleeping."
+			}
+			elseif timeslot == "earlymorning"
+			{
+				"\0\s[-1]%(lsta)You hear loud steps.%(lsto)\n\n[half]\w9\w9%(azpose)\i[110]\i[130]* It's early, \i[12]\w9too much for me.\n\w9\w9\i[15]* sigh\w3.\w3.\w3.\w9\i[18]\n"
+				--
+				Askmood
+			}
+			elseif timeslot == "morning"
+			{
+				"\0* Hi %(username), \w5had a nice day yesterday ?\n\w7"
+				--
+				Askmood
+			}
+			elseif timeslot == "lunch"
+			{
+				"\0* Hi %(username),\w5 good appetite."
+			}
+			elseif timeslot == "afternoon"
+			{
+				"\0\s[-1]\w9%(lsta)She seems to be gone. You shouldn't have expected her to stay here. You hear her coming\w9.\w9.\w9. \w9%(azpose)%(arms)Here she is !%(lsto)\n\n[half]* Hi %(username), \w5busy yesterday ?\n\w7"
+				--
+				Askmood
+			}
+			elseif timeslot == "evening"
+			{
+				"\0* Hi %(username),\w5 had a nice day ?\n\w7"
+				--
+				Askmood
+			}
+			else
+			{
+				"\0* Hi %(username),\w5 had a nice day ?\w7 It's very late, \w5you know.\n\w7"
+				--
+				Askmood
+			}
+		}
+		elseif sleepslot[2] == "afternoon"
+		{
+			if timeslot == "midnight"
+			{
+				"\0\s[-1]%(lsta)You hear loud steps.%(lsto)\n\n[half]\w9\w9%(azpose)\i[110]\i[130]* Are you seriously opening your computer in the middle of the night ?\w7\i[111]\i[12] You should be sleeping."
+			}
+			elseif timeslot == "earlymorning"
+			{
+				"\0\s[-1]%(lsta)You hear loud steps.%(lsto)\n\n[half]\w9\w9%(azpose)\i[110]\i[130]* It's early, \i[12]\w9too much for me.\n\w9\w9\i[15]* sigh\w3.\w3.\w3.\w9\i[18]\n"
+				--
+				Askmood
+			}
+			elseif timeslot == "morning"
+			{
+				"\0* Hi %(username), \w5something planned yesterday ?\n\w7"
+				--
+				Askmood
+			}
+			elseif timeslot == "lunch"
+			{
+				"\0* Hi %(username), \w5good appetite.\w7"
+				--
+				Askmood
+			}
+			elseif timeslot == "afternoon"
+			{
+				"\0\s[-1]\w9%(lsta)She seems to be gone. You hear her coming\w9.\w9.\w9. \w9%(azpose)%(arms)Here she is !%(lsto)\n\n[half]* Hi %(username), \w5something planned yesterday ?\n\w7"
+				--
+				Askmood
+			}
+			elseif timeslot == "evening"
+			{
+				"\0* Hi %(username), \w5something planned yesterday ?\n\w7"
+				--
+				Askmood
+			}
+			else
+			{
+				"\0* Hi %(username),\w5 had a nice day ?\w7 It's very late, \w5you know.\n\w7"
+				--
+				Askmood
+			}
+		}
+		elseif sleepslot[2] == "evening"
+		{
+			if timeslot == "midnight"
+			{
+				"\0\s[-1]%(lsta)You hear loud steps.%(lsto)\n\n[half]\w9\w9%(azpose)\i[110]\i[130]* Are you seriously opening your computer in the middle of the night ?\w7\i[111]\i[12] You should be sleeping."
+			}
+			elseif timeslot == "earlymorning"
+			{
+				"\0\s[-1]%(lsta)You hear loud steps.%(lsto)\n\n[half]\w9\w9%(azpose)\i[110]\i[130]* It's early, \i[12]\w9too much for me.\n\w9\w9\i[15]* sigh\w3.\w3.\w3.\w9\i[18]\n"
+				--
+				Askmood
+			}
+			elseif timeslot == "morning"
+			{
+				"\0* Hi %(username),\w5 had you a dinner or a party ?\n"
+				--
+				Askmood
+			}
+			elseif timeslot == "lunch"
+			{
+				"\0* Hi %(username),\w5 had you a dinner or a party ?\n"
+				--
+				Askmood
+			}
+			elseif timeslot == "afternoon"
+			{
+				"\0\s[-1]\w9%(lsta)She seems to be gone. You hear her coming\w9.\w9.\w9. \w9%(azpose)%(arms)%(lsto)\n\n[half]* Hi %(username), \w5so was it a dinner or a party yesterday ?\n\w7"
+				--
+				Askmood
+			}
+			elseif timeslot == "evening"
+			{
+				"\0* Hi %(username), \w5had a good day ?\n\w7"
+				--
+				Askmood
+			}
+			else
+			{
+				"\0* Hi %(username),\w5 had a nice day ?\w7 It's very late, \w5you know.\n\w7"
+				--
+				Askmood
+			}
+		}
+		else
+		{
+			if timeslot == "midnight"
+			{
+				"\0* You didn't go to bed,\w5 isn'it ?"
+			}
+			elseif timeslot == "earlymorning"
+			{
+				"\0\s[-1]%(lsta)You hear loud steps.%(lsto)\n\n[half]\w9\w9%(azpose)\i[110]\i[130]* It's early, \i[12]\w9too much for me.\w7\i[18] How can you already wake up ?\n\w7"
+				--
+				Askmood
+			}
+			elseif timeslot == "morning"
+			{
+				"\0* Hi,\w5 how was your evening ?\w7 It was a party I suppose ?\w7\n"
+				--
+				Askmood
+			}
+			elseif timeslot == "lunch"
+			{
+				"\0* Hi %(username),\w5 had you a party yesterday ?\n"
+				--
+				Askmood
+			}
+			elseif timeslot == "afternoon"
+			{
+				"\0\s[-1]\w9%(lsta)She seems to be gone. You hear her coming\w9.\w9.\w9. \w9%(azpose)%(arms)%(lsto)\n\n[half]* Hi %(username), \w5so was it a party yesterday ?\n\w7"
+				--
+				Askmood
+			}
+			elseif timeslot == "evening"
+			{
+				"\0* Hi %(username), \w5had a good day ?\n\w7"
+				--
+				Askmood
+			}
+			else
+			{
+				"\0* Hi %(username),\w5 had a nice day ?\w7 It's very late, \w5you know.\n\w7"
+				--
+				Askmood
+			}
+		}
+	}
+	elseif sleepslot[0] == month
+	{
+		"\0* Hi %(username).\w7 That's not good to let a computer in sleep mode for days."
+	}
+	elseif (sleepslot[0] == month-1 && day == 1) || (sleepslot[0] == 12 && month == 1 && day == 1)
+	{
+		
+	}
+	else
+	{
+		"\0* Hi %(username).\w7 You let your computer in sleep mode for a so long time.\w7 You shouldn't do this kind of stuffs,\w5 it could damage it. \w7I'm impressed though you managed to forgot your computer alone for a so long time."
+	}
+	--
+
+	"\e"*/
+}
+
+

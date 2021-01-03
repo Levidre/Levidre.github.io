@@ -1,0 +1,219 @@
+0-10 : body
+10-50 : head
+50-80 : facial feature
+80-140 : eyes
+140-200 : eyebrows
+200-230 : antennas
+230-320	: smile
+320-360 : left arm
+360-400 : right arm
+400-440 : GIR's legs
+
+
+
+92,107
+
+
+
+poses : 1000 : normal (to the right)
+	2000 : reject himself back
+	3000 : face the user
+	
+	4000 : spider legs
+	5000 : reject himself back with the spider legs
+	6000 : face the user with spider legs
+	
+
+GIR : 7000 : normal
+	8000 : disguised
+	
+	
+// Zim
+
+40-49 : other
+50-59 : antennas
+60-99 : smiles
+100-140 : eyes and eyebrows
+140-170 : left arm
+190-220 : right arm
+
+
+
+
+///////////////////////Zim
+
+
+///Other
+40 : lightning
+41	round
+42	v
+49	empty
+	
+///Antennas
+50 : normal
+51	different
+52	half-down
+53	down
+54	up
+
+///Smiles
+60 : none
+61	beak
+62	big smile
+63	open
+64	jaw up
+65	down
+66	up smile
+67	wave down
+68	jaw forward
+69	neutral
+87-88 : stop
+91 : stop one talk interval
+92-99 : talk interval
+
+
+///Eyes
+100 : eyes
+101	right
+102 left
+103	up
+104	up right
+105	down
+
+///Eyebrows
+110 : stop the reduces
+111-112-113-114 : left up, left down, right up, right down
+down
+115-116 : half
+117-118	laughing
+119-120	small
+up
+121-122 : worried
+123-124	angry
+125-126	pseudo-perplexe (small up)
+127-128	relaxed
+129-130	pityful
+131 : blink
+132-133 : frowning
+135-136 : close - 138
+
+140 : left arm
+190 : rigth arm
+
+140-190 normal
+141-191 side
+142-192 extended
+143-193 hip
+144-194 forward open
+145-195 forward close
+146-196 joined
+147-197 up closed
+148-198 up open
+149-199 wondering
+150-200 shrug close
+151-201 shrug open
+152-202	closed
+153-203	on head
+
+
+
+
+
+///////////////////////GIR
+
+10 : head
+
+///Other
+40 : lightning
+41	round
+42	v
+49	empty
+	
+///Antennas
+50 : normal
+51	different
+52	half-down
+53	down
+54	up
+///Smiles
+60 : none
+61	beak
+62	big smile
+63	open
+64	jaw up
+65	down
+66	up smile
+67	wave down
+68	jaw forward : ohh
+69	neutral
+87-88 : stop
+91 : stop one talk interval
+92-99 : talk interval
+
+///Eyes
+100 : normal eyes
+101 : normal eyes too
+///Eyebrows
+110 : stop the reduces
+111-112-113-114 : left up, left down, right up, right down
+down
+115-116 : half		ok
+117-118	laughing	ok
+119-120	small		ok
+up
+121-122 : worried	
+123-124	angry		
+125-126	pseudo-perplexe (small up) -> sad
+127-128	relaxed		happy 
+129-130	pityful		crying
+132 : blink
+133-134 : frowning		ok
+136-137 : close - 138	ok
+
+140 : left arm
+170 : legs
+190 : rigth arm
+
+140-190 normal
+141-191 side
+142-192 extended
+143-193 hip
+144-194 forward open
+145-195 forward close
+146-196 joined
+147-197 up closed
+148-198 up open
+149-199 wondering
+150-200 shrug close
+151-201 shrug open
+152-202	closed
+153-203	on head
+
+
+
+
+/// Envelopes : 
+
+defaultpose
+zpose, gpose, zbackpose, zfrontpose
+zposefront
+zhappy, ghappy, zplotting, zsatisfied, zrelieved, zworried, zwondering,zgreat
+
+zeyes, geyes, zsmile, gsmile, arms
+
+zhappyface, zhappyeyes, ghappyface, zwonderingface, zwonderingeyes, zwonderingarms
+zangryeyes
+zboredface,zboredeyes, zrelaxedarms
+gsadface, gcryface, ghappyface, ghappyarms
+zworriedface, zworriedarms
+zexplainarms, gcryface,genthusiastarms 
+
+
+
+
+
+
+
+
+
+

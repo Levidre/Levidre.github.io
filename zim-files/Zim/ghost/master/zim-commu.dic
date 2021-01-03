@@ -1,0 +1,1055 @@
+//---------------------------Communication--------------------------
+
+//I'm going to level with you, I don't really get a lot of what's going on in this .dic file. I'm pretty sure it's related to having ghosts talk to each other, or acknowledge each other's presence in some way, but I don't really know. If someone else knows more about this than I do, I'd love to hear about it, but for now, leave it all alone except for a few lines near the bottom.
+
+
+//communicate would be what says to Azura if she can communicate with a ghost or not, 0 is not, 1 is yes.
+
+
+
+//Only check Azura's status. If a ghost try to communicate, this would check her status to know if she can respond immediatly or not.
+OnCheckStatus
+{
+	//SAVEVAR
+	communicate = 0
+	
+	if ASEARCH("Status",var.req.key) != -1
+	{
+		//If there is the word balloon is Azura's status, that means one is opened so that she is speaking with the user
+		currentstatus = var.req.value[ASEARCH("Status",var.req.key)]
+		if "balloon" _in_ currentstatus
+		{
+			communicate = 0
+		}
+		else
+		{
+			communicate = 1
+		}
+	}
+	else
+	{
+		//If the status isn't found, there isn't any balloon opened
+		communicate = 1
+	}
+}
+
+OnCommunicate
+ {
+	if reference0 == "user" || reference0 == "User"
+ 	{
+		//---- 사용자로부터의 이야기에 대답
+ 		ReplyToUser
+	}
+ 	else
+	{
+ 		//---- 유령로부터의 이야기에 대답
+		//Check if Azura can respond
+		OnCheckStatus
+		--
+		if conversation[1] != reference0
+		{
+			nbconv = 0
+		}
+		conversation[1] = "%(reference0)"
+		//If yes, she would respond immediately
+ 		if communicate == 1
+		{
+			//ghostcommunicated = IARRAY
+			
+			if nbconv < 1
+			{
+				res_reference0 = reference0
+				if reference1[0] == conversation[2]
+				{
+					nbconv++
+				}
+				else
+				{
+					truc = reference1[0]
+					retruc =conversation[2]
+				}
+				conversation[1] = "%(reference0)"
+				conversation[2] = "%(reference1)"
+				speech = TOLOWER(SPLIT("%(reference1)","\e")[0])
+				speechtag = SPLIT("%(reference1)","\e")[1]
+				
+				if STRLEN(speechtag) > 4
+				{
+					ReplyWithPing
+				}
+				else
+				{
+					ReplyToGhost
+				}				
+			}
+			else
+			{
+				conversation[0] = IARRAY
+				conversation[0] = "ready"
+			}			
+		}
+		//If she was already speaking, it stocks the name of the ghost who communicated to respond to him later, when the balloon would be closed
+		else
+		{
+			//ghostcommunicated = IARRAY
+			ghostcommunicated ,= "%(reference0)"
+			ghostcommunicated ,= "%(reference1)"
+			
+			//This variable will be checked in OnBalloonClose and in OnBalloonBreak, so if a ghost tried to communicate, Azura would respond to him back when she finish to talk with the user.
+		}
+ 	}
+	SAVEVAR
+}
+
+ReplyToUser
+{
+	TalkToUser
+}
+
+
+//Azura responding to other ghosts
+ReplyToGhost
+{
+
+		if conversation[1] == "MVSans"
+		{
+			if conversation[0] != "started"
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				if conversation[0] != "ready"
+				{
+					nbconv++
+					
+				}
+				conversation[0] =  "ready"
+			}
+			else
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				if conversation[0] != "started"
+				{
+					nbconv++
+				}
+				conversation[0] =  "started"
+			}
+		}
+		elseif "flowey" _in_ TOLOWER(conversation[1])
+		{
+			if conversation[0] != "started"
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				if conversation[0] != "ready"
+				{
+					nbconv++
+					
+				}
+				conversation[0] =  "ready"
+			}
+			else
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				
+				if conversation[0] != "started"
+				{
+					nbconv++
+					
+				}
+				conversation[0] =  "started"
+			}
+		}
+		elseif conversation[1] == "Ralsei"
+		{
+			if conversation[0] != "started"
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				if conversation[0] != "ready"
+				{
+					nbconv++
+				}
+				conversation[0] =  "ready"
+			}
+			else
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				
+				if conversation[0] != "started"
+				{
+					nbconv++
+				}
+				conversation[0] =  "started"
+			}
+		}
+		elseif conversation[1] == "Gaster"
+		{
+			if conversation[0] != "started"
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech  
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "he ignores" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				if conversation[0] != "ready"
+				{
+					nbconv++
+				}
+				conversation[0] =  "ready"
+			}
+			else{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech  
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				
+				--
+				if "he ignores" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				if conversation[0] != "started"
+				{
+					nbconv++
+				}
+				conversation[0] =  "started"
+			}
+		}
+		elseif conversation[1] == "Jockey"
+		{
+			if conversation[0] != "started"
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech 
+				{
+					conversation[0] = "ready"
+				}
+				if conversation[0] != "ready"
+				{
+					nbconv++
+				}
+				conversation[0] =  "ready"
+			}
+			else
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech 
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				
+				if conversation[0] != "started"
+				{
+					nbconv++
+				}
+				conversation[0] =  "started"
+			}
+		}
+		elseif conversation[1] == "Hunter and Smoker Beta" || res_reference0 == "Smoker"
+		{
+			if conversation[0] != "started"
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech 
+				{
+					conversation[0] = "ready"
+				}
+				if conversation[0] != "ready"
+				{
+					nbconv++
+				}
+				conversation[0] =  "ready"
+			}
+			else
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech 
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				
+				if conversation[0] != "started"
+				{
+					nbconv++
+				}
+				conversation[0] =  "started"
+			}
+		}
+		elseif conversation[1] == "Wheatley"
+		{
+			if conversation[0] != "started"
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech 
+				{
+					conversation[0] = "ready"
+				}
+				if conversation[0] != "ready"
+				{
+					nbconv++
+				}
+				conversation[0] =  "ready"
+			}
+			else
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech 
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				
+				
+				if conversation[0] != "started"
+				{
+					nbconv++
+				}
+				conversation[0] =  "started"
+			}
+		}
+		elseif conversation[1] == "CheeryBot"
+		{
+			if conversation[0] != "started"
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech 
+				{
+					conversation[0] = "ready"
+				}
+				if conversation[0] != "ready"
+				{
+					nbconv++
+				}
+				conversation[0] =  "ready"
+			}
+			else
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech 
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				
+				if conversation[0] != "started"
+				{
+					nbconv++
+				}
+				conversation[0] =  "started"
+			}
+		}
+		elseif conversation[1] == "Mettaton"
+		{
+			if conversation[0] != "started"
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				if speech == "HELLO AZURA.\e"
+				{
+					conversation[0] = "ready"
+				}
+				if speech == "FINE AND YOU ?\e"
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech 
+				{
+					conversation[0] = "ready"
+				}
+				if conversation[0] != "ready"
+				{
+					nbconv++
+				}
+				conversation[0] =  "ready"
+			}
+			else
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech 
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				
+				if conversation[0] != "started"
+				{
+					nbconv++
+				}
+				conversation[0] =  "started"
+			}
+		}
+		elseif conversation[1] == "Dusk_Dawn"
+		{
+			if conversation[0] != "started"
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech 
+				{
+					conversation[0] = "ready"
+				}
+				elseif "i'm" _in_ speech && "she is" _in_ speech && "dusk" _in_ speech && "dawn" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if conversation[0] != "ready"
+				{
+					nbconv++
+				}
+				conversation[0] =  "ready"
+			}		
+			else
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech 
+				{
+					conversation[0] = "started"
+				}
+				
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				if conversation[0] != "started"
+				{
+					nbconv++
+				}
+				conversation[0] =  "started"
+			}
+		}
+		elseif conversation[1] == "Dusty and Obsidian" || conversation[1] == "Dusty" || conversation[1] == "Obsidian"
+		{
+			if conversation[0] != "started"
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech 
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "what are you doing" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				if conversation[0] != "ready"
+				{
+					nbconv++
+				}
+				conversation[0] =  "ready"
+			}
+			else
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech 
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "what are you doing" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				
+				if conversation[0] != "started"
+				{
+					nbconv++
+				}
+
+				conversation[0] =  "started"
+			}
+		}
+		else
+		{
+			if conversation[0] != "started"
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech 
+				{
+					conversation[0] = "ready"
+				}
+				--
+				if "what are you doing" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				if conversation[0] != "ready"
+				{
+					nbconv++
+				}
+				conversation[0] =  "ready"
+			}
+			else
+			{
+				conversation[0] = "misunderstood"
+				if "hi" _in_ speech || "hello" _in_ speech || "howdy" _in_ speech || "good morning" _in_ speech || "good afternoon" _in_ speech || "good evening" _in_ speech || "good night" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "i'm good" _in_ speech || "i'm fine" _in_ speech || "i'm ok" _in_ speech || "i'm happy" _in_ speech || "i feel good" _in_ speech || "i feel ok" _in_ speech || "i feel happy" _in_ speech 
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "who are you" _in_ speech || "what's your name" _in_ speech || "what is your name" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "how are you" _in_ speech || "howzit goin" _in_ speech
+				{
+					conversation[0] = "started"
+				}
+				--
+				if "what are you doing" _in_ speech
+				{
+					conversation[0] = "ready"
+				}
+				
+				if conversation[0] != "started"
+				{
+					nbconv++
+				}
+				conversation[0] =  "started"
+			}
+			
+		}
+
+	--
+	"\e"
+	//ghostcommunicated = IARRAY
+}
+
+ReplyWithPing
+{
+	
+}
+
+
+//The closing balloon functions
+OnBalloonBreak
+{
+	RespondToCommunication
+}
+
+OnBalloonClose
+{
+	RespondToCommunication
+}
+
+OnBalloonTimeout
+{
+	RespondToCommunication
+}
+
+RespondToCommunication
+{
+	communicate = 0
+	if ARRAYSIZE(ghostcommunicated) >= 2
+	{
+		if nbconv < 1
+		{
+			res_reference0 = "%(ghostcommunicated[0])"
+			if ghostcommunicated[1][0] == conversation[2]
+			{
+				nbconv++
+			}
+			conversation[1] = "%(ghostcommunicated[0])"
+			conversation[2] = "%(ghostcommunicated[1])"
+			speech = TOLOWER(SPLIT("%(ghostcommunicated[1])","\e")[0])
+			speechtag = SPLIT("%(ghostcommunicated[1])","\e")[1]
+			if STRLEN(speechtag) > 4
+			{
+				ReplyWithPing
+			}
+			else
+			{
+				ReplyToGhost
+			}
+		}
+		else
+		{
+			conversation = "ready"
+		}
+		_temp = IARRAY
+		for _i = 2; _i < ARRAYSIZE(ghostcommunicated);_i++
+		{
+			_temp ,= ghostcommunicated[_i]
+		}
+		ghostcommunicated = _temp
+		
+	}
+	elseif conversation[0] == "interrupting"
+	{
+		
+		res_reference0 = "%(conversation[1])"
+		"%(conversation[2])"
+		conversation = IARRAY
+		conversation = "started"
+		
+	}
+}
+
+
+
+ 
+OnOtherGhostTalk
+{
+	OnCheckStatus
+	--
+	if communicate == 1 && asleep == 0
+	{
+		case reference0
+		{
+			when "Dr. W.D. Gaster"
+			{
+				
+				case reference3
+				{
+					when "OnSecondChange"
+					{
+						
+					}
+					when "OnMouseDoubleClick"
+					{
+						if "Face" _in_ "%(reference4)"
+						{
+							
+						}
+					}
+					when "OnChoiceSelect"
+					{
+						if "givegoogly" _in_ reference5 
+						{
+						}
+					}
+					others
+					{}
+				}
+				
+			}
+			when "Jockey"
+			{
+				case reference3
+				{
+					when "OnMouseDoubleClick"
+					{
+						if "Face" _in_ "%(reference4)"
+						{
+						}
+						useraffection -= 1
+					}
+					when "OnSecondChange"
+					{
+						if "hug" _in_ "%(reference4)"
+						{
+						}
+					}
+				}
+			}
+			when "Multiverse Sans"
+			{
+				if "knock knock" _in_ "%(reference4)"
+				{
+				}	
+			}
+			when "MVSans"
+			{
+				if "knock knock" _in_ "%(reference4)"
+				{
+				}
+			}
+			when "Dusk_Dawn"
+			{
+				if "la la la la" _in_ "%(reference4)" || "are singing" _in_ "%(reference4)"
+				{
+					
+				}
+			}
+			when "S the Skeleton"
+			{
+				if "cinnamon" _in_ "%(reference4)"
+				{
+				}
+			}
+			others {}
+			
+		}
+	}
+	communicate = 0
+}
+
+OnOtherGhostChanged
+{
+	
+}
+
+OnOtherGhostClosed
+{
+}

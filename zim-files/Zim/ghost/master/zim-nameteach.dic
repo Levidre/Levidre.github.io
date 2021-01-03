@@ -1,0 +1,197 @@
+﻿//---------------------------The User's Name--------------------------
+//This .dic file has to do with setting the user's name and suffix/prefix. You may recall some of the functions mentioned here from bootend.dic. As you can see, you can spread functions across multiple .dic files if you like! Just remember my note in bootend.dic about the different between OnFunction and Function.
+
+//This file is fairly short, so don't worry! It shouldn't take you too long to finish.
+
+//Make sure to read the walkthrough (http://www.ashido.com/ukagaka/walkthrough.html) for more details about how to properly format ghost dialogue!
+//I will reiterate that you should be editing these in Notepad++, and in particular, you should set the Language to C (or Java I guess) to properly highlight all the text. It will make things A LOT EASIER for you, trust me! It will also help you keep track of your brackets in case you forget some. If you click on a line with a bracket in Notepad++, it should highlight where the other bracket ends, or turn purple if there's no finishing bracket (which you should definitely fix!)
+//It will also highlight my commented lines in green, so you'll know where they are. Any line beginning with // is a commented line that the code will not read. It's just for your reference!
+
+
+//--OnTeachName
+//This is called from the config menu in the main character's double click menu when the user says they want to change their name. If you look in menu.dic you'll see the code leading to here.
+
+OnTeachName	
+{
+	if reference0 == "TEACHNAME" //ignore this
+	{
+		"\0\i[92]What?\w7 You want to change your name?\![open,inputbox,OnNameTeach,-1]\e"
+	}
+	else
+	{
+		//This else statement is empty, and I'm mostly pointing this out to mention that you can do this too with your if/elses if you want! An empty else will simply cause your ghost not to do anything. I wouldn't get too crazy with this though.
+	}
+}
+
+
+//--OnNameTeach
+//This is where the user inputs their name and the ghost analyzes it. If you want your ghost to have specific responses to certain names, this is where you would add them. If not, you can erase all the way from the initial if down to the else statement, only leaving from ""\0\s[0]Do you want a title?" to "\![*]\q[-san,titlesan]\e". So it'd look something like
+
+//OnNameTeach
+// {
+	//tempname = reference0
+	
+//"\0\s[0]Do you want a title?\w4\n\n[half]\![*]\q[Nope,titlenone]\n"
+	//	--
+	//	if presuffix == "masculine"
+	//	{
+	//	"\![*]\q[Mr.,titlemr]\n/
+	//	\![*]\q[Master,titlemaster]\n"
+	//	}
+	//	elseif presuffix == "feminine" 
+	//	{
+	//	"\![*]\q[Ms.,titlems]\n/
+	//	\![*]\q[Lady,titlelady]\n"
+	//	}
+	//	-- 
+	//	"\![*]\q[-ssi,titlessi]\n/
+	//	\![*]\q[-san,titlesan]\e"
+// }
+
+//If you did so. Otherwise, just fill things out as you like.
+
+OnNameTeach
+{
+	tempname = reference0 //this stores the name value temporarily in reference0
+	if TOLOWER(reference0) == "zim" || TOLOWER(reference0) == "zimm" || TOLOWER(reference0) == "zimmm" || TOLOWER(reference0) == "invader zim"
+	{
+		"\0\i[92]I know my name is great but choose your own.\![open,inputbox,OnNameTeach,-1]"
+		//Note here that it's using the same tag as above to reopen the text box to let the user put in another name. You can replace the dialogue with whatever as long as you keep the \![open,inputbox,OnNameTeach,-1] tag.
+	}
+	elseif reference0 == "" || reference0 == " " || reference0 == "   " //This is if the user doesn't put in a name at all, since that'd also get awkward in dialogue. Admittedly if a user REALLY wanted to put a ton of spaces as their name, the OR operators can only go so far, but this situation would mostly come up by accident I'd figure from a user hitting enter too quickly.
+	{
+		username = "NULL" //this sets the user's name to NULL.
+		
+		"\0\s[10]* You didn't put in anything.\w8I will call you NULL.\e"
+		//You can change this snip to whatever.
+	}
+	elseif TOLOWER(reference0) == "gir" || TOLOWER(reference0) == "daddy" || TOLOWER(reference0) == "dad" || TOLOWER(reference0) == "mom" || TOLOWER(reference0) == "mama"
+	{
+		"\0\i[96]What?\w7 Never I will call you that,\w5 try something else.\![open,inputbox,OnNameTeach,-1]"
+	}
+	else //if the user put in something not specified above, ie a proper name the ghost can use. 
+	{
+		/*if reference0 == "aaaaaa" || reference0 == "Aaaaaa" || reference0 == "azerty" || reference0 == "Azerty" || reference0 == "Qwerty" || reference0 == "qwerty"
+		{
+			chename = 1
+			--
+			"\0\s[10]\i[10]* You don't have much imagination.\w7\0\s[21]But I will really have fun in calling you %(reference0).\n\n[half]"
+			--
+			username = reference0
+		}
+		elseif TOLOWER(reference0) == "excel" || TOLOWER(reference0) == "excellynt" || TOLOWER(reference0) == "celly" ||  TOLOWER(reference0) == "cellybeans" 
+		{
+			"\0\s[10]* Levidre told me Flowey is very helpful for the shiori events,\w5 thank you for having released his test version and for supporting all the community.\n\n[half]"
+		}
+		elseif TOLOWER(reference0) == "zarla" || TOLOWER(reference0) == "zar" || TOLOWER(reference0) == "radic"
+		{
+			"\0\s[10]* That's thanks to you that Levidre started to create me as a ghost.\w7 Thinking of that, \w5that's maybe thanks to you that she started a comic. \i[10]So\w5 thank you. \w7She likes a lot the Handplates and admires your work.\n\n[half]"
+		}
+		elseif TOLOWER(reference0) == "quonit"
+		{
+			"\0\s[10]* Oh !\w7 Hehe,\w5 you did a very good job with Jockey.\n\n[half]"
+		}
+		elseif TOLOWER(reference0) == "riot"
+		{
+			"\0\s[10]* A dragon !\w7 Levidre and me are loving dragons.\w7 Her avatar is a dragon,\w5 but it has a human form too.\n\n[half]"
+		}
+		elseif TOLOWER(reference0) == "cherry"
+		{
+			"\0\s[10]* So that's you who want to cheer up people with your ghost ?\w7 And who likes negative paths ?\n\n[half]"
+		}
+		elseif TOLOWER(reference0) == "change"
+		{
+			"\0\s[10]* How is going UFSans ?\w7 Levidre told me he has a nice music player too and some games.\n\n[half]"
+		}
+		elseif TOLOWER(reference0) == "stabbs"
+		{
+			"\0\s[10]\i[10]* Give a hug to Wheatley for me please.\n\n[half]"
+		}
+		elseif TOLOWER(reference0) == "ymuy"
+		{
+			"\0\s[10]* You're so brave to create so big arrays in the pokedex.\n\n[half]"
+		}*/
+		--
+
+		"\0\i[2001](You can choose a title.)\n\n[half]\![*]\q[Nothing,titlenone]\n"
+		//You can replace "\0\s[0]Do you want a title?", but don't touch the rest of it.
+		--
+		if presuffix == "masculine" //this value was defined in bootend.dic and menu.dic when the user chose their pronouns. Thus, if someone chose he/him pronouns, they would be able to choose Mr. or Master.
+		{
+		"\![*]\q[Mr.,titlemr]\n/
+		\![*]\q[Master,titlemaster]\n"
+		}
+		elseif presuffix == "feminine" //Likewise, if someone chose she/her pronouns, they could choose Ms. or Lady.
+		{
+		"\![*]\q[Ms.,titlems]\n/
+		\![*]\q[Lady,titlelady]\n"
+		}
+		-- //the titles after this are gender neutral and will appear for all users. If you want to remove the masculine and feminine titles entirely, just delete from the curly bracket one line up to the double dashes above "if presuffix == "masculine". That should leave only the neutral titles. Make sure to leave a set of double dashes above the neutral titles though.
+		"\![*]\q[-ssi,titlessi]\n/
+		\![*]\q[-san,titlesan]\e"
+		//Note that the final line here ends with \e instead of \n/, since it is the final option. If you're copying and pasting to add new options, don't use the final line. More on that in the box below.
+	}
+}
+	//*********************Advanced User Info*******************************
+	//Adding new titles for your users to use is simply a matter of copy and pasting creatively. You can see how the ghost puts together the title and your name in the Select. sections below. Above, you simply need to add a new option and link it to a new Select. For example, you could add "\![*]\q[Mistress,titlemistress]\n/" between Ms. and Lady up there, then write up a Select.titlemistress below that fits the pattern of the others.
+	
+	//If you are removing the pronoun system entirely, what you'd want to do is erase everything in that else statement above regarding titles and replace it with something like this.
+	//else
+	//{
+	//username = tempname
+	//"\0\s[0]The user is now called %(username).\e"
+	//}
+	//***********************************************************************
+	
+	//The following Select.title[word] functions add the title to the user's name, then go to the final step, NameDone. You don't have to touch any of these. Advanced users, notice how these match the linked functions in the choices above.
+	
+Select.titlenone
+{
+		username = tempname
+		NameDone
+}
+
+Select.titlemr
+{
+		username = "Mr. " + tempname
+		NameDone
+}
+
+Select.titlemaster
+{
+		username = "Master " + tempname
+		NameDone
+}
+		
+Select.titlems
+{
+		username = "Ms. " + tempname
+		NameDone
+}
+
+Select.titlelady
+{
+		username = "Lady " + tempname
+		NameDone
+}
+
+Select.titlessi
+{
+		username = tempname + "-ssi"
+		NameDone
+}
+
+Select.titlesan
+{
+		username = tempname + "-san"
+		NameDone
+}
+
+//--NameDone
+//This is the final bit of dialogue your ghosts will have when the user changes their name.
+
+NameDone
+{
+	"\0\i[92]\i[128]\i[100]\i[127]\i[128]\i[117]\i[118]\i[64]I don't care what your name is,\w5 you filthy human.\w7\i[133]\i[134]\i[152]\i[202] I can smell your filthy dirty smell from here.\w8\i[127]\i[128]\i[117]\i[118]\i[141]\i[191]\e"
+}
+

@@ -1,0 +1,485 @@
+﻿//---------------------------AI Talk--------------------------
+//Alright, this is it! The bread and butter of your ghost. This is where all their random conversations are stored. Of all the .dic files, this is the one you will probably be adding stuff to and updating the most as new dialogue comes to your mind. It is relatively simple in that there aren't many functions or real coding involved with this file, but there are a few cool tricks you can do within randomtalk that can make dialogue with interesting effects, so I'll point them out as we go along.
+//I'm going to leave a lot of examples of different types of dialogue in here that you can study if the possibilities they present intrigue you. Study them carefully!
+
+//Make sure to read the walkthrough (http://www.ashido.com/ukagaka/walkthrough.html) for more details about how to properly format ghost dialogue!
+//I will reiterate that you should be editing these in Notepad++, and in particular, you should set the Language to C (or Java I guess) to properly highlight all the text. It will make things A LOT EASIER for you, trust me! It will also help you keep track of your brackets in case you forget some. If you click on a line with a bracket in Notepad++, it should highlight where the other bracket ends, or turn purple if there's no finishing bracket (which you should definitely fix!)
+//It will also highlight my commented lines in green, so you'll know where they are. Any line beginning with // is a commented line that the code will not read. It's just for your reference!
+
+//--AiTalk
+//Leave this alone.
+//Advanced users, this is mostly setting up whether or not dialogue is in a chain before it displays. Again, you can leave it alone unless you want to screw around with chains for some strange reason.
+
+
+
+//Oh my bloop
+//"Taht's bad" "Awboooo"
+AiTalk
+ {
+
+	if RAND(100) < communicateratio
+ 	{
+ 		StartCommunicate
+	}
+ 	else
+	{
+		
+ 		if mikireflag == 0
+		{
+			
+			if CHAIN.IDName == "" {
+				
+ 				lastTalk = RandomTalk
+			}
+			else {
+				lastTalk = ChainTalk
+			}
+			lastTalk
+		}
+ 		else
+		{ 
+		MikireTalk
+ 		}
+	}
+ }
+
+
+//--RandomTalk 
+ //Alright, here we go! This is where ALL your ghost's random dialogue will go! These are the conversations that they'll have with you or each other that pop up depending on the talk rate defined in menu.dic (or if you ignored that, set in bootend.dic in the first boot, which would be every five minutes).
+ 
+//*********************Advanced User Info*******************************
+//These text boxes are meant for those who have an interest in expanding or using more complicated functions in their ghost. Also for my own reference in the future since I plan on using this template too, haha. If you have no interest in any of this and just want to keep things as simple as possible, feel free to skip these boxes.
+
+//ALL your random dialogue NEEDS to be in RandomTalk. You can't link to other functions or something from within RandomTalk, or a separate pool of convos in another .dic file, as far as I can tell. So, how do you then set up certain pools of dialogue that only happen when certain settings are in place (for example, when there are three characters on the screen instead of two) and won't happen when they are false? Basically, you just need to be creative with your if statements. You can nest a ton of ifs and elses in RandomTalk, and if you keep them straight, you can make a lot of dialogue here customized to whatever situation you can come up with. BUT again, you can't call other dialogue into here! I go more into how to set up a "mode" like that in the coding page of the walkthrough site.
+//I GUESS you could set up more dialogue in an envelope perhaps (see word.dic) or another .dic file and then call it in here using envelopes, but that seems a bit redundant. Maybe someone else can think of a use for that though.
+
+//The closest you can get to linking to outside dialogue is via chains, but I'll talk more about chains when we get to them. Being creative with chains can open up a lot of opportunities for you, such as presenting the user with choices every now and then, which I'm pretty sure you can't do within RandomTalk. Maybe you can, I usually do it via chains though. I'll have to experiment with this later.
+//***********************************************************************
+OnStartCom
+{
+	--
+	res_reference0 = ghostexlist[index]
+	conversation = "started"
+	if ghostexlist[index] == "MVSans"
+	{
+
+	}
+	elseif "flowey" _in_ TOLOWER(ghostexlist[index])
+	{
+	}
+	elseif ghostexlist[index] == "Gaster"
+	{
+	}
+	elseif ghostexlist[index] ==  "Ralsei"
+	{
+
+	}
+	elseif ghostexlist[index] == "Jockey"
+	{
+	}
+	elseif ghostexlist[index] == "Hunter and Smoker Beta"
+	{
+	}
+	elseif ghostexlist[index] == "Wheatley"
+	{
+
+	}
+	elseif ghostexlist[index] == "CheeryBot"
+	{
+	}
+	elseif ghostexlist[index] == "Mettaton"
+	{
+	}
+	elseif ghostexlist[index] == "Dusk"
+	{
+	}
+	elseif ghostexlist[index] == "MiniDev"
+	{
+	}
+	else
+	{
+	}
+
+}
+
+RandomTalk : nonoverlap
+{
+	if worried == 1
+	{
+		WorriedTalk
+	}
+	elseif worried == -1
+	{
+		"%(zpose)%(zrelieved)%(arms)\i[2001](He looks relieved.)"
+		"%(zpose)%(zrelieved)%(arms)\i[2001](He is back.)"
+		"%(zpose)%(zrelieved)%(arms)Phew..."
+		worried = 0
+	}
+	else
+	{
+		NeutralTalk
+		if discovered == 1
+		{
+			DiscoveredTalk
+		}
+		else
+		{
+			CoveredTalk
+		}
+	}
+	
+}
+
+NeutralTalk : nonoverlap
+{
+	if useraffection > 150
+	{
+		"\0\i[92]\i[136]\i[137]\i[146]\i[196]\i[62]\i[43]I understand why you enjoy that much my company%(zbackpose)%(zexplainarms)\i[54]\i[62]\i[136]\i[137] seeing how amazing I am."
+	}
+	else
+	{
+		
+		"\0\i[92]So,\w5 huh,\w5 what are you doing here?"
+		"\0\i[92]Why did you make me come here anyway?"
+	}
+	
+	
+	if cumuhour > 300
+	{}
+	elseif cumuhour > 48
+	{}
+	elseif cummuhour > 10
+	{
+		
+	}
+	else
+	{
+		"%(zwondering)\i[2001](He looks unsure about where he is.)"
+		"%(zwondering)\i[2001](He looks intrigued by your desktop.)"
+		"%(zwondering)\i[2001](He is looking around curiously.)"
+	}
+	if cumuhour > 4 && toldcomputer == 0
+	{
+		"\0%(zpose)%(zwondering)It's a so weird place.\n\n[half]\i[2001](Tell him about your computer?)\n\n[half]\![*]\q[Yes,tellcomputer1]     \![*]\q[No,close]"
+	}
+	if toldcomputer >= 1
+	{
+		"\0%(zwondering)So those things are files."
+		"\0%(zwondering)And what would happen if I touch some %(fileextent)?"
+		"\0%(zwondering)And what would happen if I touch some %(dangerousfileextent)?\n\n[half]\i[2001](You say nothing good to him.)"
+		"\0%(zwondering)Interesting..."
+		
+	}
+	elseif toldcomputer == 0
+	{
+		"\0%(zpose)%(zwondering)What's this thing?\n\n[half]\i[2001](He is looking at a %(fileextent).)"
+		"\0%(zpose)%(zwondering)What's this thing?\n\n[half]\i[2001](He is looking at a %(dangerousfileextent).)"
+		"\0%(zpose)%(zwondering)What are those things used for?\n\n[half](He is looking at a %(fileextent).)"
+		"\0%(zpose)%(zwondering)What are those things used for?\n\n[half](He is looking at a %(dangerousfileextent).)"
+		"\0%(zpose)%(zboredface)\i[101]%(zwonderingarms)What a weird place."
+		"\0%(zpose)%(zboredface)\i[100]%(zwonderingarms)What's this place anyway?"
+	}
+	
+	//timeslot dialogues
+	if timeslot == "morning"
+	{
+		"\0%(zboredface)\i[2001](He doesn't seem very happy.)"
+	}
+	elseif timeslot == "earlymorning"
+	{
+		"\0\i[2001]%(zboredface)(He doesn't seem sleepy at all.)"
+	}
+	elseif timeslot == "midnight" || timeslot == "latenight"
+	{
+		"\0\i[2001](He doesn't seem sleepy at all.)"
+	}
+	
+	if passhour > 12
+	{
+		"\0%(zboredface)\i[2001]He doesn't seem very happy."
+	}
+	elseif passhour > 5
+	{
+		"\0%(zboredface)\i[2001]He doesn't seem very happy."
+	}
+	elseif passhour > 2
+	{
+		"\0%(zpose)\i[100]%(arms)%(zboredface)Don't you have stuff to do?\w7%(zrelaxedarms)\i[126] Can't you just let us go?"
+	}
+	
+	
+	"\1%(ghappyface)%(grandomarms)\i[2001](He looks agitated.)"
+	"\1%(gsatisfiedface)%(arms)\i[2001](He is playing with a %(fileextent).)"
+	"%(zrelieved)\1%(ghappyface)%(arms)\i[2001](He is playing with a %(fileextent). Zim seems happy it keeps him occupied.)"
+	"\1%(gsatisfiedface)%(arms)\i[2001](He is watching a %(fileextent).)"
+	
+	"\1\i[2001](He is looking actively around.)"
+	"\1\i[2001](He looks interrested in your files... only for a few seconds.)"
+	
+	"\1%(gsatisfiedface)%(arms)\i[2001](He is playing with a %(dangerousfileextent). You start to be worried.)"
+	"\1%(gsatisfiedface)%(arms)\i[2001](He is playing with a %(dangerousfileextent). You hope he won't break anything.)"
+	"\1%(gsatisfiedface)%(arms)\i[2001](He is playing with a %(dangerousfileextent). Zim doesn't seem to want to stop him.)"
+	"\1%(gsatisfiedface)%(arms)\i[2001](He is watching a %(dangerousfileextent). You start to worry for it.)"
+	"\1%(gsatisfiedface)%(arms)\i[2001](He is watching a %(dangerousfileextent). You feel anxious about it.)"
+	
+	"\0\i[2001]\i[101]%(zboredeyes)(He is watching GIR.)"
+	//"\0\i[2001]()"
+	
+	"\0%(zpose)%(zboredface)\i[100]%(arms)For how long are you gonna keep us here?"
+	"\0%(zpose)%(zeyes)%(zsmile)%(zwonderingarms)\i[101]%(irken)Maybe I should report to my tallest?"
+	"\0%(zpose)%(zeyes)%(zsmile)%(zwonderingarms)\i[102]%(irken)The tallest must be informed of this place."
+	--
+	"\e"
+}
+
+DiscoveredTalk : nonoverlap
+{
+		
+	"\0\i[61]\i[52]\i[42]\i[133]\i[134]\i[152]\i[202]\1\f[italic,true]\i[96]\i[117]\i[118]TAAAAAAAACOOOOOOOOOOOOOOOOSSSSSSSS!!!!!!!\f[italic,false]\i[136]\i[137]\i[62]\0\i[92]\i[121]\i[101]\i[122]\i[68]\i[144]\i[190]\i[51]GIR please."
+	"\0\i[61]\i[52]\i[42]\i[133]\i[134]\i[152]\i[202]\1\f[italic,true]\i[96]TAAAAAAAACOOOOOOOOOOOOOOOOSSSSSSSS!!!!!!!\f[italic,false]\i[136]\i[137]\i[62]\0\i[92]\i[127]\i[128]\i[140]\i[190]Don't pay attention to him."
+	"\1\i[92]Doom doomdoom doom doom...\0\i[92]No GIR,\w5 please don't sing.\e:chain=doomsong1"
+	"\1\i[92]%(ghappyface)I'm hungry!\w8\0%(zpose)\i[101]%(zboredface)%(arms)Urgh... \i[100]\i[50]\i[92]Do you have something to eat?"
+	"\1%(gsatisfiedface)%(arms)\i[92]Can I eat \i[192]this?\n\n[half]\i[2001](You jump on the innocent %(fileextent) before GIR takes it.)"
+	"\1%(gsatisfiedface)%(arms)\i[92]Can I eat \i[192]this?\n\n[half]\i[2001](You jump on the %(dangerousfileextent) before GIR takes it. Who knows what would happen if he eats it.)"
+	"\0%(zpose)%(zwondering)I'm pretty happy of how the last plan went.\w8\1%(ghappy)Let's do it again!"
+	--
+	"\e"
+	
+}
+
+
+CoveredTalk : nonoverlap
+{
+	if girspoke == 1
+	{
+		"\i[2001](You tell him you heard GIR speak.)\n\n[half]"
+		"\i[2001](You ask him why his dog speaks.)\n\n[half]"
+		"\i[2001](You ask him how is his dog speaking.)\n\n[half]"
+		"\i[2001](You tell him his dog speaks.)\n\n[half]"
+		"\i[2001](You express you surprise at his dog speaking ability.)\n\n[half]"
+		--
+		"%(zrandompose)%(zboredeyes)%(zrelaxedarms)\i[101]%(zsmile)Dogs don't speak."
+		"%(gsadface)%(zrandompose)%(zangryeyes)%(zrelaxedarms)%(zsmile)\i[101]This one is not speaking."
+		"%(gsadface)%(zrandompose)%(zangryeyes)%(zrelaxedarms)%(zsmile)\i[101]Your earing organs tricked you."
+		"%(gsadface)%(zrandompose)%(zangryeyes)%(zrelaxedarms)%(zsmile)\i[101]Your%(zwonderingface), \w5huh, \w5ears...%(zangryeyes)%(zsmile)\i[101] tricked you."
+	}
+	
+	"\0%(irken)\i[101]\i[112]\i[114]\i[92]\i[125]\i[122]Did you let the cake on the fire?%(irkens)\w8\1%(irken)\i[117]\i[118]\i[62]I did.%(irkens)\0\f[italic,true]\w8\i[96]\n\n[half]\i[53]\i[153]\i[203]%(zsmile)\i[54]Whhaaaaaaattt???\f[italic,false]\n\w7\i[53]\i[92]\i[144]\i[194]\i[100]%(username) please I need to go right now.\n\n[half]\![*]\q[Let him go,goworried]\n\![*]\q[Keep him here,nogoworried]"
+	"\0%(irken)\i[101]\i[112]\i[114]\i[92]\i[125]\i[122]Did you let the cake on the fire?\w8\1%(irken)\i[117]\i[118]\i[62]\i[92]Nah,\w5 it was ready.%(irkens)\0\i[127]\i[128]\i[66]\n\n[half]At least I won't find the house on fire.%(irkens)"
+	"\0%(irken)\i[92]%(zpose)%(zwonderingeyes)\i[68]%(zwonderingarms)\i[102]Do you think we should conquer this place as well?\1\w8%(irken)%(ghappyface)\i[92]Are they having tacos?\w8%(zboredface)%(arms)\i[101]\n\n[half]Why did I ask..."
+	"\0%(zpose)\i[92]%(zrelaxedarms)%(zwonderingeyes)\i[100]\i[63]Do you have some,\w5\i[101] huh,\w5\i[146]\i[196]\i[62]\i[100] weaknesses to confess?"
+	"\0%(zpose)\i[92]%(zrelaxedarms)%(zwonderingeyes)\i[100]\i[63]Do you have some,\w5\i[101] huh,\w5\i[146]\i[196]\i[62]\i[100] weaknesses to confess?\w7\i[129]\i[130]\i[144]\i[194] Tell meeeeeeee!!!!"
+	"\0%(zpose)\i[92]%(zrelaxedarms)%(zboredface)\i[100]I'm a pretty busy human child.\w7 \i[125]\i[126]\i[62]\i[146]\i[196]So it would be pretty nice of you to let me go right now."
+	
+	
+	--
+	"\e"
+}
+
+WorriedTalk : nonoverlap
+{
+	"%(zworried)"
+	--
+	"\i[2001](He looks worried.)"
+	"\i[2001](He is very tensed.)"
+	"\i[2001](He gives GIR a bad look.)"
+	"\i[2001](He doesn't look comfortable.)"
+	"\i[2001](He looks very anxious.)"
+}
+
+PreHalloweenTalk
+{
+	
+}
+PostHalloweenTalk
+{
+	
+}
+
+
+///Changing pose functions----------------------------------------------------------------------------------------------------------------------------
+
+
+
+///The aitalk select functions------------------------------------------------------------------------------------------------------------------------
+
+Select.tellcomputer1
+{
+	"\0\i[2001](You explain him he is on a human computer. He looks baffled.)\n\n[half]%(zpose)%(zwondering)A human computer?\w7 How is this possible?\e"
+	toldcomputer = 1
+}
+
+Select.goworried
+{
+	"\0\i[92]\i[52]\i[125]\i[126]Thank you...\s[-1]\n\n[half](He is gone...)\e"
+	worried = -1
+	useraffection++
+}
+
+Select.nogoworried
+{
+	"\0\i[123]\i[124]\i[115]\i[116]\i[96]\i[144]\i[194]Why do you keep me here when I have \f[italic,true]something important to do\f[italic,false]!!!\e"
+	"\0\i[123]\i[124]\i[115]\i[116]\i[92]\i[145]\i[195]You won't be able to keep me here forever so \i[96]why not letting me go now?!?\e"
+	useraffection--
+	worried = 1
+}
+
+//-OnMinuteChange
+
+OnMinuteChange
+ {
+	timeslot = GetTimeSlot //this tells the ghost what time it is so the time related conversations above will work.
+	dayslot = GetDaySlot
+	
+	if minute == 0 //These check what time it is. Here, it's seeing if the minute equals zero...
+	{
+		if hour == 12 && minute == 0//And the hour equals 12, ie it's noon. You can change this to some other hour if you want.
+		{
+			if !asleep
+			{
+				
+			}
+			else
+			{
+
+			}
+			//Replace with appropriate dialogue as you want.
+		}
+	}
+	elseif hour == 0 && minute == 0//If the hour is zero, aka midnight. Again, you can change this to whatever hour you want to check for.
+	{
+		if !asleep
+		{
+
+		}
+		else
+		{
+
+		}
+				//Then replace the dialogue with what's appropriate.
+	}
+	elseif hour == 23 //if the hour is 23, aka 11 pm.
+	{
+		
+	}
+			
+	elseif hour == 16 && minute == 0//if the hour is 16, or 4 pm. You can add in time checks for whatever times you want, or change what these time checks are looking for. These are just meant to be examples of how it works.
+	{
+		
+			
+	}
+	else
+	{
+		
+	}
+	//Replace with what's appropriate.
+	
+	if (hour >= 22 || hour <= 6) && aitalkinterval == 0 && inpyjama != 1
+	{
+	}
+	elseif minute == 0
+	{
+				
+				//%(hour12) stores the time. This is a general top of the hour notification. I personally like this because it helps me keep track of time when I've been working on something, so when a ghost is all "Hey it's 3 o clock" I can be like woah really when did that happen. If you think this is annoying though, you can just delete this bit of dialogue to leave this else statement blank, or leave "" in here instead.
+	}
+	
+		//Don't touch this part.
+	elseif mikireflag == 1
+	{
+		MikireTalk
+	}
+	elseif aitalkinterval == 0 
+	{
+	}
+ }
+
+//--OnSecondChange
+
+OnSecondChange
+ {
+	if passsec == 60
+ 	{
+	 	passsec = 0
+ 		passmin = passmin + 1
+	}
+ 	else
+ 	{
+	 	passsec = passsec + 1
+	}
+	--
+	if passmin == 60
+	{
+		passhour = passhour + 1
+		passmin = 0
+		cumuhour = cumuhour + 1
+	}
+	if mikireflag == 1 && reference1 == 0
+	{
+		EndMikireTalk
+ 	}
+	mikireflag = reference1
+	if reference2 == 1
+	{
+ 		//This dialogue is for when the two characters are overlapping each other. If you don't want your characters to care, you can just leave this blank.
+		
+ 		//"* Me and Triangle are overlapping.\w8\1That's strange since your resolution is %screenwidthx%screenheight, %(username). Shouldn't we have enough space?\4\e"
+		
+		//You can see here the use of two envelopes, screenwidth and screenheight, to tell the user their resolution. Oddly, they are not in parentheses. I'm not sure why this is, but they don't display right otherwise. An odd quirk with these two envelopes.
+		//Note also how Triangle moves away at the end of the dialogue. This is due to the \4 tag. That will make any one character move away from the other if they are able. I talked about this tag and its counterpart tag \5 in the SakuraScript page on the walkthrough.
+	}
+ }
+ 
+
+ //---- MikireTalk ---------------------------------------------------------------------
+
+MikireTalk
+ {
+	"%(lsto)* I'm off the screen.\w7You can push Ctrl-Shift-F12 to bring me back."
+}
+
+ //----EndMikireTalk--------------------------------------------------------------------
+
+EndMikireTalk
+ {
+	"%(lsto)* I'm no longer off the screen.\e"
+ }
+
+
+//**** OnSurfaceRestore *****************************************************************
+
+OnSurfaceRestore
+ {
+	/*"\i[111]\i[112]\i[113]\i[114]"
+	
+	"\i[127]\i[128]\i[112]\i[114]"
+	"\i[119]\i[120]\i[129]\i[130]"
+	"\i[129]\i[130]\i[112]\i[114]"
+	"\i[119]\i[120]"
+	--	
+	"\i[49]"
+	"\i[41]"
+	--
+	"\i[52]"
+	"\i[50]"
+	--
+	"\i[60]"
+	"\i[65]"
+	"\i[68]"
+	"\i[69]"
+		
+	if zimpunched <= 0
+	{
+		"\i[63]"
+	}
+	*/
+	"%(defaultpose)"
+	
+ }
+
+ //snooping through your stuff--------------------------------------------------
+ 
+
+
+ //--OnKeyPress
+ //This defines the hotkeys your ghost will use. You can change these to whatever you want, but I don't really know why you would. I'd just leave this alone. Advanced Users can add new hotkeys attached to whatever function if you want.
+// OnKeyPress is now in az-musice.dic 
