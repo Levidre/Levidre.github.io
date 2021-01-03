@@ -1336,7 +1336,6 @@ OnKnowmood
 		{
 			"\x%(lsto)* You have nothing to do for now.\x"
 		}
-		
 	}
 	
 	"\![updatebymyself,checkonly]"

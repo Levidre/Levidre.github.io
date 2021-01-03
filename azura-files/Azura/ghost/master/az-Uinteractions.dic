@@ -585,6 +585,8 @@ Select.askherself
 			"\0\i[18]\i[38]\i[39]\i[45]%(lsto)* It doesn't seem bad here."
 			"\0\i[18]\i[38]\i[39]\i[45]%(lsto)* Your computer doesn't seem a such horrible place."
 		}
+		"\0%(lsto)\i[18]I haven't been always like this."
+		"\0%(lsta)You ask her who she was in the real world.\n\n[half]%(lsto)Nobody important for sure,\w5 mostly a loner."
 		"\0\i[2001]\f[italic,true]\i[18]You ask her how she feel with her genocide run.\f[italic,false]\i[2002]\w9\n\n[half]\i[32]\i[33]\i[46]* That's not your problem."
 		"\0\i[2001]\f[italic,true]You wonder if there is blood inside her wings and her tail since they are made of magic.\f[italic,false]\i[2002]\i[38]\i[39]\i[45]\w9\n\n[half]* Blood in my wings and in my tail ?\w5 It's a good question haha. \w7And the answer is no, \w5they are made of magic and totally independant of my body,\w5 so there is no blood inside."
 	}
@@ -602,6 +604,8 @@ Select.askherself
 		{
 			"\0\i[2001]\f[italic,true]\i[18]You ask her if the ground of your computer is comfortable.\i[2002]\f[italic,false]\n\n[half]\i[38]\i[39]\i[45]* Yes,\w5 it doesn't feel bad."
 		}
+		"\0%(lsto)\i[18]I haven't been always like this."
+		"\0%(lsta)You ask her who she was in the real world.\n\n[half]%(lsto)Nobody important for sure,\w5 mostly a loner."
 		"\0\i[2001]\f[italic,true]\i[18]You ask her how she feel with her genocide run.\f[italic,false]\i[2002]\n\n[half]\i[32]\i[33]\i[46]* That's not your problem."
 		"\0\i[2002]\f[italic,true]\i[18]You ask her how it is to fly.\f[italic,false]\i[2002]\n\n[half]\i[38]\i[39]\i[50]* It's very nice,\w5 you feel yourself free.\w7 When you look the world under you,\w5 you can really see how big it is and how much small we are."
 		"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* I'm fine,\w5 thank you."
@@ -618,6 +622,8 @@ Select.askherself
 			"\0\i[2001]\f[italic,true]\i[18]\i[38]\i[39]\i[50]You say her she seems happy.\f[italic,false]\i[2002]\n\n[half]\w9\i[18]* Really ?\w7 \i[10]Well,\w5 it's not bad here.\i[18]"
 		}
 		//\i[68] before i45
+		"\0%(lsto)\i[18]I was less confident before entering Undertale."
+		"\0%(lsta)You ask her who she was in the real world.\n\n[half]%(lsto)Nobody important for sure,\w5 mostly a loner."
 		"\0\i[2001]\f[italic,true]\i[18]You ask her how she feel with her genocide run.\i[45] She shrivers.\f[italic,false]\i[2002]\n\n[half]\i[34]\i[35]* Did you ever do something by challenge ? \w7Because you had to try it ?"
 		"\0\i[18]\i[30]\i[31]%(lsto)* I'm fine,\w5 thank you."
 		"\0\i[18]\i[30]\i[31]%(lsto)* I'm living at Toriel's home."
@@ -625,26 +631,34 @@ Select.askherself
 	elseif useraffection <= 200
 	{
 		//\i[68] before i45
+		"\0%(lsto)\i[18] I was less confident before entering Undertale."
+		"\0%(lsta)You ask her who she was in the real world.\n\n[half]%(lsto)* Nobody important for sure,\w5 mostly a loner."
 		"\0\i[2001]\f[italic,true]\i[18]You ask her how she feel with her genocide run.\i[45] She shrivers.\f[italic,false]\i[2002]\n\n[half]\i[34]\i[35]* Did you ever do something by challenge ? \w7Because you had to try it ?"
 		"\0\i[2001]\f[italic,true]\i[18]You ask her if she misses her family in the real world.\f[italic,false]\i[2002]\n\n[half]\i[30]\i[31]\i[45]* Yes, \w5I still love them.\w7 \i[32]\i[33]But I made my choice and they cannot remember me anyway."
-		"\0\i[2001]\f[italic,true]\i[18]You ask her if she misses her family in the real world. She sighs.\f[italic,false]\i[2002]\n\n[half]\i[32]\i[33]\i[45]* It's painful,\w5 you know ? \w7I found a new family here but I will never forgot my family of the real word even if I said them goodbye forever."
+		"\0\i[2001]\f[italic,true]\i[18]You ask her if she misses her family in the real world. She sighs.\f[italic,false]\i[2002]\n\n[half]\i[32]\i[33]\i[45]* It's painful,\w5 you know ? \w7I found a new family here but I will never forget my family of the real word even if I said them goodbye forever."
 		"\0\i[18]\i[38]\i[39]\i[45]%(lsto)* Toriel is regularly wondering where I disappear. \w7 \i[10]I cannot tell her that I'm on your computer."
 	}
 	elseif useraffection <= 275
 	{	
+		"\0%(lsto)\i[18]* I was less confident before entering Undertale."
+		"\0%(lsto)\i[18]* I always had issues with my self-confidence."
 		"\0\i[2001]\f[italic,true]\i[18]You ask her how she feel with her genocide run. She shrivers\f[italic,false]\i[2002]\n\n[half]\i[45]\i[32]\i[33]* Bad, \w5very bad.\w7 Worst since I live here now.\w7 But everything has been resetted when I transfered my soul so my guilt is the only thing left."
 		"\0\i[18]\i[38]\i[39]\i[45]%(lsto)* Toriel is regullary wondering where I disappear. \w7 \i[10]I cannot tell her that I'm on your computer."
 		"\0\i[18]\i[38]\i[39]\i[45]%(lsto)* Toriel is asking me sometimes where I disappear. \w7I don't answer her."
+		"\0\i[18]\i[39]\i[38]\i[46]%(lsto)\i[18]* Having wings and a tail doesn't really make things easier to make new friends.\w7 Particulary with humans."
 	}
 	elseif useraffection <= 375
 	{
+		"\0%(lsto)\i[18]* I always had issues with my self-confidence."
 		"\0\i[18]\i[38]\i[39]\i[45]%(lsto)* Toriel asked me a lot of time where I disappear,\w5 I didn't tell her I'm here."
 		"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* I know worst places where to spend my time."
 		"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* It's pretty nice here."
+		"\0\i[18]\i[39]\i[38]\i[46]%(lsto)\i[11]* I don't have a lot of trust in myself sometimes.\w7\i[18] Or is it a self-esteem issue ?\w7 \i[11]I don't really know."
 		
 	}
 	elseif useraffection <= 500
 	{
+		"\0%(lsto)\i[18]* I always had issues with my self-confidence and my self-esteem."
 		"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* Toriel stopped wondering about me. \w7\i[10]\i[34]\i[35]She must be used to me disappearing."
 		"\0\i[18]\i[30]\[31]\i[45]%(lsto)* I don't see the time passing here."
 		"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* Spending time here isn't bad."
@@ -668,7 +682,7 @@ Select.askherself
 				"\0\i[18]\i[30]\[31]\i[45]%(lsto)* I'm well installed, \w5this place is nice while you don't punch me."
 			}
 		}
-		
+		"\0%(lsto)\i[18]* I always had issues with my self-confidence and my self-esteem."
 		"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* Toriel stopped wondering about me. \w7\i[10]\i[34]\i[35]She must be used to me disappearing."
 		"\0\i[18]\i[30]\i[31]\i[45]%(lsto)* It's nice here."
 	}
@@ -728,7 +742,7 @@ Select.askherself
 	{
 		"\0\i[10]\i[30]\i[31]\i[46]%(lsto)* A little bit down I guess ?"
 		"\0\i[11]\i[30]\i[31]\i[40]%(lsto)* I have already felt better."
-		"\0\i[18]\i[30]\i[31]\i[46]%(lsto)* I'm a little bit melancholc right now."
+		"\0\i[18]\i[30]\i[31]\i[46]%(lsto)* I'm a little bit melancholic right now."
 		"\0\i[11]\i[30]\i[31]\i[46]%(lsto)* I'm a little bit nostalgic."
 	}
 	elseif azfeel > 3
@@ -746,6 +760,7 @@ Select.askherself
 		if useraffection >= 200
 		{
 			"\0\i[12]\i[32]\i[33]\i[45]%(lsto)* I miss a little bit the reality."
+			"\0\i[12]\i[32]\i[33]\i[45]%(lsto)* Sometimes people are a lot less kind than what you would have preferred."
 		}
 		"\0\i[18]\i[38]\i[39]\i[40]%(lsto)* Well, I have known better days."
 		"\0\i[11]\i[30]\i[31]\i[40]%(lsto)* My usual positivity must be in vacation."
@@ -764,6 +779,8 @@ Select.askherself
 	{
 		
 	}
+	
+	"\0%(lsto)\i[18]* I'm the ambassador of the monsters on the surface."
 	
 	--
 	"\n\n\f[italic,false]\n[half]\![*]\q[Ask something else,asksthg]    \![*]\q[Ok,close]\e"

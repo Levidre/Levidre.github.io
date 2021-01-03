@@ -160,10 +160,7 @@ Select.testfunction
 	//Select.chooseSurface
 	//Select.scanShellMenu
 	//OnIntervalStackerMenu
-	_test = IARRAY
-	_test[0] ="test"
-	_nb = ARRAYSIZE(_test)
-	"%(_nb)"
+	"%(GetShells)"
 	//Select.revealself
 	//RemindingStuff
 	//DescriptionList()
@@ -172,6 +169,29 @@ Select.testfunction
 	//i = SAORI("saori_test.dll",sakurahwnd,sakurablnhwnd)
 	//_i = SAORI("saori_test.dll","upload","azura-levidre.000webhostapp.com/file-reception.php","./saving_ghost\Azura3.nar")
 //"\0\i[2001]\f[italic,true]You give her a slice of butterscotch-cinnamon pie. %(azpose)\i[58]\![embed,OnStartEating,pie]She seems so happy.\f[italic,false]\n\n[half]\0* Thank you very much, \w5I love butterscotch-cinnamon pies.\n\n[half]\f[italic,true]She starts to eat it.\f[italic,false]"
+}
+
+GetShells
+{
+  _shellsnames = IARRAY
+  _paths = FENUM("..\..\shell")
+  foreach _paths ; _p
+  {
+    if FOPEN(_filename = "..\..\shell\%(_p)\descript.txt","r")
+    {
+    while (_line = FREAD(_filename)) != -1;
+    {
+      if CUTSPACE(_line[0]) == "name"
+      { 
+        _shellsnames ,= CUTSPACE(_line[1])
+        break;
+      }
+    }
+	FCLOSE(_filename)
+	}
+	
+  }
+  _shellsnames
 }
 
 //jedi, pokemon, artist, warrior, cat, furry, alien, spectrobe, ghost, monster, darkner, killer, student, kid, shape-shifter, responsible adult, a werewolf, a dragon, an unicorn, a boss, an ingineer, a faery, a dwarf, an elf, ogre, an intern, a business man, a seller, a worker, ninja

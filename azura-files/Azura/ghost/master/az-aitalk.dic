@@ -354,6 +354,7 @@ NormalStandTalk
 			{
 				"\0\i[45]\i[18]%(lsto)* Do you know %(trashanime) ?\w7 I'm pretty sure you would like it,\w5 \i[71]\i[91]seeing as you like violence."
 			}
+			"\0%(lsto)* What made you punch me when you obviously seem to appreciate me ?"
 			"\0\i[30]\i[31]\i[45]%(lsta)She relaxed."
 			"\0\i[32]\i[33]\i[50]%(lsta)\i[18]\i[73]\i[93]She gives you a strange look."
 			"\0\i[18]\i[32]\i[33]\i[52]%(lsto)\i[79]\i[93]* You must actually appreciate me despite what you did."
@@ -367,6 +368,7 @@ NormalStandTalk
 			"\0%(lsta)You wonder if she wouldn't like a new book for when she is here."
 		}
 		{
+			"\0%(lsto)\i[10]\i[38]\i[39]\i[45]* I was someone with a low self-esteem before becoming ambassador."
 			"\0%(lsta)\i[49]She is singing a soft song."
 			"\0%(lsta)\i[49]She is singing an epic song."
 			"\0\i[18]\i[38]\i[39]\i[45]%(lsto)* Do you want a %(treat) ?\w7 I have some of it and it's snack time.\n\n[half]\![*]\q[Of course I want,sharetreatyes]    \![*]\q[No\, thank you,sharetreatno]"
@@ -399,6 +401,7 @@ NormalStandTalk
 			{
 				"\0\i[18]\i[38]\i[31]\i[45]%(lsto)* Do you know %(trashanime) ?\w7 I'm pretty sure you would like it,\w5\i[71]\i[91] seeing as you like violence."
 			}
+			"\0%(lsto)* What did you punch me when you obviously seem to appreciate me ?"
 			"\0%(lsta)She start to eat a %(treat), \w5then see you.%(lsto)\n\n[half]\i[18]\i[45]* Do you want some ?\n\n[half]\![*]\q[Yes,sharetreatyes]    \![*]\q[No,sharetreatno]"
 			"\0%(lsta)\i[18]\i[32]\i[33]\i[49]\i[73]\i[93]She gives you a strange look."
 			"\0\i[38]\i[39]%(lsta)\i[45]She relaxed."
@@ -413,6 +416,8 @@ NormalStandTalk
 			"\0%(lsta)You wonder if she wouldn't like a new book for when she is here."
 		}
 		{
+			"\0%(lsto)\i[10]\i[38]\i[39]\i[45]* Being the ambassador of the monsters helped my self-confidence."
+			"\0%(lsto)\i[10]\i[38]\i[39]\i[45]* Being the ambassador of the monsters helped my self-esteem."
 			"\0%(lsta)She is fully used to your presence."
 			"\0%(lsta)\i[49]She is singing a soft song."
 			"\0%(lsta)\i[49]She is singing an epic song."
@@ -445,6 +450,7 @@ NormalStandTalk
 			}
 			else
 			{
+				"\0%(lsto)* What made you punch me ?"
 				"\0%(lsta)\i[38]\i[39]\i[45]She seems to be less wary of you."
 				"\0%(lsta)\i[38]\i[39]\i[45]She relaxed."
 			}
@@ -457,6 +463,9 @@ NormalStandTalk
 			"\0\i[32]\i[30]\i[45]%(lsto)\i[93]* I suppose you appreciate me at least a little despite what you did."
 		}
 		{
+			"\0%(lsto)She looked about to say something for a few seconds."
+			"\0%(lsto)\i[10]\i[38]\i[39]\i[45]* Being the ambassador of the monsters helped my self-confidence."
+			"\0\i[18]\i[37]\i[38]\i[46]%(lsto)\i[11]* Looking different raises issues sometimes.\w7 People mockings mostly,\w5 and always from humans.\w7 Monsters are a lot more tolerant and kind."
 			"\0%(lsta)She is used to you watching her."
 			"\0%(lsta)\i[73]\i[93]She is stretching."
 			"\0%(lsta)You wonder if she likes spending time here."
@@ -491,9 +500,12 @@ NormalStandTalk
 				"\0%(lsta)She is eating a %(treat). She catch your look and end quickly her snack."
 			}
 			//"\0%(lsta)Smells like %(lsto)"
+			"\0%(lsto)* You're not the first human to be mean to me."
 			"\0%(lsta)\i[32]\i[33]\i[52]\i[70]\i[92]It's hard to get close to someone who punched you,\i[90]\w5 you know ?"
 		}
 		{
+			"\0%(lsto)She looked about to say something for a few seconds."
+			"\0%(lsto)\i[10]\i[38]\i[39]\i[45]* Being the ambassador of the monsters helped me."
 			"\0%(lsta)She starts to be used to you watching her."
 			"\0%(lsta)\i[73]\i[93]She is stretching."
 			"\0%(lsta)You wonder if she likes spending time here."
@@ -524,6 +536,7 @@ NormalStandTalk
 			}
 			else
 			{
+				"\0%(lsto)* You're not the first human to be mean to me."
 				"\0%(lsta)\i[30]\i[33]\i[52]She doesn't seem to appreciate your presence."
 			}
 		}
@@ -536,6 +549,8 @@ NormalStandTalk
 		{
 			"\0%(lsta)\i[50]She seems pleased you asked her what she likes."
 		}
+		"\0%(lsta)\i[10]\i[38]\i[39]\i[45]* Being the ambassador of the monsters is nice."
+		"\0%(lsta)\i[10]\i[38]\i[39]\i[45]* Being the ambassador of the monsters helped me."
 		"\0%(lsta)\i[38]\i[39]\i[49]She is humming a song."
 		"\0%(lsta)\i[30]\i[31]She is eating a %(treat). She catch your look and end quickly her snack."
 		"\0%(lsta)\i[18]\i[30]\i[31]\i[45]She looks at you a few seconds."
@@ -561,16 +576,22 @@ NormalStandTalk
 		{
 			if azpunched >= 3
 			{
+				"\0%(lsto)* I've known worst than what you did."
 				"\0%(lsta)\i[30]\i[33]\i[40]You feel her hostiliy."
 				"\0%(lsta)\i[30]\i[33]\i[52]She is only tolerating your presence."
 			}
 			else
 			{
+				"\0%(lsto)* You're not the first human to be mean to me."
 				"\0%(lsta)\i[30]\i[33]\i[52]She doesn't seem to appreciate your presence."
 			}
 			"\0\i[2001]\f[italic,true]She ignores you."
 			"\0\i[2001]\f[italic,true]\i[52]She doesn't seem comfortable."
 		}
+		
+		"\0%(lsto)\i[38]\i[33]\i[18]She seems to be gauging you."
+		"\0%(lsta)\i[10]\i[38]\i[39]\i[45]* Being the ambassador of the monsters is fun."
+		"\0%(lsta)\i[10]\i[38]\i[39]\i[45]* Being the ambassador of the monsters is nice."
 		"\0%(lsta)You wonder what kind of music she likes."
 		"\0%(lsta)\i[38]\i[39]\i[49]She is humming a song."
 		"\0%(lsta)\i[30]\i[31]She is eating a %(treat). She catch your look and end quickly her snack."
@@ -592,9 +613,11 @@ NormalStandTalk
 		}
 		else
 		{
+			"\0%(lsto)* You're not the first human to be mean to me."
 			"\0\i[2001]\f[italic,true]She ignores you."
 			"\0%(lsta)\i[52]She doesn't seem to appreciate your presence."
 		}
+		"\0%(lsta)\i[10]\i[38]\i[39]\i[45]* Being the ambassador of the monsters is fun."
 		"\0%(lsta)\i[49]She is humming a song."
 		"\0%(lsta)She seems more used to be in a computer."
 		"\0%(lsta)She is eating a %(treat)."
@@ -1240,6 +1263,7 @@ NormalStandTalk
 		if issat == 1
 		{
 			"\0%(lsta)Being on your computer ground doesn't seem to bother her."
+			"\0%(lsta)She looks comfortably installed."
 		}
 		
 		"\0%(lsta)It smells like almonds."

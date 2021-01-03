@@ -8,8 +8,6 @@ ghost/master/aya5.dll
 ghost/master/aya5.txt
 
 
-shell/master/surface1023.pna
-shell/master/surface1023.png
 shell/master/surface1024.pna
 shell/master/surface1024.png
 shell/master/surface1026.pna
