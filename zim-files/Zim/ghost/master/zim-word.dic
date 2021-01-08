@@ -4,14 +4,14 @@
 
 defaultpose
 {
-	"%(zpose)%(gpose)"
+	"%(gpose)"
 	--
 	//Zim
 	"\0"
 	--
 	if worried == 1
 	{
-		"%(zworried)"
+		"%(zpose)%(zworried)"
 	}
 	elseif worried == -1
 	{
@@ -19,7 +19,7 @@ defaultpose
 	}
 	else
 	{	
-		"%(zsmile)\i[100]%(zeyes)%(arms)"
+		"%(zpose)%(zsmile)\i[100]%(zeyes)%(arms)"
 	}
 	
 	--
@@ -42,13 +42,33 @@ zpose
 }
 gpose
 {
-	if disguised != 1
+	if disguised == 0
 	{
 		"\1\s[70]"
 	}
-	else
+	elseif disguised == 1
 	{
 		"\1\s[80]"
+	}
+	else
+	{
+		"\1\s[81]"
+	}
+}
+
+gdutypose
+{
+	if disguised == 0
+	{
+		"\1\s[71]"
+	}
+	elseif disguised == 1
+	{
+		"\1\s[80]"
+	}
+	else
+	{
+		"\1\s[82]"
 	}
 }
 
@@ -220,6 +240,11 @@ zwondering
 	"%(zwonderingface)%(zwonderingarms)"
 }
 
+gwondering
+{
+	"%(gwonderingface)%(gwonderingarms)"
+}
+
 zgreat
 {
 	"\0"
@@ -325,7 +350,6 @@ ghappyface
 	--
 	"\i[49]"
 }
-
 ghappyeyes
 {
 	"\1"
@@ -344,10 +368,50 @@ ghappyarms
 	"\i[147]\i[197]"
 	"\i[148]\i[198]"
 }
+
+zsatisfiedface
+{
+	"\0%(zsatisfiedeyes)%(zsatisfiedsmile)"
+	--
+	"\i[41]"
+	"\i[49]"
+
+}
+
+zsatisfiedeyes
+{
+	"\0"
+	--
+	"\i[50]"
+	"\i[51]"
+	--
+	if RAND(4) == 0
+	{
+		"\i[119]\i[120]"
+		--
+		"\i[127]\i[128]"
+	}
+	else
+	{
+		"\i[112]\i[114]"
+		--
+		"\i[127]\i[128]"
+		"\i[129]\i[130]"
+	}
+}
+
+zsatisfiedsmile
+{
+	"\0"
+	--
+	"\i[63]"
+	"\i[66]"
+}
+
+
 zwonderingface
 {
 	"%(zwonderingeyes)"
-	--
 	--
 	"\i[100]"
 	"\i[101]"
@@ -407,6 +471,42 @@ zwonderingarms
 	"\i[146]\i[196]"
 }
 
+gwonderingface
+{
+	"\1"
+	--
+	"\i[50]"
+	"\i[51]"
+	--
+	"\i[100]\i[101]"
+	"\i[121]\i[122]"
+	--
+	"\i[60]"
+	"\i[63]"
+	"\i[67]"
+	"\i[69]"
+}
+
+gwonderingarms
+{
+	"\1"
+	--
+	{
+		"\i[191]"
+		"\i[190]"
+		"\i[192]"
+		--
+		"\i[149]"
+	}
+	{
+		"\i[141]"
+		"\i[140]"
+		"\i[142]"
+		--
+		"\i[199]"
+	}
+}
+
 zboredface
 {
 	"%(zboredeyes)"
@@ -415,7 +515,6 @@ zboredface
 	"\i[68]"
 	"\i[69]"
 }
-
 zboredeyes
 {
 	"\0"
@@ -439,7 +538,6 @@ zworriedface
 	"\i[67]"
 	"\i[65]"
 }
-
 zworriedeyes
 {
 	"\0"
@@ -561,11 +659,11 @@ gsatisfiedface
 {
 	"\1"
 	--
-	"\i[117]"
-	"\i[127]"
+	"\i[54]"
+	"\i[50]"
 	--
-	"\i[118]"
-	"\i[128]"
+	"\i[117]\i[118]"
+	"\i[127]\i[128]"
 	--
 	"\i[66]"
 	"\i[62]"
@@ -597,6 +695,8 @@ grandomarms
 	"\i[202]"
 	"\i[203]"
 }
+
+
 
 filthy
 {
@@ -666,6 +766,56 @@ dangerousfileextent
 	".py"
 	".dat"
 	".nar"
+}
+
+countryflag : nonoverlap
+{
+	"french"
+	"american"
+	"pakistani"
+	"russian"
+	"czechoslovakian"
+	"german"
+	"danish"
+	"irish"
+	"spanish"
+	"polish"
+	"indian"
+	"zimbabwean"
+	"australian"
+	"swedish"
+	"swiss"
+	"italian"
+	"greec"
+	"moroccan"
+	"chinese"
+	"korean"
+	"japanese"
+	"hawaiian"
+	"portuguese"
+	"vietnamese"
+	"cambodian"
+	"canadian"
+	"austrian"
+	"british"
+	"turkish"
+	"algerian"
+	"south african"
+	"peruvian"
+	"brazilian"
+	"earthing"
+}
+
+prideflag
+{
+	"black, grey, white and purple"
+	"cyan, pink and white"
+	"pink, purple and blue"
+	"rainbow"
+	"green, white, grey and black"
+	"orange, white and pink"
+	"pink, yellow and cyan"
+	"yellow, white, purple and black"
 }
 
 internalenvelope

@@ -8,7 +8,6 @@
 
 
 //--OnMouseMove
-//This is a bunch of code determining who the mouse is over. Don't touch any of it.
 
 OnMouseMove
  {
@@ -303,7 +302,7 @@ MouseDoubleClickSakura : nonoverlap
 			}
 		}
 		zimpunched++
-		useraffection--
+		useraffection -= 5
 	}
 	else
  	{
@@ -349,6 +348,7 @@ MouseDoubleClickKero : nonoverlap
 			}
 			
 		}
+		useraffection -= 5
 	}
 	else
 	{

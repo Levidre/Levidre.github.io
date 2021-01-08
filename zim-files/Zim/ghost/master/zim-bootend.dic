@@ -79,7 +79,6 @@ OnFirstBoot
 			"\0\s[11]\i[50]\i[121]\i[122]\1\s[80]\i[50]\i[100]\i[101]\i[66]\i[140]\i[190]"
 			--
 			"\![enter,passivemode]\0\i[60]\i[101]\i[149]\i[191] What?\w7\i[102] Where am I?\i[101]\i[127]\i[128]\1\i[148]\i[198]\i[54]\i[127]\i[128]\i[54]\i[96]Hahaha!!!\w7 New place!\w8\i[100]\i[101]\i[50]\i[62]\i[140]\i[190]\0\n\n[half]\i[133]\i[134]\i[98]\i[143]\i[193]Gir!\w7\i[129]\i[130] It's not the right moment.\w7 We must determine where we are.\n\w7\w7\w7\i[126]\i[100]\i[64]Mmh?!?\w7 Who are you?\x\w5\0\c\i[2001](What are your pronouns?)\n\n[half]"
-			//5,5     7,1
 			--
 			
 			"\w5\_q\![*]\q[He/Him/His,choicefirsthehim]\n/
@@ -148,10 +147,7 @@ Select.choicefirsttheythem
 	NameInput
 }
 
-
 //--NameInput
-
-//NameInput is the next step in our introduction sequence. Now that the ghost has the pronouns set properly, they can ask the user for their name. It's done in this order so they'll know what prefixes will be appropriate for their name, like Mr. to he/him for example.
 
 NameInput
 {
@@ -160,8 +156,6 @@ NameInput
 }
 
 //--GetTimeSlot
-
-//This is another unique function to tell what time of day it is. This is used for specialized dialogue related to the day. If you're uninterested, just ignore it. Either way, don't touch it. If you are going to use it though, make a note of the names used for each chunk of time, like earlymorning or lunch. Those are the names you'll be using later.
 
 GetTimeSlot
 {
@@ -207,8 +201,6 @@ GetDaySlot
 
 //--OnBoot
 
-//As you can probably guess, OnBoot runs when you boot your ghost. It will run every time you boot your ghost, as a matter of fact.
-
 OnBoot
  {	
 	OnInitBootVariables
@@ -249,7 +241,9 @@ OnInitBootVariables
 //Otherwise, just replace the upcoming pieces of dialogue with what you like.
 OnGreetingDialogue
 {
-	"%(defaultpose)\w5"
+	OnChoosePose
+	--
+	"\1%(gpose)%(geyes)%(gsmile)%(arms)\0"
 	--
 	//This check if it's the first time of the day that Azura is booted.
 	if month > helloday[0]
@@ -309,9 +303,6 @@ OnGreetingDialogue
 	
 	/*elseif dayslot == "6month 6day" //Like above, this if statement is checking the date. It's looking for the sixth month and the sixth day.
 	
-	//*********************Advanced User Info*******************************
-	//elseif may be a unique function to AYA, I'm not sure, but anyway, the name itself is pretty self-explanatory. elseif statements always go after an if statement, and essentially are just what they sound like... if this thing happens, do this; else, if this thing happens, do this. elseifs are good if you have multiple things you want to check for in one function, like multiple days of the year as we're doing right now. elseifs go in descending order, so it'll always check if one is true, then if two is true, then if three is true, and so on.
-	//***********************************************************************
 	{
 		"%(arms)* Today is June 6th.\e"
 	}
@@ -336,40 +327,44 @@ normalboottalk
 		
 	}
 	--
-	if discovered != 1
+	if discovered != 1 && girspoke == 1 && useraffection >= 50 && (weekday == 6 || weekday == 0) && (timeslot == "afternoon" || timeslot == "evening")
 	{
-		if weekday != 6 && weekday != 7
+		"\0\s[19]%(zsmile)\![enter,passivemode]\i[121]\i[122]\i[112]\i[114]\i[100]\i[146]\i[196]\i[300]\i[2]\i[99]\f[italic,true]WH\i[145]\i[195]AA\i[96]AA\i[109]\i[144]\i[194]AA\i[151]\i[201]AH\i[142]\i[192]HHHHHH\i[153]\i[203]!!!\f[italic,false]\nWhat have you done?\w7 Why did you have to bring me here \f[italic,true]right now. \i[144]\i[194]You ruined it.\f[italic,false]\1%(ghappy)Yay!\w7 Explosion!\0\n\n[half]\i[143]\i[193]\i[101]\i[123]And you! \w7You're not helpful!\n\i[100]\i[144]\i[194]It was something important and it exploded \f[italic,true]\i[147]\i[197]because you interfered! \w7\i[144]\i[194]Can't you just leave me alone when I'm doing important stuff!!!\f[italic,false]\x\i[2001](He didn't notice anything.)\n\n\n[half]\![*]\q[Have fun of him,discoverlaughing]\n\![*]\q[Kindly telling him something is missing,discoverkindly]"
+	}
+	elseif discovered != 1
+	{
+		if weekday != 6 && weekday != 0
 		{
 			if timeslot == "morning"
 			{
-				"\0I will miss skool by staying here."
-				"\0I have to go to skool at this hour."
-				"\0\i[142]Shouldn't you let me go to skool?"
+				"\0%(zpose)%(zeyes)%(zsmile)%(arms)I will miss skool by staying here."
+				"\0%(zpose)%(zeyes)%(zsmile)%(arms)I have to go to skool at this hour."
+				"\0%(zpose)%(zeyes)%(zsmile)%(zrelawedarms)Shouldn't you let me go to skool?"
 			}
 			elseif timeslot == "earlymorning"
 			{
-				"\0\i[143]\i[193]Hey! I need to prepare for school!"
+				"\0%(zpose)%(zeyes)%(zsmile)\i[100]\i[143]\i[193]Hey! I need to prepare for school!"
 			}
 			elseif timeslot == "lunch"
 			{
-				"\0\i[101]\i[149]At least won't miss a lot,\w7 the cafetaria food was awful."
-				"\0\i[63]\i[119]\i[120]\i[127]\i[128]Saved from the skool food."
+				"\0%(zpose)%(zeyes)%(zsmile)%(zwonderingarms)\i[101]At least won't miss a lot,\w7 the cafetaria food was awful."
+				"\0%(zpose)%(arms)\i[51]\i[100]\i[63]\i[119]\i[120]\i[127]\i[128]Saved from the skool food."
 			}
 			elseif timeslot == "afternoon"
 			{
-				"\0\i[69]\i[112]\i[114]\i[127]\i[128]I should be in class."
+				"\0%(zpose)%(zrelaxedarms)\i[54]\i[100]\i[69]\i[112]\i[114]\i[127]\i[128]I should be in class."
 			}
 			elseif timeslot == "evening"
 			{
-				"\0\i[65]\i[41]\i[112]\i[114]\i[127]\i[128]I wanted to stay at home."
+				"\0%(zpose)%(zrelaxedarms)\i[53]\i[100]\i[65]\i[41]\i[112]\i[114]\i[127]\i[128]I wanted to stay at home."
 			}
 			elseif timeslot == "latenight"
 			{
-				"\0\i[65]\i[41]\i[112]\i[114]\i[129]\i[128]\i[143]\i[193]It's late! \w7\i[151]Can't you just let me have my daily rest?"
+				"\0\i[100]\i[53]\i[65]\i[41]\i[112]\i[114]\i[129]\i[128]\i[143]\i[193]It's late! \w7\i[151]Can't you just let me have my daily rest?"
 			}
 			else
 			{
-				"\0\i[41]\i[151]\i[201]\i[121]\i[130]I need to sleep as any normal human child right now!"
+				"\0%(zpose)\i[65]%(zsmile)\i[100]\i[52]\i[41]\i[151]\i[201]\i[121]\i[130]I need to sleep as any normal human child right now!"
 			}
 
 		}
@@ -377,31 +372,31 @@ normalboottalk
 		{
 			if timeslot == "morning"
 			{
-				"\0Can't I have a breakfast as any normal child?"
+				"\0%(zpose)%(zeyes)%(zsmile)\i[100]%(arms)Can't I have a breakfast as any normal child?"
 			}
 			elseif timeslot == "earlymorning"
 			{
-				"\0Isn't it a little early?"
+				"\0%(zpose)%(zeyes)%(zsmile)\i[100]%(arms)Isn't it a little early?"
 			}
 			elseif timeslot == "lunch"
 			{
-				"\0It was a good occasion to have my lunch at home!"
+				"\0%(zpose)%(zangryeyes)%(zsmile)\i[100]%(arms)It was a good occasion to have my lunch at home!"
 			}
 			elseif timeslot == "afternoon"
 			{
-				"\0\i[40]\i[143]\i[193]\i[65]\i[123]\i[130]Eh!\w7 Right in the middle of an exp... of my homework!"
+				"\0%(zpose)\i[100]\i[52]\i[40]\i[143]\i[193]\i[65]\i[123]\i[130]Eh!\w7 Right in the middle of an exp... of my homework!"
 			}
 			elseif timeslot == "evening"
 			{
-				"\0\i[65]\i[41]\i[112]\i[114]\i[127]\i[128]I wanted to stay at home."
+				"\0%(zpose)%(zeyes)%(zsmile)\i[100]%(arms)\i[65]\i[41]\i[112]\i[114]\i[127]\i[128]I wanted to stay at home."
 			}
 			elseif timeslot == "latenight"
 			{
-				"\0\i[65]\i[41]\i[112]\i[114]\i[129]\i[128]\i[143]\i[193]It's late! \w7\i[151]Can't you just let me have my daily rest?"
+				"\0%(zpose)\i[51]\i[100]%(arms)\i[65]\i[41]\i[112]\i[114]\i[129]\i[128]\i[143]\i[193]It's late! \w7\i[151]Can't you just let me have my daily rest?"
 			}
 			else
 			{
-				"\0\i[41]\i[151]\i[201]\i[121]\i[130]I need to sleep as any normal human child right now!"
+				"\0%(zpose)\i[65]%(zsmile)\i[100]\i[52]\i[41]\i[151]\i[201]\i[121]\i[130]I need to sleep as any normal human child right now!"
 			}
 		}
 		--
@@ -417,34 +412,34 @@ normalboottalk
 		{
 			if timeslot == "morning"
 			{
-				"\0I will miss skool by staying here."
-				"\0I have to go to skool at this hour."
-				"\0\i[142]Shouldn't you let me go to skool?"
+				"\0%(zpose)%(zeyes)\i[100]%(zsmile)%(arms)I will miss skool by staying here."
+				"\0%(zpose)%(zeyes)\i[100]%(zsmile)%(arms)I have to go to skool at this hour."
+				"\0%(zpose)%(zeyes)\i[100]%(zsmile)%(zrelaxedarms)\i[142]Shouldn't you let me go to skool?"
 			}
 			elseif timeslot == "earlymorning"
 			{
-				"\0\i[143]\i[193]Hey! I need to prepare for school!"
+				"\0%(zpose)%(zeyes)\i[100]%(zsmile)\i[143]\i[193]Hey! I need to prepare for school!"
 			}
 			elseif timeslot == "lunch"
 			{
-				"\0\i[101]\i[149]At least I won't miss a lot,\w7 the cafetaria food was awful."
-				"\0\i[63]\i[119]\i[120]\i[127]\i[128]Saved from the skool food."
+				"\0%(zpose)%(zeyes)%(zsmile)%(zrelaxedarms)\i[101]\i[149]At least I won't miss a lot,\w7 the cafetaria food was awful."
+				"\0%(zpose)\i[50]\i[100]%(arms)\i[63]\i[119]\i[120]\i[127]\i[128]Saved from the skool food."
 			}
 			elseif timeslot == "afternoon"
 			{
-				"\0\i[69]\i[112]\i[114]\i[127]\i[128]I should be in class."
+				"\0%(zpose)\i[52]\i[100]%(arms)\i[69]\i[112]\i[114]\i[127]\i[128]I should be in class."
 			}
 			elseif timeslot == "evening"
 			{
-				"\0\i[65]\i[41]\i[112]\i[114]\i[127]\i[128]I wanted to stay at home."
+				"\0%(zpose)\i[53]\i[100]%(arms)\i[65]\i[41]\i[112]\i[114]\i[127]\i[128]I wanted to stay at home."
 			}
 			elseif timeslot == "latenight"
 			{
-				"\0\i[65]\i[41]\i[112]\i[114]\i[129]\i[128]\i[143]\i[193]It's late! \w7\i[151]Can't you just let me have my daily rest?"
+				"\0%(zpose)\i[52]\i[100]\i[65]\i[41]\i[112]\i[114]\i[129]\i[128]\i[143]\i[193]It's late! \w7\i[151]Can't you just let me have my daily rest?"
 			}
 			else
 			{
-				"\0\i[41]\i[151]\i[201]\i[121]\i[130]Shouldn't you sleep as any filthy human being?"
+				"\0%(zpose)\i[100]%(zsmile)\i[52]\i[41]\i[151]\i[201]\i[121]\i[130]Shouldn't you sleep as any filthy human being?"
 			}
 
 		}
@@ -452,32 +447,32 @@ normalboottalk
 		{
 			if timeslot == "morning"
 			{
-				"\0I guess I'll have to work later."
+				"\0%(zpose)%(zeyes)\i[100]%(zsmile)%(arms)I guess I'll have to work later."
 			}
 			elseif timeslot == "earlymorning"
 			{
-				"\0Isn't it a little early?"
+				"\0%(zpose)%(zeyes)\i[100]%(zsmile)%(arms)Isn't it a little early?"
 			}
 			elseif timeslot == "lunch"
 			{
-				"\0It was a good occasion to have my lunch at home!"
+				"\0%(zpose)%(zeyes)\i[100]%(zsmile)%(arms)It was a good occasion to have my lunch at home!"
 				
 			}
 			elseif timeslot == "afternoon"
 			{
-				"\0\i[40]\i[143]\i[193]\i[65]\i[123]\i[130]Eh!\w7 I was working on something!"
+				"\0%(zpose)\i[52]\i[100]\i[40]\i[143]\i[193]\i[65]\i[123]\i[130]Eh!\w7 I was working on something!"
 			}
 			elseif timeslot == "evening"
 			{
-				"\0\i[65]\i[41]\i[112]\i[114]\i[127]\i[128]I wanted to stay at home."
+				"\0%(zpose)\i[53]\i[100]%(arms)\i[65]\i[41]\i[112]\i[114]\i[127]\i[128]I wanted to stay at home."
 			}
 			elseif timeslot == "latenight"
 			{
-				"\0\i[65]\i[41]\i[112]\i[114]\i[129]\i[128]\i[143]\i[193]It's late! \w7\i[151]Can't you just let me have my daily rest?"
+				"\0%(zpose)\i[53]\i[100]\i[65]\i[41]\i[112]\i[114]\i[129]\i[128]\i[143]\i[193]It's late! \w7\i[151]Can't you just let me have my daily rest?"
 			}
 			else
 			{
-				"\0\i[41]\i[151]\i[201]\i[121]\i[130]Shouldn't you sleep as any filthy human being?"
+				"\0%(zpose)\i[51]\i[100]%(zsmile)\i[41]\i[151]\i[201]\i[121]\i[130]Shouldn't you sleep as any filthy human being?"
 			}
 		}
 		--
@@ -486,24 +481,42 @@ normalboottalk
 		"Hi!!!"
 		"Hello!!!"
 	}
-	
-	
+
 	--
 	helloday = (month,day,1)
-	"\![embed,OnBootStuff]\x\![updatebymyself,checkonly]\e"
+	"\![embed,OnBootStuff]\![updatebymyself,checkonly]\e"
 }
 
 
-//--OnClose
+Select.discoverlaughing
+{
+	"\i[2001](You tell him his ridiculous disguise is gone and that he has been quite dumb to think that his cover would have lasted forever.)\n\n[half]\i[92]What?\w7 What are you talking about?\i[203]\i[54]\w9 Wait a minute\i[4]\w2.\w2.\w2.\w9\w7\n\i[49]\i[119]\i[121]Oh no!\w7\n\n[half]\i[2001](Oh yes.)\n\n\n[half]\![*]\q[Reassure him,discoverreassure]\n\![*]\q[Scare him,discoverscare]"
+	useraffection -= 5
+	disguised=2
+}
 
-//OnClose runs when you close your ghost. Like OnBoot, this can be customized for times and days if you like, as you saw above. It can also be easily simplified down to
-//OnClose
-//{
-//[insert your dialogue here]
-//}
-//if you don't want to deal with the time slots. Although do note, close dialogue must end with a \- instead of \e. \- will close the program.
-//Like above with OnBoot, just replace all the following pieces of dialogue with your own. It feels a bit redundant for me to point out every single piece and say "replace this", you know? If you've read the SakuraScript walkthrough page, you should know what a piece of dialogue looks like by now within code. Just go through OnClose and replace each bit with dialogue more suited for your ghost.
-//Note though that each bit here ends with \w8 instead of \e. That's because the actual end statement to close the ghost is at the very end, one of the very very rare times you won't have to end a line with \e. Instead, end it with \w8 so there's a little bit of a pause for the user before your ghost closes so they can read the last message.
+Select.discoverkindly
+{
+	"\i[2001](You tell him he doesn't really need to disguise anymore because the explosion quite blowed up his cover.)\n\n[half]\i[92]What?\w7 What are you talking about?\i[203]\i[54]\w9 Wait a minute\i[4]\w2.\w2.\w2.\w9\w7\n\i[49]\i[119]\i[121]Oh no!\w7\n\n\n[half]\![*]\q[Reassure him,discoverreassure]\n\![*]\q[Scare him,discoverscare]"
+	useraffection += 5
+	disguised = 2
+}
+
+Select.discoverreassure
+{
+	"\i[2001](You tell him it's fine and that you have nothing against cute little aliens.)\n\n[half]\i[219]\i[92]Huh,\w5 good for me I suppose?%(zpose)\i[100]%(zsmile)%(zeyes)\i[143]\i[193]\i[101]\1Can I talk now?\0\n\n[half]Yes,\w5 GIR you're allowed to talk in %(hisher) presence.\1\i[2001]\i[1]\n\n[half]Yay!!!\w9%(gpose)%(ghappy)\![leave,passivemode]"
+	useraffection += 5
+	discovered = 1
+}
+
+Select.discoverscare
+{
+	"\i[2001](You tell him you will inform the authorities of him.)\n\n[half]\i[219]\i[92]I didn't see any autorities you could inform here.\w7 %(zpose)\i[100]%(zsmile)%(zeyes)%(zwonderingarms)I don't think you can inform people of my own universe.\1\i[92]Can I put my disguise off?\0\n\n[half]Yeah,\w5 now they know.\1\i[2001]\i[1]\n\n[half]Yay!!!\w9%(gpose)%(gsatisfiedface)%(arms)\![leave,passivemode]"
+	useraffection -=5
+	discovered = 1
+}
+
+//--OnClose
 
 OnClose
  {
@@ -589,6 +602,11 @@ OnClose
 			{
 				if timeslot == "morning"
 				{
+					if disguised != 1
+					{
+						"\0%(OnDisguise)"
+					}
+					--
 					"\0Just in time for skool."
 				}
 				elseif timeslot == "earlymorning"
@@ -597,15 +615,30 @@ OnClose
 				}
 				elseif timeslot == "lunch"
 				{
+					if disguised != 1
+					{
+						"\0%(OnDisguise)"
+					}
+					--
 					"\0I guess I won't go to skool. \w7I'll say I'm sick."
 				}
 				elseif timeslot == "afternoon"
 				{
+					if disguised != 1
+					{
+						"\0%(OnDisguise)"
+					}
+					--
 					"\0I guess I won't go to skool. \w7I'll say I'm sick."
 				}
 				elseif timeslot == "evening"
 				{
-					"\Home,\w5 sweet home."
+					if disguised != 1
+					{
+						"\0%(OnDisguise)"
+					}
+					--
+					"\0Home,\w5 sweet home."
 				}
 				elseif timeslot == "latenight"
 				{
@@ -637,7 +670,7 @@ OnClose
 				}
 				elseif timeslot == "evening"
 				{
-					"\Home,\w5 sweet home."
+					"\0Home,\w5 sweet home."
 				}
 				elseif timeslot == "latenight"
 				{
@@ -664,18 +697,14 @@ OnClose
  }
 
 
- //-------------------------State Changing--------------------
- //From here on, most of the dialogue will have to do with changing shells, ghosts, or states in some way.
- 
- 
+//-------------------------State Changing--------------------
+
  OnWindowStateMinimize
 {
 	"%(defaultpose)"
 }
 
 //--OnWindowStateRestore
-
-//This will run when you minimize them and then bring them back up. Replace with what you like.
 
 OnWindowStateRestore
  {
@@ -684,9 +713,6 @@ OnWindowStateRestore
 
 
 //--OnGhostChanging
-
-//This runs whenever you change or reload the ghost. You can change ghosts by going into the right click menu and going to Change Ghost, but this dialogue will also be called if you reload them using Utilities->Reload Ghost. Protip: If you are going to make a ghost, you will be reloading it A LOT.
-//Note: If you reload your ghost using the developer console instead of Utilities->Reload Ghost, it won't do this dialogue, so don't freak out if it doesn't show up.
  
 OnGhostChanging
  {
@@ -697,7 +723,7 @@ OnGhostChanging
 	}
  	else //If you're switching to another Ghost.
 	{
-		"\0Mmh,\w5 what or who is %(reference0)?\w8\w8"
+		"\0Mmh,\w5 who or what is %(reference0)?\w8\w8"
 
 		//Replace this dialogue with whatever you like. Notice the use of the %(reference0) envelope here? In OnGhostChanging, %(reference0) stores the name of the ghost being swapped to, so if you want to display what you're switching to, you can use %(reference0) as in this example. You don't have to use %(reference0) if you don't want to though.
 	}
@@ -707,8 +733,6 @@ OnGhostChanging
 
 
 //--OnGhostChanged
-
-//A sister to the above, this runs after the ghost has either reloaded itself, or when you switch from another ghost to this ghost.
 
 OnGhostChanged
 {
@@ -740,17 +764,13 @@ OnGhostChanged
 
 //--OnShellChanging
 
-//This will run when you change your ghost's shell. If you don't have any other shells for your ghost, you can safely ignore this but don't delete it, you might as well keep it just in case. I probably won't add a different shell to this template because shells are a lot of work ugh, but for the sake of argument, let's pretend I did.
-
 OnShellChanging
  {
 	nowshell = reference0
  }
  
  
- //--OnShellChanged
- 
- //The sister to the above, this is the dialogue after you've changed the shell.
+//--OnShellChanged
  
 OnShellChanged
  {
@@ -777,9 +797,6 @@ OnShellChanged
 
 
  //--OnDressupChanged
- 
- //This runs whenever you fiddle with their clothing via the dress-up option, if you've set any for your ghost. Honestly setting up clothing is a nightmare and I hate doing it, and if your ghost is going to be moving around substantially or at all, clothing won't stay in the right place anyway. So unless you're like a real expert on surfaces.txt coding and rigging up clothing for different poses or you're intense or dedicated enough to set up clothing in the right place for every pose you do, I would not bother with clothing for your ghost.
- //HOWEVER I can't begrudge people who actually would put in that effort! And in that case, this function is for you. For now, I'll fill this in with some hypothetical items. Replace the dialogue below with whatever you need.
 
 OnDressupChanged
 {
@@ -824,8 +841,6 @@ else //if reference0 isn't the main character, then it has to be the side charac
 	}
 }
 
-//If you are super dedicated to doing clothes, I'd recommend checking out some more in-depth FLELE tutorials for stuff about clothing until I muster up the energy to write a walkthrough page for it.
-
 CreateGhostList
 {
 	ghostsfilelist = FENUM("..\..\..")
@@ -836,7 +851,6 @@ CreateGhostList
 		otherghosts ,=  SHIORI3FW.GetGhostNameFromDescriptTxt("..\..\.."+ghost)[0]
 	}
 }
-
 
 //Functions for the sleep mode--------------------------------------------------------------------------------------------------------------------------------------------------------------
 OnSysSuspend
@@ -1397,5 +1411,4 @@ ResumeSystemDialogue
 
 	"\e"*/
 }
-
 

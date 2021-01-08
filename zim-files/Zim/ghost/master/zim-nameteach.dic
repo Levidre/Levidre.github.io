@@ -25,30 +25,6 @@ OnTeachName
 
 
 //--OnNameTeach
-//This is where the user inputs their name and the ghost analyzes it. If you want your ghost to have specific responses to certain names, this is where you would add them. If not, you can erase all the way from the initial if down to the else statement, only leaving from ""\0\s[0]Do you want a title?" to "\![*]\q[-san,titlesan]\e". So it'd look something like
-
-//OnNameTeach
-// {
-	//tempname = reference0
-	
-//"\0\s[0]Do you want a title?\w4\n\n[half]\![*]\q[Nope,titlenone]\n"
-	//	--
-	//	if presuffix == "masculine"
-	//	{
-	//	"\![*]\q[Mr.,titlemr]\n/
-	//	\![*]\q[Master,titlemaster]\n"
-	//	}
-	//	elseif presuffix == "feminine" 
-	//	{
-	//	"\![*]\q[Ms.,titlems]\n/
-	//	\![*]\q[Lady,titlelady]\n"
-	//	}
-	//	-- 
-	//	"\![*]\q[-ssi,titlessi]\n/
-	//	\![*]\q[-san,titlesan]\e"
-// }
-
-//If you did so. Otherwise, just fill things out as you like.
 
 OnNameTeach
 {

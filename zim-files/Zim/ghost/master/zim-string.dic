@@ -150,7 +150,7 @@ On_kero.recommendsites
  
 On_updatebutton.caption
  {
-	"Update Menu Caption"
+	"Update Them"
 }
 
 //---- Dress-up Menu Caption ----------------------------------------------------------
@@ -158,7 +158,7 @@ On_updatebutton.caption
 
 On_dressuprootbutton.caption
 {
-	"Dress-Up Caption"
+	"Dress-Up"
 }
 
 //---- Headlines and RSS Feeds ---------------------------------------------------------

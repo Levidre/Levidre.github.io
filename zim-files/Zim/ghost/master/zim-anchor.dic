@@ -103,3 +103,34 @@ OnAnchorSelect
 	}
 }
 
+InfoIrkens
+{
+	if askedirkens == 1
+	{
+		"\0%(zfrontpose)%(zsatisfiedface)%(zexplainarms)\i[100]Irkens invaders are preparing the planet to surrender to the armada."
+		"\0%(zfrontpose)%(zsatisfiedface)%(zexplainarms)\i[100]Once the irken armada ends definitely the Earth,\w5 I'll be free to leave this %(filthy) planet."
+		"\0%(zfrontpose)%(zsatisfiedface)%(zexplainarms)\i[100]I'm conquering this %(filthy) planet for my Tallest."
+		"\0%(zfrontpose)%(zsatisfiedface)%(zexplainarms)\i[100]The almighty Tallest are our leaders."
+		"\0%(zfrontpose)%(zhappy)\i[100]We will conquer the universe!"
+	}
+	else
+	{
+		"\0%(zfrontpose)%(zsatisfiedface)%(zexplainarms)\i[100]I'm an irken invader.\w7 %(zrelaxedarms)My homeworld is Irk.\e"
+		askedirkens = 1
+	}
+}
+
+InfoDib
+{
+	if askeddib == 1
+	{
+		"\0%(zpose)%(zboredeyes)%(arms)%(zsmile)\i[100]He ruined one of my plans lately."
+		"\0%(zpose)%(zboredeyes)\i[143]\i[193]%(zsmile)\i[100]He is always annoying me."
+		"\0%(zpose)%(zboredeyes)%(arms)%(zsmile)\i[100]He has a sister."
+	}
+	else
+	{
+		"\0%(zpose)%(zboredeyes)%(zexplainarms)%(zsmile)\i[100]He goes to skool too. \w7He knows who I am and wants to stop me %(zsatisfiedsmile)but I'll always eventually success.\e"
+		askeddib = 1
+	}
+}

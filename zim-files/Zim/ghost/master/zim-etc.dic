@@ -88,7 +88,8 @@ Select.AfterUpdate
 	
 	"\0\b2\i[2001]("
 	--
-	"Surfaces fixed and a few dialogues are added."
+	"Zim can now blow up his cover. The event isn't randomized so if all the conditions are present, he will blow up his cover. There are now the dialogues for when he has been discovered. Some animations have been added to dialogues too. \nThe relationship system is complete."
+	//"Surfaces fixed and a few dialogues are added."
 	--
 	")\x"
 	--
@@ -408,7 +409,7 @@ OnUpdateComplete
  	else //if the ghost has updated successfully
 	{
 		updatingghost = 1
-		"\0%(defaultpose)The update is done,\w5\i[101] whatever it is.\x"
+		"%(defaultpose)\0The update is done,\w5\i[101] whatever it is.\x"
 		--
 		Select.AfterUpdate
 		

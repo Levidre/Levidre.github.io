@@ -744,8 +744,8 @@ Select.girdosomething
 		\![*]\q[Update Zim,girupdatecheck]\n"
 		--
 		"\![*]\q[System information,girChoiceSystemInformation]\n/
-		\![*]\q[Update information,AfterUpdate]\n/
- 		\![*]\q[Back to main menu,BACKTOMENU]\e"
+		\![*]\q[Update information,AfterUpdate]\n\n[half]/
+ 		\![*]\q[Back to main menu,BACKTOGIRMENU]\e"
 	}
 }
 
@@ -919,7 +919,7 @@ OpenKeroMenu
  	nowmin = Getnowmin
  	nowhour = Getnowhour
 	//These four statements basically get the day of the week, whether it's AM or PM, the hour, and the time. It's putting together the information to display the time at the bottom of the balloon. Pay it no mind.
-	"\1"
+	"\1\b2"
 	--
 	if discovered == 1
 	{
@@ -935,7 +935,7 @@ OpenKeroMenu
 		"Mwhof?"
 	}
 	--
-	"\n\n\_q\b2" //The \n\n means two new lines as detailed in the walkthrough, and \_q means quick session, meaning all the text from this point on will display instantly instead of a few letters at a time like normal ghost dialogue.
+	"\n\n\_q" //The \n\n means two new lines as detailed in the walkthrough, and \_q means quick session, meaning all the text from this point on will display instantly instead of a few letters at a time like normal ghost dialogue.
 	--
 	
 

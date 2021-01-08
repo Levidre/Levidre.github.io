@@ -132,6 +132,12 @@ RandomTalk : nonoverlap
 
 NeutralTalk : nonoverlap
 {
+	if ghostexlist != ""
+	{
+		ReactsOtherGhosts
+	}
+	
+	
 	if useraffection > 150
 	{
 		"\0\i[92]\i[136]\i[137]\i[146]\i[196]\i[62]\i[43]I understand why you enjoy that much my company%(zbackpose)%(zexplainarms)\i[54]\i[62]\i[136]\i[137] seeing how amazing I am."
@@ -156,7 +162,7 @@ NeutralTalk : nonoverlap
 	{
 		"%(zwondering)\i[2001](He looks unsure about where he is.)"
 		"%(zwondering)\i[2001](He looks intrigued by your desktop.)"
-		"%(zwondering)\i[2001](He is looking around curiously.)"
+		"%(zwondering)\i[2001](He is curiously looking around.)"
 	}
 	if cumuhour > 4 && toldcomputer == 0
 	{
@@ -213,7 +219,7 @@ NeutralTalk : nonoverlap
 	"%(zrelieved)\1%(ghappyface)%(arms)\i[2001](He is playing with a %(fileextent). Zim seems happy it keeps him occupied.)"
 	"\1%(gsatisfiedface)%(arms)\i[2001](He is watching a %(fileextent).)"
 	
-	"\1\i[2001](He is looking actively around.)"
+	"\1\i[2001](He is actively looking around.)"
 	"\1\i[2001](He looks interrested in your files... only for a few seconds.)"
 	
 	"\1%(gsatisfiedface)%(arms)\i[2001](He is playing with a %(dangerousfileextent). You start to be worried.)"
@@ -296,10 +302,101 @@ PostHalloweenTalk
 	
 }
 
+ReactsOtherGhosts
+{
+	if "Dusty" _in_ ghostexlist || "RYS-0825" _in_ ghostexlist || "MVSans" _in_ ghostexlist
+	{
+		"\0%(zpose)%(zwondering)What are those beings?"
+	}
+	elseif "Azura" _in_ ghostexlist
+	{
+		"\0%(zpose)%(zwondering)What a weird human."
+	}
+	
+}
 
 ///Changing pose functions----------------------------------------------------------------------------------------------------------------------------
 
+OnDisguise
+{
+	if disguised == 1
+	{
+		"\i[1]\w9\w9\w6\s[10]%(zeyes)\i[100]%(zsmile)%(arms)"
+		disguised = 0
+	}
+	else
+	{
+		"\i[1]\w9\w9\w6\s[11]%(zeyes)\i[100]%(zsmile)%(arms)"
+		disguised = 1
+	}
+}
 
+OnChoosePose
+{
+	if discovered == 1
+	{
+		if weekday == 6 || weekday == 0
+		{
+			if timeslot == "afternoon" || timeslot == "lunch" || timeslot == "morning"
+			{
+				_rand = RAND(3)
+				if _rand == 1
+				{
+					disguised = 2
+				}
+				elseif _rand == 0
+				{
+					disguised = 0
+				}
+				else
+				{
+					disguised = 1
+				}
+			}
+			elseif timeslot == "evening" || timeslot == "earlymorning"
+			{
+				if RAND(2) == 1
+				{
+					disguised = 2
+				}
+				else
+				{
+					disguised = 0
+				}
+			}
+			else
+			{
+				disguised = 0
+			}
+		}
+		else
+		{
+			if timeslot == "afternoon" || timeslot == "lunch" || timeslot == "morning"
+			{
+				disguised = 1
+			}
+			elseif timeslot == "evening" || timeslot == "earlymorning"
+			{
+				if RAND(2) == 1
+				{
+					disguised = 2
+				}
+				else
+				{
+					disguised = 0
+				}
+			}
+			else
+			{
+				disguised = 0
+			}
+		}
+	}
+	else
+	{
+		disguised = 1
+	}
+}
 
 ///The aitalk select functions------------------------------------------------------------------------------------------------------------------------
 

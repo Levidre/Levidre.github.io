@@ -1,6 +1,9 @@
 Charset,UTF-8
 install,660172200
-surfacecount,438
+homeurl_found,1
+surfacecount,482
+homeurl,https://levidre.github.io/zim-files/Zim/
+update_result,OK(0)
 firstboot,660172200
-commitmemorysize,2809295
-lastboot,662957641
+commitmemorysize,3496904
+lastboot,663391093

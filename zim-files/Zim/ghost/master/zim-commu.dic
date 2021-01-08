@@ -910,20 +910,27 @@ OnBalloonTimeout
 
 RespondToCommunication
 {
-	communicate = 0
-	if ARRAYSIZE(ghostcommunicated) >= 2
+	//communicate = 0
+	OnCheckStatus
+	if ARRAYSIZE(ghostcommunicated) > 0 && communicate == 1
 	{
 		if nbconv < 1
 		{
-			res_reference0 = "%(ghostcommunicated[0])"
-			if ghostcommunicated[1][0] == conversation[2]
+			res_reference0 = ghostcommunicated[0]
+			if ghostcommunicated[1] == conversation[2]
 			{
 				nbconv++
+			}
+			else
+			{
+				truc = ghostcommunicated[1]
+				retruc =conversation[2]
 			}
 			conversation[1] = "%(ghostcommunicated[0])"
 			conversation[2] = "%(ghostcommunicated[1])"
 			speech = TOLOWER(SPLIT("%(ghostcommunicated[1])","\e")[0])
 			speechtag = SPLIT("%(ghostcommunicated[1])","\e")[1]
+			
 			if STRLEN(speechtag) > 4
 			{
 				ReplyWithPing
@@ -931,11 +938,12 @@ RespondToCommunication
 			else
 			{
 				ReplyToGhost
-			}
+			}				
 		}
 		else
 		{
-			conversation = "ready"
+			conversation = IARRAY
+			conversation[0] = "ready"
 		}
 		_temp = IARRAY
 		for _i = 2; _i < ARRAYSIZE(ghostcommunicated);_i++
@@ -955,8 +963,6 @@ RespondToCommunication
 		
 	}
 }
-
-
 
  
 OnOtherGhostTalk

@@ -93,9 +93,9 @@ up
 125-126	pseudo-perplexe (small up)
 127-128	relaxed
 129-130	pityful
-131 : blink
-132-133 : frowning
-135-136 : close - 138
+132 : blink
+133-134 : frowning
+136-137 : close - 138
 
 140 : left arm
 190 : rigth arm
@@ -195,18 +195,21 @@ up
 /// Envelopes : 
 
 defaultpose
-zpose, gpose, zbackpose, zfrontpose
+zrandompose
+zpose, gpose, zbackpose, zfrontpose, gdutypose
 zposefront
 zhappy, ghappy, zplotting, zsatisfied, zrelieved, zworried, zwondering,zgreat
 
 zeyes, geyes, zsmile, gsmile, arms
 
 zhappyface, zhappyeyes, ghappyface, zwonderingface, zwonderingeyes, zwonderingarms
+zsatisfiedface, zsatisfiedeyes, zsatisfiedsmile
+
 zangryeyes
 zboredface,zboredeyes, zrelaxedarms
 gsadface, gcryface, ghappyface, ghappyarms
-zworriedface, zworriedarms
-zexplainarms, gcryface,genthusiastarms 
+zworriedface, zworriedeyes, zworriedarms
+zexplainarms, gcryface,genthusiastarms, grandomarms
 
 
 
