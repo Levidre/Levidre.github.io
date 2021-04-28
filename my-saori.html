@@ -2,13 +2,14 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Azura Levidre</title>
 		<link rel="stylesheet" href="style.css"/>
 
 	</head>
 
 	<body>
-				<section class="section-inside">
+		<section class="section-inside">
 <div class="banner-picture">
 	<img src="pictures/banner.png" alt="Azura and Levidre" title="banner" height="150px" width="150px" />
 </div>
@@ -93,22 +94,24 @@
 	</nav>
 </header>
 		<section>
-			
-			<h2>About Updates</h2><br/>
-			<h3>Azura's update system</h3><br/>
+			<h2>My SAORI</h2><br/>
 			<div>
-				<p>You can update Azura by pushing Ctrl+U or going in her right click menu if you're on SSP.
-				<br>She would tell it when there is an update at the end of her booting dialogue.</p>
-				<p>Each update, Azura has a notice with all the changes brought by it. This notice opens after the update but is accessible in her Functions menu too, so you can always check it.</p>
+				<p>I did three of them for now but one is made specifically for one ghost and cannot really be used by others. The two others are available for use. Everything you need to know to use them is written in their readme.txt. If it's not downloading when you click on the download link, do a right click on it, then "Save link as...".</p>
+			</div></div>
+			<h4><div><a href="filetransfer.zip" download="filetransfer.zip">download filetransfer.zip</a></div></h4>
+			<h4><div><a href="keydetector.zip" download="keydetector.zip">download keydetector.zip</a></div></h4>
+			<h3>File transfer</h3><br/>
+			<div>
+				<p>This SAORI can download or upload a file on a website. It needs the keyword "download" or "upload" followed by the URL (without the protocol, so whithout the http:// or https://) and the local file path. For uploading, keep in mind you need some code to receive and store the file on the website's server.</p>
 			</div><br/>
-			<h3>Last update</h3><br/>
+			<h3>Keyboard detector</h3><br/>
 			<div>
-				<p>It solved a surface issue and added a few dialogues.</p>
-			</div><br/>
-			<h3>Previous updates</h3><br/>
-			<div>
-				<p>The emergency update, the website scared me so I added something to prevent the updates to break if it shuts down with a backup repository on github. Azura will ask you if you want to use it if her update fails. There were new animations and new communication dialogues with other ghosts added too.</p>
+				<p>It has more features and allow the ghost to wander on the desktop, to be moved with the keyboard and to have keyboard shortcuts more easily.</p>
+				<p>The SAORI must be initialized first and is entirely configurable. The keys can be changed, the ghost kept static or wander freely, the speed and time between two times the ghost moves are configurable as well.</p>
+				<br/><p>It's possible to give directly a point where to go and the SAORI will make the ghost move to this point.</p>
+				<p>It will call Shiori events when moving so the ghost can change its pose : OnMoveRight, OnMoveLeft, OnMoveTop, OnMoveBottom and OnMoveEnd.</p>
 			</div>
+
 		</section>
 		<footer>
 			<div>Copyright © 2019, created by Azura Levidre</div>

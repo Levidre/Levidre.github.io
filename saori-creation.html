@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Azura Levidre</title>
+		<link rel="stylesheet" href="style.css"/>
+
+	</head>
+
+	<body>
+		<?php include("navigation.php");?>
+		<section class="section-inside">
+<div class="banner-picture">
+	<img src="pictures/banner.png" alt="Azura and Levidre" title="banner" height="150px" width="150px" />
+</div>
+
+<div class="site-banner">
+	<h1>Azura Levidre Website</h1>
+</div>
+<div  class="webring-container">
+	<div class="webring-banner">
+		<div class="webring-banner__header">
+			<img class="webring-banner__image" src="https://ukagakawebring.netlify.com//assets/images/ukagaka icon.jpg" alt="">
+			<div class="webring-banner__description">
+			<span>This site is part of</span>
+			<h3 class="webring-banner__title">
+				<a href="https://ukagakawebring.netlify.com/">Ukagaka/Ghost Development and Download</a>
+			</h3>
+			<span>A webring with <div id="members">15</div> Members</span>
+		</div>
+		<a class="webring-banner__info" href="https://en.wikipedia.org/wiki/Webring" title="What's this?">?</a>
+	</div>
+	<p class="webring-banner__links">
+	<a href="https://ukagakawebring.netlify.com//prev" class="webring-banner__link webring-banner__link--prev" aria-label="Go to previous site">⬅️ Previous</a>
+	<a href="https://ukagakawebring.netlify.com//random" class="webring-banner__link webring-banner__link--random" aria-label="Go to a random site">👻 Random</a>
+	<a href="https://ukagakawebring.netlify.com//next" class="webring-banner__link webring-banner__link--next" aria-label="Go to next site">Next ➡️</a>
+	</p>
+</div>
+</div>
+<script async>
+				//var shadow = document.getElementById("ring");
+				//console.log(shadow.childNodes);
+				//var childNodes = shadow.childNodes;
+				
+				
+	var request = new XMLHttpRequest();
+
+	function reqListener () {
+	  //console.log(this.responseText);
+					 
+		var decoded = JSON.parse(atob(this.response['content']))
+		var elem = document.getElementById("members");
+		elem.textContent=decoded.length;
+		console.log(decoded);
+	}
+
+	var oReq = new XMLHttpRequest();
+	oReq.responseType = 'json';
+	oReq.addEventListener("load", reqListener);
+	oReq.open("GET", "https://api.github.com/repos/coulditbebort/webring/contents/src/data/members.json");
+	oReq.send();
+			
+</script>
+</section>
+
+<header>
+	<nav>
+		<a href="/">Home</a>
+		<a href="azura.html">Azura</a>
+		<a href="levidre.html">Levidre</a>
+		<div class="dropdown">
+			<button class="dropbtn">Ukagakas</button>
+			<div class="dropdown-content">
+				<a href="ukagaka.html">About Ukagakas</a>
+				<a href="installation-of-ghosts.html">Installation</a>
+			</div>
+		</div> 
+		<div class="dropdown">
+			<button class="dropbtn">SAORI</button>
+			<div class="dropdown-content">
+				<a href="saori.html">About SAORI</a>
+				<a href="saori-creation.html">Creating One</a>
+				<a href="my-saori.html">Levidre's SAORI</a>
+			</div>
+		</div>
+		<div class="dropdown">
+			<button class="dropbtn">Updates</button>
+			<div class="dropdown-content">
+				<a href="update.html">About Updates</a>
+				<a href="update-history.html">Update History</a>
+			</div>
+		</div>
+	
+	</nav>
+</header>
+		<section>
+			<h2>SAORI creation</h2><br/>
+			<div>
+				<p>I prefer doing complete SAORI with the interface and not just those using proxy.dll. Therefore I'll just talk about them and let you check <a href = "https://zichqec.github.io/s-the-skeleton/index.html" target="_blank">Zichqec's website</a> for the ones without the SAORI interface.</p>
+			</div>
+			<h3>Starting</h3><br/>
+			
+			<div>
+				<p>A SAORI needs a SAORI interface to communicate with a ghost, a ghost communicates with a protocol called Sakura Script Transfer Protocol. Chameleon Ponapalt (developer of SSP) made a <a href = "https://github.com/ponapalt/csaori" target="_blank">C++ project available on their Github</a>, called CSAORI Project, with an implementation of the interface, the source code of some SAORI and plugins and a SAORI tester. It's a good way to implement easily a big or a little SAORI. The project has, in plus of classes to store the data of the interface, a lot of useful functions and can be used for SAORI and plugins.</p><br/>
+				<p>The project looks pretty big but you don't really need to pay attention to most of it since it's the interface.</p>
+			</div><br/>
+			<h3>Internal composition of a SAORI</h3><br/>
+			<div>
+				<p>A SAORI must have three functions to works properly : load(), unload() and request(). In the CSAORI Project, the function request() is replaced by the function exec(). The message the ghost sent to the SAORI is stored in the CSAORIInput class and the one it sends back in CSAORIOutput. By default, the interface will answer with a 500 Internal Error if the CSAORIOutput object hasn't been fulfilled. It's possible to do an empty response though with a function of CSAORIOutput when the response code has been set to 200 Ok. The stuff in the SAORI_FUNC name space are some useful functions, mostly for conversion.</p><br/>
+				<p>For a complex SAORI, other functions can be used, exec_before(), exec_after() and exec_insecure(), but they aren't necessary and don't replace the three main ones.</p>
+			</div><br/><br/>
+			<div>
+				<p>To create a SAORI, you need either to inherit the CSAORI class and overwrite load(), unload() and exec() or to directly fulfill the load(), unload() and exec() functions of CSAORI. Each function is called at some point of the lifetime of the SAORI, load() is called when the ghost loads it, unload() when it unloads it and is used to free anything that has to be and to terminate and exec() is what will execute the request the ghost send to the SAORI. The function exec() will have to read the content of CSAORIInput and to fulfill a CSAORIOutput to send back to the ghost. You will have to implement those three functions to do your SAORI.</p>
+				<p>Here is a little example of the kind of code you want to write. This one is only a (very close to the actual C++) pseudo-code :<br/>
+					<div style="margin-left:30px;margin-left:2rem;">
+					boolean isloaded;<br><br/>
+					
+					boolean load()<br/>
+					{<br/>
+						&nbsp;isloaded =  true;<br/>
+						&nbsp;//Prepare the SAORI for anything it will do.<br/>
+						&nbsp;return true;<br/>
+					}<br/><br/>
+					
+					void exec(CSAORIInput input, CSAORIOutput output)<br/>
+					{<br/>
+						&nbsp;//Verify the ghost sent an argument to the SAORI<br/>
+						&nbsp;if (in.args.size() == 1)<br/>
+						&nbsp;{<br/>
+							&nbsp;&nbsp;//The result about everything being ok<br/>
+							&nbsp;&nbsp;output.result_code = SAORIRESULT_OK<br/>
+							&nbsp;&nbsp;//Check the first argument the ghost is sending to the SAORI<br/>
+							&nbsp;&nbsp;//The L before the chains of characters only means they are a special type of chain<br/>
+							&nbsp;&nbsp;if (input.args[0] == L"Just a hello from the ghost")<br/>
+							&nbsp;&nbsp;{<br/>
+								&nbsp;&nbsp;&nbsp;//Do something about getting a hello from the ghost<br/><br/>
+								&nbsp;&nbsp;&nbsp;output.result = L"Hello back from the SAORI"<br/>
+								&nbsp;&nbsp;&nbsp;//It can adds some values in output.values to send back to the ghost<br/>
+								&nbsp;&nbsp;&nbsp;//The result for no content is SAORIRESULT_NO_CONTENT<br/>
+							&nbsp;&nbsp;}<br/>
+						&nbsp;}<br/>
+						&nbsp;else<br/>
+						&nbsp;{<br/>
+							&nbsp;&nbsp;//Here the SAORI didn't understand the request of the ghost<br/>
+							&nbsp;&nbsp;output.result_code = SAORIRESULT_BAD_REQUEST;<br/>
+						&nbsp;}<br/>
+					}<br/><br/>
+					
+					boolean unload()<br/>
+					{<br/>
+						&nbsp;isloaded = false;<br/>
+						&nbsp;//Free anything that needs to be freed<br/>
+						&nbsp;return true;<br/>
+					}
+					</div>
+				
+				</p>
+			
+			</div><br/>
+			<h3>Make the SAORI initialize a communication</h3><br/>
+			<div>
+				<p>This part is for the ones who really like complicated stuff. The usual communication is the ghost sending a request to the SAORI and the SAORI responding back. It's the ghost initializing the communication. Thought the contrary is possible.</p>
+				<br/><p>Even if the ghost is aware of the SAORI and has a function to communicate with it, the SAORI itself doesn't know naturally how to communicate with a ghost.<br/>When a ghost is running, an object representing the ghost's information is kept in the memory of the computer and is accessible for other programs. The SAORI can get from it the name and the hwnd of the ghost it wants to target.<br/>The hwnd is a window's identifier. When something is displayed on the screen, it has one and a program can send a message to this window. SSP is the program managing all its ghosts windows so it will receive the messages and give it them the ghost targeted. Sending messages to the main .dll of a ghost is possible but should be restricted to the baseware only. The baseware handles all the communications with the ghost.</p>
+			</div><br/><br/>
+			<div>
+				<p>Instead of digging into the complexity of FileMapping (the object with the ghosts information), a simple way for a SAORI to get the hwnd is to get it directly from the ghost itself. All ghosts know their own hwnd. They have one for their main body, one for their kero and two for their balloons, one for the sakura balloon and one for the kero balloon. Basically the ghost can send it to the SAORI so it will be able to communicate back by itself.</p>
+				<p>After the target, the message needs a protocol. Again the protocol used is SSTP (Sakura Script Transfer Protocol) but instead of the GET followed by the Shiori version messages a baseware sends to a ghost, the keyword is a little bit different. Let's see first what a normal message from the baseware looks like. Here is a message from SSP to a ghost for the user clicking on the CANCEL option of the ghost's menu :
+					<div style="margin-left:30px;margin-left:2rem;">// request<br/>
+						GET SHIORI/3.0<br/>
+						Charset: UTF-8<br/>
+						Sender: SSP<br/>
+						SecurityLevel: local<br/>
+						Status: choosing,balloon(0=2)<br/>
+						ID: OnChoiceSelect<br/>
+						Reference0: CANCEL</div><br/>
+					<br/>The first line is the command GET with the version of the ghost's Shiori. The format of the messages change a little depending on the command on the first line. The Charset on the second line is the encoding of the message. Then comes the Sender, the SecurityLevel is the origin of the message (the computer or internet), the Status is the ghost's one and shows what balloon is open, if it's in passive mode, etc.<br/>
+					Finally comes the message itself, the ID is the name of the function that is called on the ghost side and if you already coded a ghost, you must be familiar with the references such as reference0. They are the same as the ones appearing in the message.</p>
+				</div><br/><br/>
+				<div><p>The message the SAORI can send to a ghost is very similar. Since it's not communicating directly with a Shiori for a Shiori event, it needs to precise what version of the protocol it's using. Here it's SSTP/1.4.</p>
+					<div style="margin-left:30px;margin-left:2rem;">
+						SEND SSTP/1.4<br/>
+						Sender: yourSAORI<br/>
+						HWnd: 0<br/>
+						Event: OnYourFunction<br/>
+						Reference0: something to put in the ghost's reference0<br/>
+						Script: something the ghost will displays when it receives the message
+					</div><br/>
+					<br/>The HWnd is your SAORI's one. Though you SAORI is probably not having a window displayed, in that case it's just 0. Event is the equivalant of ID, the name of the function called on the ghost side and Script is something the ghost will display.<br/>
+					The SEND keyword allows more versatile messages but others exist such as NOTIFY or EXECUTE. You can find a list complete and more precisions about SSTP on <a href="http://usada.sakura.vg/contents/sstp.html" target="_blank">its specifications website</a>. This website contains a lot of documentation about how ghosts work and is a very useful for the ones who want to know more about it.
+				</p>
+			</div><br/><br/>
+			<div>
+				<p>Now that we have an hwnd and that you know how to write your message, let's see how to send it ! The code looks like this :
+					<div style="margin-left:30px;margin-left:2rem;">
+						HWND hwnd = ... //Replace the ... by the hwnd of the ghost;<br/>
+						const char *rq = "SEND SSTP/1.4\r\nEvent : ....your message...";<br/>
+						<br/>
+						//Windows object you will use to send the message<br/>
+						COPYDATASTRUCT cds;<br/>
+						LRESULT result;<br/>
+						<br/>
+						//The port, can be 0, 9821 is just the default port SSP is listening to but it's not used since we communicate directly with the window<br/>
+						const int windowport = 9821;<br/>
+						<br/>
+						//We fulfill the object that is used to send the message with the port, the message itself and it's length<br/>
+						cds.dwData = windowport; ;<br/>
+						cds.lpData = (PVOID)rq;<br/>
+						cds.cbData = strlen(rq);<br/>
+						<br/>
+						//And we actually send it<br/>
+						result = SendMessage(hwnd, WM_COPYDATA, 0, (LPARAM)&cds);
+					</div><br/>
+				
+				<br/>Normally the ghost received your message.
+				</p>
+			</div>
+
+		</section>
+		<footer>
+			<div>Copyright © 2019, created by Azura Levidre</div>
+		</footer>
+		
+	</body>
+</html>
