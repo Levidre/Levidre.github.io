@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<title>Azura Levidre</title>
+		<link rel="stylesheet" href="style.css"/>
+
+	</head>
+
+	<body>
+				<section class="section-inside">
+<div class="banner-picture">
+	<img src="pictures/banner.png" alt="Azura and Levidre" title="banner" height="150px" width="150px" />
+</div>
+
+<div class="site-banner">
+	<h1>Azura Levidre Website</h1>
+</div>
+<div  class="webring-container">
+	<div class="webring-banner">
+		<div class="webring-banner__header">
+			<img class="webring-banner__image" src="https://ukagakawebring.netlify.com//assets/images/ukagaka icon.jpg" alt="">
+			<div class="webring-banner__description">
+			<span>This site is part of</span>
+			<h3 class="webring-banner__title">
+				<a href="https://ukagakawebring.netlify.com/">Ukagaka/Ghost Development and Download</a>
+			</h3>
+			<span>A webring with <div id="members">15</div> Members</span>
+		</div>
+		<a class="webring-banner__info" href="https://en.wikipedia.org/wiki/Webring" title="What's this?">?</a>
+	</div>
+	<p class="webring-banner__links">
+	<a href="https://ukagakawebring.netlify.com//prev" class="webring-banner__link webring-banner__link--prev" aria-label="Go to previous site">⬅️ Previous</a>
+	<a href="https://ukagakawebring.netlify.com//random" class="webring-banner__link webring-banner__link--random" aria-label="Go to a random site">👻 Random</a>
+	<a href="https://ukagakawebring.netlify.com//next" class="webring-banner__link webring-banner__link--next" aria-label="Go to next site">Next ➡️</a>
+	</p>
+</div>
+</div>
+<script async>
+				//var shadow = document.getElementById("ring");
+				//console.log(shadow.childNodes);
+				//var childNodes = shadow.childNodes;
+				
+				
+	var request = new XMLHttpRequest();
+
+	function reqListener () {
+	  //console.log(this.responseText);
+					 
+		var decoded = JSON.parse(atob(this.response['content']))
+		var elem = document.getElementById("members");
+		elem.textContent=decoded.length;
+		console.log(decoded);
+	}
+
+	var oReq = new XMLHttpRequest();
+	oReq.responseType = 'json';
+	oReq.addEventListener("load", reqListener);
+	oReq.open("GET", "https://api.github.com/repos/coulditbebort/webring/contents/src/data/members.json");
+	oReq.send();
+			
+</script>
+</section>
+
+<header>
+	<nav>
+		<a href="/">Home</a>
+		<a href="azura.html">Azura</a>
+		<a href="levidre.html">Levidre</a>
+		<a href="ukagaka.html">Ukagakas</a>
+		<a href="update.html">Updates</a>
+	
+	</nav>
+</header>
+		
+		<section>
+			<h2>Updates History</h2><br/>
+			<h4><div><a href="update">About Updates</a></div></h4>
+			<h3>The previous updates</h3><br/>
+			<div>
+				<p>Here are all the previous update notices. Since I do one new notice per update, you would be able to take track of all the updates I did.</p>
+			</div><br/>
+			<h3>The notices list</h3><br/>
+			<div>
+				<p>Let's see the list (the top one is the more recent) :</p>
+				<ul>
+					<li>Normal update, not as big as the previous one.<br/>Azura can now hold Obsidian, Dusty's cat (Dusty and Obsidian is Zichqec's ghost, you can download them <a href="https://zichqec.github.io/s-the-skeleton/index.html" target="_blank">on their website</a>). Azura has dialogues related to when she is holding Obsidian.<br/>There are some ghosts interactions in plus (not a lot but still).<br/>A bug for the pose when Azura boots up at lunch time has been solved and something to handle better the shell has been added. This will allow more animations in the futur.<br/>It's now possible to give many songs to Azura at the same time for the music player.</li>
+					<li>Halloween update, and at the same time bug solving update.<br/>Let's start with the new nice things. Azura now has her new Halloween shell, the trident she was having has been replaced by something else. It's up to you to discover what and its new dialogues.<br/>There is something new unlockable too.<br/>For the bugs, the number of animations got too big what caused some issues as animations not starting correctly. To solve this, a reorganisation of animations calls has been made and everything should be fine now. A shell issue making Azura disappearing (again) when she was sleeping has been solved as a bug making her having her normal outfit instead of pyjamas when she boots the evening and the night. And last shell bug solved : the computer staying even if Azura is supposed to have closed it.</li>An other type of bug has been solved, a little more rare kind of bug. Azura was crashing during listing the files to backup when a folder was empty, what shouldn't be happening anymore. This bug survived to many tests but now the backup feature should work just fine.</li>
+					<li>Mostly bug solving update but not only.<br/>The transparency issues of the new shell has been solved for other basewares than SSP. Azura's smiles are a little bit darker to be more visible and the shell bugs have been solved.<br/>Azura now has her own mood, so she can be either happy or depressed when you open her (and there is a new pool of dialogues for it). Of course her mood can change...<br/>New unlockable feature too : the todo lists.</li>
+					<li>It's a hella big update.<br/>Shell revamp ! There are some things that still need to be fixed but they should be fixed in the next update.<br/>Speaking of bugs, there is now an option in the functions menu to send a report, either Azura's dictionary or a little message you write.<br/>The options insult and music are finally completed. So you can actually insult Azura.<br/>Any report, feedback, dictionary, bug report or even little message, is welcome so feel free to send anything. The known bugs as far are a possible one with the food, the tail for the transition between poses and the arm of the battle pose that isn't disappearing while an animation is playing.</li>
+					<li>A little update. The birthday one.<br/>It's bug-solving centered, in fact there isn't a lot in this update. Animations bugs have been solved, including the one for when Azura is eating. One new dialogue has been added lol.<br/>Anyway, birthday event added. There would be a post on tumblr for the birthday soon."</li>
+					<li>This is an animation-centered update.<br/>Azura has new eyebrows, new eyes, new smiles and tail animations. She has now an animation for sitting down and standing up. The scales of some wings and tails have been redone. The pictures of the shell have been reorganized too.<br/>The collision for the sleeping pose has been added, so Azura is pettable when asleep and the collision for the face has been modified.<br>And finally a bug with the information about the renamed songs has been solved.</li>
+					<li>It's a big update, with two new features and a change.<br/>Azura migrated from AYA to YAYA (coding languages). It shouldn't affect anything but if there is any problem, please report it. It would be highly appreciated.<br/>The first one is a backup system unlockable. It's highly advised to limit Azura's researches. You can do it by either choosing what drives she is checking or/and what repositories.<br/>The second new feature is a hard mode for her little battle. It won't be as easy as the older mode.Besides them, there are some new dialogues and a few new responses.</li>
+					<li>It's not a very big update, but it's not a small one either.<br/>Azura has new wings, her old ones weren't very nice done.<br>About her AI, a bug was affecting the subject causing most responses not working, it's solved. And all the responses for normal sentences (anything that isn't a question) are done.<br/>Something is new : with the first page of Azurtale, some questions that can be asked to Azura have changed.</li>
+					<li>It's not a very big update, but it's not a small one either.<br/>There was a problem with the petting and punching variables that were reinitialized to 0 if the user was checking them in the menu, it's solved.<br/>Azura has new wings, her old ones weren't very nice done.<br/>About her AI, a bug was affecting the subject causing most responses not working, it's solved. And all the responses for normal sentences (anything that isn't a question) are done.<br>Something is new : with the first page of Azurtale, some questions that can be asked to Azura have changed.</li>
+					<li>This update is pretty big and music player centered.<br/>Azura now have a voice recognition menu with different recognition modes. The menu would show up by saying 'music player' and then the navigation is possible by saying the choices.<br/>Since some songs name can be long and complicated to say at once, songs can now be renamed. It won't rename the file, just its name inside Azura's playlist. The new name will be saved when the playlist is saved and loaded as well.<br>The voice recognition modes are here to keep Azura to react to anything anyone would say in front of her.<br>About the AI, the code for the self-learned words has been implemented for the normal sentences, still not for the questions. So Azura responses should be accurate for the normal sentences.<br>Azura was searching for the rest of the sentence if it was just something as a greeting or just not a sentence with a subject and a verb, she shouldn't anymore.<br>There are new dialogues too.</li>
+					<li>It's only a little update.<br/>New dialogues have been added and a bug with the AI has been solved. This bug was for some questions and was making Azura crash, so Azura shouldn't crash anymore. There was a problem with the waking up dialogue too, now it's solved.</li>
+					<li>It's the beta release update.<br/>Bugs have been solved, the self-learning feature is now fully working despite Azura's responses about self-learned words being still not accurate.<br>The thing for the negative path is set up and working, so expect a surprise if you're mean.</li>
+				</ul>
+			
+			</div>
+		</section>
+		<footer>
+			<div>Copyright © 2019, created by Azura Levidre</div>
+		</footer>
+		
+	</body>
+</html>

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<title>Azura Levidre</title>
+		<link rel="stylesheet" href="style.css"/>
+
+	</head>
+
+	<body>
+		<section class="section-inside">
+			<div class="banner-picture">
+				<img src="pictures/banner.png" alt="Azura and Levidre" title="banner" height="150px" width="150px" />
+			</div>
+
+			<div class="site-banner">
+				<h1>Azura Levidre Website</h1>
+			</div>
+			<div  class="webring-container">
+				<div class="webring-banner">
+				<div class="webring-banner__header">
+				  <img class="webring-banner__image" src="https://ukagakawebring.netlify.com//assets/images/ukagaka icon.jpg" alt="">
+				  <div class="webring-banner__description">
+					<span>This site is part of</span>
+					<h3 class="webring-banner__title">
+					  <a href="https://ukagakawebring.netlify.com/">Ukagaka/Ghost Development and Download</a>
+					</h3>
+					<span>A webring with <div id="members">15</div> Members</span>
+				  </div>
+				  <a class="webring-banner__info" href="https://en.wikipedia.org/wiki/Webring" title="What's this?">?</a>
+				</div>
+				<p class="webring-banner__links">
+				  <a href="https://ukagakawebring.netlify.com//prev" class="webring-banner__link webring-banner__link--prev" aria-label="Go to previous site">⬅️ Previous</a>
+				  <a href="https://ukagakawebring.netlify.com//random" class="webring-banner__link webring-banner__link--random" aria-label="Go to a random site">👻 Random</a>
+				  <a href="https://ukagakawebring.netlify.com//next" class="webring-banner__link webring-banner__link--next" aria-label="Go to next site">Next ➡️</a>
+				</p>
+			</div>
+
+			<script async>
+				//var shadow = document.getElementById("ring");
+				//console.log(shadow.childNodes);
+				//var childNodes = shadow.childNodes;
+				
+				
+				var request = new XMLHttpRequest();
+
+				function reqListener () {
+					  //console.log(this.responseText);
+					 
+					  var decoded = JSON.parse(atob(this.response['content']))
+					  var elem = document.getElementById("members");
+					  elem.textContent=decoded.length;
+					   console.log(decoded);
+				}
+
+				var oReq = new XMLHttpRequest();
+				oReq.responseType = 'json';
+				oReq.addEventListener("load", reqListener);
+				oReq.open("GET", "https://api.github.com/repos/coulditbebort/webring/contents/src/data/members.json");
+				oReq.send();
+				
+			</script>
+			</div>
+
+		</section>
+		
+		<header>
+			<div id="en-tete">Here is Azura and Levidre site</div>
+		</header>
+		<section>
+		<h2>Home, Sweet Home</h2><br/>
+		<div id="menu_home">
+			<h3><a href="/">Home</a></h3><br/>
+			<h3><a href="azura.html">Azura</a></h3><br/>
+			<h3><a href="levidre.html">Levidre</a></h3><br/>
+			<h3><a href="ukagaka.html">Ukagakas</a></h3><br/>
+			<h6><a href="installation-of-ghosts.html">Ghosts Installation</a></h6><br/>
+			<h3><a href="update.html">Updates</a></h2><br/>
+			<h6><a href="update-history.html">Updates History</a></h6><br/>
+		</div>
+		<div id="text_home">
+
+			<h3>News</h3><br/>
+			<div>
+				<p>The website is updated ! It should be more readable.<br/>Azurtale currently in pause because I'm too busy. It will resume.</p>
+			</div><br/>
+			<h3>Last update</h3><br/>
+			<div>
+				<p>Azura is now able to hold Obsidian, Dusty's cat (Dusty and Obsidian is <a href = "https://zichqec.github.io/s-the-skeleton/index.html" target="_blank">Zichquec</a>'s ghost).</p>
+			</div><br/>
+			<h3>Current dev work</h3><br/>
+			<div>
+				<p>Not Azura ! For once ! I started a new ghost and am quite enthusiastic about it. I already did the first pose and some dialogues.</p>
+			</div>
+		</div>
+		</section>
+		<footer>
+			<div>Copyright © 2019, created by Azura Levidre</div>
+		</footer>
+		
+	</body>
+</html>
