@@ -51,6 +51,8 @@ OnFirstBoot
 	isdrawing = 0
 	azpose="\0\s[10]"
 	rename = 0
+	holdobsidian = 0
+	
 	saw_dusk_dawn = 0 //Just to say hello to them
 	ghostsencountered = IARRAY
 	if replacedGseen != ""
@@ -403,6 +405,7 @@ OnInitBootVariables
 	rename = 0
 	saw_dusk_dawn = 0
 	checkmirror = 0
+	holdobsidian = 0
 }
 
 //--normalboottalk
@@ -413,151 +416,11 @@ OnInitBootVariables
 OnGreetingDialogue
 {
 	//This check if it's the first time of the day that Azura is booted.
-	if month > helloday[0]
+	if month > helloday[0] || (month == helloday[0] && day > helloday[1])
 	{
 		helloday[2] = 0
-		if azpunched <= 0 || userfeeling >= 375
-		{
-			_rand = RAND(3)
-			case _rand
-			{
-				when 0
-				{
-					azfeel = -1
-				}
-				when 1
-				{
-					azfeel = 0
-				}
-				when 2
-				{
-					azfeel = 1
-				}
-			}
-		}
-		elseif azpunched <= 2
-		{
-			_rand = RAND(5)
-			case _rand
-			{
-				when 0
-				{
-					azfeel = -4
-				}
-				when 1
-				{
-					azfeel = -2
-				}
-				when 2
-				{
-					azfeel = 1
-				}
-				others
-				{
-					azfeel = 0
-				}
-			}
-		}
-		else
-		{
-			_rand = RAND(5)
-			case _rand
-			{
-				when 0
-				{
-					azfeel = 0
-				}
-				when 1
-				{
-					azfeel = -2
-				}
-				when 2
-				{
-					azfeel = 1
-				}
-				others
-				{
-					azfeel = -4
-				}
-			}
-		}	
-		moodchange = 0
-		positiveaction = 0
-	}
-	elseif month == helloday[0]
-	{
-		if day > helloday[1]
-		{
-			helloday[2] = 0
-			alreadyeat = 0
-			if azpunched <= 0 || userfeeling >= 375
-			{
-				_rand = RAND(3)
-				case _rand
-				{
-					when 0
-					{
-						azfeel = -1
-					}
-					when 1
-					{
-						azfeel = 0
-					}
-					when 2
-					{
-						azfeel = 1
-					}
-				}
-			}
-			elseif azpunched <= 2
-			{
-				_rand = RAND(5)
-				case _rand
-				{
-					when 0
-					{
-						azfeel = -4
-					}
-					when 1
-					{
-						azfeel = -2
-					}
-					when 2
-					{
-						azfeel = 1
-					}
-					others
-					{
-						azfeel = 0
-					}
-				}
-			}
-			else
-			{
-				_rand = RAND(5)
-				case _rand
-				{
-					when 0
-					{
-						azfeel = 0
-					}
-					when 1
-					{
-						azfeel = -2
-					}
-					when 2
-					{
-						azfeel = 1
-					}
-					others
-					{
-						azfeel = -4
-					}
-				}
-			}	
-			moodchange = 0
-			positiveaction = 0
-		}
+		alreadyeat = 0
+		ChooseMood
 	}
 	if dayslot != "10month 31day"
 	{
@@ -754,6 +617,81 @@ Askmood
 	"\0\i[18]* How are you ?\![open,inputbox,OnKnowmood,30000]"
 }
 
+ChooseMood
+{
+	if azpunched <= 0 || userfeeling >= 375
+	{
+		_rand = TOINT(RAND(3))
+		case _rand
+		{
+			when 0
+			{
+				azfeel = 0
+			}
+			when 1
+			{
+				azfeel = -1
+			}
+			when 2
+			{
+				azfeel = 1
+			}
+			others
+			{
+				azfeel = 0
+			}
+		}
+	}
+	elseif azpunched <= 2
+	{
+		_rand = TOINT(RAND(5))
+		case _rand
+		{
+			when 0
+			{
+				azfeel = -4
+			}
+			when 1
+			{
+				azfeel = -2
+			}
+			when 2
+			{
+				azfeel = 1
+			}
+			others
+			{
+				azfeel = 0
+			}
+		}
+	}
+	else
+	{
+		_rand = TOINT(RAND(5))
+		case _rand
+		{
+			when 0
+			{
+				azfeel = 0
+			}
+			when 1
+			{
+				azfeel = -2
+			}
+			when 2
+			{
+				azfeel = 1
+			}
+			others
+			{
+				azfeel = -4
+			}
+		}
+	}	
+	moodchange = 0
+	positiveaction = 0
+}
+
 RemindingStuff
 {
 	_temparray = IARRAY
@@ -877,7 +815,7 @@ OnClose
  {
 	timeslot = GetTimeSlot //as you saw above, it's checking the time.
 	--
-	if passmin >= 5	//This checks to see if you've had them open for at least five minutes.
+	if passmin >= 5 || passhour >= 1	//This checks to see if you've had them open for at least five minutes.
 	{
 		if timeslot == "earlymorning"
 		{
@@ -1028,7 +966,7 @@ OnClose
  
  OnWindowStateMinimize
 {
-    if holdingObsidian == 1
+    if holdobsidian == 1
     {
 		if issat != 1
 		{
@@ -1039,7 +977,7 @@ OnClose
 			azpose = "\0\s[15]%(smile)"
 		}
         res_reference0 = "Dusty"
-        holdingObsidian = 0
+        holdobsidian = 0
         "\e AzuraObsiMinimize"
     }
 }
@@ -1087,6 +1025,7 @@ OnGhostChanging
 		--
 		if holdobsidian == 1
 		{
+			ghosttoswitchto = "%(reference0)"
 			"\![get,property,OnObsidianJump,currentghost.scope(0).rect]"
 		}
 		//Replace this dialogue with whatever you like. Notice the use of the %(reference0) envelope here? In OnGhostChanging, %(reference0) stores the name of the ghost being swapped to, so if you want to display what you're switching to, you can use %(reference0) as in this example. You don't have to use %(reference0) if you don't want to though.
@@ -1192,7 +1131,7 @@ OnShellChanged
 
 OnDressupChanged
 {
-if reference0 == 0 //in OnDressupChanged, reference0 refers to the character, therefore this is evaluating which character in question is getting dressed up. 0 is the main character, as you know from the walkthrough by now.
+	if reference0 == 0 //in OnDressupChanged, reference0 refers to the character, therefore this is evaluating which character in question is getting dressed up. 0 is the main character, as you know from the walkthrough by now.
 	{
 	if reference1 == "Clothing for Girl" //This is the name of the clothing item in the descript.txt file, I'm pretty sure.
 		{
@@ -1206,7 +1145,7 @@ if reference0 == 0 //in OnDressupChanged, reference0 refers to the character, th
 			}
 		}		
 	}
-else //if reference0 isn't the main character, then it has to be the side character.
+	else //if reference0 isn't the main character, then it has to be the side character.
 	{
 	if reference1 == "some kind of clothing for triangle??" //The name of the item of clothing in the descript.txt file in your shell folder.
 		{
@@ -1337,7 +1276,7 @@ OnKnowmood
 			"\x%(lsto)* You have nothing to do for now.\x"
 		}
 	}
-	
+	--
 	"\![updatebymyself,checkonly]"
 } 
 

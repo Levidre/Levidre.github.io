@@ -2,7 +2,7 @@
 
 // Organization of sentencesdata : (negation,phrasetype,tense,detsubject,adjsubject,subject,firstprep,detCOD,adjCOD,COD,,secondprep,adjCOI,COI,others)
 //For non french people, COD means object's direct complement, it's the answer of what like the mouse ? the mouse likes cheese. Here the COD is cheese.
-
+//Responses to do : HowAvis, HowThink, WhatHave, When, Where, Which
 
 Select.saysthg
 {
@@ -25,6 +25,7 @@ OnRespondInput
 
 AnalyzingLoop
 {
+	nb = 0
 	if hastaught != 1
 	{
 		sayed = REPLACE(TOLOWER(reference0),", "," ")
@@ -60,7 +61,7 @@ AnalyzingLoop
 				"%(_result)"
 				return
 			}
-			_sentencesdata ,= _result
+			_sentencesdata ,= SPLIT(_result,"|")
 		}
 		
 	}
@@ -72,7 +73,6 @@ UnderstandSentencesV2
 {
 	_sentence = _argv
 	_newsentence = IARRAY
-	_finalsentence = IARRAY
 	_modal = 0
 	_negation = 0
 	_phrasetype = 0
@@ -95,7 +95,7 @@ UnderstandSentencesV2
 	_complement = 0
 	_prevj = 0
 	_j = 0
-	
+	nb++
 	if _sentence[_j] == ""
 	{
 		_j = _j + 1
@@ -530,6 +530,7 @@ UnderstandSentencesV2
 	_j++
 	_type = DetermineWord(_sentence[_j])[0]
 	_GN = "0"
+	
 	while _type == "complement"
 	{
 		_complement += " %(_sentence[_j])"
@@ -550,6 +551,7 @@ UnderstandSentencesV2
 		_detprevGN = _GN[2]
 		_adjprevGN = _GN[3]
 		_prevGN = _GN[4]
+		_type = DetermineWord(_sentence[_j])[0]
 	}
 	while _type == "complement"
 	{
@@ -584,7 +586,6 @@ UnderstandSentencesV2
 			_j++
 			_type = DetermineWord(_sentence[_j])[0]
 		}
-
 	}
 	if _GN != "0" && _GN != 0
 	{
@@ -604,16 +605,17 @@ UnderstandSentencesV2
 			_tempsentence[_i] = _sentence[_i+_prevj]
 			
 		}
+		
 		_newsentence = UnderstandSentencesV2(_tempsentence)
 	}
 	
-	_finalsentence = ("%(_negation),%(_phrasetype),%(_tense),%(_modal),%(_verb),%(_detsubject),%(_adjsubject),%(_subject),%(_complement),%(_allCO)")
+	_finalsentence = "%(_negation),%(_phrasetype),%(_tense),%(_modal),%(_verb),%(_detsubject),%(_adjsubject),%(_subject),%(_complement),%(_allCO)"
 	
-	if ARRAYSIZE(_newsentence) > 1
+	if STRLEN(_newsentence) > 5
 	{
-		_finalsentence ,= _newsentence
+		_finalsentence += "|" + "%(_newsentence)"
 	}
-	_finalsentence
+	"%(_finalsentence)"
 }
 
 UnderstandSentences
@@ -1037,6 +1039,7 @@ AzRespond
 	_prevCOI = "0"
 	_prevotherwords = "0"
 	_prevcomplement = "0"
+	_sentencesdata
 	--
 	foreach _sentencesdata ; _sentence
 	{
@@ -1266,7 +1269,7 @@ AzRespond
 						_CO = nameslib[TOINT((SPLIT(_result[1]," "))[_indname])]
 					}
 				}
-				_newallCO ,= (_prepCO,_detCO,_adjCO,_CO)
+				_newallCO ,= "%(_prepCO);;%(_detCO);;%(_adjCO);;%(_CO)"
 			}
 			
 			_i++
@@ -1278,7 +1281,7 @@ AzRespond
 		
 		//Finding all the words in the vocabulary
 		
-		if DetermineWord("%(_subject)")[0] == "name"
+		if "name" _in_ DetermineWord("%(_subject)")[0]
 		{
 			_subject = nameslib[TOINT(DetermineWord("%(_subject)")[1])]
 		}
@@ -1348,7 +1351,7 @@ AzRespond
 					if _verb[0] == "think"
 					{
 						//I have to do something for the verb think
-						_response = WhatThinkP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,adjCOI,_COI,_allCO)
+						_response = WhatThinkP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -1359,15 +1362,15 @@ AzRespond
 						//So if the __verb isn't the _verb think, it's just a question about Azura's opinion on something
 						if TOINT(_verb[6]) >= 0
 						{
-							_response = WhatAvisP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+							_response = WhatAvisP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							if _response !_in_ _respond
 							{
-								_respond += WhatAvisP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+								_respond += WhatAvisP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							}
 						}
 						else
 						{
-							_response = WhatAvisN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+							_response = WhatAvisN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							if _response !_in_ _respond
 							{
 								_respond += _response
@@ -1377,7 +1380,7 @@ AzRespond
 				}
 				elseif _verb[4] == "mov"
 				{
-					_response = WhatMovementP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhatMovementP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -1385,7 +1388,7 @@ AzRespond
 				}
 				elseif _verb[4] == "hobby"
 				{
-					_response = WhatHobbyP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhatHobbyP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -1394,7 +1397,7 @@ AzRespond
 				}
 				elseif _verb[4] == "creation"
 				{
-					_response = WhatCreationP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhatCreationP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -1402,7 +1405,7 @@ AzRespond
 				}
 				elseif _verb[4] == "stat"
 				{
-					_response = WhatStatusP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhatStatusP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -1412,7 +1415,7 @@ AzRespond
 				{
 					if _verb[0] == "see"
 					{
-						_response = WhatSeeP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhatSeeP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -1420,7 +1423,7 @@ AzRespond
 					}
 					elseif _verb[0] == "smell"
 					{
-						_response = WhatSmellP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhatSmellP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -1428,7 +1431,7 @@ AzRespond
 					}
 					elseif _verb[0] == "taste"
 					{
-						_response = WhatTasteP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhatTasteP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -1436,7 +1439,7 @@ AzRespond
 					}
 					elseif _verb[0] == "hear"
 					{
-						_response = WhatHearP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhatHearP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -1445,7 +1448,7 @@ AzRespond
 					}
 					elseif _verb[0] == "touch"
 					{
-						_response = WhatTouchP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhatTouchP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -1453,7 +1456,7 @@ AzRespond
 					}
 					elseif _verb[1] == "had"
 					{
-						_response = WhatHaveP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhatHaveP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -1466,7 +1469,7 @@ AzRespond
 				}
 				elseif _verb[4] == "imagin"
 				{
-					_response = WhatImagineP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhatImagineP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -1474,7 +1477,7 @@ AzRespond
 				}
 				elseif _verb[4] == "action"
 				{
-					_response = WhatActionP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhatActionP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -1498,7 +1501,7 @@ AzRespond
 					if _verb[0] == "think"
 					{
 						//I have to do something for the verb think
-						_response = HowThinkP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,adjCOI,_COI,_allCO)
+						_response = HowThinkP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -1509,7 +1512,7 @@ AzRespond
 						//So if the __verb isn't the _verb think, it's just a question about Azura's opinion on something
 						if TOINT(_verb[6]) >= 0
 						{
-							_response = HowAvisP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+							_response = HowAvisP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							if _response !_in_ _respond
 							{
 								_respond += _response
@@ -1517,7 +1520,7 @@ AzRespond
 						}
 						else
 						{
-							_response = HowAvisN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+							_response = HowAvisN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							if _response !_in_ _respond
 							{
 								_respond += _response
@@ -1527,7 +1530,7 @@ AzRespond
 				}
 				elseif _verb[4] == "mov"
 				{
-					_response = HowMovementP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = HowMovementP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -1535,7 +1538,7 @@ AzRespond
 				}
 				elseif _verb[4] == "hobby"
 				{
-					_response = HowHobbyP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = HowHobbyP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -1543,7 +1546,7 @@ AzRespond
 				}
 				elseif _verb[4] == "creation"
 				{
-					_response = HowCreationP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = HowCreationP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -1551,7 +1554,7 @@ AzRespond
 				}
 				elseif _verb[4] == "stat"
 				{
-					_response = HowStatusP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = HowStatusP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -1561,7 +1564,7 @@ AzRespond
 				{
 					if _verb[0] == "see"
 					{
-						_response = HowSeeP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = HowSeeP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -1569,7 +1572,7 @@ AzRespond
 					}
 					elseif _verb[0] == "smell"
 					{
-						_response = HowSmellP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = HowSmellP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -1577,7 +1580,7 @@ AzRespond
 					}
 					elseif _verb[0] == "taste"
 					{
-						_response = HowTasteP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = HowTasteP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -1585,7 +1588,7 @@ AzRespond
 					}
 					elseif _verb[0] == "hear"
 					{
-						_response = HowHearP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = HowHearP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -1593,7 +1596,7 @@ AzRespond
 					}
 					elseif _verb[0] == "touch"
 					{
-						_response = HowTouchP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = HowTouchP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -1601,7 +1604,7 @@ AzRespond
 					}
 					elseif _verb[1] == "had"
 					{
-						_response = HowHaveP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = HowHaveP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -1614,7 +1617,7 @@ AzRespond
 				}
 				elseif _verb[4] == "imagin"
 				{
-					_response = HowImagineP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = HowImagineP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -1622,7 +1625,7 @@ AzRespond
 				}
 				elseif _verb[4] == "action"
 				{
-					_response = HowActionP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = HowActionP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -1645,7 +1648,7 @@ AzRespond
 					if _verb[0] == "think"
 					{
 						//I have to do something for the verb think
-						_response = WhereThinkP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,adjCOI,_COI,_allCO)
+						_response = WhereThinkP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -1656,7 +1659,7 @@ AzRespond
 						//So if the __verb isn't the _verb think, it's just a question about Azura's opinion on something
 						if TOINT(_verb[6]) >= 0
 						{
-							_response = WhereAvisP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+							_response = WhereAvisP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							if _response !_in_ _respond
 							{
 								_respond += _response
@@ -1664,7 +1667,7 @@ AzRespond
 						}
 						else
 						{
-							_response = WhereAvisN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+							_response = WhereAvisN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							if _response !_in_ _respond
 							{
 								_respond += _response
@@ -1674,7 +1677,7 @@ AzRespond
 				}
 				elseif _verb[4] == "mov"
 				{
-					_response = WhereMovementP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhereMovementP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -1682,7 +1685,7 @@ AzRespond
 				}
 				elseif _verb[4] == "hobby"
 				{
-					_response = WhereHobbyP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhereHobbyP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -1690,7 +1693,7 @@ AzRespond
 				}
 				elseif _verb[4] == "creation"
 				{
-					_response = WhereCreationP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhereCreationP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -1698,7 +1701,7 @@ AzRespond
 				}
 				elseif _verb[4] == "stat"
 				{
-					_response = WhereStatusP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhereStatusP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -1708,7 +1711,7 @@ AzRespond
 				{
 					if _verb[0] == "see"
 					{
-						_response = WhereSeeP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhereSeeP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -1716,7 +1719,7 @@ AzRespond
 					}
 					elseif _verb[0] == "smell"
 					{
-						_response = WhereSmellP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhereSmellP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -1724,7 +1727,7 @@ AzRespond
 					}
 					elseif _verb[0] == "taste"
 					{
-						_response = WhereTasteP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhereTasteP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -1732,7 +1735,7 @@ AzRespond
 					}
 					elseif _verb[0] == "hear"
 					{
-						_response = WhereHearP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhereHearP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -1740,7 +1743,7 @@ AzRespond
 					}
 					elseif _verb[0] == "touch"
 					{
-						_response = WhereTouchP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhereTouchP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -1748,7 +1751,7 @@ AzRespond
 					}
 					elseif _verb[1] == "had"
 					{
-						_response = WhereHaveP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhereHaveP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -1761,7 +1764,7 @@ AzRespond
 				}
 				elseif _verb[4] == "imagin"
 				{
-					_response = WhereImagineP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhereImagineP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -1769,7 +1772,7 @@ AzRespond
 				}
 				elseif _verb[4] == "action"
 				{
-					_response = WhereActionP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhereActionP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -1792,7 +1795,7 @@ AzRespond
 					if _verb[0] == "think"
 					{
 						//I have to do something for the verb think
-						_response = WhenThinkP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,adjCOI,_COI,_allCO)
+						_response = WhenThinkP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -1803,7 +1806,7 @@ AzRespond
 						//So if the __verb isn't the _verb think, it's just a question about Azura's opinion on something
 						if TOINT(_verb[6]) >= 0
 						{
-							_response = WhenAvisP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+							_response = WhenAvisP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							if _response !_in_ _respond
 							{
 								_respond += _response
@@ -1811,7 +1814,7 @@ AzRespond
 						}
 						else
 						{
-							_response = WhenAvisN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+							_response = WhenAvisN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							if _response !_in_ _respond
 							{
 								_respond += _response
@@ -1821,7 +1824,7 @@ AzRespond
 				}
 				elseif _verb[4] == "mov"
 				{
-					_response = WhenMovementP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhenMovementP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -1829,7 +1832,7 @@ AzRespond
 				}
 				elseif _verb[4] == "hobby"
 				{
-					_response = WhenHobbyP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhenHobbyP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -1837,7 +1840,7 @@ AzRespond
 				}
 				elseif _verb[4] == "creation"
 				{
-					_response = WhenCreationP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhenCreationP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -1845,7 +1848,7 @@ AzRespond
 				}
 				elseif _verb[4] == "stat"
 				{
-					_response = WhenStatusP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhenStatusP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -1855,7 +1858,7 @@ AzRespond
 				{
 					if _verb[0] == "see"
 					{
-						_response = WhenSeeP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhenSeeP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -1863,7 +1866,7 @@ AzRespond
 					}
 					elseif _verb[0] == "smell"
 					{
-						_response = WhenSmellP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhenSmellP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -1871,7 +1874,7 @@ AzRespond
 					}
 					elseif _verb[0] == "taste"
 					{
-						_response = WhenTasteP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhenTasteP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -1879,7 +1882,7 @@ AzRespond
 					}
 					elseif _verb[0] == "hear"
 					{
-						_response = WhenHearP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhenHearP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -1887,7 +1890,7 @@ AzRespond
 					}
 					elseif _verb[0] == "touch"
 					{
-						_response = WhenTouchP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhenTouchP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -1895,7 +1898,7 @@ AzRespond
 					}
 					elseif _verb[1] == "had"
 					{
-						_response = WhenHaveP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhenHaveP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -1908,7 +1911,7 @@ AzRespond
 				}
 				elseif _verb[4] == "imagin"
 				{
-					_response = WhenImagineP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhenImagineP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -1916,7 +1919,7 @@ AzRespond
 				}
 				elseif _verb[4] == "action"
 				{
-					_response = WhenActionP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhenActionP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -1939,7 +1942,7 @@ AzRespond
 					if _verb[0] == "think"
 					{
 						//I have to do something for the verb think
-						_response = WhichThinkP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,adjCOI,_COI,_allCO)
+						_response = WhichThinkP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -1950,7 +1953,7 @@ AzRespond
 						//So if the __verb isn't the _verb think, it's just a question about Azura's opinion on something
 						if TOINT(_verb[6]) >= 0
 						{
-							_response = WhichAvisP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+							_response = WhichAvisP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							if _response !_in_ _respond
 							{
 								_respond += _response
@@ -1958,7 +1961,7 @@ AzRespond
 						}
 						else
 						{
-							_response = WhichAvisN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+							_response = WhichAvisN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							if _response !_in_ _respond
 							{
 								_respond += _response
@@ -1968,7 +1971,7 @@ AzRespond
 				}
 				elseif _verb[4] == "mov"
 				{
-					_response = WhichMovementP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhichMovementP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -1976,7 +1979,7 @@ AzRespond
 				}
 				elseif _verb[4] == "hobby"
 				{
-					_response = WhichHobbyP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhichHobbyP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -1984,7 +1987,7 @@ AzRespond
 				}
 				elseif _verb[4] == "creation"
 				{
-					_response = WhichCreationP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhichCreationP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -1992,7 +1995,7 @@ AzRespond
 				}
 				elseif _verb[4] == "stat"
 				{
-					_response = WhichStatusP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhichStatusP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2002,7 +2005,7 @@ AzRespond
 				{
 					if _verb[0] == "see"
 					{
-						_response += WhichSeeP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response += WhichSeeP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2010,7 +2013,7 @@ AzRespond
 					}
 					elseif _verb[0] == "smell"
 					{
-						_response = WhichSmellP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhichSmellP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2018,7 +2021,7 @@ AzRespond
 					}
 					elseif _verb[0] == "taste"
 					{
-						_response = WhichTasteP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhichTasteP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2026,7 +2029,7 @@ AzRespond
 					}
 					elseif _verb[0] == "hear"
 					{
-						_response = WhichHearP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhichHearP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2034,7 +2037,7 @@ AzRespond
 					}
 					elseif _verb[0] == "touch"
 					{
-						_response = WhichTouchP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhichTouchP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2042,7 +2045,7 @@ AzRespond
 					}
 					elseif _verb[1] == "had"
 					{
-						_response = WhichHaveP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhichHaveP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2055,7 +2058,7 @@ AzRespond
 				}
 				elseif _verb[4] == "imagin"
 				{
-					_response = WhichImagineP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhichImagineP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2063,7 +2066,7 @@ AzRespond
 				}
 				elseif _verb[4] == "action"
 				{
-					_response = WhichActionP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhichActionP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2091,7 +2094,7 @@ AzRespond
 					if _verb[0] == "think"
 					{
 						//I have to do something for the verb think
-						_response = QuestionThinkP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,adjCOI,_COI,_allCO)
+						_response = QuestionThinkP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2102,7 +2105,7 @@ AzRespond
 						//So if the __verb isn't the _verb think, it's just a question about Azura's opinion on something
 						if TOINT(_verb[6]) >= 0
 						{
-							_response = QuestionAvisP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+							_response = QuestionAvisP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							if _response !_in_ _respond
 							{
 								_respond += _response
@@ -2110,7 +2113,7 @@ AzRespond
 						}
 						else
 						{
-							_response = QuestionAvisN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+							_response = QuestionAvisN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							if _response !_in_ _respond
 							{
 								_respond += _response
@@ -2120,7 +2123,7 @@ AzRespond
 				}
 				elseif _verb[4] == "mov"
 				{
-					_response = QuestionMovementP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = QuestionMovementP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2128,7 +2131,7 @@ AzRespond
 				}
 				elseif _verb[4] == "hobby"
 				{
-					_response = QuestionHobbyP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = QuestionHobbyP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2136,7 +2139,7 @@ AzRespond
 				}
 				elseif _verb[4] == "creation"
 				{
-					_response = QuestionCreationP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = QuestionCreationP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2144,7 +2147,7 @@ AzRespond
 				}
 				elseif _verb[4] == "stat"
 				{
-					_response = QuestionStatusP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = QuestionStatusP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2154,7 +2157,7 @@ AzRespond
 				{
 					if _verb[0] == "see"
 					{
-						_response = QuestionSeeP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = QuestionSeeP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2162,7 +2165,7 @@ AzRespond
 					}
 					elseif _verb[0] == "smell"
 					{
-						_response = QuestionSmellP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = QuestionSmellP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2170,7 +2173,7 @@ AzRespond
 					}
 					elseif _verb[0] == "taste"
 					{
-						_response = QuestionTasteP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = QuestionTasteP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2178,7 +2181,7 @@ AzRespond
 					}
 					elseif _verb[0] == "hear"
 					{
-						_response = QuestionHearP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = QuestionHearP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2186,7 +2189,7 @@ AzRespond
 					}
 					elseif _verb[0] == "touch"
 					{
-						_response = QuestionTouchP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = QuestionTouchP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2194,7 +2197,7 @@ AzRespond
 					}
 					elseif _verb[1] == "had"
 					{
-						_response = QuestionHaveP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = QuestionHaveP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2207,7 +2210,7 @@ AzRespond
 				}
 				elseif _verb[4] == "imagin"
 				{
-					_response = QuestionImagineP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = QuestionImagineP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2215,7 +2218,7 @@ AzRespond
 				}
 				elseif _verb[4] == "action"
 				{
-					_response = QuestionActionP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = QuestionActionP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2237,7 +2240,7 @@ AzRespond
 					//We're checking if the user is using the __verb think
 					if "%(_verb[0])" == "think"
 					{
-						_response = NormalThinkP((_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO))
+						_response = NormalThinkP((_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO))
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2249,7 +2252,7 @@ AzRespond
 						{
 							
 							//The option if the COD isn't a noun but a verb
-							_response = NormalAvisVP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+							_response = NormalAvisVP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							if _response !_in_ _respond
 							{
 								_respond += _response
@@ -2259,7 +2262,7 @@ AzRespond
 						{
 							//Here, the person is telling an opinion about something, or somebody
 							//It misses the error message and the last options
-							_response = NormalAvisNP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+							_response = NormalAvisNP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							if _response !_in_ _respond
 							{
 								_respond += _response
@@ -2271,7 +2274,7 @@ AzRespond
 						if "verb" _in_ _typeCOD
 						{
 							//The option if the COD isn't a noun but a verb
-							_response = NormalAvisVN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+							_response = NormalAvisVN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							if _response !_in_ _respond
 							{
 								_respond += _response
@@ -2281,7 +2284,7 @@ AzRespond
 						{
 							//Here, the person is telling an opinion about something, or somebody
 							//It misses the error message and the last options
-							_response = NormalAvisNN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+							_response = NormalAvisNN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							if _response !_in_ _respond
 							{
 								_respond += _response
@@ -2291,7 +2294,7 @@ AzRespond
 				}
 				elseif "%(_verb[4])" == "mov"
 				{
-					_response = NormalMovementP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = NormalMovementP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2299,7 +2302,7 @@ AzRespond
 				}
 				elseif "%(_verb[4])" == "hobby"
 				{
-					_response = NormalHobbyP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = NormalHobbyP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2307,7 +2310,7 @@ AzRespond
 				}
 				elseif "%(_verb[4])" == "creation"
 				{
-					_response = NormalCreationP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = NormalCreationP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2323,7 +2326,7 @@ AzRespond
 					}
 					if _somme >= 0
 					{
-						_response = NormalStatusP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = NormalStatusP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2331,7 +2334,7 @@ AzRespond
 					}
 					else
 					{
-						_response = NormalStatusN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = NormalStatusN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2344,7 +2347,7 @@ AzRespond
 					if _verb[0] == "see"
 					{
 						//Starting with the seeing
-						_response = NormalSeeP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = NormalSeeP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2352,7 +2355,7 @@ AzRespond
 					}
 					elseif _verb[0] == "touch"
 					{
-						_response = NormalTouchP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = NormalTouchP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2360,7 +2363,7 @@ AzRespond
 					}
 					elseif _verb[0] == "smell"
 					{
-						_response = NormalSmellP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = NormalSmellP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2368,7 +2371,7 @@ AzRespond
 					}
 					elseif _verb[0] == "hear"
 					{
-						_response = NormalHearP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = NormalHearP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2376,7 +2379,7 @@ AzRespond
 					}
 					elseif _verb[0] == "taste"
 					{
-						_response = NormalTasteP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = NormalTasteP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2384,7 +2387,7 @@ AzRespond
 					}
 					elseif _verb[1] == "had"
 					{
-						_response = NormalHaveP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = NormalHaveP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2398,7 +2401,7 @@ AzRespond
 				}
 				elseif "%(_verb[4])" == "imagin"
 				{
-					_response = NormalImagineP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = NormalImagineP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2406,7 +2409,7 @@ AzRespond
 				}
 				elseif "%(_verb[4])" == "action"
 				{
-					_response = NormalActionP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = NormalActionP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2446,7 +2449,7 @@ AzRespond
 					if _verb[0] == "think"
 					{
 						//I have to do something for the verb think
-						_response = WhatThinkN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,adjCOI,_COI,_allCO)
+						_response = WhatThinkN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2457,7 +2460,7 @@ AzRespond
 						//So if the __verb isn't the _verb think, it's just a question about Azura's opinion on something
 						if TOINT(_verb[6]) >= 0
 						{
-							_response = WhatAvisN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+							_response = WhatAvisN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							if _response !_in_ _respond
 							{
 								_respond += _response
@@ -2465,7 +2468,7 @@ AzRespond
 						}
 						else
 						{
-							_response = WhatAvisP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+							_response = WhatAvisP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							if _response !_in_ _respond
 							{
 								_respond += _response
@@ -2475,7 +2478,7 @@ AzRespond
 				}
 				elseif _verb[4] == "mov"
 				{
-					_response = WhatMovementN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhatMovementN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2483,7 +2486,7 @@ AzRespond
 				}
 				elseif _verb[4] == "hobby"
 				{
-					_response = WhatHobbyN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhatHobbyN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2491,7 +2494,7 @@ AzRespond
 				}
 				elseif _verb[4] == "creation"
 				{
-					_response = WhatCreationN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhatCreationN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2499,7 +2502,7 @@ AzRespond
 				}
 				elseif _verb[4] == "stat"
 				{
-					_response = WhatStatusN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhatStatusN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2509,7 +2512,7 @@ AzRespond
 				{
 					if _verb[0] == "see"
 					{
-						_response = WhatSeeN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhatSeeN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2517,7 +2520,7 @@ AzRespond
 					}
 					elseif _verb[0] == "smell"
 					{
-						_response = WhatSmellN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhatSmellN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2525,7 +2528,7 @@ AzRespond
 					}
 					elseif _verb[0] == "taste"
 					{
-						_response = WhatTasteN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhatTasteN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2533,7 +2536,7 @@ AzRespond
 					}
 					elseif _verb[0] == "hear"
 					{
-						_response = WhatHearN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhatHearN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2541,7 +2544,7 @@ AzRespond
 					}
 					elseif _verb[0] == "touch"
 					{
-						_response = WhatTouchN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhatTouchN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2549,7 +2552,7 @@ AzRespond
 					}
 					elseif _verb[1] == "had"
 					{
-						_response = WhatHaveN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhatHaveN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2562,7 +2565,7 @@ AzRespond
 				}
 				elseif _verb[4] == "imagin"
 				{
-					_response = WhatImagineN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhatImagineN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2570,7 +2573,7 @@ AzRespond
 				}
 				elseif _verb[4] == "action"
 				{
-					_response = WhatActionN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhatActionN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2594,7 +2597,7 @@ AzRespond
 					if _verb[0] == "think"
 					{
 						//I have to do something for the verb think
-						_response = HowThinkN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,adjCOI,_COI,_allCO)
+						_response = HowThinkN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2605,7 +2608,7 @@ AzRespond
 						//So if the __verb isn't the _verb think, it's just a question about Azura's opinion on something
 						if TOINT(_verb[6]) >= 0
 						{
-							_response = HowAvisN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+							_response = HowAvisN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							if _response !_in_ _respond
 							{
 								_respond += _response
@@ -2613,7 +2616,7 @@ AzRespond
 						}
 						else
 						{
-							_response = HowAvisP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+							_response = HowAvisP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							if _response !_in_ _respond
 							{
 								_respond += _response
@@ -2623,7 +2626,7 @@ AzRespond
 				}
 				elseif _verb[4] == "mov"
 				{
-					_response = HowMovementN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = HowMovementN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2631,7 +2634,7 @@ AzRespond
 				}
 				elseif _verb[4] == "hobby"
 				{
-					_response = HowHobbyN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = HowHobbyN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2639,7 +2642,7 @@ AzRespond
 				}
 				elseif _verb[4] == "creation"
 				{
-					_response = HowCreationN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = HowCreationN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2647,7 +2650,7 @@ AzRespond
 				}
 				elseif _verb[4] == "stat"
 				{
-					_response = HowStatusN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = HowStatusN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2657,7 +2660,7 @@ AzRespond
 				{
 					if _verb[0] == "see"
 					{
-						_response = HowSeeN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = HowSeeN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2665,7 +2668,7 @@ AzRespond
 					}
 					elseif _verb[0] == "smell"
 					{
-						_response = HowSmellN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = HowSmellN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2673,7 +2676,7 @@ AzRespond
 					}
 					elseif _verb[0] == "taste"
 					{
-						_response = HowTasteN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = HowTasteN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2681,7 +2684,7 @@ AzRespond
 					}
 					elseif _verb[0] == "hear"
 					{
-						_response = HowHearN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = HowHearN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2689,7 +2692,7 @@ AzRespond
 					}
 					elseif _verb[0] == "touch"
 					{
-						_response = HowTouchN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = HowTouchN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2697,7 +2700,7 @@ AzRespond
 					}
 					elseif _verb[1] == "had"
 					{
-						_response = HowHaveN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = HowHaveN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2710,7 +2713,7 @@ AzRespond
 				}
 				elseif _verb[4] == "imagin"
 				{
-					_response = HowImagineN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = HowImagineN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2718,7 +2721,7 @@ AzRespond
 				}
 				elseif _verb[4] == "action"
 				{
-					_response = HowActionN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = HowActionN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2741,7 +2744,7 @@ AzRespond
 					if _verb[0] == "think"
 					{
 						//I have to do something for the verb think
-						_response = WhereThinkN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,adjCOI,_COI,_allCO)
+						_response = WhereThinkN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2752,7 +2755,7 @@ AzRespond
 						//So if the __verb isn't the _verb think, it's just a question about Azura's opinion on something
 						if TOINT(_verb[6]) >= 0
 						{
-							_response = WhereAvisN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+							_response = WhereAvisN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							if _response !_in_ _respond
 							{
 								_respond += _response
@@ -2760,7 +2763,7 @@ AzRespond
 						}
 						else
 						{
-							_response = WhereAvisP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+							_response = WhereAvisP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							if _response !_in_ _respond
 							{
 								_respond += _response
@@ -2770,7 +2773,7 @@ AzRespond
 				}
 				elseif _verb[4] == "mov"
 				{
-					_response = WhereMovementN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhereMovementN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2778,7 +2781,7 @@ AzRespond
 				}
 				elseif _verb[4] == "hobby"
 				{
-					_response = WhereHobbyN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhereHobbyN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2786,7 +2789,7 @@ AzRespond
 				}
 				elseif _verb[4] == "creation"
 				{
-					_response = WhereCreationN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhereCreationN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2794,7 +2797,7 @@ AzRespond
 				}
 				elseif _verb[4] == "stat"
 				{
-					_response = WhereStatusN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhereStatusN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2804,7 +2807,7 @@ AzRespond
 				{
 					if _verb[0] == "see"
 					{
-						_response = WhereSeeN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhereSeeN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2812,7 +2815,7 @@ AzRespond
 					}
 					elseif _verb[0] == "smell"
 					{
-						_response = WhereSmellN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhereSmellN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2820,7 +2823,7 @@ AzRespond
 					}
 					elseif _verb[0] == "taste"
 					{
-						_response = WhereTasteN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhereTasteN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2828,7 +2831,7 @@ AzRespond
 					}
 					elseif _verb[0] == "hear"
 					{
-						_response = WhereHearN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhereHearN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2836,7 +2839,7 @@ AzRespond
 					}
 					elseif _verb[0] == "touch"
 					{
-						_response = WhereTouchN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhereTouchN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2844,7 +2847,7 @@ AzRespond
 					}
 					elseif _verb[1] == "had"
 					{
-						_response = WhereHaveN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhereHaveN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2857,7 +2860,7 @@ AzRespond
 				}
 				elseif _verb[4] == "imagin"
 				{
-					_response = WhereImagineN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhereImagineN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2865,7 +2868,7 @@ AzRespond
 				}
 				elseif _verb[4] == "action"
 				{
-					_response = WhereActionN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhereActionN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2888,7 +2891,7 @@ AzRespond
 					if _verb[0] == "think"
 					{
 						//I have to do something for the verb think
-						_response = WhenThinkN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,adjCOI,_COI,_allCO)
+						_response = WhenThinkN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2899,7 +2902,7 @@ AzRespond
 						//So if the __verb isn't the _verb think, it's just a question about Azura's opinion on something
 						if TOINT(_verb[6]) >= 0
 						{
-							_response = WhenAvisN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+							_response = WhenAvisN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							if _response !_in_ _respond
 							{
 								_respond += _response
@@ -2907,7 +2910,7 @@ AzRespond
 						}
 						else
 						{
-							_response = WhenAvisP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+							_response = WhenAvisP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							if _response !_in_ _respond
 							{
 								_respond += _response
@@ -2917,7 +2920,7 @@ AzRespond
 				}
 				elseif _verb[4] == "mov"
 				{
-					_response = WhenMovementN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhenMovementN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2925,7 +2928,7 @@ AzRespond
 				}
 				elseif _verb[4] == "hobby"
 				{
-					_response = WhenHobbyN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhenHobbyN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2933,7 +2936,7 @@ AzRespond
 				}
 				elseif _verb[4] == "creation"
 				{
-					_response = WhenCreationN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhenCreationN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2941,7 +2944,7 @@ AzRespond
 				}
 				elseif _verb[4] == "stat"
 				{
-					_response = WhenStatusN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhenStatusN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -2951,7 +2954,7 @@ AzRespond
 				{
 					if _verb[0] == "see"
 					{
-						_response = WhenSeeN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhenSeeN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2959,7 +2962,7 @@ AzRespond
 					}
 					elseif _verb[0] == "smell"
 					{
-						_response = WhenSmellN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhenSmellN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2967,7 +2970,7 @@ AzRespond
 					}
 					elseif _verb[0] == "taste"
 					{
-						_response = WhenTasteN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhenTasteN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2975,7 +2978,7 @@ AzRespond
 					}
 					elseif _verb[0] == "hear"
 					{
-						_response = WhenHearN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhenHearN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2983,7 +2986,7 @@ AzRespond
 					}
 					elseif _verb[0] == "touch"
 					{
-						_response = WhenTouchN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhenTouchN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -2991,7 +2994,7 @@ AzRespond
 					}
 					elseif _verb[1] == "had"
 					{
-						_response = WhenHaveN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhenHaveN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -3004,7 +3007,7 @@ AzRespond
 				}
 				elseif _verb[4] == "imagin"
 				{
-					_response = WhenImagineN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhenImagineN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -3012,7 +3015,7 @@ AzRespond
 				}
 				elseif _verb[4] == "action"
 				{
-					_response = WhenActionN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhenActionN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -3035,7 +3038,7 @@ AzRespond
 					if _verb[0] == "think"
 					{
 						//I have to do something for the verb think
-						_response = WhichThinkN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,adjCOI,_COI,_allCO)
+						_response = WhichThinkN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -3046,7 +3049,7 @@ AzRespond
 						//So if the __verb isn't the _verb think, it's just a question about Azura's opinion on something
 						if TOINT(_verb[6]) >= 0
 						{
-							_response = WhichAvisN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+							_response = WhichAvisN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							if _response !_in_ _respond
 							{
 								_respond += _response
@@ -3054,7 +3057,7 @@ AzRespond
 						}
 						else
 						{
-							_response = WhichAvisP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+							_response = WhichAvisP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							if _response !_in_ _respond
 							{
 								_respond += _response
@@ -3064,7 +3067,7 @@ AzRespond
 				}
 				elseif _verb[4] == "mov"
 				{
-					_response = WhichMovementN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhichMovementN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -3072,7 +3075,7 @@ AzRespond
 				}
 				elseif _verb[4] == "hobby"
 				{
-					_response = WhichHobbyN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhichHobbyN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -3080,7 +3083,7 @@ AzRespond
 				}
 				elseif _verb[4] == "creation"
 				{
-					_response = WhichCreationN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhichCreationN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -3088,7 +3091,7 @@ AzRespond
 				}
 				elseif _verb[4] == "stat"
 				{
-					_response = WhichStatusN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhichStatusN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -3098,7 +3101,7 @@ AzRespond
 				{
 					if _verb[0] == "see"
 					{
-						_response = WhichSeeN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhichSeeN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -3106,7 +3109,7 @@ AzRespond
 					}
 					elseif _verb[0] == "smell"
 					{
-						_response = WhichSmellN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhichSmellN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -3114,7 +3117,7 @@ AzRespond
 					}
 					elseif _verb[0] == "taste"
 					{
-						_response = WhichTasteN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhichTasteN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -3122,7 +3125,7 @@ AzRespond
 					}
 					elseif _verb[0] == "hear"
 					{
-						_response = WhichHearN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhichHearN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -3130,7 +3133,7 @@ AzRespond
 					}
 					elseif _verb[0] == "touch"
 					{
-						_response = WhichTouchN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhichTouchN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -3138,7 +3141,7 @@ AzRespond
 					}
 					elseif _verb[1] == "had"
 					{
-						_response = WhichHaveN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = WhichHaveN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -3151,7 +3154,7 @@ AzRespond
 				}
 				elseif _verb[4] == "imagin"
 				{
-					_response = WhichImagineN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhichImagineN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -3159,7 +3162,7 @@ AzRespond
 				}
 				elseif _verb[4] == "action"
 				{
-					_response = WhichActionN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = WhichActionN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -3186,7 +3189,7 @@ AzRespond
 					if _verb[0] == "think"
 					{
 						//I have to do something for the verb think
-						_response = QuestionThinkN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,adjCOI,_COI,_allCO)
+						_response = QuestionThinkN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -3197,7 +3200,7 @@ AzRespond
 						//So if the __verb isn't the _verb think, it's just a question about Azura's opinion on something
 						if TOINT(_verb[6]) >= 0
 						{
-							_response = QuestionAvisN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+							_response = QuestionAvisN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							if _response !_in_ _respond
 							{
 								_respond += _response
@@ -3205,7 +3208,7 @@ AzRespond
 						}
 						else
 						{
-							_response = QuestionAvisP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+							_response = QuestionAvisP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							if _response !_in_ _respond
 							{
 								_respond += _response
@@ -3215,7 +3218,7 @@ AzRespond
 				}
 				elseif _verb[4] == "mov"
 				{
-					_response = QuestionMovementN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = QuestionMovementN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -3223,7 +3226,7 @@ AzRespond
 				}
 				elseif _verb[4] == "hobby"
 				{
-					_response = QuestionHobbyN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = QuestionHobbyN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -3231,7 +3234,7 @@ AzRespond
 				}
 				elseif _verb[4] == "creation"
 				{
-					_response = QuestionCreationN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = QuestionCreationN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -3239,7 +3242,7 @@ AzRespond
 				}
 				elseif _verb[4] == "stat"
 				{
-					_response = QuestionStatusN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = QuestionStatusN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -3249,7 +3252,7 @@ AzRespond
 				{
 					if _verb[0] == "see"
 					{
-						_response = QuestionSeeN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = QuestionSeeN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -3257,7 +3260,7 @@ AzRespond
 					}
 					elseif _verb[0] == "smell"
 					{
-						_response = QuestionSmellN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = QuestionSmellN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -3265,7 +3268,7 @@ AzRespond
 					}
 					elseif _verb[0] == "taste"
 					{
-						_response = QuestionTasteN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = QuestionTasteN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -3273,7 +3276,7 @@ AzRespond
 					}
 					elseif _verb[0] == "hear"
 					{
-						_response = QuestionHearN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = QuestionHearN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -3281,7 +3284,7 @@ AzRespond
 					}
 					elseif _verb[0] == "touch"
 					{
-						_response = QuestionTouchN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = QuestionTouchN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -3289,7 +3292,7 @@ AzRespond
 					}
 					elseif _verb[1] == "had"
 					{
-						_response = QuestionHaveN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = QuestionHaveN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -3302,7 +3305,7 @@ AzRespond
 				}
 				elseif _verb[4] == "imagin"
 				{
-					_response = QuestionImagineN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = QuestionImagineN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -3310,7 +3313,7 @@ AzRespond
 				}
 				elseif _verb[4] == "action"
 				{
-					_response = NormalActionN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = NormalActionN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -3332,7 +3335,7 @@ AzRespond
 					//We're checking if the user is using the __verb think
 					if "%(_verb[0])" == "think"
 					{
-						_response = NormalThinkN((_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO))
+						_response = NormalThinkN((_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO))
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -3344,7 +3347,7 @@ AzRespond
 						{
 							
 							//The option if the COD isn't a noun but a verb
-							_response = NormalAvisVN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+							_response = NormalAvisVN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							if _response !_in_ _respond
 							{
 								_respond += _response
@@ -3354,7 +3357,7 @@ AzRespond
 						{
 							//Here, the person is telling an opinion about something, or somebody
 							//It misses the error message and the last options
-							_response = NormalAvisNN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+							_response = NormalAvisNN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							if _response !_in_ _respond
 							{
 								_respond += _response
@@ -3367,7 +3370,7 @@ AzRespond
 						if "verb" _in_ _typeCOD
 						{
 							//The option if the COD isn't a noun but a verb
-							_response = NormalAvisVP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+							_response = NormalAvisVP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							if _response !_in_ _respond
 							{
 								_respond += _response
@@ -3377,7 +3380,7 @@ AzRespond
 						{
 							//Here, the person is telling an opinion about something, or somebody
 							//It misses the error message and the last options
-							_response = NormalAvisNP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+							_response = NormalAvisNP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 							if _response !_in_ _respond
 							{
 								_respond += _response
@@ -3387,7 +3390,7 @@ AzRespond
 				}
 				elseif "%(_verb[4])" == "mov"
 				{
-					_response = NormalMovementN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = NormalMovementN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -3395,7 +3398,7 @@ AzRespond
 				}
 				elseif "%(_verb[4])" == "hobby"
 				{
-					_response = NormalHobbyN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = NormalHobbyN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -3403,7 +3406,7 @@ AzRespond
 				}
 				elseif "%(_verb[4])" == "creation"
 				{
-					_response = NormalCreationN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = NormalCreationN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -3419,7 +3422,7 @@ AzRespond
 					}
 					if _somme >= 0
 					{
-						_response = NormalStatusN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = NormalStatusN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -3427,7 +3430,7 @@ AzRespond
 					}
 					else
 					{
-						_response = NormalStatusP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = NormalStatusP(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -3440,7 +3443,7 @@ AzRespond
 					if _verb[0] == "see"
 					{
 						//Starting with the seeing
-						_response = NormalSeeN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = NormalSeeN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -3448,7 +3451,7 @@ AzRespond
 					}
 					elseif _verb[0] == "touch"
 					{
-						_response = NormalTouchN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = NormalTouchN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -3456,7 +3459,7 @@ AzRespond
 					}
 					elseif _verb[0] == "smell"
 					{
-						_response = NormalSmellN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = NormalSmellN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -3464,7 +3467,7 @@ AzRespond
 					}
 					elseif _verb[0] == "hear"
 					{
-						_response = NormalHearN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = NormalHearN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -3472,7 +3475,7 @@ AzRespond
 					}
 					elseif _verb[0] == "taste"
 					{
-						_response = NormalTasteN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = NormalTasteN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -3480,7 +3483,7 @@ AzRespond
 					}
 					elseif _verb[1] == "had"
 					{
-						_response = NormalHaveN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+						_response = NormalHaveN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 						if _response !_in_ _respond
 						{
 							_respond += _response
@@ -3493,7 +3496,7 @@ AzRespond
 				}
 				elseif "%(_verb[4])" == "imagin"
 				{
-					_response = NormalImagineN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = NormalImagineN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response
@@ -3501,7 +3504,7 @@ AzRespond
 				}
 				elseif "%(_verb[4])" == "action"
 				{
-					_response = NormalActionN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+					_response = NormalActionN(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_newallCO)
 					if _response !_in_ _respond
 					{
 						_respond += _response

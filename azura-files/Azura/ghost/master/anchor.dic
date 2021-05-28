@@ -18,9 +18,14 @@
 OnTranslate
 {
 	_talk = reference0
+	if reference1 == "" && reference2 == ""	
+	{ //send input box : no event (ref2) , no special flag (ref1)
+		_talk = EVAL('"' + REPLACE(_talk,'"','" + CHR(0x22) + "') + '"')
+	}
  	
-	if ((oncomputer == 1 || isdrawing == 1) && issat != 1) || alreadyeat >= 2  || holdobsidian == 1
+	if ((oncomputer == 1 || isdrawing == 1) && issat != 1) || alreadyeat >= 2  || holdobsidian != 0
 	{
+		_talk = REPLACE(_talk,"\i[68]","")
 		_talk = REPLACE(_talk,"\i[70]","")
 		_talk = REPLACE(_talk,"\i[71]","")
 		_talk = REPLACE(_talk,"\i[72]","")
@@ -30,7 +35,10 @@ OnTranslate
 		_talk = REPLACE(_talk,"\i[76]","")
 		_talk = REPLACE(_talk,"\i[77]","")
 		_talk = REPLACE(_talk,"\i[78]","")
+		_talk = REPLACE(_talk,"\i[79]","")
 		_talk = REPLACE(_talk,"\i[90]","")
+		_talk = REPLACE(_talk,"\i[83]","")
+		_talk = REPLACE(_talk,"\i[86]","")
 		_talk = REPLACE(_talk,"\i[91]","")
 		_talk = REPLACE(_talk,"\i[92]","")
 		_talk = REPLACE(_talk,"\i[93]","")
@@ -51,6 +59,7 @@ OnTranslate
 		_talk = REPLACE(_talk,"\i[76]","\i[83]")
 		_talk = REPLACE(_talk,"\i[77]","\i[83]")
 		_talk = REPLACE(_talk,"\i[78]","\i[83]")
+		_talk = REPLACE(_talk,"\i[79]","\i[83]")
 		_talk = REPLACE(_talk,"\i[90]","\i[86]")
 		_talk = REPLACE(_talk,"\i[91]","\i[86]")
 		_talk = REPLACE(_talk,"\i[92]","\i[86]")
@@ -158,7 +167,7 @@ OnAnchorSelect
             }
 		}
 		
-		if suppr == 1
+		if filtersuppr == 1
 		{
 			_temp = IARRAY
 			_size = ARRAYSIZE(surfacesfilter)

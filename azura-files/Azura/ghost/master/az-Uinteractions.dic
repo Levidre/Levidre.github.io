@@ -8,7 +8,7 @@
 		"\![embed,OnChangePose]"
 	}
 	--
-	if oncomputer == 1
+	if oncomputer == 1 && isplayed != 1
 	{
 		"\![embed,OnOCComputer]"
 	}

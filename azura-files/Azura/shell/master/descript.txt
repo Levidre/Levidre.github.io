@@ -15,7 +15,7 @@ type,shell
 name,Normal shell
 craftman,Levidre
 craftmanurl,https://azura-levidre.tumblr.com
-//menu,hidden
+menu,hidden
 
 //Balloon Co-ordinates
 //These basically define where your balloon starts for your main character (sakura) and your secondary character (kero). While you're testing your ghost, you'll notice that moving the balloons around shows you a set of coordinates on the bottom. Move your balloons where you want them, write down the coordinates, and copy them here. Otherwise, you can just leave them at 0. Your user will adjust them as they need to, so I wouldn't sweat this too much.

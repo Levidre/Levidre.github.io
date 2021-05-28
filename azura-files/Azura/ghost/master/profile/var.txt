@@ -3,7 +3,7 @@ install,581461198
 homeurl_found,1
 surfacecount,595
 homeurl,https://azura-levidre.000webhostapp.com/azura-files/Azura/
-update_result,OK(0)
+update_result,NG(404)
 firstboot,581461462
 commitmemorysize,8136036
-lastboot,663008319
+lastboot,675544788

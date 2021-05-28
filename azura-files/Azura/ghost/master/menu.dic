@@ -154,21 +154,13 @@ MenuRun
 //Would run whatever you want.
 Select.testfunction
 {
-	//ParseShell
-	//ParseShell("\master")
-	--
-	//Select.chooseSurface
-	//Select.scanShellMenu
-	//OnIntervalStackerMenu
-	"%(GetShells)"
-	//Select.revealself
-	//RemindingStuff
-	//DescriptionList()
-	//DescriptionList(nameslib[IsNoun("book")])
-	//"\![enter,passivemode]\0\b2%(lsta)Since it's your first time here, let's explain some things.\n\n[half]You can choose two folders, one to save into an other. In case of a file present in both, it would be replaced depending of the folder settings (date or size is more important or you're asked which to keep). \nThere are three posibilities for the folders : the first is saved in the second, the second into the first, or both are synchronized (keep the same version of the files in both, the most recent). Of course this settings can be changed. Azura will let a little file with all this information into the first folder you picked up."
-	//i = SAORI("saori_test.dll",sakurahwnd,sakurablnhwnd)
-	//_i = SAORI("saori_test.dll","upload","azura-levidre.000webhostapp.com/file-reception.php","./saving_ghost\Azura3.nar")
-//"\0\i[2001]\f[italic,true]You give her a slice of butterscotch-cinnamon pie. %(azpose)\i[58]\![embed,OnStartEating,pie]She seems so happy.\f[italic,false]\n\n[half]\0* Thank you very much, \w5I love butterscotch-cinnamon pies.\n\n[half]\f[italic,true]She starts to eat it.\f[italic,false]"
+	_i = FENUM("C:/Users/lisou/Documents/TP info ensisa/\\2A\\")
+	"\_?%(_i)"
+}
+Ontest2function
+{
+	"%(Select.testfunction)"
+
 }
 
 GetShells

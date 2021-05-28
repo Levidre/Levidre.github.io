@@ -475,6 +475,11 @@ Select.muinplaylist
 {	
 	"\![enter,passivemode]\b2"
 	--
+	if oncomputer != 1
+	{
+		"\![embed,OnOCComputer]"
+	}
+	--
 	//The utility of the function changes depending of if you want to erase a music or to hear a music.
 	if rename == 1
 	{

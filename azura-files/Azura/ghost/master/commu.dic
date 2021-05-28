@@ -1281,6 +1281,11 @@ ReplyWithPing
 			elseif  "azuraobsijumpdown03" _in_ TOLOWER(speechtag)
 			{
 				res_reference0 = ""
+				if "%(ghosttoswitchto)" != ""
+				{
+					"\![change,ghost,%(ghosttoswitchto)]"
+					ghosttoswitchto = ""
+				}
 				
 			}
 			elseif "dustyminimizedazura 0" _in_ TOLOWER(speechtag) //Dusty was minimized
@@ -1548,9 +1553,16 @@ OnObsidianJump
 	{
 		azpose = "\0\s[15]%(smile)"
 	}
-	"\0%(lsto)\i[127]* Well,\w5 bye Obsidian.%(azpose)%(arms)\e AzuraObsiJumpDown02,%(_xpos),%(_ypos)"
-	"\0%(lsto)\i[127]* Having enough hugs ?%(azpose)%(arms)\e AzuraObsiJumpDown02,%(_xpos),%(_ypos)"
-	"\0%(lsto)\i[127]* Having enough of staying in my arms ?%(azpose)%(azpose)%(arms)\e AzuraObsiJumpDown02,%(_xpos),%(_ypos)"
+	if "%(ghosttoswitchto)" == ""
+	{
+		"\0%(lsto)\i[127]* Well,\w5 bye Obsidian.%(azpose)%(arms)\e AzuraObsiJumpDown02,%(_xpos),%(_ypos)"
+		"\0%(lsto)\i[127]* Having enough hugs ?%(azpose)%(arms)\e AzuraObsiJumpDown02,%(_xpos),%(_ypos)"
+		"\0%(lsto)\i[127]* Having enough of staying in my arms ?%(azpose)%(azpose)%(arms)\e AzuraObsiJumpDown02,%(_xpos),%(_ypos)"
+	}
+	else
+	{
+		"\0%(lsto)\i[127]* Sorry Obsidian,\w5 but I must go.%(azpose)%(azpose)%(arms)\e AzuraObsiJumpDown02,%(_xpos),%(_ypos)"
+	}
 }
 
 //The function Azura would use to see if she can communicate with a ghost

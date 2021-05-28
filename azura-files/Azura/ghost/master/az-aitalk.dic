@@ -652,7 +652,7 @@ NormalStandTalk
 		if azpunched <= 0
 		{
 			"\0\i[38]\i[39]\i[50]%(lsto)\i[93]* It doesn't seem bad here."
-			"\0\i[18][38]\i[39]\i[45]%(lsto)\i[93]* Being in a computer is quite new for me."
+			"\0\i[18]\i[38]\i[39]\i[45]%(lsto)\i[93]* Being in a computer is quite new for me."
 			"\0\i[2001]\f[italic,true]\i[38]\i[39]\i[50]She seems to not being aware of you."
 		}
 		else
@@ -740,7 +740,7 @@ NormalStandTalk
 		}
 		elseif isdrawing != 1 && alreadyeat <= 1 && (alreadyeat <= 1 || alreadyeat > 600) && holdobsidian != 1
 		{
-			if isplayed !=1
+			if isplayed != 1
 			{
 				"\0\![embed,OnOCComputer]\i[2001]\f[italic,true]She closes her computer."
 			}
@@ -806,7 +806,7 @@ NormalStandTalk
 		}
 
 		//The drawing things : start, stop and normal
-		if isdrawing != 1 && oncomputer != 1 && (alreadyeat <= 1 || alreadyeat > 600) && holdobsidian != 1
+		if isdrawing != 1 && oncomputer != 1 && (alreadyeat <= 1 || alreadyeat > 600) && holdobsidian != 1 && isplayed != 1
 		{
 
 			"\0\![embed,OnDrawing]\i[2001]\f[italic,true]She is drawing.\e:chain=drawingchain"
@@ -816,7 +816,7 @@ NormalStandTalk
 			"\0\![embed,OnDrawing]\i[2001]\f[italic,true]She is continuing a drawing.\e"
 			
 		}
-		elseif oncomputer != 1 && (alreadyeat <= 1 || alreadyeat > 600) && holdobsidian != 1
+		elseif oncomputer != 1 && (alreadyeat <= 1 || alreadyeat > 600) && holdobsidian != 1 && isplayed != 1
 		{
 			{
 				"\0\i[2001]\f[italic,true]She is drawing.\e:chain=drawingchain"
@@ -840,7 +840,7 @@ NormalStandTalk
 			"\0\![embed,OnDrawing]\i[2001]\f[italic,true]She finished her drawing.\e"
 			"\0%(lsta)\i[50]She looks satisfied of her %(drawing) drawing.\![embed,OnDrawing]\e"
 		}
-		if issat == 1 && oncomputer != 1 && isdrawing != 1 && holdobsidian != 1
+		if issat == 1 && oncomputer != 1 && isdrawing != 1 && holdobsidian != 1 && isplayed != 1
 		{
 			"\0\![embed,OnChangePose]\i[2001]\f[italic,true]It looks like she has enough of being on the ground.\e"
 		}

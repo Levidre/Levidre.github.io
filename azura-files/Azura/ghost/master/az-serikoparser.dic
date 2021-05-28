@@ -275,7 +275,7 @@ Select.editShellFilters
 {
 	//surfacesfilter = IARRAY
 	///intervalsfilter = IARRAY
-	suppr = 0
+	filtersuppr = 0
 	"\0%(lsta)What filter do you want to edit ?\n\n[half]\_q"
 	--
 	"\![*]\q[Display surfaces without a name,displaySurfacesWithName] \n        \f[italic,true](currently "
@@ -381,7 +381,7 @@ Select.removesurfacesfilter
 {
 	"\0\b2\_q%(lsta)Which one do you want to remove ?\_q\n\n[half]"
 	--
-	suppr = 1
+	filtersuppr = 1
 	_res = ""
 	foreach surfacesfilter ; _filter
 	{
@@ -421,7 +421,7 @@ Select.removeintervalsfilter
 {
 	"\0\b2\_q%(lsta)Which one do you want to remove ?\_q\n\n[half]"
 	--
-	suppr = 1
+	filtersuppr = 1
 	_res = ""
 	foreach intervalsfilter ; _filter
 	{

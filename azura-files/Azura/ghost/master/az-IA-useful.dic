@@ -1,0 +1,1685 @@
+
+//A faire : ramener à 0 les valeurs des noms pour Azura
+
+
+AzRespond2
+{
+	_sentencesdata = _argv
+	_unknownwords = IARRAY
+	_unknownverb = IARRAY
+	_respond = "* "
+	_prevnegation = "0"
+	_prevphrasetype = "0"
+	_prevtense = "0"
+	_prevmodal = "0"
+	_prevverb = "0"
+	_prevdetsubject = "0"
+	_prevadjsubject = "0"
+	_prevsubject = "0"
+	_prevfirstprep = "0"
+	_prevdetCOD = "0"
+	_prevadjCOD = "0"
+	_prevCOD = "0"
+	_prevsecondprep = "0"
+	_prevdetCOI = "0"
+	_prevadjCOI = "0"
+	_prevCOI = "0"
+	_prevotherwords = "0"
+	_prevcomplement = "0"
+	--
+	foreach _sentencesdata ; _sentence
+	{
+		_negation = _sentence[0]
+		_phrasetype = _sentence[1]
+		_tense = _sentence[2]
+		_modal = _sentence[3]
+		_verb = _sentence[4]
+		
+		_detsubject = _sentence[5]
+		_adjsubject = IARRAY
+		_adjsubject = REPLACE(SPLIT(_sentence[6])," ",";")
+		_adjectives = SPLIT(_adjsubject," ")
+		
+		foreach _adjectives ; _adj
+		{
+			_result = DetermineWord(_adj)
+			_type = SPLIT(_result[0]," ")
+			_index = _result[1]
+			_indadj  = ASEARCH("adjectif",_type)
+			_indname = ASEARCH("name",_type)
+			if _indadj != -1
+			{
+				_adjsubject = REPLACE(_adjsubject,";"+_adj,";"+adjectiveslib[TOINT(_index[_indadj])])
+			}
+			elseif _indname != -1
+			{
+				_adjsubject += REPLACE(_adjsubject,";"+_adj,";"+nameslib[TOINT(_index[_indname])])
+			}
+			
+		}
+		_subject = _sentence[7]
+		_result = DetermineWord(_subject)
+		_type = SPLIT(_result[0]," ")
+		_index = SPLIT(_result[1]," ")
+		_indverb  = ASEARCH("verb",_type)
+		_indname = ASEARCH("name",_type)
+		_indadj = ASEARCH("adjectif",_type)
+		if _indname != -1
+		{
+			_subject = nameslib[TOINT(_index[_indname])]
+			foreach _adjsubject ; _adj
+			{
+				_word = DetermineWord(_adj[0]+_subject[0])
+				if _word[0] != "0"
+				{
+					_subject = _word
+				}
+			}
+			
+		}
+		elseif _indverb != -1
+		{
+			_subject = verbslib[TOINT(_index[_indverb])]
+		}
+		elseif _indadj != -1
+		{
+			_subject = adjectiveslib[TOINT(_index[_indadj])]
+		}
+		_complement = SPLIT(_sentence[8]," ")
+		_allCO = IARRAY
+		_CO = ""
+		_i = 9
+		_j = 0
+		while _i < ARRAYSIZE(_sentence) && _sentence[_i] != ""
+		{
+			if _j == 0
+			{
+				_CO += _sentence[_i]
+				_j++
+			}
+			elseif _j < 3
+			{
+				_CO += "," + _sentence[_i]
+				_j++
+			}
+			elseif _j == 3
+			{
+				_CO += "," + _sentence[_i]
+				_allCO ,= _CO
+				_CO = ""
+				_j = 0
+			}
+			_i++
+		}
+		
+		_i = 9
+		_foundCOD = 0
+		_foundCOI = 0
+		_detCOD = "0"
+		_prepCOD = "0"
+		_COD = "0"
+		_prepCOI = "0"
+		_detCOI = "0"
+		_COI = "0"
+		_prepCO = "0"
+		_CO = "0"
+		_newallCO = IARRAY
+		_adjCOD = ""
+		_adjCOI = ""
+		_adjCO = ""
+		foreach _allCO ; _word
+		{
+			if _foundCOD == 0 && _word[0] == "0"
+			{
+				_detCOD = _word[1]
+				_COD = _word[3]
+				_result = DetermineWord(_COD)
+				_type = SPLIT(_result[0]," ")
+				_index = SPLIT(_result[1]," ")
+				_indverb  = ASEARCH("verb",_type)
+				_indname = ASEARCH("name",_type)
+				if _indname != -1
+				{
+					_COD = nameslib[TOINT(_index[_indname])]
+				}
+				elseif _indverb != -1
+				{
+					_COD = verbslib[TOINT(_index[_indverb])]
+				}
+				_adjectives = SPLIT(_word[2]," ")
+				foreach _adjectives ; _adj
+				{
+					_result = DetermineWord(_adj)
+					_type = SPLIT(_result[0]," ")
+					_index = SPLIT(_result[1]," ")
+					_indadj  = ASEARCH("adjectif",_type)
+					_indname = ASEARCH("name",_type)
+					if _indadj != -1
+					{
+						_adjCOD += adjectiveslib[TOINT(_index[_indadj])] + ";"
+					}
+					elseif _indname != -1
+					{
+						_adjCOD += nameslib[TOINT(_index[_indname])] + ";"
+					}
+					_result = DetermineWord(_adj[0]+_COD[0])
+					if _result[0] != "0"
+					{
+						_indname = ASEARCH("name",SPLIT(_result[0]," "))
+						_COD = nameslib[TOINT((SPLIT(_result[1]," "))[_indname])]
+					}
+				}
+				_foundCOD = 1
+			}
+			elseif _foundCOI == 0 && _word[0] != "0"
+			{
+				_prepCOI = _word[0]
+				_detCOI = _word[1]
+				_COI = _word[3]
+				_result = DetermineWord(_COI)
+				_type = SPLIT(_result[0]," ")
+				_index = SPLIT(_result[1]," ")
+				_indverb  = ASEARCH("verb",_type)
+				_indname = ASEARCH("name",_type)
+				if _indname != -1
+				{
+					_COI = nameslib[TOINT(_index[_indname])]
+				}
+				elseif _indverb != -1
+				{
+					_COI = verbslib[TOINT(_index[_indverb])]
+				}
+				_adjectives = SPLIT(_word[2]," ")
+				foreach _adjectives ; _adj
+				{
+					_result = DetermineWord(_adj)
+					_type = SPLIT(_result[0]," ")
+					_index = SPLIT(_result[1]," ")
+					_indadj  = ASEARCH("adjectif",_type)
+					_indname = ASEARCH("name",_type)
+					if _indadj != -1
+					{
+						_adjCOI += adjectiveslib[TOINT(_index[_indadj])] + ";"
+					}
+					elseif _indname != -1
+					{
+						_adjCOI += nameslib[TOINT(_index[_indname])] + ";"
+					}
+					_result = DetermineWord(_adj[0]+_COI[0])
+					if _result[0] != "0"
+					{
+						_indname = ASEARCH("name",SPLIT(_result[0]," "))
+						_COI = nameslib[TOINT((SPLIT(_result[1]," "))[_indname])]
+					}
+				}
+				_foundCOI = 1
+			}
+			else
+			{
+				_prepCO = _word[0]
+				_detCO = _word[1]
+				_CO = _word[3]
+				_result = DetermineWord(_CO)
+				_type = SPLIT(_result[0]," ")
+				_index = SPLIT(_result[1]," ")
+				_indverb  = ASEARCH("verb",_type)
+				_indname = ASEARCH("name",_type)
+				if _indname != -1
+				{
+					_CO = nameslib[TOINT(_index[_indname])]
+				}
+				elseif _indverb != -1
+				{
+					_CO = verbslib[TOINT(_index[_indverb])]
+				}
+				_adjectives = SPLIT(_word[2]," ")
+				foreach _adjectives ; _adj
+				{
+					_result = DetermineWord(_adj)
+					_type = SPLIT(_result[0]," ")
+					_index = SPLIT(_result[1]," ")
+					_indadj  = ASEARCH("adjectif",_type)
+					_indname = ASEARCH("name",_type)
+					if _indadj != -1
+					{
+						_adjCO += adjectiveslib[TOINT(_index[_indadj])] + ";"
+					}
+					elseif _indname != -1
+					{
+						_adjCO += nameslib[TOINT(_index[_indname])] + ";"
+					}
+					_result = DetermineWord(_adj[0]+_COD[0])
+					if _result[0] != "0"
+					{
+						_indname = ASEARCH("name",SPLIT(_result[0]," "))
+						_CO = nameslib[TOINT((SPLIT(_result[1]," "))[_indname])]
+					}
+				}
+				_newallCO ,= (_prepCO,_detCO,_adjCO,_CO)
+			}
+			
+			_i++
+		}
+		
+		_typesubject = DetermineWord(_subject[0])[0]
+		_typeCOD = DetermineWord(_COD[0])[0]
+		_typeCOI = DetermineWord(_COI[0])[0]
+		
+		//Finding all the words in the vocabulary
+		
+		if DetermineWord("%(_subject)")[0] == "name"
+		{
+			_subject = nameslib[TOINT(DetermineWord("%(_subject)")[1])]
+		}
+		elseif DetermineWord("%(_subject)")[0] == "0"
+		{
+			unknownwords ,= "%(_subject)"
+		}
+		
+		_result = DetermineWord(_verb)
+		_type = SPLIT(_result[0]," ")
+		_index = SPLIT(_result[1]," ")
+		
+		if ASEARCH("verb",_type) != -1
+		{
+			_i = TOINT(_index[TOINT(ASEARCH("verb",_type))])
+			if _verb == "%(verbslib[_i][1])" && (_modal == "" || _modal == "0")
+			{
+				_tense = "past"
+			}
+			elseif  _modal == "" ||  _modal == "0"
+			{
+				_tense = "present"
+			}
+			_verb = verbslib[_i]
+		}
+		elseif ASEARCH("name",_type) != -1
+		{
+			_verb = nameslib[TOINT(_index[TOINT(ASEARCH("name",_type))])]
+		}
+
+		if ARRAYSIZE(_adjCOD) == 0
+		{
+			_adjCOD = "0"
+		}
+		if ARRAYSIZE(_adjCOI) == 0
+		{
+			_adjCOI = "0"
+		}
+		
+		_responseType = ""
+		
+		
+		
+		_response = AzRespondNext(_phrasetype,_negation,_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+		if _response !_in_ _respond
+		{
+			_respond += AzRespondNext(_tense,_complement,_verb,_detsubject,_adjsubject,_subject,_detCOD,_adjCOD,_COD,_prepCOI,_detCOI,_adjCOI,_COI,_allCO)
+		}
+		
+		
+		
+	}
+}
+
+AzRespondNext
+{
+	_phrasetype = _argv[0]
+	_negation = _argv[1]
+	_allCO = IARRAY
+	_tense = _argv[2]
+	_complement = _argv[3]
+	_verb = _argv[4]
+	_detsubject = _argv[5]
+	_adjsubject = IARRAY
+	_adjsubject = SPLIT(_argv[6],";")
+	_subject = _argv[7]
+	_detCOD = _argv[8]
+	_adjCOD = IARRAY
+	_adjCOD = SPLIT(_argv[9],";")
+	_COD = _argv[10]
+	_prepCOI = _argv[11]
+	_detCOI = _argv[12]
+	_adjCOI = IARRAY
+	_adjCOI = SPLIT(_argv[13],";")
+	_COI = _argv[14]
+	_responseType = ""
+	
+	_i = 0
+	foreach _argv ; _word
+	{
+		if _i > 14
+		{
+			_allCO ,= _word
+		}
+		_i++
+	}
+	case _phrasetype
+	{
+		when "whatquestion"
+		{
+			//Will search the correspondances in the dictionnary
+			_responseType = "search"
+		}
+		when "howquestion"
+		{
+			_responseType = "description"
+		}
+		when "whyquestion"
+		{
+			_responseType = "reason"
+		}
+		when "whichquestion"
+		{
+			_responseType = "search"
+		}
+		when "whenquestion"
+		{
+			_responseType = "date"
+		}
+		when "whoquestion"
+		{
+			_responseType = "search" 
+		}
+		when "normalquestion"
+		{
+			_responseType = "confirmation"
+		}
+		when "modalquestion"
+		{
+			_responseType = "confirmation"
+		}
+		when "affirmation"
+		{
+			_responseType = "reaction"
+		}
+	} 
+	
+}
+
+SearchResponse
+{
+	//stat/mov something to somewhere or from somewhere/action(good/verygood/bad/verybad)/imagin/sense/avis/creation/hobby
+	if "stat" _in_ _verb[4]
+	{
+		_description = DetermineSing(_subject)
+		_type = ""
+		foreach _adjsubject ; _adj
+		{
+			_description += ",%(_adj[0])"
+			if IsType(_adj[0])
+			{
+				_type = _adj[0]
+			}
+		}
+		foreach _allCO ; _CO
+		{
+			_description += ",%(DetermineSing(_CO[3]))"
+			if _CO[3] != "" && _CO[3] != "0"
+			{
+				_adj = SPLIT(_CO[2]," ")
+				_description += ",%(_adj)"
+				foreach _adj ; _a
+				{
+					if IsType(_a)
+					{
+						_type = _a
+					}
+				}
+			}
+		}
+		if IsType(_subject)
+		{
+			_type = _subject[0]
+		}
+		_value = ValueOfList(_description)
+		_ressubjects = IARRAY
+		_ressubjects = PickNoun(_type,_value,_description)
+	}
+	elseif "avis" _in_ _verb[4]
+	{
+		_type = ""
+		_description = IARRAY
+		if _COD != ""
+		{
+			if IsType(_COD[0])
+			{
+				_type = _COD[0]
+			}
+			else
+			{
+				_description ,= _COD[0] 
+			}
+		}
+		else
+		{
+			foreach _allCO ; _CO
+			{
+				if _CO[3] == "" || _CO[3] == "0"
+				{
+					_adj = SPLIT(_CO[2]," ")
+					_description ,= _adj
+				}
+				else
+				{
+					_description ,= _CO[3]
+				}
+			}
+		}
+		
+		_ressubjects = PickNoun(_type,_value,_description)
+	}
+	else
+	{
+		
+	}
+	
+}
+
+SearchConfirmation
+{
+	if "avis" _in_ _verb[4]
+	{
+		if _subject[0] == "i"
+		{
+			_ressubject = "You"
+			_adjvalue = 0
+			if ARRAYSIZE(_adjCOD) != 0
+			{
+				_adjvalue = PreferenceValue(_adjCOD)
+			}
+			
+		}
+		elseif _subject[0] == "you"
+		{
+			_ressubject = "I"
+			_adjvalue = PreferenceValue(_adjCOD)
+			_resverb = PickVerb("")
+		}
+		else
+		{
+			"I don't know."
+		}
+	}
+}
+
+///Preference--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+CompareBetter
+{
+	_name = ""
+	_oldpreference = -5
+	foreach _argv ; _word
+	{
+		_preference = 0
+		_group = SPLIT(_word,";")
+		foreach _group; _elem
+		{
+			if _elem == _group[ARRAYSIZE(_group)-1]
+			{
+				
+				if "unknown" _in_ _elem[1]
+				{
+					_preference += PreferenceDescriptionValue
+				}
+				else
+				{
+					_preference += TOINT(_elem[2])
+				}
+			}
+			else
+			{
+				if IsVerb(_elem)
+				{
+					_preference += TOINT(_elem[6])
+				}
+				else
+				{
+					_preference += TOINT(_elem[2])
+				}	
+			}
+		}
+		if _preference >= _oldpreference
+		{
+			_oldpreference = _preference
+			_name = _word
+		}
+	}
+	"%(_name)"
+}
+CompareWorst
+{
+	_name = ""
+	_oldpreference = -5
+	foreach _argv ; _word
+	{
+		_preference = 0
+		_group = SPLIT(_word,";")
+		foreach _group; _elem
+		{
+			if _elem == _group[ARRAYSIZE(_group)-1]
+			{
+				
+				if "unknown" _in_ _elem[1]
+				{
+					_preference += PreferenceDescriptionValue
+				}
+				else
+				{
+					_preference += TOINT(_elem[2])
+				}
+			}
+			else
+			{
+				if IsVerb(_elem)
+				{
+					_preference += TOINT(_elem[6])
+				}
+				else
+				{
+					_preference += TOINT(_elem[2])
+				}	
+			}
+		}
+		if _preference <= _oldpreference
+		{
+			_oldpreference = _preference
+			_name = _word
+		}
+	}
+	"%(_name)"
+}
+
+PreferenceValue
+{
+	_adjectives = IARRAY
+	_preference = 0
+	_type = ""
+	foreach _argv ; _word
+	{
+		if _word == _argv[ARRAYSIZE(_argv)-1]
+		{
+			_name = _word
+			if "unknown" _in_ _name[1]
+			{
+				//_type = 
+				if PreferenceDescriptionValue(_name)!= 0
+				{
+					_preference += PreferenceDescriptionValue(_name)
+				}
+				else
+				{
+					_preference += PreferenceConstitutsValue(_name)
+				}
+			}
+			else
+			{
+				_preference += TOINT(_name[2])
+			}
+		}
+		else
+		{
+			_preference += TOINT(_word[2])
+		}
+	}
+}
+PreferenceDescriptionValue
+{
+	_preference = 0
+	_name = _argv[0]
+	_type = ""
+	_description = IARRAY
+	_description = DescriptionList(_name)
+	if ARRAYSIZE(_description) <= 0
+	{
+		_preference = PreferenceConstitutsValue
+	}
+	else
+	{
+		foreach _description ; _descript
+		{
+			if IsVerb(_descript) != -1
+			{
+				_preference += TOINT(_descript[2])
+			}
+			else
+			{
+				_preference += TOINT(_descript[6])
+			}
+		}
+	}
+	_preference
+}
+PreferenceConstitutsValue
+{
+	_preference = 0
+	_name = _argv[0]
+	_type = ""
+	_description = IARRAY
+	_constituts = ConstitutsList(_name)
+	if ARRAYSIZE(_constituts) <= 0
+	{
+		_preference = 0
+	}
+	else
+	{
+		foreach _constituts ; _consti
+		{
+			if IsVerb(_consti) != -1
+			{
+				_preference += TOINT(_consti[2])
+			}
+			else
+			{
+				_preference += TOINT(_consti[6])
+			}
+		}
+	}
+	_preference
+}
+
+APositiveThing
+{
+	_word = IsNoun(_argv[0])
+	if _word == -1
+	{
+		"none"
+	}
+	else
+	{
+		_word = nameslib[_word]
+		if _word[3] != "none"
+		{
+			_adjectives = SPLIT(_word[3]," ")
+		}
+		if _word[4] != "none"
+		{
+			_constituts = SPLIT(_word[4],".")
+		}
+		_posi = 0
+		foreach _adjectives ; _adj
+		{
+			if TOINT(adjectiveslib[IsAdjectif(_adj)][2]) >= 1
+			{
+				_adj
+				_posi = 1
+			}
+		}
+		foreach _constituts ; _consti
+		{
+			if TOINT(adjectiveslib[IsAdjectif(_consti)][2]) >= 6
+			{
+				"made of %(_consti)"
+				_posi = 1
+			}
+		}
+		if _posi == 0
+		{
+			"none"
+		}
+	}
+}
+ANegativeThing
+{
+	_word = IsNoun(_argv[0])
+	if _word == -1
+	{
+		"none"
+	}
+	else
+	{
+		_word = nameslib[_word]
+		if _word[3] != "none"
+		{
+			_adjectives = SPLIT(_word[3]," ")
+		}
+		if _word[4] != "none"
+		{
+			_constituts = SPLIT(_word[4],".")
+		}
+		_posi = 0
+		foreach _adjectives ; _adj
+		{
+			if TOINT(adjectiveslib[IsAdjectif(_adj)][2]) <= -1
+			{
+				_adj
+				_posi = 1
+			}
+		}
+		foreach _constituts ; _consti
+		{
+			if TOINT(adjectiveslib[IsAdjectif(_consti)][2]) <= 4
+			{
+				"made of %(_consti)"
+				_posi = 1
+			}
+		}
+		if _posi == 0
+		{
+			"none"
+		}
+	}
+}
+
+///Lists to use-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+DescriptionList
+{
+	_name = _argv[0]
+	_type = _argv[1]
+	_description = IARRAY
+	_description = SPLIT(_name[3]," ")
+	_list = IARRAY
+	foreach _description; _descript
+	{
+		if IsNoun(_descript) != -1
+		{
+			_list ,= nameslib[IsNoun(_descript)]
+		}
+		elseif IsAdjectif(_descript) != -1
+		{
+			_list ,= adjectiveslib[IsAdjectif(_descript)]
+		}
+		
+		elseif IsVerb(_descript) != -1
+		{
+			_list ,= verbslib[IsVerb(_descript)]
+		}
+	}
+	_list
+}
+ConstitutsList
+{
+	_name = _argv[0]
+	_descriptions = IARRAY
+	_description = SPLIT(_name[3]," ")
+	_list = IARRAY
+	foreach _descript; _description
+	{
+		if (_index = IsAdjectif(_descript)) != -1
+		{
+			_list ,= adjectiveslib[_index]
+		}
+		elseif (_index = IsNoun(_descript)) != -1
+		{
+			_list ,= nameslib[_index]
+		}
+		elseif (_index = IsVerb(_descript)) != -1
+		{
+			_list ,= verbslib[_index]
+		}
+	}
+	_list
+}
+
+ValueOfList
+{
+	_list = IARRAY
+	_list = _argv
+	_value = 0
+	foreach _list ; _elem
+	{
+		if (_index = IsAdjectif(_descript)) != -1
+		{
+			_value += TOINT(adjectiveslib[_index][2])
+		}
+		elseif (_index = IsNoun(_descript)) != -1
+		{
+			_value += TOINT(nameslib[_index][2]) + TOINT(nameslib[_index][5])
+		}
+		elseif (_index = IsVerb(_descript)) != -1
+		{
+			_value += TOINT(verbslib[_index][6]) + TOINT(verbslib[_index][7])
+		}	
+	}
+	_value
+}
+EnumerationAndList
+{
+	_result = ""
+	for _i = 0; i < ARRAYSIZE(_argv);_i++
+	{
+		if _i != 0
+		{
+			if ARRAYSIZE(_argv) != _i + 1
+			{
+				if IsVerb(_argv[_i])
+				{
+					_result += ", " + VerbShape("ing",_argv[_i])
+					
+				}
+				else
+				{
+					_result += ", %(_argv[_i][0])"
+				}
+			}
+			else
+			{
+				_result += " and %(_argv[_i])"
+			}
+		}
+		else
+		{
+			_result += "%(_argv[_i])"
+		}
+	}
+	"%(_result)"
+}
+EnumerationOrList
+{
+	_result = ""
+	for _i = 0; i < ARRAYSIZE(_argv);_i++
+	{
+		if _i != 0
+		{
+			if ARRAYSIZE(_argv) != _i + 1
+			{
+				_result += ", %(_argv[0])"
+			}
+			else
+			{
+				_result += " or %(_argv[0])"
+			}
+		}
+		else
+		{
+			_result += "%(_argv[0])"
+		}
+	}
+	"%(_result)"
+}
+
+//Replace only the lasrt occurence of a character chain in a word
+ChangeLastOccur
+{
+	_word = _argv[0]
+	_currentend = _argv[1]
+	_newend = _argv[2]
+	word = SPLIT(_word,"%(_currentend)")
+	_newword = ""
+	_i = 0
+	while _i < ARRAYSIZE(word)-1
+	{
+		_newword += word[_i]
+		if _i == ARRAYSIZE(word)-2
+		{
+			_newword += _newend
+		}
+		else
+		{
+			_newword += _currentend
+		}
+		_i++
+	}
+	_newword += word[ARRAYSIZE(word)-1]
+	
+	"%(_newword)"
+}
+
+VerbShape
+{
+	_shape = _argv[0]
+	_word = _verbslib[IsVerb(_argv[1])]
+	if _shape == "ing"
+	{
+		if _word[3] == "" || _word[3] == "none"
+		{
+			"%(_word[0])" + "ing"
+		}
+		else
+		{
+			"%(_word[3])"
+		}
+	}
+	elseif _shape == "1" || _shape == 1
+	{
+		_temp = IARRAY
+		_temp = SPLIT(_word[0],"-")
+		if ARRAYSIZE(_temp) > 2
+		{
+			"%(_temp[1])"
+		}
+		else
+		{
+			"%(_temp[0])"
+		}
+	}
+	elseif _shape == "3" || _shape == 3
+	{
+		_temp = IARRAY
+		_temp = SPLIT(_word[0],"-")
+		if ARRAYSIZE(_temp) > 2
+		{
+			"%(_temp[1])"
+		}
+		else
+		{
+			"%(_temp[0])"
+		}
+	}
+	
+}
+
+//Pronouns of the nouns
+NounTheir
+{
+	_word = _argv[0]
+	_begun = "%(_argv[1])"
+	_result = DetermineWord(_word)
+	_type = SPLIT(_result[0]," ")
+	_index = SPLIT(_result[1]," ")
+	_indverb  = ASEARCH("verb",_type)
+	_indname = ASEARCH("name",_type)
+	if _indname != -1
+	{
+		_noun = nameslib[TOINT(_index[_indname])]
+		if "feminine" _in_ _noun[3]
+		{
+			if _begun == "1"
+			{
+				"Her"
+			}
+			else
+			{
+				"her"
+			}
+		}
+		elseif "masculine" _in_ _noun[3]
+		{
+			if _begun == "1"
+			{
+				"His"
+			}
+			else
+			{
+				"his"
+			}
+		}
+		elseif "being" _in_ _noun[1] || "human" _in_ _noun[1] || "family" _in_ _noun[1]
+		{
+			if _begun == "1"
+			{
+				"Their"
+			}
+			else
+			{
+				"their"
+			}
+		}
+		else
+		{
+			if _begun =="1"
+			{
+				"Its"
+			}
+			else
+			{
+				"its"
+			}
+		}
+	}
+	else
+	{
+		if _begun == "1"
+		{
+			"Its"
+		}
+		else
+		{
+			"its"
+		}
+	}
+	
+}
+NounThey
+{
+	_word = _argv[0]
+	_begun = "%(_argv[1])"
+	_result = DetermineWord(_word)
+	_type = SPLIT(_result[0]," ")
+	_index = SPLIT(_result[1]," ")
+	_indverb  = ASEARCH("verb",_type)
+	_indname = ASEARCH("name",_type)
+	if _indname != -1
+	{
+		_noun = nameslib[TOINT(_index[_indname])]
+		if "feminine" _in_ _noun[3]
+		{
+			if _begun == "1"
+			{
+				"She"
+			}
+			else
+			{
+				"she"
+			}
+		}
+		elseif "masculine" _in_ _noun[3]
+		{
+			if _begun == "1"
+			{
+				"He"
+			}
+			else
+			{
+				"he"
+			}
+		}
+		elseif "being" _in_ _noun[1] || "human" _in_ _noun[1] || "family" _in_ _noun[1]
+		{
+			if _begun == "1"
+			{
+				"They"
+			}
+			else
+			{
+				"they"
+			}
+		}
+		else
+		{
+			if _begun =="1"
+			{
+				"It"
+			}
+			else
+			{
+				"it"
+			}
+		}
+	}
+	else
+	{
+		if _begun == "1"
+		{
+			"It"
+		}
+		else
+		{
+			"it"
+		}
+	}
+}
+NounThem
+{
+	_word = _argv[0]
+	_begun = "%(_argv[1])"
+	_result = DetermineWord(_word)
+	_type = SPLIT(_result[0]," ")
+	_index = SPLIT(_result[1]," ")
+	_indverb  = ASEARCH("verb",_type)
+	_indname = ASEARCH("name",_type)
+	
+	if _indname != -1
+	{
+		_noun = nameslib[TOINT(_index[_indname])]
+		if "feminine" _in_ _noun[3]
+		{
+			if _begun == "1"
+			{
+				"Her"
+			}
+			else
+			{
+				"her"
+			}
+		}
+		elseif "masculine" _in_ _noun[3]
+		{
+			if _begun == "1"
+			{
+				"Him"
+			}
+			else
+			{
+				"him"
+			}
+		}
+		elseif "being" _in_ _noun[1] || "human" _in_ _noun[1] || "family" _in_ _noun[1]
+		{
+			if _begun == "1"
+			{
+				"Them"
+			}
+			else
+			{
+				"them"
+			}
+		}
+		else
+		{
+			if _begun =="1"
+			{
+				"It"
+			}
+			else
+			{
+				"it"
+			}
+		}
+	}
+	else
+	{
+		if _begun == "1"
+		{
+			"It"
+		}
+		else
+		{
+			"it"
+		}
+	}
+}
+
+//Searching something
+
+PickDeterminant
+{
+	_genre = _argv[0]
+	if _genre == "me"
+	{
+		"my"
+	}
+	elseif _genre == "you"
+	{
+		"your"
+	}
+	elseif _genre == "feminine"
+	{
+		"her"
+	}
+	elseif _genre == "masculine"
+	{
+		"his"
+	}
+	elseif _genre == "plural"
+	{
+		"their"
+	}
+	elseif _genre == "object"
+	{
+		"its"
+	}
+}
+PickPronoun
+{
+	_genre = _argv[0]
+	_position = _argv[1]
+	if _position == "subject"
+	{
+		if _genre == "me"
+		{
+			"I"
+		}
+		elseif _genre == "you"
+		{
+			"you"
+		}
+		elseif _genre == "feminine"
+		{
+			"she"
+		}
+		elseif _genre == "masculine"
+		{
+			"he"
+		}
+		elseif _genre == "plural"
+		{
+			"they"
+		}
+		elseif _genre == "object"
+		{
+			"it"
+		}
+	}
+	else
+	{
+		if _genre == "me"
+		{
+			"mine"
+		}
+		elseif _genre == "you"
+		{
+			"yours"
+		}
+		elseif _genre == "feminine"
+		{
+			"hers"
+		}
+		elseif _genre == "masculine"
+		{
+			"him"
+		}
+		elseif _genre == "plural"
+		{
+			"theirs"
+		}
+		elseif _genre == "object"
+		{
+			"its"
+		}
+	}
+}
+PickNoun
+{
+	_type = _argv[0]
+	_value = _argv[1]
+	_description = _argv[2]
+	_avis = _argv[3]
+	_namelist = IARRAY
+	_corresp = 0
+	foreach nameslib ; _name
+	{
+		if _name[2] != "none"
+		{
+			_i = 2
+		
+		}
+		else
+		{
+			_i = 5
+		}
+
+		if _avis == "you"
+		{
+			_i = 2
+		}
+		elseif _avis == "i"
+		{
+			_i = 5
+		}
+		
+		if (_value*TOINT(_name[_i])>0 || _value == TOINT(_name[_i])) && _type _in_ _name[1] && "no"+_type !_in_ _name[1]
+		{
+			_tempcorr = CorrespondanceValue(_name,_description,"name")
+			if _temppcorr > _corresp
+			{
+				_corresp = _tempcorr
+				_namelist = IARRAY
+				_namelist ,= _name
+			}
+			elseif _temppcorr == _corresp
+			{
+				_corresp = _tempcorr
+				_namelist ,= _name
+			}
+		}
+		
+	}
+	_namelist[0]
+}
+PickAdj
+{
+	_type = argv[0]
+	_value = _argv[1]
+	_description = _argv[2]
+	_namelist = IARRAY
+	_corresp = 0
+	foreach adjectiveslib ; _adj
+	{
+		if (_value*TOINT(_name[2])>0 || _value == TOINT(_name[2])) && _type _in_ _name[1] && "no"+_type !_in_ _name[1]
+		{
+			_tempcorr = CorrespondanceValue(_name,_description,"adj")
+			if _temppcorr > _corresp
+			{
+				_corresp = _tempcorr
+				_namelist = IARRAY
+				_namelist ,= _name
+			}
+			elseif _temppcorr == _corresp
+			{
+				_corresp = _tempcorr
+				_namelist ,= _name
+			}
+		}
+		
+	}
+}
+PickVerb
+{
+	_type = _argv[0]
+	_value = _argv[1]
+	_description = _argv[2]
+	_avis = _argv[3]
+	foreach nameslib ; _name
+	{
+		if _name[6] != "none"
+		{
+			_i = 6
+		
+		}
+		else
+		{
+			_i = 5
+		}
+		if _avis == "you"
+		{
+			_i = 6
+		}
+		elseif _avis == "i"
+		{
+			_i = 5
+		}
+		if (_value*TOINT(_name[_i])>0 || _value == TOINT(_name[_i])) && _type _in_ _name[4] && "no"+_type !_in_ _name[4]
+		{
+			_tempcorr = CorrespondanceValue(_name,_description,"verb")
+			if _temppcorr > _corresp
+			{
+				_corresp = _tempcorr
+				_namelist = IARRAY
+				_namelist ,= _name
+			}
+			elseif _temppcorr == _corresp
+			{
+				_corresp = _tempcorr
+				_namelist ,= _name
+			}
+		}
+		
+	}
+	
+}
+
+CorrespondanceValue
+{
+	_word = _argv[0]
+	_description = SPLIT(_argv[1],",")
+	_type = _argv[3]
+	_descriptionlist = IARRAY
+	if _type == "name"
+	{
+		_descriptionlist = DescriptionList(_word)
+	}
+	elseif _type == "adj"
+	{
+		_descriptionlist = SPLIT(_word[3]," ")
+	}
+	elseif _type == "verb"
+	{
+		_descriptionlist = SPLIT(_word[7]," ")
+	}
+	_value = 0
+	
+	foreach _descriptionlist ; _descript
+	{
+		if ASEARCH(_descript,_description) != -1
+		{
+			_value += 1
+		}
+		elseif _type == "name" && ASEARCH(_descript,DescriptionList(_word)) != 1
+		{
+			_value += 1	
+		}
+		
+	}
+	_value
+}
+
+//Choosing the right form
+
+ConjugateVerb
+{
+	_verb = _argv[0]
+	_tense = _argv[1]
+	_person = _argv[3]
+	
+	
+	if _verb[4] != "unknown"
+	{
+		if _tense == "present"
+		{
+			if ARRAYSIZE(SPLIT(_verb[0],"-")) == 1
+			{
+				if TOINT(_person) == 3
+				{
+					DeterminePluriel(_verb[0])
+				}
+				else
+				{
+					_verb[0]
+				}
+			}
+			elseif ARRAYSIZE(SPLIT(_verb[0],"-")) == 2
+			{
+				if TOINT(_person) == 3
+				{
+					SPLIT(_verb[0],"-")[1]
+				}
+				else
+				{
+					SPLIT(_verb[0],"-")[0]
+				}
+			}
+			elseif ARRAYSIZE(SPLIT(_verb[0],"-")) >= 3
+			{
+				if TOINT(_person) == 3
+				{
+					SPLIT(_verb[0],"-")[1]
+				}
+				if TOINT(_person) == 1
+				{
+					SPLIT(_verb[0],"-")[0]
+				}
+				else
+				{
+					SPLIT(_verb[0],"-")[2]
+				}
+			}
+			
+		}
+		elseif _tense == "futur"
+		{
+			ConjugateVerb(verbslib[TOINT(DetermineWord("will")[1])],"present",_person) + " " + SPLIT(_verb[0],"-")[ARRAYSIZE(SPLIT(_verb[0],"-"))-1]
+		}
+		elseif _tense == "preterit"
+		{
+			if ARRAYSIZE(SPLIT(_verb[1],"-")) == 1
+			{
+				if TOINT(_person) == 3
+				{
+					DeterminePluriel(_verb[1])
+				}
+				else
+				{
+					_verb[1]
+				}
+			}
+			elseif ARRAYSIZE(SPLIT(_verb[0],"-")) == 2
+			{
+				if TOINT(_person) == 3
+				{
+					SPLIT(_verb[1],"-")[1]
+				}
+				else
+				{
+					SPLIT(_verb[1],"-")[0]
+				}
+			}
+			elseif ARRAYSIZE(SPLIT(_verb[1],"-")) >= 3
+			{
+				if TOINT(_person) == 3
+				{
+					SPLIT(_verb[1],"-")[1]
+				}
+				if TOINT(_person) == 1
+				{
+					SPLIT(_verb[1],"-")[0]
+				}
+				else
+				{
+					SPLIT(_verb[1],"-")[2]
+				}
+			}
+		}
+		elseif _tense == "continue"
+		{
+			ConjugateVerb(verbslib[TOINT(DetermineWord("be")[1])],"present",_person) + " " + _verb[3]
+		}
+		elseif _tense == "ing"
+		{
+			_verb[3]
+		}
+	}
+	else
+	{
+		if _tense == "present"
+		{
+			if TOINT(_person) == 3
+			{
+				DeterminePluriel(_verb[0])
+			}
+			else
+			{
+				_verb[0]
+			}
+		}
+		elseif _tense == "futur"
+		{
+			ConjugateVerb(verbslib[TOINT(DetermineWord("will")[1])],"present",_person) + " " + _verb[0]
+		}
+		elseif _tense == "preterit"
+		{
+			DeterminePast(_verb[0])
+		}
+		elseif _tense == "continue"
+		{
+			ConjugateVerb(verbslib[TOINT(DetermineWord("be")[1])],"present",_person) + " " + DetermineIng(_verb[0])
+		}
+		elseif _tense == "ing"
+		{
+			DetermineIng(_verb[0])
+		}
+	}
+}
+
+DeterminePluriel
+{
+	_word = _argv[0]
+	
+	if STRSTR("%(_word)","a",STRLEN("%(_word)")-1) >= (STRLEN("%(_word)")-1) || STRSTR("%(_word)","e",STRLEN("%(_word)")-1) >= (STRLEN("%(_word)")-1) || STRSTR("%(_word)","o",STRLEN("%(_word)")-1) >= (STRLEN("%(_word)")-1) || STRSTR("%(_word)","u",STRLEN("%(_word)")-1) >= (STRLEN("%(_word)")-1)
+	{
+		"%(_word)s"
+	}
+	elseif STRSTR("%(_word)","ss",STRLEN("%(_word)")-2) >= (STRLEN("%(_word)")-2) || STRSTR("%(_word)","i",STRLEN("%(_word)")-1) >= (STRLEN("%(_word)")-1) || STRSTR("%(_word)","z",STRLEN("%(_word)")-1) >= (STRLEN("%(_word)")-1) || STRSTR("%(_word)","x",STRLEN("%(_word)")-1) >= (STRLEN("%(_word)")-1)
+	{
+		"%(_word)es"
+	}
+	
+	elseif STRSTR("%(_word)","y",STRLEN("%(_word)")-1) >= (STRLEN("%(_word)")-1)
+	{
+		ChangeLastOccur("%(_word)","y","ies")
+	}
+	elseif STRSTR("%(_word)","s",STRLEN("%(_word)")-1) >= (STRLEN("%(_word)")-1)
+	{
+		"none"
+	}
+	else
+	{
+		"%(_word)s"
+	}
+}
+DetermineSing
+{
+	_word = _argv[0]
+	
+	if STRSTR("%(_word)","sses",STRLEN("%(_word)")-4) >= (STRLEN("%(_word)")-4)
+	{
+		ChangeLastOccur(_word,"ses","")
+	}
+	elseif STRSTR("%(_word)","ies",STRLEN("%(_word)")-3) >= (STRLEN("%(_word)")-3)
+	{
+		ChangeLastOccur(_word,"ies","y")
+	}
+	elseif STRSTR("%(_word)","aes",STRLEN("%(_word)")-3) >= (STRLEN("%(_word)")-3)
+	{
+		ChangeLastOccur(_word,"es","")
+	}
+	elseif STRSTR("%(_word)","xes",STRLEN("%(_word)")-3) >= (STRLEN("%(_word)")-3)
+	{
+		ChangeLastOccur(_word,"es","")
+	}
+	elseif STRSTR("%(_word)","s",STRLEN("%(_word)")-1) >= (STRLEN("%(_word)")-1)
+	{
+		ChangeLastOccur(_word,"s","")
+	}
+	else
+	{
+		"%(_word)"
+	}
+}
+DetermineIng
+{
+	_word = _argv[0]
+	
+	if STRSTR("%(_word)","i",STRLEN("%(_word)")-1) >= (STRLEN("%(_word)")-1)
+	{
+		ChangeLastOccur("%(_word)","i","ying")
+	}
+	elseif STRSTR("%(_word)","ss",STRLEN("%(_word)")-2) >= (STRLEN("%(_word)")-2)
+	{
+		"%(_word)ing"
+	}
+	elseif STRSTR("%(_word)","s",STRLEN("%(_word)")-1) >= (STRLEN("%(_word)")-1)
+	{
+		"%(_word)sing"
+	}
+	else
+	{
+		"%(_word)ing"
+	}
+}
+DeterminePast
+{
+	_word = _argv[0]
+	if STRSTR("%(_word)","y",STRLEN("%(_word)")-1) >= (STRLEN("%(_word)")-1)
+	{
+		ChangeLastOccur("%(_word)","y","ied")
+	}
+	elseif STRSTR("%(_word)","e",STRLEN("%(_word)")-1) >= (STRLEN("%(_word)")-1)
+	{
+		"%(_word)d"
+	}
+	elseif STRSTR("%(_word)","ss",STRLEN("%(_word)")-2) >= (STRLEN("%(_word)")-2)
+	{
+		"%(_word)ed"
+	}
+	elseif STRSTR("%(_word)","s",STRLEN("%(_word)")-1) >= (STRLEN("%(_word)")-1)
+	{
+		"%(_word)sed"
+	}
+	else
+	{
+		"%(_word)ed"
+	}
+}
+
+IsType
+{
+	_type = _argv[0]
+	if ASEARCH(_type,"stat","mov","action","imagin","sense","avis","creation","hobby","object","nonconsistant","being","human","animal","item","place","game","food","family","color","state","descript") != -1
+	{
+		1
+	}
+	else
+	{
+		0
+	}
+}
+IsAlive
+{
+	_type = _argv[0]
+	if ASEARCH(_type,"sense","being","human","animal","family") != -1 || " sense" _in_ _type || " being" _in_ _type || " human" _in_ _type || " animal" _in_ _type || " family" _in_ _type
+	{
+		1
+	}
+	else
+	{
+		0
+	}
+}
+CapitalizeFirstLetter
+{
+	_word = _argv[0]
+	_letter = TOUPPER(SUBSTR(_word,0,1))
+	_word = SUBSTR(_word,1,STRLEN(_word)-1)
+	_letter + _word
+}
+

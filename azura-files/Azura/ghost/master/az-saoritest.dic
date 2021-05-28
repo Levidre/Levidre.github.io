@@ -218,7 +218,7 @@ OnMoveRight
 {
 	if !(ASEARCH("Status",var.req.key) != -1 && "balloon" _in_ var.req.value[ASEARCH("Status",var.req.key)])
 	{
-		"\s[18]"
+		"\s[28]"
 	}
 }
 
@@ -226,7 +226,7 @@ OnMoveLeft
 {
 	if !(ASEARCH("Status",var.req.key) != -1 && "balloon" _in_ var.req.value[ASEARCH("Status",var.req.key)])
 	{
-		"\s[17]"
+		"\s[27]"
 	}
 }
 
@@ -234,7 +234,7 @@ OnMoveTop
 {
 	if !(ASEARCH("Status",var.req.key) != -1 && "balloon" _in_ var.req.value[ASEARCH("Status",var.req.key)])
 	{
-		"\s[14]"
+		"\s[24]"
 	}
 }
 
@@ -242,6 +242,6 @@ OnMoveBottom
 {
 	if !(ASEARCH("Status",var.req.key) != -1 && "balloon" _in_ var.req.value[ASEARCH("Status",var.req.key)])
 	{
-		"\s[16]"
+		"\s[26]"
 	}
 }

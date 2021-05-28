@@ -28,7 +28,7 @@ NormalThinkP
 		}
 		_i++
 	}
-
+	_respond = ""
 	//If the user is saying an opinion, if they aren't sure about themself.
 	//The COI is the interesting __verb when the COD is the _subject of the proposition
 	if "%(_COI[4])" == "avis"
@@ -1537,8 +1537,9 @@ NormalThinkP
 	else
 	{
 		//The error message
-		_respond += "Huh,\w5 Levidre didn't implement anything for this. \w7I cannot understand the proposition of your sentence. \w7"
+		//_respond += "Huh,\w5 Levidre didn't implement anything for this. \w7I cannot understand the proposition of your sentence. \w7"
 	}
+	_respond
 }
 NormalThinkN
 {
@@ -2441,14 +2442,81 @@ NormalMovementP
 	else
 	{
 		//Here again if we didn't find any place to go
-		foreach _otherwords ; _nextword
+		foreach _allCO ; _nextword
 		{
-			if " place" _in_ _nextword[1] || "%(_nextword[1])" == "place"
+			_temp = SPLIT(_nextword,";;")
+			if _temp[0] == "to"
 			{
-				_toplace = _nextword
+				if " place" _in_ _temp[3][1] || _temp[3][1] == "place"
+				{
+					_toplace = _temp[3]
+				}
 			}
+			
 		}
 	}
+	
+	if _toplace == ""
+	{
+		if " place" _in_ _COD[1] || "%(_COD[1])" == "place"
+		{
+			_toplace = _COD
+		}
+		else
+		{
+			
+			foreach _allCO ; _nextword
+			{
+				_temp = SPLIT(_nextword,";;")
+				if " place" _in_ _temp[3][1] || _temp[3][1] == "place"
+				{
+					_toplace = _temp[3]
+				}
+				
+			}
+			
+		}
+		_detword = DetermineWord(_COD[0])
+		if _toplace == "" && "name" _in_ DetermineWord(_COD[0])[0] && "unknown" _in_ _COD[1] && "noplace" !_in_ _COD[1]
+		{
+			_toplace = _COD
+			_type = SPLIT(_detword[0]," ")
+			_index = SPLIT(_detword[1]," ")
+			_indname = ASEARCH("name",_type)
+			_COD[1] = AddType("place","nofamily","noanimal","nofood")
+			nameslib[TOINT(_index[_indname])] = _COD
+			
+		}
+	}
+	
+	if _prepCOI == "from"
+	{
+		if " place" _in_ _COI[1] || "%(_COI[1])" == "place"
+		{
+			_fromplace = _COI
+		}
+		elseif "name" _in_ DetermineWord(_COI[0])[0] && "unknown" _in_ _COI[1]
+		{
+			_fromplace = _COI
+		}
+	}	
+	else
+	{
+		//Here again if we didn't find any place to go
+		foreach _allCO ; _nextword
+		{
+			_temp = SPLIT(_nextword,";")
+			if _temp[0] == "to"
+			{
+				if " place" _in_ _temp[3][1] || _temp[3][1] == "place"
+				{
+					_fromplace = _temp[3]
+				}
+			}
+			
+		}
+	}
+	--
 			
 	//Checking to where the _subject is going
 	if "%(_toplace[0])" == "home"
@@ -2575,34 +2643,90 @@ NormalMovementN
 	_toplace = ""
 	_fromplace = ""
 	//We're checking from where to where the _subject is going
-	if _firstprep == "to"
-	{
-		if " place" _in_ _COD[1] || "%(_COD[1])" == "place"
-		{
-			_toplace = _COD
-		}
-	}
-	elseif _secondprep == "to"
+	if _prepCOI == "to"
 	{
 		if " place" _in_ _COI[1] || "%(_COI[1])" == "place"
 		{
 			_toplace = _COI
 		}
-	}
-	elseif " place" _in_ _COI[1] || "%(_COI[1])" == "place"
-	{
-		//Here is if there isn't any proposition
-		_toplace = _COI
-	}
+		elseif "name" _in_ DetermineWord(_COI[0])[0] && "unknown" _in_ _COI[1]
+		{
+			_toplace = _COI
+		}
+	}	
 	else
 	{
 		//Here again if we didn't find any place to go
-		foreach _otherwords ; _nextword
+		foreach _allCO ; _nextword
 		{
-			if " place" _in_ _COI[1] || "%(_nextword[1])" == "place"
+			_temp = SPLIT(_nextword,";;")
+			if _temp[0] == "to"
 			{
-				_toplace = _nextword
+				if " place" _in_ _temp[3][1] || _temp[3][1] == "place"
+				{
+					_toplace = _temp[3]
+				}
 			}
+			
+		}
+	}
+	
+	if _toplace == ""
+	{
+		if " place" _in_ _COD[1] || "%(_COD[1])" == "place"
+		{
+			_toplace = _COD
+		}
+		else
+		{
+			foreach _allCO ; _nextword
+			{
+				_temp = SPLIT(_nextword,";;")
+				if " place" _in_ _temp[3][1] || _temp[3][1] == "place"
+				{
+					_toplace = _temp[3]
+				}
+				
+			}
+		}
+		_detword = DetermineWord(_COD[0])
+		if _toplace == "" && "name" _in_ DetermineWord(_COD[0])[0] && "unknown" _in_ _COD[1] && "noplace" !_in_ _COD[1]
+		{
+			_toplace = _COD
+			_type = SPLIT(_detword[0]," ")
+			_index = SPLIT(_detword[1]," ")
+			_indname = ASEARCH("name",_type)
+			_COD[1] = AddType("place","nofamily","noanimal","nofood")
+			nameslib[TOINT(_index[_indname])] = _COD
+			
+		}
+	}
+	
+	if _prepCOI == "from"
+	{
+		if " place" _in_ _COI[1] || "%(_COI[1])" == "place"
+		{
+			_fromplace = _COI
+		}
+		elseif "name" _in_ DetermineWord(_COI[0])[0] && "unknown" _in_ _COI[1]
+		{
+			_fromplace = _COI
+		}
+	}	
+	else
+	{
+		//Here again if we didn't find any place to go
+		foreach _allCO ; _nextword
+		{
+			_temp = SPLIT(_nextword,";;")
+			if _temp[0] == "to"
+			{
+				if " place" _in_ _temp[3][1] || _temp[3][1] == "place"
+				{
+					_fromplace = _temp[3]
+				}
+			}
+			
 		}
 	}
 			
@@ -2998,7 +3122,7 @@ NormalStatusP
 			{
 				"\i[11]I wonder if it's a good thing.\w7 "
 			}
-			elseif "%(_COD[1])" == "item" || "%(_COI[1])" == "object" || " item" _in_ _COD[1] || " object" _in_ _COD[1]
+			elseif "%(_COD[1])" == "item" || "%(_COD[1])" == "object" || " item" _in_ _COD[1] || " object" _in_ _COD[1]
 			{
 				"I hope you move a little more.\w7 "
 			}
@@ -3022,34 +3146,121 @@ NormalStatusP
 		}else*/
 		if _COD == "noCOD" || _COD == "0" || _COD == ""
 		{
-			if _secondprep == "like" || _secondprep == "as"
+			if _prepCOI == "like" || _prepCOI == "as"
 			{
 				//If there isn't a first _complement before the comparison to something
 				//Checking how the user feels
 				_somme = 0
-				foreach  _adjCOD ; _adj
+				foreach  _adjCOI ; _adj
 				{
 					_somme += TOINT(_adj[2])
 						
 				}
-				if _somme >= 1
+				//If there is a _complement, it checks what the _complement is
+				if "%(_COI[0])" == "myself"
 				{
-					if azpunched < 3
+					"I hope you're yourself. \w7It would be scaring if you weren't yourself.\w7 "
+				}
+				elseif "%(_COI[1])" == "family" || " family" _in_ _COI[1]
+				{
+					"\i[10]Congratulation. \w7"
+				}
+				elseif "%(_COI[1])" == "being" || "%(_COI[1])" == "human" || " being" _in_ COI[1] || " human" _in_ COI[1]
+				{
+					if TOINT("%(_COI[2])") >= 5
 					{
-						"I'm happy you feel that nice.\w7 "
+						"It doesn't seem bad. \w7"
 					}
 					else
 					{
-						"Nice for you. "
+						"Well,\w7there are better things to be.\w7 "
 					}
 				}
-				elseif _somme == 0
+				elseif "%(_COI[1])" == "item" || " item" _in_ _COI[1]
 				{
-					"So you feel ok,\w5 I guess ?\w7 "
+					"I hope you move a little more.\w7 "
+				}
+				elseif "%(_COI[1])" == "object" || " object" _in_ _COI[1]
+				{
+					if TOINT("%(_COI[5])") == 0
+					{
+						if TOINT("%(_COI[2])") >= 5
+						{
+							"Well,\w5 it's not something bad.\w7 "
+						}
+						else
+						{
+							"I don't think it's a nice comparison. \w7"
+						}
+					}
+					else
+					{
+						if TOINT("%(_COI[5])") >= 0
+						{
+							if TOINT("%(_COI[2])") >= 5
+							{
+								"It's something pretty nice,\w5 isn'it ? \w7"
+							}
+							else
+							{
+								"Eh, \w5I personnaly don't like it but you seem to do so I guess it's positive ?\w7 "
+							}
+						}
+						else
+						{
+							if TOINT("%(_COI[2])") >= 5
+							{
+								"It doesn't seem good from your point of view, \w5but I like this stuff so it's not someting negative from my point of view.\w7 "
+							}
+							else
+							{
+								"You shouldn't speak of you like this.\w7 You're better than that.\w7 "
+							}
+						}
+					}
+								
+				}
+				elseif "%(_COI[1])" == "animal"
+				{
+					"You're not an animal"
+					--
+					if "big" _in_ "%(_COI[3])"
+					{
+						" and you're not as big as a %( _COI[0])"
+					}
+					elseif azpunched <= 0
+					{
+						" but you're maybe as cute as a %( _COI[0])"
+					}
+					elseif azpunched >= 5
+					{
+						" but you're the worst of all the animals who exist,\w5 the more violent"
+					}
+					else
+					{
+						"but you're not cute nor nice"
+					}
+					--
+					".\w7 "
+				}
+				elseif "%(_COI[1])" == "food" || " food" _in_ _COI[1]
+				{
+					//The comparison with food, an easter egg
+					if TOINT("%(_COI[2])") >= 5
+					{
+						"Yum yum,\w5 can I eat you ?\w7 "
+						saidgfood = 1
+					}
+					else
+					{
+						"Eehhh,\w5 I won't eat you.\w7 "
+						saidgfood = -1
+					}
 				}
 				else
 				{
-					"There is a problem, what you said should have been positive and I heard it as negative.\w7 Could you tell it to Levidre please ?\w7 "
+					//The erros message, as always
+					"Oops, \w5Levidre didn't think of this option of the stats verbs.\w7 "
 				}
 			}
 			else
@@ -3154,11 +3365,11 @@ NormalStatusP
 				--
 				if "big" _in_ "%(_COD[3])"
 				{
-					" and you're not as big as a %( _COD[0])"
+					" and you're not as big as a %(_COD[0])"
 				}
 				elseif azpunched <= 0
 				{
-					" but you're maybe as cute as a %( _COD[0])"
+					" but you're maybe as cute as a %(_COD[0])"
 				}
 				elseif azpunched >= 5
 				{
@@ -3421,6 +3632,8 @@ NormalStatusP
 		"Levidre didn't implement anything for objects being something for now. \w7"
 	}
 }
+
+//To redo
 NormalStatusN
 {
 	_allCO = IARRAY
@@ -3498,7 +3711,7 @@ NormalStatusN
 		}
 		elseif _COD == "noCOD" || _COD == "0" || _COD == ""
 		{
-			if _secondprep == "like" || _secondprep == "as"
+			if _prepCOI == "like" || _prepCOI == "as"
 			{
 				//If there isn't a first _complement before the comparison to something
 				//Checking how the user feels
@@ -3563,17 +3776,17 @@ NormalStatusN
 					}
 				}
 				elseif _somme == 0
-					{
-						"So you feel ok,\w5 I guess ?\w7 "
-					}
-					else
-					{								
-						"I hope you would feel better soon. \w7"	
-					}
+				{
+					"So you feel ok,\w5 I guess ?\w7 "
+				}
+				else
+				{								
+					"I hope you would feel better soon. \w7"	
 				}
 			}
-			else
-			{
+		}
+		else
+		{
 				//If there is a _complement, it checks what the _complement is
 				if "%(_COD[0])" == "myself"
 				{
@@ -3619,7 +3832,47 @@ NormalStatusN
 							"I don't think it's a nice comparison. \w7"
 						}
 					}
-				else
+				}
+				elseif "%(_COD[1])" == "animal" || " animal" _in_ _COD[1]
+				{
+					"You're not an animal"
+					if "big" _in_ "%(_COD[3])"
+					{
+						" and you're not as big as a %( _COD[0])"
+					}
+					elseif azpunched <= 0
+					{
+						" but you're maybe as cute as a %( _COD[0])"
+					}
+					elseif azpunched >= 5
+					{
+						" but you're the worst of all the animals who exist,\w5 the more violent"
+					}
+					else
+					{
+						"but you're not cute nor nice"
+					}
+					".\w7 "
+				}
+				elseif "%(_COD[1])" == "food" || " food" _in_ _COD[1]
+				{
+					//The comparison with food, an easter egg
+					if TOINT("%(_COD[2])") >= 5
+					{
+						"Yum yum,\w5 can I eat you ?\w7 "
+						saidgfood = 1
+					}
+					elseif "%(_COD[2])" == "none"
+					{
+						"I don't know how it tastes.\w7 "
+					}
+					else
+					{
+						"Eehhh,\w5 I won't eat you.\w7 "
+						saidgfood = -1
+					}
+				}
+				elseif "unknown" _in_ _COD[1]
 				{
 					if TOINT("%(_COD[5])") >= 0
 					{
@@ -3648,56 +3901,11 @@ NormalStatusN
 						}
 					}
 				}
-								
-			}
-			elseif "%(_COD[1])" == "animal" || " animal" _in_ _COD[1]
-			{
-				"You're not an animal"
-				if "big" _in_ "%(_COD[3])"
-				{
-					" and you're not as big as a %( _COD[0])"
-				}
-				elseif azpunched <= 0
-				{
-					" but you're maybe as cute as a %( _COD[0])"
-				}
-				elseif azpunched >= 5
-				{
-					" but you're the worst of all the animals who exist,\w5 the more violent"
-				}
 				else
 				{
-					"but you're not cute nor nice"
+					//The erros message, as always
+					"Oops, \w5Levidre didn't think of this option of the stats verbs.\w7 "
 				}
-				".\w7 "
-			}
-			elseif "%(_COD[1])" == "food" || " food" _in_ _COD[1]
-			{
-				//The comparison with food, an easter egg
-				if TOINT("%(_COD[2])") >= 5
-				{
-					"Yum yum,\w5 can I eat you ?\w7 "
-					saidgfood = 1
-				}
-				elseif "%(_COD[2])" == "none"
-				{
-					"I don't know how it tastes.\w7 "
-				}
-				else
-				{
-					"Eehhh,\w5 I won't eat you.\w7 "
-					saidgfood = -1
-				}
-			}
-			elseif "unknown" _in_ _COD[1]
-			{
-				
-			}
-			else
-			{
-				//The erros message, as always
-				"Oops, \w5Levidre didn't think of this option of the stats verbs.\w7 "
-			}
 		}
 			
 	}

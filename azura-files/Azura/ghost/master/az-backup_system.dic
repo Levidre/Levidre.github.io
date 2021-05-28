@@ -771,11 +771,7 @@ SearchBackup
 				if "%(_path)" != "" && "%(_path)" != "\" && "%(_path)" != "/"
 				{
 					SearchBackup(_temp)
-					
-					
 				}
-			
-				
 			}
 		}
 		
@@ -897,33 +893,18 @@ Backup
 		_source = _temp
 	}
 	
-	_paths = IARRAY
-	_temppaths = FENUM(_source)
-	if _temppaths != ""
+	_templist = IARRAY
+	_templist = ListFiles(_source)
+	if _templist[0] != ""
 	{
-		_paths = SPLIT(_temppaths,",")
+		_listfiles = SPLIT(_templist[0],",")
 	}
+	if _templist[1] != ""
+	{
+		_listrepositories = SPLIT(_templist[1],",")
+	}
+	SAVEVAR
 	
-	foreach _paths ; _path
-	{
-		if (FATTRIB(_source+_path))[2] == 1
-		{
-			_listrepositories ,= _source + _path
-			
-		}
-		elseif _path != "azura_marker.txt"
-		{
-			_listfiles ,= _source + "\" + _path
-		}
-	}
-	_temprepositories = IARRAY
-	_temprepositories = _listrepositories
-	foreach _temprepositories ; _repository
-	{
-		_listrepositories ,= ListRepositories(_repository)
-		_listfiles ,= ListFiles(_repository)
-	}
-
 	foreach _listrepositories ; _repository
 	{
 		if (FATTRIB(REPLACE(_repository,_source,_backup)))[2] != 1
@@ -931,7 +912,6 @@ Backup
 			_r = MKDIR(REPLACE(_repository,_source,_backup))
 		}
 	}
-	
 	
 	foreach _listfiles ; _file
 	{
@@ -983,8 +963,6 @@ Backup
 				
 			}
 		}
-		
-
 	}
 	_conflictlist
 }
@@ -1098,7 +1076,7 @@ ListRepositories
 			
 		}
 	}
-	templistrepositories = _listrepositories
+	_templistrepositories = _listrepositories
 	
 	foreach _templistrepositories ; _repository
 	{
@@ -1119,46 +1097,53 @@ ListFiles
 	_listfiles = IARRAY
 	_source = _argv[0]
 	_paths = IARRAY
-	truc++
-	much,= _source
-	//much ,= _source
-	machin = much[truc-1]
-	chose = ARRAYSIZE(much)
-	//chose2 = truc - truc
-	SAVEVAR
-	
-	//_source = "C:/Users/lisou/Documents/TP info ensisa/\2A\cryptographie\securite\docs\api\javax\management\remote\rmi\class-use"
-	if _source != ""
+	_temppaths = FENUM(_source)
+	if _temppaths != ""
 	{
-		_temppaths = FENUM(_source)[0]
-		if _temppaths != ""
-		{
-			_paths = SPLIT(_temppaths,",")
-		}
+		_paths = SPLIT(_temppaths,",")
 	}
-		foreach _paths ; _path
-		{
-			if (FATTRIB(_source+_path))[2] != 1 && _path != "azura_marker.txt"
-			{
-				_listfiles ,= _source + "\" + _path
-			}
-			elseif (FATTRIB(_source+_path))[2] == 1 && _path != "" 
-			{
-				_listrepositories ,= _source + _path
-				
-			}
-		}
-		
-		if ARRAYSIZE(_listrepositories) > 0
-		{
-			foreach _listrepositories ; _repository
-			{
-				_listfiles ,= ListFiles(_repository)
-				
-			}
-		}
+	for _i = 0; _i < ARRAYSIZE(_paths); _i++
+	{
+		_paths[_i] = _source + "\" + _paths[_i]
+	}
+	_index = 0
 	
-	_listfiles	
+	while _index < ARRAYSIZE(_paths)
+	{
+		if (FATTRIB(_paths[_index]))[2] != 1 && "azura_marker.txt" !_in_ _paths[_index] 
+		{
+			_listfiles ,= _paths[_index]
+		}
+		elseif (FATTRIB(_paths[_index]))[2] == 1 && _paths[_index] != "" 
+		{
+			_listrepositories ,= _paths[_index]
+			_temppaths = FENUM(_paths[_index])
+			if _temppaths != ""
+			{
+				foreach _temppaths ; _path
+				{
+					if _path != ""
+					{
+						_paths ,= _paths[_index] + "\" +_path
+					//allfiles = _paths[ARRAYSIZE(_paths)-1]
+					//SAVEVAR
+					}
+					
+				}
+			}
+			elseif FSIZE(_paths[_index]) >= 1 && ARRAYSIZE(SPLIT(_temppaths,",")) < 1
+			{
+				_listfiles ,= _paths[_index]
+			}
+			
+		}
+		_index++
+		allfiles = "%(_index),%ARRAYSIZE(_paths)"
+		SAVEVAR
+	}
+	
+	("%(_listfiles)","%(_listrepositories)")
+	
 }
 
 ListBackup

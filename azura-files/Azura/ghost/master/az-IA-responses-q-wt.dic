@@ -1642,11 +1642,23 @@ WhatSeeP
 	}
 	elseif _subject[1] == "i"
 	{
-		"The screen of your computer,\w5 I guess ?\w7 "
+		if (_COD[0] != "" && _COD[0] != "noCOD" && _COD[0] != "0") || (_COI[0] != "" && _COI[0] != "noCOI" && _COI[0] != "0")
+		{
+			"I don't know ?\w7 "
+		}
+		else
+		{
+			"The screen of your computer,\w5 I guess ?\w7 "
+		}
+		
+	}
+	elseif IsAlive(_subject[0])
+	{
+		"I don't know,\w5 go ask %NounThem(_subject[0]).\w7 "
 	}
 	else
 	{
-		"Levidre is lazy,\w5 she didn't finish to implement everything.\w7 "
+		"Can it see something ?\w7 "
 	}
 }
 WhatSeeN
@@ -1686,9 +1698,13 @@ WhatSeeN
 	{
 		"A lot of stuffs,\w5 I guess ?\w7 "
 	}
+	elseif IsAlive(_subject[0])
+	{
+		"A lot of stuffs,\w5 I guess ?\w7 "
+	}
 	else
 	{
-		"Levidre is lazy,\w5 she didn't finish to implement everything.\w7 "
+		"Can it see something ?\w7 "
 	}
 }
 
@@ -1726,9 +1742,25 @@ WhatSmellP
 	{
 		"There isn't any smell in a computer.\w7 Only the smell of stuffs I eat sometimes,\w5 like my candies.\w7 "
 	}
+	elseif _subject[1] == "i"
+	{
+		if (_COD[0] != "" && _COD[0] != "noCOD" && _COD[0] != "0") || (_COI[0] != "" && _COI[0] != "noCOI" && _COI[0] != "0")
+		{
+			"I don't know ?\w7 "
+		}
+		else
+		{
+			"We don't have the same air.\w7 "
+		}
+		
+	}
+	elseif IsAlive(_subject[0])
+	{
+		"I don't know,\w5 go ask %NounThem(_subject[0]).\w7 "
+	}
 	else
 	{
-		"Levidre is lazy,\w5 she didn't finish to implement everything.\w7 "
+		"Can it smell something ?\w7 "
 	}
 }
 WhatSmellN
@@ -1764,9 +1796,25 @@ WhatSmellN
 	{
 		"The air of the outside.\w7 "
 	}
+	elseif _subject[1] == "i"
+	{
+		if (_COD[0] != "" && _COD[0] != "noCOD" && _COD[0] != "0") || (_COI[0] != "" && _COI[0] != "noCOI" && _COI[0] != "0")
+		{
+			"I don't know ?\w7 "
+		}
+		else
+		{
+			"The air of your desktop.\w7 "
+		}
+		
+	}
+	elseif IsAlive(_subject[0])
+	{
+		"I don't know,\w5 go ask %NounThem(_subject[0]).\w7 "
+	}
 	else
 	{
-		"Levidre is lazy,\w5 she didn't finish to implement everything.\w7 "
+		"Can it smell something ?\w7 "
 	}
 }
 
@@ -1804,9 +1852,25 @@ WhatTouchP
 	{
 		"I'm touching the ground right now I guess.\w7 The ground of a computer.\w7 "
 	}
+	elseif _subject[1] == "i"
+	{
+		if (_COD[0] != "" && _COD[0] != "noCOD" && _COD[0] != "0") || (_COI[0] != "" && _COI[0] != "noCOI" && _COI[0] != "0")
+		{
+			"I don't know ?\w7 "
+		}
+		else
+		{
+			"I suppose you chair ?\w7 "
+		}
+		
+	}
+	elseif IsAlive(_subject[0])
+	{
+		"I don't know,\w5 go ask %NounThem(_subject[0]).\w7 "
+	}
 	else
 	{
-		"Levidre is lazy,\w5 she didn't finish to implement everything.\w7 "
+		"Can it see something ?\w7 "
 	}
 }
 WhatTouchN
@@ -1842,9 +1906,17 @@ WhatTouchN
 	{
 		"A lot of stuffs,\w5 you know ?\w7 "
 	}
+	elseif _subject[1] == "i"
+	{
+		"A lot of stuffs,\w5 you know ?\w7"
+	}
+	elseif IsAlive(_subject[0])
+	{
+		"I don't know,\w5 go ask %NounThem(_subject[0]).\w7 "
+	}
 	else
 	{
-		"Levidre is lazy,\w5 she didn't finish to implement everything.\w7 "
+		"Can it touch something ?\w7 "
 	}
 }
 
@@ -1882,9 +1954,25 @@ WhatHearP
 	{
 		"A computer is a very quiet place.\w7 The only thing making noises is my own computer or your applications.\w7 An the other ghosts of course.\w7 "
 	}
+	elseif _subject[1] == "i"
+	{
+		if (_COD[0] != "" && _COD[0] != "noCOD" && _COD[0] != "0") || (_COI[0] != "" && _COI[0] != "noCOI" && _COI[0] != "0")
+		{
+			"I don't know ?\w7 "
+		}
+		else
+		{
+			"I suppose your computer ?\w7 "
+		}
+		
+	}
+	elseif IsAlive(_subject[0])
+	{
+		"I don't know,\w5 go ask %NounThem(_subject[0]).\w7 "
+	}
 	else
 	{
-		"Levidre is lazy,\w5 she didn't finish to implement everything.\w7 "
+		"Can it hear something ?\w7 "
 	}
 }
 WhatHearN
@@ -1915,6 +2003,23 @@ WhatHearN
 			_allCO ,= _word
 		}
 		_i++
+	}
+	
+	if _subject[0] == "you"
+	{
+		"A lot of stuffs,\w5 you know ?\w7 "
+	}
+	elseif _subject[1] == "i"
+	{
+		"A lot of stuffs,\w5 you know ?\w7"
+	}
+	elseif IsAlive(_subject[0])
+	{
+		"I don't know,\w5 go ask %NounThem(_subject[0]).\w7 "
+	}
+	else
+	{
+		"Can it touch something ?\w7 "
 	}
 }
 
@@ -1952,9 +2057,17 @@ WhatTasteP
 	{
 		"Right now,\w5 nothing.\w7 "
 	}
+	elseif _subject[1] == "i"
+	{
+		"I don't know ?\w7 "		
+	}
+	elseif IsAlive(_subject[0])
+	{
+		"I don't know,\w5 go ask %NounThem(_subject[0]) if you can get a bite.\w7 "
+	}
 	else
 	{
-		"Levidre is lazy,\w5 she didn't finish to implement everything.\w7 "
+		"You can test it.\w7 "
 	}
 }
 WhatTasteN
@@ -1986,6 +2099,24 @@ WhatTasteN
 		}
 		_i++
 	}
+	
+	if _subject[0] == "you"
+	{
+		"A lot of stuff.\w7 "
+	}
+	elseif _subject[1] == "i"
+	{
+		"A lot of stuff.\w7 "		
+	}
+	elseif IsAlive(_subject[0])
+	{
+		"I don't know,\w5 go ask %NounThem(_subject[0]).\w7 "
+	}
+	else
+	{
+		"A lot of stuff.\w7 "	
+	}
+	
 }
 
 WhatHaveP
