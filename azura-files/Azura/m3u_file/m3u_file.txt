@@ -1,2 +1,0 @@
-m3uデフォルトディレクトリ
-m3u default directory
