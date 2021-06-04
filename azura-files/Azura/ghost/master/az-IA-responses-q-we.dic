@@ -29,6 +29,59 @@ WhereAvisP
 		}
 		_i++
 	}
+	if _subject[0] == "you"
+	{
+		if _COD[0] == "you" || _COD[0] == "yourself"
+		{
+			if _COI != "" && _COI != "noCOI"
+			{
+				if IsVerb(_COI[0])
+				{
+					if _COI[4] == "stat"
+					{
+						"I like being in my AU.\w7 "
+					}
+					else
+					{
+						"I don't know.\w7 "
+					}
+				}
+				else
+				{
+					"I don't know.\w7 "
+				}
+			}
+			else
+			{
+				"I prefer my AU.\w7 "
+			}
+		}
+		elseif _COD[0] == "i"
+		{
+			"I don't know.\w7 "
+		}
+		elseif IsAlive(_COD[1])
+		{
+			"I don't know.\w7 "
+		}
+		else
+		{
+			"At their place ?\w7 "
+		}
+	}
+	elseif _subject[0] == "i"
+	{
+		"I don't know.\w7 "
+	}
+	elseif IsAlive(_subject[1])
+	{
+		"I don't know.\w7 "
+	}
+	else
+	{
+		"At their place ?\w7 "
+	}
+	
 }
 WhereAvisN
 {
@@ -58,6 +111,58 @@ WhereAvisN
 			_allCO ,= _word
 		}
 		_i++
+	}
+	if _subject[0] == "you"
+	{
+		if _COD[0] == "you" || _COD[0] == "yourself"
+		{
+			if _COI != "" && _COI != "noCOI"
+			{
+				if IsVerb(_COI[0])
+				{
+					if _COI[4] == "stat"
+					{
+						"I like being in my AU.\w7 "
+					}
+					else
+					{
+						"I don't know.\w7 "
+					}
+				}
+				else
+				{
+					"I don't know.\w7 "
+				}
+			}
+			else
+			{
+				"I prefer my AU.\w7 "
+			}
+		}
+		elseif _COD[0] == "i"
+		{
+			"I don't know.\w7 "
+		}
+		elseif IsAlive(_COD[1])
+		{
+			"I don't know.\w7 "
+		}
+		else
+		{
+			"At their place ?\w7 "
+		}
+	}
+	elseif _subject[0] == "i"
+	{
+		"I don't know.\w7 "
+	}
+	elseif IsAlive(_subject[1])
+	{
+		"I don't know.\w7 "
+	}
+	else
+	{
+		"At their place ?\w7 "
 	}
 }
 
@@ -90,6 +195,7 @@ WhereThinkP
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 WhereThinkN
 {
@@ -120,6 +226,7 @@ WhereThinkN
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 
 WhereMovementP
@@ -151,6 +258,22 @@ WhereMovementP
 		}
 		_i++
 	}
+	if _subject[0] == "you"
+	{
+		"Nowhere.\w7 "
+	}
+	elseif _subject[0] == "i"
+	{
+		"I don't know.\w7 "
+	}
+	elseif IsAlive(_subject[1])
+	{
+		"I don't know.\w7 "
+	}
+	else
+	{
+		"At their place ?\w7 "
+	}
 }
 WhereMovementN
 {
@@ -180,6 +303,22 @@ WhereMovementN
 			_allCO ,= _word
 		}
 		_i++
+	}
+	if _subject[0] == "you"
+	{
+		"Somewhere.\w7 "
+	}
+	elseif _subject[0] == "i"
+	{
+		"I don't know.\w7 "
+	}
+	elseif IsAlive(_subject[1])
+	{
+		"I don't know.\w7 "
+	}
+	else
+	{
+		"At their place ?\w7 "
 	}
 }
 
@@ -212,6 +351,7 @@ WhereHobbyP
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 WhereHobbyN
 {
@@ -242,6 +382,7 @@ WhereHobbyN
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 
 WhereStatusP
@@ -273,6 +414,22 @@ WhereStatusP
 		}
 		_i++
 	}
+	if _subject[0] == "you"
+	{
+		"I'm in front of you.\w7 "
+	}
+	elseif _subject[0] == "i"
+	{
+		"Near your computer ?\w7 "
+	}
+	elseif IsAlive(_subject[1])
+	{
+		"I don't know.\w7 "
+	}
+	else
+	{
+		"At their place ?\w7 "
+	}
 }
 WhereStatusN
 {
@@ -302,6 +459,22 @@ WhereStatusN
 			_allCO ,= _word
 		}
 		_i++
+	}
+	if _subject[0] == "you"
+	{
+		"I'm in front of you.\w7 "
+	}
+	elseif _subject[0] == "i"
+	{
+		"Near your computer ?\w7 "
+	}
+	elseif IsAlive(_subject[1])
+	{
+		"I don't know.\w7 "
+	}
+	else
+	{
+		"At their place ?\w7 "
 	}
 }
 
@@ -334,6 +507,7 @@ WhereImagineP
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 WhereImagineN
 {
@@ -364,6 +538,7 @@ WhereImagineN
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 
 WhereActionP
@@ -395,6 +570,7 @@ WhereActionP
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 WhereActionN
 {
@@ -425,6 +601,7 @@ WhereActionN
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 
 WhereCreationP
@@ -456,6 +633,7 @@ WhereCreationP
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 WhereCreationN
 {
@@ -486,6 +664,7 @@ WhereCreationN
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 
 WhereSeeP
@@ -517,6 +696,7 @@ WhereSeeP
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 WhereSeeN
 {
@@ -547,6 +727,7 @@ WhereSeeN
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 
 WhereSmellP
@@ -578,6 +759,7 @@ WhereSmellP
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 WhereSmellN
 {
@@ -608,6 +790,7 @@ WhereSmellN
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 
 WhereTouchP
@@ -639,6 +822,7 @@ WhereTouchP
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 WhereTouchN
 {
@@ -669,6 +853,7 @@ WhereTouchN
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 
 WhereHearP
@@ -700,6 +885,7 @@ WhereHearP
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 WhereHearN
 {
@@ -730,6 +916,7 @@ WhereHearN
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 
 WhereTasteP
@@ -761,6 +948,7 @@ WhereTasteP
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 WhereTasteN
 {
@@ -791,11 +979,16 @@ WhereTasteN
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 
 WhereHaveP
-{}
+{
+	"I don't know.\w7 "
+}
 WhereHaveN
-{}
+{
+	"I don't know.\w7 "
+}
 
 

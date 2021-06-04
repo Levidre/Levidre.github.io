@@ -1039,7 +1039,7 @@ AzRespond
 	_prevCOI = "0"
 	_prevotherwords = "0"
 	_prevcomplement = "0"
-	_sentencesdata
+	//_sentencesdata
 	--
 	foreach _sentencesdata ; _sentence
 	{
@@ -1313,14 +1313,14 @@ AzRespond
 		}
 		
 		//Start the teaching process if Azura doesn't know the _word.
-		/*if ARRAYSIZE(_unknownwords) != 0
-		{
-			TeachAzuraName
-		}
-		elseif ARRAYSIZE(_unknownverb) != 0
-		{
-			TeachAzuraVerb
-		}*/
+		//if ARRAYSIZE(_unknownwords) != 0
+		//{
+			//TeachAzuraName
+		//}
+		//elseif ARRAYSIZE(_unknownverb) != 0
+		//{
+			//TeachAzuraVerb
+		//}
 		if ARRAYSIZE(_adjCOD) == 0
 		{
 			_adjCOD = "0"
@@ -1493,7 +1493,6 @@ AzRespond
 			}
 			elseif _phrasetype == "howquestion"
 			{
-				_respond += "This part hasn't been implemented yet.\w7 "
 				//Checking what type of __verb it is
 				if _verb[4] == "avis"
 				{
@@ -1640,7 +1639,6 @@ AzRespond
 			}
 			elseif _phrasetype == "wherequestion"
 			{
-				_respond += "This part hasn't been implemented yet.\w7 "
 				//Checking what type of __verb it is
 				if _verb[4] == "avis"
 				{
@@ -1787,7 +1785,7 @@ AzRespond
 			}
 			elseif _phrasetype == "whenquestion"
 			{
-				_respond += "This part hasn't been implemented yet.\w7 "
+				
 				//Checking what type of __verb it is
 				if _verb[4] == "avis"
 				{
@@ -1934,7 +1932,6 @@ AzRespond
 			}
 			elseif _phrasetype == "whichquestion"
 			{
-				_respond += "This part hasn't been implemented yet.\w7 "
 				//Checking what type of __verb it is
 				if _verb[4] == "avis"
 				{
@@ -2085,8 +2082,6 @@ AzRespond
 			}
 			elseif _phrasetype == "normalquestion"
 			{
-				
-				_respond += "This part hasn't been fully implemented yet, it's currently.\w7 "
 				//Checking what type of __verb it is
 				if _verb[4] == "avis"
 				{
@@ -2429,7 +2424,6 @@ AzRespond
 		}
 		else
 		{
-			_respond += "This part hasn't been fully impemented yet. \w7"
 			if ASEARCH("hello",_complement) != -1 || ASEARCH("hi",_complement) != -1 || ASEARCH("howdy",_complement) != -1 || ASEARCH("hey",_complement) != -1
 			{
 				_response = "Hello %(username).\w7 "
@@ -2589,7 +2583,7 @@ AzRespond
 			}
 			elseif _phrasetype == "howquestion"
 			{
-				_respond += "This part hasn't been implemented yet.\w7 "
+				
 				//Checking what type of __verb it is
 				if _verb[4] == "avis"
 				{
@@ -2736,7 +2730,6 @@ AzRespond
 			}
 			elseif _phrasetype == "wherequestion"
 			{
-				_respond += "This part hasn't been implemented yet.\w7 "
 				//Checking what type of __verb it is
 				if _verb[4] == "avis"
 				{
@@ -2883,7 +2876,6 @@ AzRespond
 			}
 			elseif _phrasetype == "whenquestion"
 			{
-				_respond += "This part hasn't been implemented yet.\w7 "
 				//Checking what type of __verb it is
 				if _verb[4] == "avis"
 				{
@@ -3030,7 +3022,6 @@ AzRespond
 			}
 			elseif _phrasetype == "whichquestion"
 			{
-				_respond += "This part hasn't been implemented yet.\w7 "
 				//Checking what type of __verb it is
 				if _verb[4] == "avis"
 				{
@@ -3181,7 +3172,6 @@ AzRespond
 			}
 			elseif _phrasetype == "normalquestion"
 			{
-				_respond += "This part hasn't been implemented yet.\w7 "
 				//Checking what type of __verb it is
 				if _verb[4] == "avis"
 				{
@@ -3516,11 +3506,11 @@ AzRespond
 				{
 					_respond += "I didn't recognize the type of the verb,\w5 that's a huge problem.\w7 "
 				}
-			}/*
-			if verbslib[0][0] != "" && verbslib[0][1] == ""
-			{
-				_respond += "Something emptyed the datas about the first verb. \w7Whatever you just told to me, \w5it's what did it.\w7 Could you report it the sooner you can please ?\w7 It's not the kind of bug that can wait,\w5 Levidre needs to solve it immediately.\w7 "
-			}*/
+			}
+			//if verbslib[0][0] != "" && verbslib[0][1] == ""
+			//{
+				//_respond += "Something emptyed the datas about the first verb. \w7Whatever you just told to me, \w5it's what did it.\w7 Could you report it the sooner you can please ?\w7 It's not the kind of bug that can wait,\w5 Levidre needs to solve it immediately.\w7 "
+			//}
 			
 		}
 		

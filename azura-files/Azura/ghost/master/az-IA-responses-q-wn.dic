@@ -29,6 +29,7 @@ WhenAvisP
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 WhenAvisN
 {
@@ -59,6 +60,7 @@ WhenAvisN
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 
 WhenThinkP
@@ -90,6 +92,7 @@ WhenThinkP
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 WhenThinkN
 {
@@ -120,6 +123,7 @@ WhenThinkN
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 
 WhenMovementP
@@ -151,6 +155,292 @@ WhenMovementP
 		}
 		_i++
 	}
+	_toplace = ""
+	_fromplace = ""
+	//We're checking from where to where the _subject is going
+	if _prepCOI == "to"
+	{
+		if " place" _in_ _COI[1] || "%(_COI[1])" == "place"
+		{
+			_toplace = _COI
+		}
+		elseif "name" _in_ DetermineWord(_COI[0])[0] && "unknown" _in_ _COI[1]
+		{
+			_toplace = _COI
+		}
+	}	
+	else
+	{
+		//Here again if we didn't find any place to go
+		foreach _allCO ; _nextword
+		{
+			_temp = SPLIT(_nextword,";;")
+			if _temp[0] == "to"
+			{
+				if " place" _in_ _temp[3][1] || _temp[3][1] == "place"
+				{
+					_toplace = _temp[3]
+				}
+			}
+			
+		}
+	}
+	
+	if _toplace == ""
+	{
+		if " place" _in_ _COD[1] || "%(_COD[1])" == "place"
+		{
+			_toplace = _COD
+		}
+		else
+		{
+			
+			foreach _allCO ; _nextword
+			{
+				_temp = SPLIT(_nextword,";;")
+				if " place" _in_ _temp[3][1] || _temp[3][1] == "place"
+				{
+					_toplace = _temp[3]
+				}
+				
+			}
+			
+		}
+		_detword = DetermineWord(_COD[0])
+		if _toplace == "" && "name" _in_ DetermineWord(_COD[0])[0] && "unknown" _in_ _COD[1] && "noplace" !_in_ _COD[1]
+		{
+			_toplace = _COD
+			_type = SPLIT(_detword[0]," ")
+			_index = SPLIT(_detword[1]," ")
+			_indname = ASEARCH("name",_type)
+			_COD[1] = AddType("place","nofamily","noanimal","nofood")
+			nameslib[TOINT(_index[_indname])] = _COD
+			
+		}
+	}
+	
+	if _prepCOI == "from"
+	{
+		if " place" _in_ _COI[1] || "%(_COI[1])" == "place"
+		{
+			_fromplace = _COI
+		}
+		elseif "name" _in_ DetermineWord(_COI[0])[0] && "unknown" _in_ _COI[1]
+		{
+			_fromplace = _COI
+		}
+	}	
+	else
+	{
+		//Here again if we didn't find any place to go
+		foreach _allCO ; _nextword
+		{
+			_temp = SPLIT(_nextword,";")
+			if _temp[0] == "to"
+			{
+				if " place" _in_ _temp[3][1] || _temp[3][1] == "place"
+				{
+					_fromplace = _temp[3]
+				}
+			}
+			
+		}
+	}
+	--
+	if _subject[0] == "you"
+	{	
+		//Checking to where the _subject is going
+		if "%(_toplace[0])" == "home"
+		{
+			"When you release me I suppose.\w7 "
+		}
+		elseif _toplace == ""
+		{
+			"When you release me I suppose. \w7"
+		}
+		elseif "unknown" _in_ _toplace[1]
+		{
+			"I don't know.\w7 "
+			--
+			if " place" _in_ _toplace[1]
+			{
+				if TOINT("%(_toplace[5])") > 0
+				{
+					"You like this place, \w5isn'it ?\w7 "
+				}
+				elseif _toplace[5] == "0"
+				{
+					"I hope it's a nice place.\w7 "
+				}
+				else
+				{
+					"You don't like this place,\w5 isn'it ?"
+				}
+			}
+			elseif " noplace" _in_ _toplace[1]
+			{
+				"Huh,\w5 I thought it wasn't a place ?\w7"
+			}
+			else
+			{
+				if TOINT("%(_toplace[5])") > 0
+				{
+					"You like this place, \w5isn'it ?\w7 "
+				}
+				elseif _toplace[5] == "0"
+				{
+					"I hope it's a nice place.\w7 "
+				}
+				else
+				{
+					"You don't like this place,\w5 isn'it ?"
+				}
+				_type = _toplace[1]
+				_typew = AddType(_type,"nobeing","noanimal","place","nofood","nofamily","nohuman")	
+				
+				_result = DetermineWord(_toplace[0])
+				_type = SPLIT(_result[0]," ")
+				_index = SPLIT(_result[1]," ")
+				_indname = ASEARCH("name",_type)
+				if _indname != -1
+				{
+					_toplace[1]=_typew
+					nameslib[TOINT(_type[_indname])]=_toplace
+				}
+			}
+		}
+		else
+		{
+			"I don't know.\w7 "
+			--
+			//Checking if it's somewhere nice to go or not and reacting to it
+			if TOINT("%(_toplace[2])") >= 1
+			{
+				"It's a nice place to go.\w7 "
+			}
+			elseif _toplace[2] != "none" && TOINT("%(_toplace[2])") == 0
+			{
+				"I hope it would be nice.\w7 "
+			}
+			elseif TOINT("%(_toplace[2])") < 0
+			{
+				"That's not somewhere I like to go.\w7 "
+			}
+			elseif TOINT("%(_toplace[5])") >= 1
+			{
+				"I know you like go here so that's nice.\w7 "
+			}
+			elseif _toplace[5] != "none" && TOINT("%(_toplace[5])") == 0
+			{
+				"I hope it would be nice.\w7 "
+			}
+			elseif TOINT("%(_toplace[5])") < 0
+			{
+				"Well,\w5 we all have to go somewhere we don't like sometimes.\w7 "
+			}
+			else
+			{
+				"You can tell to Levidre there is a problem.\w7 "
+			}
+		}
+	}
+	else
+	{
+		//Checking to where the _subject is going
+		if "%(_toplace[0])" == "home"
+		{
+			"I don't know.\w7 "
+		}
+		elseif _toplace == ""
+		{
+			"I don't know. \w7"
+		}
+		elseif "unknown" _in_ _toplace[1]
+		{
+			"I don't know.\w7 "
+			--
+			if " place" _in_ _toplace[1]
+			{
+				if TOINT("%(_toplace[5])") > 0
+				{
+					"You like this place, \w5isn'it ?\w7 "
+				}
+				elseif _toplace[5] == "0"
+				{
+					"I hope it's a nice place.\w7 "
+				}
+				else
+				{
+					"You don't like this place,\w5 isn'it ?"
+				}
+			}
+			elseif " noplace" _in_ _toplace[1]
+			{
+				"Huh,\w5 I thought it wasn't a place ?\w7"
+			}
+			else
+			{
+				if TOINT("%(_toplace[5])") > 0
+				{
+					"You like this place, \w5isn'it ?\w7 "
+				}
+				elseif _toplace[5] == "0"
+				{
+					"I hope it's a nice place.\w7 "
+				}
+				else
+				{
+					"You don't like this place,\w5 isn'it ?"
+				}
+				_type = _toplace[1]
+				_typew = AddType(_type,"nobeing","noanimal","place","nofood","nofamily","nohuman")	
+				
+				_result = DetermineWord(_toplace[0])
+				_type = SPLIT(_result[0]," ")
+				_index = SPLIT(_result[1]," ")
+				_indname = ASEARCH("name",_type)
+				if _indname != -1
+				{
+					_toplace[1]=_typew
+					nameslib[TOINT(_type[_indname])]=_toplace
+				}
+			}
+		}
+		else
+		{
+			"I don't know.\w7 "
+			--
+			//Checking if it's somewhere nice to go or not and reacting to it
+			if TOINT("%(_toplace[2])") >= 1
+			{
+				"It's a nice place to go.\w7 "
+			}
+			elseif _toplace[2] != "none" && TOINT("%(_toplace[2])") == 0
+			{
+				"I hope it would be nice.\w7 "
+			}
+			elseif TOINT("%(_toplace[2])") < 0
+			{
+				"That's not somewhere I like to go.\w7 "
+			}
+			elseif TOINT("%(_toplace[5])") >= 1
+			{
+				"I know you like go here so that's nice.\w7 "
+			}
+			elseif _toplace[5] != "none" && TOINT("%(_toplace[5])") == 0
+			{
+				"I hope it would be nice.\w7 "
+			}
+			elseif TOINT("%(_toplace[5])") < 0
+			{
+				"Well,\w5 we all have to go somewhere we don't like sometimes.\w7 "
+			}
+			else
+			{
+				"You can tell to Levidre there is a problem.\w7 "
+			}
+		}
+	}
 }
 WhenMovementN
 {
@@ -180,6 +470,195 @@ WhenMovementN
 			_allCO ,= _word
 		}
 		_i++
+	}
+	
+	_toplace = ""
+	_fromplace = ""
+	//We're checking from where to where the _subject is going
+	if _prepCOI == "to"
+	{
+		if " place" _in_ _COI[1] || "%(_COI[1])" == "place"
+		{
+			_toplace = _COI
+		}
+		elseif "name" _in_ DetermineWord(_COI[0])[0] && "unknown" _in_ _COI[1]
+		{
+			_toplace = _COI
+		}
+	}	
+	else
+	{
+		//Here again if we didn't find any place to go
+		foreach _allCO ; _nextword
+		{
+			_temp = SPLIT(_nextword,";;")
+			if _temp[0] == "to"
+			{
+				if " place" _in_ _temp[3][1] || _temp[3][1] == "place"
+				{
+					_toplace = _temp[3]
+				}
+			}
+			
+		}
+	}
+	
+	if _toplace == ""
+	{
+		if " place" _in_ _COD[1] || "%(_COD[1])" == "place"
+		{
+			_toplace = _COD
+		}
+		else
+		{
+			foreach _allCO ; _nextword
+			{
+				_temp = SPLIT(_nextword,";;")
+				if " place" _in_ _temp[3][1] || _temp[3][1] == "place"
+				{
+					_toplace = _temp[3]
+				}
+				
+			}
+		}
+		_detword = DetermineWord(_COD[0])
+		if _toplace == "" && "name" _in_ DetermineWord(_COD[0])[0] && "unknown" _in_ _COD[1] && "noplace" !_in_ _COD[1]
+		{
+			_toplace = _COD
+			_type = SPLIT(_detword[0]," ")
+			_index = SPLIT(_detword[1]," ")
+			_indname = ASEARCH("name",_type)
+			_COD[1] = AddType("place","nofamily","noanimal","nofood")
+			nameslib[TOINT(_index[_indname])] = _COD
+			
+		}
+	}
+	
+	if _prepCOI == "from"
+	{
+		if " place" _in_ _COI[1] || "%(_COI[1])" == "place"
+		{
+			_fromplace = _COI
+		}
+		elseif "name" _in_ DetermineWord(_COI[0])[0] && "unknown" _in_ _COI[1]
+		{
+			_fromplace = _COI
+		}
+	}	
+	else
+	{
+		//Here again if we didn't find any place to go
+		foreach _allCO ; _nextword
+		{
+			_temp = SPLIT(_nextword,";;")
+			if _temp[0] == "to"
+			{
+				if " place" _in_ _temp[3][1] || _temp[3][1] == "place"
+				{
+					_fromplace = _temp[3]
+				}
+			}
+			
+		}
+	}
+			
+	if _subject[0] == "you"
+	{
+		//Checking to where the _subject is going
+		if "%(_toplace[0])" == "home"
+		{
+			"I don't spend all my time at home.\w7 "
+		}
+		elseif _toplace == ""
+		{
+			"I don't know.\w7 "
+		}
+		elseif "unknown" _in_ _toplace[1]
+		{
+			if " place" _in_ _toplace[1]
+			{
+				if TOINT("%(_toplace[5])") > 0
+				{
+					"You like this place, \w5isn'it ?\w7 "
+				}
+				elseif _toplace[5] == "0"
+				{
+					"I don't know.\w7 "
+				}
+				else
+				{
+					"You don't like this place,\w5 isn'it ?"
+				}
+			}
+			elseif " noplace" _in_ _toplace[1]
+			{
+				"Huh,\w5 I thought it wasn't a place ?\w7"
+			}
+			else
+			{
+				if TOINT("%(_toplace[5])") > 0
+				{
+					"You like this place, \w5isn'it ?\w7 "
+				}
+				elseif _toplace[5] == "0"
+				{
+					"I don't know.\w7 "
+				}
+				else
+				{
+					"You don't like this place,\w5 isn'it ?"
+				}
+				_type = _toplace[1]
+				_typew = AddType(_type,"nobeing","noanimal","place","nofood","nofamily","nohuman")	
+				
+				_result = DetermineWord(_toplace[0])
+				_type = SPLIT(_result[0]," ")
+				_index = SPLIT(_result[1]," ")
+				_indname = ASEARCH("name",_type)
+				if _indname != -1
+				{
+					_toplace[1]=_typew
+					nameslib[TOINT(_type[_indname])]=_toplace
+				}
+			}
+		}
+		else
+		{
+			"I don't know.\w7 "
+			//Checking if it's somewhere nice to go or not and reacting to it
+			if TOINT("%(_toplace[2])") >= 1
+			{
+				"It's a nice place to go though.\w7 "
+			}
+			elseif _toplace[2] != "none" && TOINT("%(_toplace[2])") == 0
+			{
+				"Maybe it would have been nice.\w7 "
+			}
+			elseif TOINT("%(_toplace[2])") < 0
+			{
+				"Are you relieved ?\w7 "
+			}
+			elseif TOINT("%(_toplace[5])") >= 1
+			{
+				"I know you like go here,\w5 I'm sorry for you.\w7 "
+			}
+			elseif _toplace[5] != "none" && TOINT("%(_toplace[5])") == 0
+			{
+				"Maybe it would have been nice.\w7 "
+			}
+			elseif TOINT("%(_toplace[5])") < 0
+			{
+				"Are you relieved ?\w7 "
+			}
+			else
+			{
+				"You can tell to Levidre there is a problem.\w7 "
+			}
+		}
+	}
+	else
+	{
+		"I don't know.\w7 "
 	}
 }
 
@@ -212,6 +691,18 @@ WhenHobbyP
 		}
 		_i++
 	}
+	if _subject == "you"
+	{
+		"I'm not doing a lot of stuff in general here.\w7 "
+	}
+	elseif IsAlive(_subject[1])
+	{
+		"I don't know.\w7 "
+	}
+	else
+	{
+		"Can it do it ?\w7"
+	}
 }
 WhenHobbyN
 {
@@ -241,6 +732,18 @@ WhenHobbyN
 			_allCO ,= _word
 		}
 		_i++
+	}
+	if _subject == "you"
+	{
+		"I'm not doing a lot of stuff in general here.\w7 "
+	}
+	elseif IsAlive(_subject[1])
+	{
+		"I don't know.\w7 "
+	}
+	else
+	{
+		"Can it do it ?\w7"
 	}
 }
 
@@ -273,6 +776,34 @@ WhenStatusP
 		}
 		_i++
 	}
+	if _subject == "you"
+	{
+		"It depends.\w7 "
+		--
+		if _COD == tired || _COI == "tired"
+		{
+			"But generally when it's the night.\w7 "
+		}
+		else
+		{
+			foreach _allCO ; _nextword
+			{
+				_temp = SPLIT(_nextword,";;")
+				if _temp[3][0] == "tired"
+				{
+					"But generally when it's the night.\w7 "
+				}
+			}
+		}
+	}
+	elseif IsAlive(_subject[1])
+	{
+		"I don't know.\w7 "
+	}
+	else
+	{
+		"Can it ?\w7"
+	}
 }
 WhenStatusN
 {
@@ -302,6 +833,34 @@ WhenStatusN
 			_allCO ,= _word
 		}
 		_i++
+	}
+	if _subject == "you"
+	{
+		"It depends.\w7 "
+		--
+		if _COD == tired || _COI == "tired"
+		{
+			"But generally when it's the day.\w7 "
+		}
+		else
+		{
+			foreach _allCO ; _nextword
+			{
+				_temp = SPLIT(_nextword,";;")
+				if _temp[3][0] == "tired"
+				{
+					"But generally when it's the day.\w7 "
+				}
+			}
+		}
+	}
+	elseif IsAlive(_subject[1])
+	{
+		"I don't know.\w7 "
+	}
+	else
+	{
+		"Can it ?\w7"
 	}
 }
 
@@ -334,6 +893,18 @@ WhenImagineP
 		}
 		_i++
 	}
+	if _subject == "you"
+	{
+		"\i[10]Quite any time.\w7 "
+	}
+	elseif IsAlive(_subject[1])
+	{
+		"I don't know.\w7 "
+	}
+	else
+	{
+		"Can it ?\w7"
+	}
 }
 WhenImagineN
 {
@@ -363,6 +934,18 @@ WhenImagineN
 			_allCO ,= _word
 		}
 		_i++
+	}
+	if _subject == "you"
+	{
+		"Sometimes.\w7 "
+	}
+	elseif IsAlive(_subject[1])
+	{
+		"I don't know.\w7 "
+	}
+	else
+	{
+		"Can it ?\w7"
 	}
 }
 
@@ -395,6 +978,7 @@ WhenActionP
 		}
 		_i++
 	}
+	"I don't know."
 }
 WhenActionN
 {
@@ -425,6 +1009,7 @@ WhenActionN
 		}
 		_i++
 	}
+	"I don't know."
 }
 
 WhenCreationP
@@ -456,6 +1041,41 @@ WhenCreationP
 		}
 		_i++
 	}
+	if _subject[0] == "you"
+	{
+		if _verb[0] == "draw" || _verb[0] == "paint"
+		{
+			"\i[10]Quite any time.\w7 "
+		}
+		elseif _verb[0] == "sculpt"
+		{
+			"\i[10]I don't sculpt.\w7 "
+		}
+		elseif _verb[0] == "create"
+		{
+			"Always.\w7 "
+		}
+		elseif _verb[0] == "craft"
+		{
+			"Sometimes.\w7 "
+		}
+		else
+		{
+			"Sometimes.\w7 "
+		}
+	}
+	elseif _subject[0] == "i"
+	{
+		"I don't know,\i[10]\w5 I'm not you.\w7 "
+	}
+	elseif ASEARCH(_subject[1],"human","being","animal","family") || " being" _in_ _subject[1] || " animal" _in_ _subject[1] || " human" _in_ _subject[1] || " family" _in_ _subject[1]
+	{
+		"I don't know.\w7 "
+	}
+	else
+	{
+		"Can it actually create something ?\w7 "
+	}
 }
 WhenCreationN
 {
@@ -485,6 +1105,45 @@ WhenCreationN
 			_allCO ,= _word
 		}
 		_i++
+	}
+	if _subject[0] == "you"
+	{
+		if _verb[0] == "draw" || _verb[0] == "paint"
+		{
+			"I'm always drawing,\w5 just not ship.\w7 "
+		}
+		elseif _verb[0] == "write"
+		{
+			"Sometimes.\w7 "
+		}
+		elseif _verb[0] == "sculpt"
+		{
+			"I don't sculpt so always ?\w7 "
+		}
+		elseif _verb[0] == "create"
+		{
+			"\i[10]Never.\w7 "
+		}
+		elseif _verb[0] == "craft"
+		{
+			"Sometimes.\w7 "
+		}
+		else
+		{
+			"Sometimes.\w7 "
+		}
+	}
+	elseif _subject[0] == "i"
+	{
+		"I don't know,\i[10]\w5 I'm not you.\w7 "
+	}
+	elseif ASEARCH(_subject[1],"human","being","animal","family") || " being" _in_ _subject[1] || " animal" _in_ _subject[1] || " human" _in_ _subject[1] || " family" _in_ _subject[1]
+	{
+		"I don't know.\w7 "
+	}
+	else
+	{
+		"Can it actually create something ?\w7 "
 	}
 }
 
@@ -517,6 +1176,15 @@ WhenSeeP
 		}
 		_i++
 	}
+	if _subject[0] == "you"
+	{
+		"Who knows ?\w7 "
+	}
+	else
+	{
+		"I don't know.\w7 "
+	}
+	
 }
 WhenSeeN
 {
@@ -546,6 +1214,14 @@ WhenSeeN
 			_allCO ,= _word
 		}
 		_i++
+	}
+	if _subject[0] == "you"
+	{
+		"Who knows ?\w7 "
+	}
+	else
+	{
+		"I don't know.\w7 "
 	}
 }
 
@@ -578,6 +1254,14 @@ WhenSmellP
 		}
 		_i++
 	}
+	if _subject[0] == "you"
+	{
+		"Who knows ?\w7 "
+	}
+	else
+	{
+		"I don't know.\w7 "
+	}
 }
 WhenSmellN
 {
@@ -607,6 +1291,14 @@ WhenSmellN
 			_allCO ,= _word
 		}
 		_i++
+	}
+	if _subject[0] == "you"
+	{
+		"Who knows ?\w7 "
+	}
+	else
+	{
+		"I don't know.\w7 "
 	}
 }
 
@@ -639,6 +1331,14 @@ WhenTouchP
 		}
 		_i++
 	}
+	if _subject[0] == "you"
+	{
+		"Who knows ?\w7 "
+	}
+	else
+	{
+		"I don't know.\w7 "
+	}
 }
 WhenTouchN
 {
@@ -668,6 +1368,14 @@ WhenTouchN
 			_allCO ,= _word
 		}
 		_i++
+	}
+	if _subject[0] == "you"
+	{
+		"Who knows ?\w7 "
+	}
+	else
+	{
+		"I don't know.\w7 "
 	}
 }
 
@@ -700,6 +1408,14 @@ WhenHearP
 		}
 		_i++
 	}
+	if _subject[0] == "you"
+	{
+		"Who knows ?\w7 "
+	}
+	else
+	{
+		"I don't know.\w7 "
+	}
 }
 WhenHearN
 {
@@ -729,6 +1445,14 @@ WhenHearN
 			_allCO ,= _word
 		}
 		_i++
+	}
+	if _subject[0] == "you"
+	{
+		"Who knows ?\w7 "
+	}
+	else
+	{
+		"I don't know.\w7 "
 	}
 }
 
@@ -762,6 +1486,14 @@ WhenTasteP
 		}
 		_i++
 	}
+	if _subject[0] == "you"
+	{
+		"Who knows ?\w7 "
+	}
+	else
+	{
+		"I don't know.\w7 "
+	}
 }
 WhenTasteN
 {
@@ -793,11 +1525,37 @@ WhenTasteN
 		}
 		_i++
 	}
+	if _subject[0] == "you"
+	{
+		"Who knows ?\w7 "
+	}
+	else
+	{
+		"I don't know.\w7 "
+	}
 }
 
 WhenHaveP
-{}
+{
+	if _subject[0] == "you"
+	{
+		"Who knows ?\w7 "
+	}
+	else
+	{
+		"I don't know.\w7 "
+	}
+}
 WhenHaveN
-{}
+{
+	if _subject[0] == "you"
+	{
+		"Who knows ?\w7 "
+	}
+	else
+	{
+		"I don't know.\w7 "
+	}
+}
 
 

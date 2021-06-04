@@ -1637,6 +1637,11 @@ OnSleep2E
 				azpose = "\0\s[20]%(smile)"
 			}
 		}
+		if dayslot == "6month 4day"
+		{
+			azpose +="\i[120]"
+		}
+		--
 		"%(azpose)%(arms)"
 		--
 		if isplayed == 1
@@ -1644,10 +1649,7 @@ OnSleep2E
 			OnOCComputer
 		}
 		--
-		if dayslot == "6month 4day"
-		{
-			"\i[120]"
-		}
+		
 	}
 	else
 	{
@@ -1718,13 +1720,13 @@ OnChangePose
 			issat = 0
 		}
 	}
-	--
-	"\i[0]\w9\w5%(azpose)%(arms)\w1"
 	if dayslot == "6month 4day"
 	{
-		--
-		"\i[120]"
+		azpose +="\i[120]"
 	}
+	--
+	"\i[0]\w9\w5%(azpose)%(arms)\w1"
+	
 }
 
 OnPyjama
@@ -1735,6 +1737,11 @@ OnPyjama
 		{
 			azpose = "\0\s[20]%(smile)"
 			"%(azpose)%(arms)%(lsto)* Here I am"
+			if dayslot == "6month 4day"
+			{
+				azpose +="\i[120]"
+			}
+			--
 		}
 		else
 		{
@@ -1748,6 +1755,11 @@ OnPyjama
 		if nowshell == "Old shell"
 		{
 			azpose = "\0\s[10]%(smile)"
+			if dayslot == "6month 4day"
+			{
+				azpose +="\i[120]"
+			}
+			--
 			"%(azpose)%(arms)%(lsto)* Here I am"
 		}
 		else

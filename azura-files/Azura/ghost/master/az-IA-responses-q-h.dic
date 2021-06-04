@@ -135,6 +135,43 @@ HowAvisN
 		}
 		_i++
 	}
+	if _subject[0] == "you"
+	{
+		if IsAlive(_COD[0])
+		{
+			"Who knows....\w7 "
+		}
+		else
+		{
+			"I don't know.\w7 "
+		}
+	}
+	elseif _subject[0] == "i"
+	{
+		if IsAlive(_COD[0])
+		{
+			"Who knows....\w7 "
+		}
+		else
+		{
+			"I don't know.\w7 "
+		}
+	}
+	elseif IsAlive(_subject[0])
+	{
+		if IsAlive(_COD[0])
+		{
+			"Who knows....\w7 "
+		}
+		else
+		{
+			"I don't know.\w7 "
+		}
+	}
+	else
+	{
+		"I don't know.\w7 "
+	}
 }
 
 HowThinkP
@@ -166,6 +203,14 @@ HowThinkP
 		}
 		_i++
 	}
+	if _COD[0] == "" || _COD[0] == "0" || _COD[0] == "noCOD" || _COI[0] == "" || _COI[0] == "0" || _COI[0] == "noCOI"
+	{
+		
+	}
+	else
+	{
+		"I don't know.\w7 "
+	}
 }
 HowThinkN
 {
@@ -195,6 +240,14 @@ HowThinkN
 			_allCO ,= _word
 		}
 		_i++
+	}
+	if _COD[0] == "" || _COD[0] == "0" || _COD[0] == "noCOD" || _COI[0] == "" || _COI[0] == "0" || _COI[0] == "noCOI"
+	{
+		
+	}
+	else
+	{
+		"I don't know.\w7 "
 	}
 }
 

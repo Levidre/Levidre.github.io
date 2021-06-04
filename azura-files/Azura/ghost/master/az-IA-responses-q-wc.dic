@@ -29,6 +29,37 @@ WhichAvisP
 		}
 		_i++
 	}
+	if _COD[0] != "" && _COD[0] != "noCOD" && _COD != "0"
+	{
+		if _subject[0] == "you"
+		{
+			if _COD[7] != "none" && _COD[7] != ""
+			{
+				"I prefer "+ EnumerationAndList(SPLIT(_COD[7],".")) + ".\w7 "
+			}
+			else
+			{
+				"I don't know.\w7 "
+			}
+			
+		}
+		elseif _subject[0] == "i"
+		{
+			"I don't know.\w7 "
+		}
+		elseif IsAlive(_subject[1])
+		{
+			"I don't know.\w7 "
+		}
+		else
+		{
+			"Can it like something ?\w7 "
+		}
+	}
+	else
+	{
+		"I don't know.\w7 "
+	}
 }
 WhichAvisN
 {
@@ -58,6 +89,30 @@ WhichAvisN
 			_allCO ,= _word
 		}
 		_i++
+	}
+	
+	if _COD[0] != "" && _COD[0] != "noCOD" && _COD != "0"
+	{
+		if _subject[0] == "you"
+		{
+			"I prefer "+ EnumerationAndList(SPLIT(_subject[7],"."))
+		}
+		elseif _subject[0] == "i"
+		{
+			"I don't know.\w7 "
+		}
+		elseif IsAlive(_subject[1])
+		{
+			"I don't know.\w7 "
+		}
+		else
+		{
+			"Can it like something ?\w7 "
+		}
+	}
+	else
+	{
+		"I don't know.\w7 "
 	}
 }
 
@@ -90,6 +145,7 @@ WhichThinkP
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 WhichThinkN
 {
@@ -120,6 +176,7 @@ WhichThinkN
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 
 WhichMovementP
@@ -151,7 +208,14 @@ WhichMovementP
 		}
 		_i++
 	}
-	
+	if _subject[0] == "you"
+	{
+		"For now none.\w7 "
+	}
+	else
+	{
+		"I don't know.\w7 "
+	}
 	
 }
 WhichMovementN
@@ -182,6 +246,14 @@ WhichMovementN
 			_allCO ,= _word
 		}
 		_i++
+	}
+	if _subject[0] == "you"
+	{
+		"I don't move anything anywhere.\w7 "
+	}
+	else
+	{
+		"I don't know.\w7 "
 	}
 }
 
@@ -214,6 +286,14 @@ WhichHobbyP
 		}
 		_i++
 	}
+	if _subject[0] == "you"
+	{
+		"For now,\w5 I don't really do anything.\w7 "
+	}
+	else
+	{
+		"I don't know.\w7 "
+	}
 }
 WhichHobbyN
 {
@@ -243,6 +323,14 @@ WhichHobbyN
 			_allCO ,= _word
 		}
 		_i++
+	}
+	if _subject[0] == "you"
+	{
+		"For now,\w5 I don't really do anything.\w7 "
+	}
+	else
+	{
+		"I don't know.\w7 "
 	}
 }
 
@@ -275,6 +363,7 @@ WhichStatusP
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 WhichStatusN
 {
@@ -305,6 +394,7 @@ WhichStatusN
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 
 WhichImagineP
@@ -336,6 +426,14 @@ WhichImagineP
 		}
 		_i++
 	}
+	if _subject[0] == "you"
+	{
+		"For now,\w5 I don't really do anything.\w7 "
+	}
+	else
+	{
+		"I don't know.\w7 "
+	}
 }
 WhichImagineN
 {
@@ -365,6 +463,14 @@ WhichImagineN
 			_allCO ,= _word
 		}
 		_i++
+	}
+	if _subject[0] == "you"
+	{
+		"For now,\w5 I don't really do anything.\w7 "
+	}
+	else
+	{
+		"I don't know.\w7 "
 	}
 }
 
@@ -397,6 +503,14 @@ WhichActionP
 		}
 		_i++
 	}
+	if _subject[0] == "you"
+	{
+		"For now,\w5 I don't really do anything.\w7 "
+	}
+	else
+	{
+		"I don't know.\w7 "
+	}
 }
 WhichActionN
 {
@@ -426,6 +540,14 @@ WhichActionN
 			_allCO ,= _word
 		}
 		_i++
+	}
+	if _subject[0] == "you"
+	{
+		"For now,\w5 I don't really do anything.\w7 "
+	}
+	else
+	{
+		"I don't know.\w7 "
 	}
 }
 
@@ -458,6 +580,41 @@ WhichCreationP
 		}
 		_i++
 	}
+	if _subject[0] == "you"
+	{
+		if _verb[0] == "draw" || _verb[0] == "paint"
+		{
+			"Some stufzf.\w7 "
+		}
+		elseif _verb[0] == "sculpt"
+		{
+			"\i[10]I don't sculpt.\w7 "
+		}
+		elseif _verb[0] == "create"
+		{
+			"Some stuff.\w7 "
+		}
+		elseif _verb[0] == "craft"
+		{
+			"Nothing in particular.\w7 "
+		}
+		else
+		{
+			"I don't know,\w5 I draw a lot.\w7 "
+		}
+	}
+	elseif _subject[0] == "i"
+	{
+		"I don't know,\i[10]\w5 I'm not you.\w7 "
+	}
+	elseif ASEARCH(_subject[1],"human","being","animal","family") || " being" _in_ _subject[1] || " animal" _in_ _subject[1] || " human" _in_ _subject[1] || " family" _in_ _subject[1]
+	{
+		"I don't know.\w7 "
+	}
+	else
+	{
+		"Can it actually create something ?\w7 "
+	}
 }
 WhichCreationN
 {
@@ -487,6 +644,45 @@ WhichCreationN
 			_allCO ,= _word
 		}
 		_i++
+	}
+	if _subject[0] == "you"
+	{
+		if _verb[0] == "draw" || _verb[0] == "paint"
+		{
+			"Some stuff.\w7 "
+		}
+		elseif _verb[0] == "write"
+		{
+			"Some stuff.\w7 "
+		}
+		elseif _verb[0] == "sculpt"
+		{
+			"\i[10]I don't sculpt.\w7 "
+		}
+		elseif _verb[0] == "create"
+		{
+			"Some stuff.\w7 "
+		}
+		elseif _verb[0] == "craft"
+		{
+			"Some things.\w7 Nothing in particular.\w7 "
+		}
+		else
+		{
+			"Some stuff.\w7 "
+		}
+	}
+	elseif _subject[0] == "i"
+	{
+		"I don't know,\i[10]\w5 I'm not you.\w7 "
+	}
+	elseif ASEARCH(_subject[1],"human","being","animal","family") || " being" _in_ _subject[1] || " animal" _in_ _subject[1] || " human" _in_ _subject[1] || " family" _in_ _subject[1]
+	{
+		"I don't know.\w7 "
+	}
+	else
+	{
+		"Can it actually create something ?\w7 "
 	}
 }
 
@@ -519,6 +715,7 @@ WhichSeeP
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 WhichSeeN
 {
@@ -549,6 +746,7 @@ WhichSeeN
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 
 WhichSmellP
@@ -580,6 +778,7 @@ WhichSmellP
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 WhichSmellN
 {
@@ -610,6 +809,7 @@ WhichSmellN
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 
 WhichTouchP
@@ -641,6 +841,7 @@ WhichTouchP
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 WhichTouchN
 {
@@ -671,6 +872,7 @@ WhichTouchN
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 
 WhichHearP
@@ -702,6 +904,7 @@ WhichHearP
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 WhichHearN
 {
@@ -732,6 +935,7 @@ WhichHearN
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 
 WhichTasteP
@@ -763,6 +967,7 @@ WhichTasteP
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 WhichTasteN
 {
@@ -793,9 +998,14 @@ WhichTasteN
 		}
 		_i++
 	}
+	"I don't know.\w7 "
 }
 
 WhichHaveP
-{}
+{
+	"I don't know.\w7 "
+}
 WhichHaveN
-{}
+{
+	"I don't know.\w7 "
+}

@@ -2148,6 +2148,21 @@ WhatHaveP
 		}
 		_i++
 	}
+	if _subject[0] == "you"
+	{
+		if _COI[0] != "0" && _COI[0] != "" && _COI[0] != "noCOI"
+		{
+			"I don't know.\w7 "
+		}
+		else
+		{
+			"A lot of stuff actually.\w7 "
+		}
+	}
+	else
+	{
+		"I don't know."
+	}
 }
 WhatHaveN
 {
@@ -2177,5 +2192,20 @@ WhatHaveN
 			_allCO ,= _word
 		}
 		_i++
+	}
+	if _subject[0] == "you"
+	{
+		if _COI[0] != "0" && _COI[0] != "" && _COI[0] != "noCOI"
+		{
+			"I don't know.\w7 "
+		}
+		else
+		{
+			"A lot of stuff actually.\w7 "
+		}
+	}
+	else
+	{
+		"I don't know."
 	}
 }
