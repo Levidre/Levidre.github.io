@@ -109,32 +109,260 @@ InitializeNewVariables
 	{
 		isally = 0
 	}
+	if hastranslator != TOINT(hastranslator)
+	{
+		hastranslator = 0
+	}
+	ztalkanim = ("\i[92]","\i[96]","\i[2001]")
+	gtalkanim = ("\i[92]","\i[96]","\i[2001]")
+}
+
+Select.resetZim
+{
+	"\i[2001](You're about to reset your relationship with them. This cannot be undo. Any gift will remain. Do you want to continue?)\n\n[half]"
+	--
+	"\![*]\q[Reset it,ResetRelation]\n\![*]\q[Cancel,close]"
 }
 
 //It's used to change some variables to 1
 
 Select.ResetRelation
 {
-	
+	disguised = 1
+	discovered = 0
+	zimpets = 0
+	girpets = 0
+	zimpunched = 0
+	toldcomputer = 0
+	worried = 0
+	askedirkens = 0
+	askedgaz = 0
+	askeddib = 0
+	askedpak = 0
+	findgircute = 0
+	isally = 0
+	girspoke = 0
+	"%(defaultpose)\i[2001](Reset done.)"
 }
 
 OnMouseDragStart
 {
 	if reference3 == 0
 	{
+		if hasspiderlegs
+		{
+			if disguised != 1
+			{
+				if SHIORI3W.LastSurface[0] < 30
+				{
+					"\s[46]"
+				}
+				else
+				{
+					"\s[66]"
+				}
+			}
+			else
+			{
+				if SHIORI3W.LastSurface[0] < 30
+				{
+					"\s[47]"
+				}
+				else
+				{
+					"\s[67]"
+				}
+			}
+		}
+		else
+		{
+			if disguised != 1
+			{
+				if SHIORI3W.LastSurface[0] < 30
+				{
+					"\s[16]"
+				}
+				else
+				{
+					"\s[36]"
+				}
+			}
+			else
+			{
+				if SHIORI3W.LastSurface[0] < 30
+				{
+					"\s[17]"
+				}
+				else
+				{
+					"\s[37]"
+				}
+			}
+		}
+		--
+		if pickedupzim*-1 < 12
+		{
+			"\i[100]%(arms)%(zfacepalmface)Again?\e"
+		}
+		else
+		{
+			"\i[100]%(arms)%(zboredface)\e"
+		}
 		
-		
+		pickedupzim = 1
+	}
+	else
+	{
+		if disguised == 0
+		{
+			"\1\s[77]"
+		}
+		elseif disguised == 1
+		{
+			"\1\s[87]"
+		}
+		else
+		{
+			"\1\s[86]"
+		}
+		--
+		if pickedupgir*-1 < 12
+		{
+			"%(genthusiastarms)%(ghappyface)Yeeeesss...\e"
+		}
+		else
+		{
+			"%(genthusiastarms)%(ghappyface)\e"
+		}
+		pickedupgir = 1
 	}
 }
 
 OnMouseDragEnd
 {
-	if reference3 == 0
+	if basewarenameex != "SSP"
 	{
-	
+		endDragPoses
 	}
+	else
+	{
+		temppose = endDragPoses
+		OnUpdateCoordinates
+	}
+	
 }
 
+OnUpdateCoordinates
+{
+	surfacescoordinates = IARRAY
+	"\![get,property,OnGetAllCoordinates,currentghost.scope(0).rect,currentghost.scope(1).rect]"
+}
+
+OnGetAllCoordinates
+{
+	surfacescoordinates[0] = TOINT(reference0[0]) + (TOINT(reference0[2])-TOINT(reference0[0]))/2
+	surfacescoordinates[1] = TOINT(reference0[3])
+	surfacescoordinates[2] = TOINT(reference1[0]) + (TOINT(reference1[2])-TOINT(TOINT(reference1[0])))/2
+	surfacescoordinates[3] = TOINT(reference1[3])
+	OnSetShellDirection
+}
+
+OnSetShellDirection
+{
+	_direction = surfacescoordinates[0] - surfacescoordinates[2]
+	if  _direction > lookdirection && lookdirection < 0
+	{
+		lookdirection *= -1
+		"\0\![set,scaling,100,100]\1\![set,scaling,100,100]"
+		
+	}
+	elseif _direction < lookdirection && lookdirection > 0
+	{
+		lookdirection *= -1
+		"\0\![set,scaling,-100,100]\1\![set,scaling,-100,100]"
+	}
+	
+	--
+	"%(temppose)"
+}
+
+endDragPoses
+{
+	if reference3 == 0
+	{
+		"\0"
+		--
+		if hasspiderlegs
+		{
+			if disguised != 1
+			{
+				if SHIORI3W.LastSurface[0] < 30
+				{
+					"\s[40]\i[100]%(arms)%(zboredface)\e"
+				}
+				else
+				{
+					"\s[60]\i[100]%(arms)%(zboredface)\e"
+				}
+			}
+			else
+			{
+				if SHIORI3W.LastSurface[0] < 30
+				{
+					"\s[41]\i[100]%(arms)%(zboredface)\e"
+				}
+				else
+				{
+					"\s[61]\i[100]%(arms)%(zboredface)\e"
+				}
+			}
+		}
+		else
+		{
+			if disguised != 1
+			{
+				if SHIORI3W.LastSurface[0] < 30
+				{
+					"\s[10]\i[100]%(arms)%(zboredface)\e"
+				}
+				else
+				{
+					"\s[30]\i[100]%(arms)%(zboredface)\e"
+				}
+			}
+			else
+			{
+				if SHIORI3W.LastSurface[0] < 30
+				{
+					"\s[11]\i[100]%(arms)%(zboredface)\e"
+				}
+				else
+				{
+					"\s[31]\i[100]%(arms)%(zboredface)\e"
+				}
+			}
+		}
+		pickedupzim = 0
+	}
+	else
+	{
+		"\1"
+		--
+		if disguised == 0
+		{
+			"\1\s[70]%(arms)%(gsatisfiedface)\e"
+		}
+		elseif disguised == 1
+		{
+			"\1\s[80]%(arms)%(gsatisfiedface)\e"
+		}
+		else
+		{
+			"\1\s[81]%(arms)%(gsatisfiedface)\e"
+		}
+		pickedupgir = 0
+	}
+}
 
 //If the user has the good idea to close the input box.
 OnUserInputCancel

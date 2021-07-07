@@ -18,33 +18,58 @@ OnInitialize
 
 }
 
+OnNotifyBalloonInfo
+{
+	balloonname = "%(reference0)"
+	balloonpath = "%(reference1)"
+}
+
+OnBalloonChange
+{
+	balloonname = "%(reference0)"
+	balloonpath = "%(reference1)"
+}
+
+OnNotifyFontInfo
+{
+	_i = SAORI("saori\fontinstaller","get","Irken Normal (TrueType)")
+	if "%(_i)" != "0" && hastranslator == -1
+	{
+		hastranslator = 0
+	}
+}
+
 //--OnFirstBoot--
 
-//OnFirstBoot is, as you can probably guess, what happens when your user first boots up your ghost. This is where you'll want to set up an introduction and ask your user for information your ghost will need, like their name and what pronouns they'll be using. This will only run the first time they are booted!
-
-//*********************Advanced User Info*******************************
-//Because this only runs once and under an odd set of circumstances, it can be hard to test if this function is working properly. Trying to run the entire function using \![raise,OnFirstBoot] will instead bring up your alternate dialogue, so sadly you can't check it that way. Because OnFirstBoot has the / slash I talked about in the walkthrough page on scripting, you can't run it very easily through Script Input either unless you do so in pieces, and you won't be able to check your menu options. You CAN however paste it all into your Test Variable in menu.dic, so you can try that instead to test it properly. Only paste your dialogue/choices, not the values, and make sure to delete it from the test variable when you're through.
-
-//If you're going to be adding new variables and values and such, make sure you define them all in OnFirstBoot! You can make any value you want, but it has to equal SOMEthing to exist at first. Then you can do whatever with it.
-//***********************************************************************
-
-
 OnFirstBoot
-{
-//OnFirstBoot begins with some code at first to define some values your ghost will be using. I'll briefly touch on what they are, but for the most part you should not need to edit any of these and you can safely ignore most of them (except nowshell if you've changed your shell folder's name from default_shell). Definitely don't delete them unless you know what you're doing.
+{	
+	OnFirstBootStuff
+	OnInitBootVariables
+	_i = SAORI("saori\fontinstaller","get","Irken Normal (TrueType)")
+	if "%(_i)" == "0"
+	{
+		"\![enter,passivemode]\1\s[-1]\0\s[-1]The Irken font isn't installed. Some dialogues need this font. Do you want it to be installed?\n\n[half]\![*]\q[Yes,installirken]     \![*]\q[No,nofont]"
+	}
+	else
+	{
+		OnFirstBootDialogue
+	}
+}
 
-	dayslot = GetDaySlot
-	timeslot = GetTimeSlot
- 	lastTalk = "" //This is part of how chained conversations work (see aitalk.dic).
-	passmin = 0 
-	passsec = 0 // These two keep track of the time.
-	passhour = 0
-	
-	conversation = "ready"
-	nbconv = 0
-	mikireflag       = 0	// Determines behavior at certain points.
-	sleepingtime = 0 //The time he has been asleep
-	rename = 0
+OnFirstBootDialogue
+{
+	"\![enter,passivemode]\0\s[11]\i[50]\i[121]\i[122]\1\s[80]\i[50]\i[100]\i[101]\i[66]\i[140]\i[190]\0\i[60]\i[101]\i[149]\i[191] What?\w7\i[102] Where am I?\i[101]\i[127]\i[128]\1\i[148]\i[198]\i[54]\i[127]\i[128]\i[54]\i[96]Hahaha!!!\w7 New place!\w8\i[100]\i[101]\i[50]\i[62]\i[140]\i[190]\0\n\n[half]\i[133]\i[134]\i[98]\i[143]\i[193]Gir!\w7\i[129]\i[130] It's not the right moment.\w7 We must determine where we are.\n\w7\w7\w7\i[126]\i[100]\i[64]Mmh?!?\w7 Who are you?\x\w5\0\c\i[2001](What are your pronouns?)\n\n[half]"
+	--
+	"\w5\_q\![*]\q[He/Him/His,choicefirsthehim]\n/
+	\![*]\q[She/Her/Hers,choicefirstsheher]\n/
+	\![*]\q[They/Them/Their,choicefirsttheythem]"
+		
+	--
+	"\![set,otherghosttalk,true]\![set,otherghosttalk,before]\![raise,OnFirstBootStuff]\e"
+}
+
+OnFirstBootStuff
+{
 	disguised = 1
 	discovered = 0
 	zimpets = 0
@@ -59,61 +84,26 @@ OnFirstBoot
 	findgircute = 0
 	isally = 0
 	girspoke = 0
+	hastranslator = 0
+	girpunched = 0
+	lookdirection = 1
+	
 
 	cumuhour = 0
-	username = "USER" //This sets a temporary name for the user. It'll be replaced when they tell the ghost their name.
+	username = "TEMPUSER" //This sets a temporary name for the user. It'll be replaced when they tell the ghost their name.
 	teachusername    = 0	// Related to them learning your name.
 	aitalkinterval = 400 //Their default talk rate.
 	birthdayprint = "????" //A temporary value for the user's birthday.
 	talktime = "5 minutes" //How the value aitalkinterval will display in the config menu.
 	deleteshitai = "OFF" //Sets whether or not the user can uninstall the ghost to "OFF". The user can change it later in the config menu (see menu.dic). 
 	nowshell = "Normal shell" //This is for a special if check in aitalk.dic to see what shell the ghost is using. You should use the name of your default shell folder here.
-	chename = 0 //If the user has a weird name
+
 	useraffection = 0 
 	helloday = IARRAY
 	helloday = (month,day,0)
-		
-		--
-		if reference0 == 0 //Don't touch this line.
-		{
-			"\0\s[11]\i[50]\i[121]\i[122]\1\s[80]\i[50]\i[100]\i[101]\i[66]\i[140]\i[190]"
-			--
-			"\![enter,passivemode]\0\i[60]\i[101]\i[149]\i[191] What?\w7\i[102] Where am I?\i[101]\i[127]\i[128]\1\i[148]\i[198]\i[54]\i[127]\i[128]\i[54]\i[96]Hahaha!!!\w7 New place!\w8\i[100]\i[101]\i[50]\i[62]\i[140]\i[190]\0\n\n[half]\i[133]\i[134]\i[98]\i[143]\i[193]Gir!\w7\i[129]\i[130] It's not the right moment.\w7 We must determine where we are.\n\w7\w7\w7\i[126]\i[100]\i[64]Mmh?!?\w7 Who are you?\x\w5\0\c\i[2001](What are your pronouns?)\n\n[half]"
-			--
-			
-			"\w5\_q\![*]\q[He/Him/His,choicefirsthehim]\n/
-			\![*]\q[She/Her/Hers,choicefirstsheher]\n/
-			\![*]\q[They/Them/Their,choicefirsttheythem]"
-
-			
-			//There's a lot going on here, but what you mostly need to remember is to enter Passivemode at the beginning, and make sure not to touch the bottom part that starts with \w5\_q where the options are set up. Do whatever you like with the rest of the dialogue though! Make sure to set up poses for both characters right when you start, otherwise one will be invisible until they speak.
-			//Note also the use of the \x and \c tags. Read more about them in the intermediate SakuraScript section of the walkthrough if you're curious.
-			
-			//*********************Advanced User Info*******************************
-			//You can rename the choices at the bottom anything you like. The basic structure of a choice goes like \q[Displayed Name,Linkedfunction]. So for example, \q[Do a Dance,danceitup] would display "Do a Dance" in the balloon and it would link to the function titled "danceitup".
-			//Note - Do not include quotation marks in the displayed name, or any other symbols like brackets or dialogue coding like \_a, since that'll break the option in the balloon. If you do this you'll notice pretty quickly. Also option names do not word wrap, so don't make them too long if your balloon is small.
-			
-			//If you remember my note from above about the difference between On functions, this is one place it comes up. If your linked function in this menu doesn't start with On, like danceitup up there, you'll have to preface it in the following code with Select.danceitup. You can see this at work below here. However, if it does have On, such as OnDanceitup, then you can simply name the function in the code as OnDanceitup. Take a look whenever functions are defined and how they're called in the files,and it should come together for you.
-			
-			//If you link to a function that doesn't exist, the ghost will do nothing. This can be handy for "Cancel" type functions, just point it at something that doesn't exist if you don't want to have a specific bit of cancel dialogue.
-			
-			//If you want your ghost to just refer to your user as "they" and want to skip the pronoun business altogether, then you can just delete the choices and end the dialogue with \e. You'll want to go into menu.dic and delete the pronoun choice option from the config menu as well.
-			//***********************************************************************
-		}
-		else
-		{
-			//---- This is dialogue for when you load them after the first time. It's a failsafe, as the OnBoot dialogue will mostly pre-empt it, but you can't be too careful. You'll see this if you try to run OnFirstBoot using ![raise].
-			{
-			"\1\s[1]\0\s[10]\i[45]* This is the alternate OnFirstBoot dialogue."
-			}
-		}
-		
-	--
-	"\![set,otherghosttalk,true]\![set,otherghosttalk,before]\![raise,OnFirstBootStuff]\e"
-}
-
-OnFirstBootStuff
-{
+	ztalkanim = ("\i[92]","\i[96]","\i[2001]")
+	gtalkanim = ("\i[92]","\i[96]","\i[2001]")
+	
 	CreateGhostList
 }
 
@@ -211,8 +201,9 @@ OnBoot
 	if dayslot != "11month 1day" && dayslot != "10month 31day"
 	{
 	}		
-	--
-	OnGreetingDialogue
+	temppose = OnGreetingDialogue
+	OnUpdateCoordinates
+	
 }
 
 OnBootStuff
@@ -232,6 +223,11 @@ OnInitBootVariables
 	timeslot = GetTimeSlot
 	rename = 0
 	worried = 0
+	mikireflag       = 0	// Determines behavior at certain points.
+	sleepingtime = 0 //The time he has been asleep
+	wasspiderbusy = 0
+	girfoundfood = 0
+	lookdirection = 1
 }
 
 //--normalboottalk
@@ -265,7 +261,7 @@ OnGreetingDialogue
 		
 	}
 	--
-	//If it's the first time of the day Zim sees the user, she will greet them.
+	//If it's the first time of the day Zim sees the user, he will greet them.
 	if helloday[2] != 1 && dayslot != "11month 1day"
 	{
 		if timeslot == "morning" || timeslot == "earlymorning"
@@ -331,72 +327,96 @@ normalboottalk
 	{
 		"\0\s[19]%(zsmile)\![enter,passivemode]\i[121]\i[122]\i[112]\i[114]\i[100]\i[146]\i[196]\i[300]\i[2]\i[99]\f[italic,true]WH\i[145]\i[195]AA\i[96]AA\i[109]\i[144]\i[194]AA\i[151]\i[201]AH\i[142]\i[192]HHHHHH\i[153]\i[203]!!!\f[italic,false]\nWhat have you done?\w7 Why did you have to bring me here \f[italic,true]right now. \i[144]\i[194]You ruined it.\f[italic,false]\1%(ghappy)Yay!\w7 Explosion!\0\n\n[half]\i[143]\i[193]\i[101]\i[123]And you! \w7You're not helpful!\n\i[100]\i[144]\i[194]It was something important and it exploded \f[italic,true]\i[147]\i[197]because you interfered! \w7\i[144]\i[194]Can't you just leave me alone when I'm doing important stuff!!!\f[italic,false]\x\i[2001](He didn't notice anything.)\n\n\n[half]\![*]\q[Have fun of him,discoverlaughing]\n\![*]\q[Kindly telling him something is missing,discoverkindly]"
 	}
-	elseif discovered != 1
+	elseif discovered != 1 && girspoke == 1 && useraffection >= 50 && (weekday < 6 && weekday > 0) && (timeslot == "latenight" || timeslot == "evening" || timeslot == "midnight")
+	{
+		"\0\s[19]%(zsmile)\![enter,passivemode]\i[121]\i[122]\i[112]\i[114]\i[100]\i[146]\i[196]\i[300]\i[2]\i[99]\f[italic,true]WH\i[145]\i[195]AA\i[96]AA\i[109]\i[144]\i[194]AA\i[151]\i[201]AH\i[142]\i[192]HHHHHH\i[153]\i[203]!!!\f[italic,false]\nWhat have you done?\w7 Why did you have to bring me here \f[italic,true]right now. \i[144]\i[194]You ruined it.\f[italic,false]\1%(ghappy)Yay!\w7 Explosion!\0\n\n[half]\i[143]\i[193]\i[101]\i[123]And you! \w7You're not helpful!\n\i[100]\i[144]\i[194]I had to finish this for tomorrow and it exploded \f[italic,true]\i[147]\i[197]because you interfered! \w7\i[144]\i[194]Can't you just leave me alone when I'm doing important stuff! \w7I have to redo it from the beginning before tomorrow skool!!!\f[italic,false]\x\i[2001](He didn't notice anything.)\n\n\n[half]\![*]\q[Have fun of him,discoverlaughing]\n\![*]\q[Kindly telling him something is missing,discoverkindly]"
+	}
+	else
+	{
+		TimesslotBootDialogues
+		if discovered != 1
+		{}
+		else
+		{
+			if (weekday != 6 && weekday != 0 && (hour > 17 || hour < 5)) || weekday == 6 || weekday == 0
+			{
+				SpiderBootDialogues
+			}
+		}
+	}
+
+	--
+	helloday = (month,day,1)
+	"\![embed,OnBootStuff]\![updatebymyself,checkonly]\e"
+}
+
+TimesslotBootDialogues
+{
+	if discovered != 1
 	{
 		if weekday != 6 && weekday != 0
 		{
 			if timeslot == "morning"
 			{
-				"\0%(zpose)%(zeyes)%(zsmile)%(arms)I will miss skool by staying here."
-				"\0%(zpose)%(zeyes)%(zsmile)%(arms)I have to go to skool at this hour."
-				"\0%(zpose)%(zeyes)%(zsmile)%(zrelawedarms)Shouldn't you let me go to skool?"
+				"\0%(znormalpose)%(zeyes)%(zsmile)%(arms)I will miss skool by staying here."
+				"\0%(znormalpose)%(zeyes)%(zsmile)%(arms)I have to go to skool at this hour."
+				"\0%(znormalpose)%(zeyes)%(zsmile)%(zrelawedarms)Shouldn't you let me go to skool?"
 			}
 			elseif timeslot == "earlymorning"
 			{
-				"\0%(zpose)%(zeyes)%(zsmile)\i[100]\i[143]\i[193]Hey! I need to prepare for school!"
+				"\0%(znormalpose)%(zeyes)%(zsmile)\i[100]\i[143]\i[193]Hey! I need to prepare for school!"
 			}
 			elseif timeslot == "lunch"
 			{
-				"\0%(zpose)%(zeyes)%(zsmile)%(zwonderingarms)\i[101]At least won't miss a lot,\w7 the cafetaria food was awful."
-				"\0%(zpose)%(arms)\i[51]\i[100]\i[63]\i[119]\i[120]\i[127]\i[128]Saved from the skool food."
+				"\0%(znormalpose)%(zeyes)%(zsmile)%(zwonderingarms)\i[101]At least won't miss a lot,\w7 the cafetaria food was awful."
+				"\0%(znormalpose)%(arms)\i[51]\i[100]\i[63]\i[119]\i[120]\i[127]\i[128]Saved from the skool food."
 			}
 			elseif timeslot == "afternoon"
 			{
-				"\0%(zpose)%(zrelaxedarms)\i[54]\i[100]\i[69]\i[112]\i[114]\i[127]\i[128]I should be in class."
+				"\0%(znormalpose)%(zrelaxedarms)\i[54]\i[100]\i[69]\i[112]\i[114]\i[127]\i[128]I should be in class."
 			}
 			elseif timeslot == "evening"
 			{
-				"\0%(zpose)%(zrelaxedarms)\i[53]\i[100]\i[65]\i[41]\i[112]\i[114]\i[127]\i[128]I wanted to stay at home."
+				"\0%(znormalpose)%(zrelaxedarms)\i[53]\i[100]\i[65]\i[41]\i[112]\i[114]\i[127]\i[128]I wanted to stay at home."
 			}
 			elseif timeslot == "latenight"
 			{
-				"\0\i[100]\i[53]\i[65]\i[41]\i[112]\i[114]\i[129]\i[128]\i[143]\i[193]It's late! \w7\i[151]Can't you just let me have my daily rest?"
+				"\0%(znormalpose)\i[100]\i[53]\i[65]\i[41]\i[112]\i[114]\i[129]\i[128]\i[143]\i[193]It's late! \w7\i[151]Can't you just let me have my daily rest?"
 			}
 			else
 			{
-				"\0%(zpose)\i[65]%(zsmile)\i[100]\i[52]\i[41]\i[151]\i[201]\i[121]\i[130]I need to sleep as any normal human child right now!"
+				"\0%(znormalpose)\i[65]%(zsmile)\i[100]\i[52]\i[41]\i[151]\i[201]\i[121]\i[130]I need to sleep as any normal human child right now!"
 			}
-
 		}
 		else
 		{
 			if timeslot == "morning"
 			{
-				"\0%(zpose)%(zeyes)%(zsmile)\i[100]%(arms)Can't I have a breakfast as any normal child?"
+				"\0%(znormalpose)%(zeyes)%(zsmile)\i[100]%(arms)Can't I have a breakfast as any normal child?"
 			}
 			elseif timeslot == "earlymorning"
 			{
-				"\0%(zpose)%(zeyes)%(zsmile)\i[100]%(arms)Isn't it a little early?"
+				"\0%(znormalpose)%(zeyes)%(zsmile)\i[100]%(arms)Isn't it a little early?"
 			}
 			elseif timeslot == "lunch"
 			{
-				"\0%(zpose)%(zangryeyes)%(zsmile)\i[100]%(arms)It was a good occasion to have my lunch at home!"
+				"\0%(znormalpose)%(zangryeyes)%(zsmile)\i[100]%(arms)It was a good occasion to have my lunch at home!"
 			}
 			elseif timeslot == "afternoon"
 			{
-				"\0%(zpose)\i[100]\i[52]\i[40]\i[143]\i[193]\i[65]\i[123]\i[130]Eh!\w7 Right in the middle of an exp... of my homework!"
+				"\0%(znormalpose)\i[100]\i[52]\i[40]\i[143]\i[193]\i[65]\i[123]\i[130]Eh!\w7 Right in the middle of an exp... of my homework!"
 			}
 			elseif timeslot == "evening"
 			{
-				"\0%(zpose)%(zeyes)%(zsmile)\i[100]%(arms)\i[65]\i[41]\i[112]\i[114]\i[127]\i[128]I wanted to stay at home."
+				"\0%(znormalpose)%(zeyes)%(zsmile)\i[100]%(arms)\i[65]\i[41]\i[112]\i[114]\i[127]\i[128]I wanted to stay at home."
 			}
 			elseif timeslot == "latenight"
 			{
-				"\0%(zpose)\i[51]\i[100]%(arms)\i[65]\i[41]\i[112]\i[114]\i[129]\i[128]\i[143]\i[193]It's late! \w7\i[151]Can't you just let me have my daily rest?"
+				"\0%(znormalpose)\i[51]\i[100]%(arms)\i[65]\i[41]\i[112]\i[114]\i[129]\i[128]\i[143]\i[193]It's late! \w7\i[151]Can't you just let me have my daily rest?"
 			}
 			else
 			{
-				"\0%(zpose)\i[65]%(zsmile)\i[100]\i[52]\i[41]\i[151]\i[201]\i[121]\i[130]I need to sleep as any normal human child right now!"
+				"\0%(znormalpose)\i[65]%(zsmile)\i[100]\i[52]\i[41]\i[151]\i[201]\i[121]\i[130]I need to sleep as any normal human child right now!"
 			}
 		}
 		--
@@ -408,38 +428,38 @@ normalboottalk
 	}
 	else
 	{
-		if weekday != 6 && weekday != 7
+		if weekday != 6 && weekday != 0
 		{
 			if timeslot == "morning"
 			{
-				"\0%(zpose)%(zeyes)\i[100]%(zsmile)%(arms)I will miss skool by staying here."
-				"\0%(zpose)%(zeyes)\i[100]%(zsmile)%(arms)I have to go to skool at this hour."
-				"\0%(zpose)%(zeyes)\i[100]%(zsmile)%(zrelaxedarms)\i[142]Shouldn't you let me go to skool?"
+				"\0%(znormalpose)%(zeyes)\i[100]%(zsmile)%(arms)I will miss skool by staying here."
+				"\0%(znormalpose)%(zeyes)\i[100]%(zsmile)%(arms)I have to go to skool at this hour."
+				"\0%(znormalpose)%(zeyes)\i[100]%(zsmile)%(zrelaxedarms)\i[142]Shouldn't you let me go to skool?"
 			}
 			elseif timeslot == "earlymorning"
 			{
-				"\0%(zpose)%(zeyes)\i[100]%(zsmile)\i[143]\i[193]Hey! I need to prepare for school!"
+				"\0%(znormalpose)%(zeyes)\i[100]%(zsmile)\i[143]\i[193]Hey! I need to prepare for school!"
 			}
 			elseif timeslot == "lunch"
 			{
-				"\0%(zpose)%(zeyes)%(zsmile)%(zrelaxedarms)\i[101]\i[149]At least I won't miss a lot,\w7 the cafetaria food was awful."
-				"\0%(zpose)\i[50]\i[100]%(arms)\i[63]\i[119]\i[120]\i[127]\i[128]Saved from the skool food."
+				"\0%(znormalpose)%(zeyes)%(zsmile)%(zrelaxedarms)\i[101]\i[149]At least I won't miss a lot,\w7 the cafetaria food was awful."
+				"\0%(znormalpose)\i[50]\i[100]%(arms)\i[63]\i[119]\i[120]\i[127]\i[128]Saved from the skool food."
 			}
 			elseif timeslot == "afternoon"
 			{
-				"\0%(zpose)\i[52]\i[100]%(arms)\i[69]\i[112]\i[114]\i[127]\i[128]I should be in class."
+				"\0%(znormalpose)\i[52]\i[100]%(arms)\i[69]\i[112]\i[114]\i[127]\i[128]I should be in class."
 			}
 			elseif timeslot == "evening"
 			{
-				"\0%(zpose)\i[53]\i[100]%(arms)\i[65]\i[41]\i[112]\i[114]\i[127]\i[128]I wanted to stay at home."
+				"\0%(znormalpose)\i[53]\i[100]%(arms)\i[65]\i[41]\i[112]\i[114]\i[127]\i[128]I wanted to stay at home."
 			}
 			elseif timeslot == "latenight"
 			{
-				"\0%(zpose)\i[52]\i[100]\i[65]\i[41]\i[112]\i[114]\i[129]\i[128]\i[143]\i[193]It's late! \w7\i[151]Can't you just let me have my daily rest?"
+				"\0%(znormalpose)\i[52]\i[100]\i[65]\i[41]\i[112]\i[114]\i[129]\i[128]\i[143]\i[193]It's late! \w7\i[151]Can't you just let me have my daily rest?"
 			}
 			else
 			{
-				"\0%(zpose)\i[100]%(zsmile)\i[52]\i[41]\i[151]\i[201]\i[121]\i[130]Shouldn't you sleep as any filthy human being?"
+				"\0%(znormalpose)\i[100]%(zsmile)\i[52]\i[41]\i[151]\i[201]\i[121]\i[130]Shouldn't you sleep as any filthy human being?"
 			}
 
 		}
@@ -447,46 +467,56 @@ normalboottalk
 		{
 			if timeslot == "morning"
 			{
-				"\0%(zpose)%(zeyes)\i[100]%(zsmile)%(arms)I guess I'll have to work later."
+				"\0%(znormalpose)%(zeyes)\i[100]%(zsmile)%(arms)I guess I'll have to work later."
 			}
 			elseif timeslot == "earlymorning"
 			{
-				"\0%(zpose)%(zeyes)\i[100]%(zsmile)%(arms)Isn't it a little early?"
+				"\0%(znormalpose)%(zeyes)\i[100]%(zsmile)%(arms)Isn't it a little early?"
 			}
 			elseif timeslot == "lunch"
 			{
-				"\0%(zpose)%(zeyes)\i[100]%(zsmile)%(arms)It was a good occasion to have my lunch at home!"
+				"\0%(znormalpose)%(zeyes)\i[100]%(zsmile)%(arms)It was a good occasion to have my lunch at home!"
 				
 			}
 			elseif timeslot == "afternoon"
 			{
-				"\0%(zpose)\i[52]\i[100]\i[40]\i[143]\i[193]\i[65]\i[123]\i[130]Eh!\w7 I was working on something!"
+				"\0%(znormalpose)\i[52]\i[100]\i[40]\i[143]\i[193]\i[65]\i[123]\i[130]Eh!\w7 I was working on something!"
 			}
 			elseif timeslot == "evening"
 			{
-				"\0%(zpose)\i[53]\i[100]%(arms)\i[65]\i[41]\i[112]\i[114]\i[127]\i[128]I wanted to stay at home."
+				"\0%(znormalpose)\i[53]\i[100]%(arms)\i[65]\i[41]\i[112]\i[114]\i[127]\i[128]I wanted to stay at home."
 			}
 			elseif timeslot == "latenight"
 			{
-				"\0%(zpose)\i[53]\i[100]\i[65]\i[41]\i[112]\i[114]\i[129]\i[128]\i[143]\i[193]It's late! \w7\i[151]Can't you just let me have my daily rest?"
+				"\0%(znormalpose)\i[53]\i[100]\i[65]\i[41]\i[112]\i[114]\i[129]\i[128]\i[143]\i[193]It's late! \w7\i[151]Can't you just let me have my daily rest?"
 			}
 			else
 			{
-				"\0%(zpose)\i[51]\i[100]%(zsmile)\i[41]\i[151]\i[201]\i[121]\i[130]Shouldn't you sleep as any filthy human being?"
+				"\0%(znormalpose)\i[51]\i[100]%(zsmile)\i[41]\i[151]\i[201]\i[121]\i[130]Shouldn't you sleep as any filthy human being?"
 			}
 		}
 		--
-		"\1\i[127]\i[128]\i[62]"
+		"\1\i[127]\i[128]\i[62]%(garmsup)"
 		--
 		"Hi!!!"
 		"Hello!!!"
 	}
-
-	--
-	helloday = (month,day,1)
-	"\![embed,OnBootStuff]\![updatebymyself,checkonly]\e"
 }
 
+SpiderBootDialogues
+{
+	"\0%(zspiderpose)\i[100]%(zwonderingeyes)\i[152]\i[202]\i[69]\i[132]\i[99]What\i[96]!?! \w7\i[142]\i[192]What are we doing here!?!\i[143]\i[204]\i[133]\i[134]\w7 Urf!\w7 %(zspiderfrontpose)%(zangryeyes)%(zexplainarms)\i[65]\i[100]We were busy! \w7\s[40]%(zworriedface)\i[100]%(zwonderingarms)I have to get it!"
+	"\0%(zspiderpose)\i[100]%(zwonderingeyes)%(zsmile)\i[151]\i[201]You?\w7 %(zboredface)%(zrelaxedarms)I suppose I'll continue my work later."
+	"\0%(zspiderpose)\i[100]%(zwonderingeyes)%(zsmile)\i[151]\i[201]You?\w7 %(zboredface)%(zrelaxedarms)I suppose I'll finish my work later."
+	"\0%(zspiderpose)\i[100]%(zwonderingeyes)%(zsmile)\i[151]\i[201]You?\w7 %(zboredface)%(zrelaxedarms)I suppose I'll have to finish my experiment later."
+	--
+	"\![embed,OnSpiderBusy]"
+}
+
+OnSpiderBusy
+{
+	wasspiderbusy = 1
+}
 
 Select.discoverlaughing
 {
@@ -522,174 +552,201 @@ OnClose
  {
 	timeslot = GetTimeSlot //as you saw above, it's checking the time.
 	--
-	if passhour >= 10
+	if wasspiderbusy != 1
 	{
-		"\0\i[136]\i[137]\i[62]\i[54]\i[40]Finally!!!"
-	}
-	elseif passmin >= 5	//This checks to see if you've had them open for at least five minutes.
-	{
-		
-		if discovered != 1
+		if passhour >= 10
 		{
-			if weekday != 6 && weekday != 7
+			"\0\i[136]\i[137]\i[62]\i[54]\i[40]Finally!!!"
+		}
+		elseif passmin >= 5	|| passhour >= 1//This checks to see if you've had them open for at least five minutes.
+		{
+			
+			if discovered != 1
 			{
-				if timeslot == "morning"
+				if weekday != 6 && weekday != 0
 				{
-					"\0Just in time for skool."
-				}
-				elseif timeslot == "earlymorning"
-				{
-					"\0At least I have time to prepare for skool."
-				}
-				elseif timeslot == "lunch"
-				{
-					"\0I guess I won't go to skool. \w7I'll say I'm sick."
-				}
-				elseif timeslot == "afternoon"
-				{
-					"\0I guess I won't go to skool. \w7I'll say I'm sick."
-				}
-				elseif timeslot == "evening"
-				{
-					"\0Home,\w5 sweet home."
-				}
-				elseif timeslot == "latenight"
-				{
-					"\0Shouldn't you have let me gone earlier to let me have a proper rest or something?"
+					if timeslot == "morning"
+					{
+						"\0Just in time for skool."
+					}
+					elseif timeslot == "earlymorning"
+					{
+						"\0At least I have time to prepare for skool."
+					}
+					elseif timeslot == "lunch"
+					{
+						"\0I guess I won't go to skool. \w7I'll say I'm sick."
+					}
+					elseif timeslot == "afternoon"
+					{
+						"\0I guess I won't go to skool. \w7I'll say I'm sick."
+					}
+					elseif timeslot == "evening"
+					{
+						"\0Home,\w5 sweet home."
+					}
+					elseif timeslot == "latenight"
+					{
+						"\0Shouldn't you have let me gone earlier to let me have a proper rest or something?"
+					}
+					else
+					{
+						"\0Shouldn't you have let me gone earlier to let me have a proper rest or something?"
+					}
+
 				}
 				else
 				{
-					"\0Shouldn't you have let me gone earlier to let me have a proper rest or something?"
-				}
+					if timeslot == "morning"
+					{
+						"\0Nice,\w5 I have my whole day left."
+					}
+					elseif timeslot == "earlymorning"
+					{
+						"\0Nice,\w5 I have my whole day left."
+					}
+					elseif timeslot == "lunch"
+					{
+						"\0Nice,\w5 I have my whole afternoon left."
+					}
+					elseif timeslot == "afternoon"
+					{
+						"\0Mmph, only the evening left..."
+					}
+					elseif timeslot == "evening"
+					{
+						"\0Home,\w5 sweet home."
+					}
+					elseif timeslot == "latenight"
+					{
+						"\0Shouldn't you have let me gone earlier to let me have a proper rest or something?"
+					}
+					else
+					{
+						"\0Shouldn't you have let me gone earlier to let me have a proper rest or something?"
+					}
 
+				}
 			}
 			else
 			{
-				if timeslot == "morning"
+				if weekday != 6 && weekday != 7
 				{
-					"\0Nice,\w5 I have my whole day left."
-				}
-				elseif timeslot == "earlymorning"
-				{
-					"\0Nice,\w5 I have my whole day left."
-				}
-				elseif timeslot == "lunch"
-				{
-					"\0Nice,\w5 I have my whole afternoon left."
-				}
-				elseif timeslot == "afternoon"
-				{
-					"\0Mmph, only the evening left..."
-				}
-				elseif timeslot == "evening"
-				{
-					"\0Home,\w5 sweet home."
-				}
-				elseif timeslot == "latenight"
-				{
-					"\0Shouldn't you have let me gone earlier to let me have a proper rest or something?"
+					if timeslot == "morning"
+					{
+						if disguised != 1
+						{
+							"\0%(OnDisguise)"
+						}
+						--
+						"\0Just in time for skool."
+					}
+					elseif timeslot == "earlymorning"
+					{
+						"\0At least I have time to prepare for skool."
+					}
+					elseif timeslot == "lunch"
+					{
+						if disguised != 1
+						{
+							"\0%(OnDisguise)"
+						}
+						--
+						"\0I guess I won't go to skool. \w7I'll say I'm sick."
+					}
+					elseif timeslot == "afternoon"
+					{
+						if disguised != 1
+						{
+							"\0%(OnDisguise)"
+						}
+						--
+						"\0I guess I won't go to skool. \w7I'll say I'm sick."
+					}
+					elseif timeslot == "evening"
+					{
+						if disguised != 1
+						{
+							"\0%(OnDisguise)"
+						}
+						--
+						"\0Home,\w5 sweet home."
+					}
+					elseif timeslot == "latenight"
+					{
+						"\0None of the day is left."
+					}
+					else
+					{
+						"\0It's very late for human standards."
+					}
+
 				}
 				else
 				{
-					"\0Shouldn't you have let me gone earlier to let me have a proper rest or something?"
-				}
+					if timeslot == "morning"
+					{
+						"\0Nice,\w5 I have my whole day left."
+					}
+					elseif timeslot == "earlymorning"
+					{
+						"\0Nice,\w5 I have my whole day left."
+					}
+					elseif timeslot == "lunch"
+					{
+						"\0Nice,\w5 I have my whole afternoon left."
+					}
+					elseif timeslot == "afternoon"
+					{
+						"\0Mmph, only the evening left..."
+					}
+					elseif timeslot == "evening"
+					{
+						"\0Home,\w5 sweet home."
+					}
+					elseif timeslot == "latenight"
+					{
+						"\0None of the day is left."
+					}
+					else
+					{
+						"\0It's very late for human standards."
+					}
 
+				}
 			}
+		}	
+		else //This dialogue is for if they haven't been open for at least five minutes.
+		{
+			"\0So soon? \w7Well,\w5 that's good."
+			"\0Why have you brought me here for nothing!"
+		}
+	}
+	else
+	{
+		if discovered != 1
+		{
+			"\0%(zpose)%(zangryeyes)\i[100]%(arms)%(zsmile)Finally.\n%(irken)Come on, GIR.\w7 We have stuff to do.\w8\1%(gdutypose)%(gobey)%(irken)Yes master!"
 		}
 		else
 		{
-			if weekday != 6 && weekday != 7
+			if hasspiderlegs != 1
 			{
-				if timeslot == "morning"
-				{
-					if disguised != 1
-					{
-						"\0%(OnDisguise)"
-					}
-					--
-					"\0Just in time for skool."
-				}
-				elseif timeslot == "earlymorning"
-				{
-					"\0At least I have time to prepare for skool."
-				}
-				elseif timeslot == "lunch"
-				{
-					if disguised != 1
-					{
-						"\0%(OnDisguise)"
-					}
-					--
-					"\0I guess I won't go to skool. \w7I'll say I'm sick."
-				}
-				elseif timeslot == "afternoon"
-				{
-					if disguised != 1
-					{
-						"\0%(OnDisguise)"
-					}
-					--
-					"\0I guess I won't go to skool. \w7I'll say I'm sick."
-				}
-				elseif timeslot == "evening"
-				{
-					if disguised != 1
-					{
-						"\0%(OnDisguise)"
-					}
-					--
-					"\0Home,\w5 sweet home."
-				}
-				elseif timeslot == "latenight"
-				{
-					"\0None of the day is left."
-				}
-				else
-				{
-					"\0It's very late for human standards."
-				}
-
+				"%(zspidertransition)%(zangryeyes)\i[100]%(arms)%(zsmile)"
+			}
+			--
+			if discovered != 1
+			{
+				"\0%(irken)Come on, GIR.\w7 We have stuff to do.\w8\1%(irken)%(gdutypose)%(gobey)Yes master!"
 			}
 			else
 			{
-				if timeslot == "morning"
-				{
-					"\0Nice,\w5 I have my whole day left."
-				}
-				elseif timeslot == "earlymorning"
-				{
-					"\0Nice,\w5 I have my whole day left."
-				}
-				elseif timeslot == "lunch"
-				{
-					"\0Nice,\w5 I have my whole afternoon left."
-				}
-				elseif timeslot == "afternoon"
-				{
-					"\0Mmph, only the evening left..."
-				}
-				elseif timeslot == "evening"
-				{
-					"\0Home,\w5 sweet home."
-				}
-				elseif timeslot == "latenight"
-				{
-					"\0None of the day is left."
-				}
-				else
-				{
-					"\0It's very late for human standards."
-				}
-
+				"\0Come on, GIR.\w7 We have stuff to do.\w8\1%(gdutypose)%(gobey)Yes master!"
+				"\0I can finally finish this. \w7Come on, GIR.\w8\1%(gdutypose)%(gobey)Yes master!"
+				"\0Let's get over this. \w7Come on, GIR.\w8\1%(gdutypose)%(gobey)Yes master!"
 			}
 		}
- 	}	
- 	else //This dialogue is for if they haven't been open for at least five minutes.
- 	{
- 		"\0So soon? \w7Well,\w5 that's good."
-		"\0Why have you brought me here for nothing!"
- 	}
-	
+	}
 	
 	SAVEVAR
 	--
@@ -1412,3 +1469,75 @@ ResumeSystemDialogue
 	"\e"*/
 }
 
+Select.installirken
+{
+	_i = SAORI("saori\fontinstaller","get","INVADER-modified (TrueType)")
+	if "%(_i)" == "0"
+	{
+		"(The modified Invader font isn't installed either. It's the Invader font with some characters in plus. It's not necessary and will be used by this balloon anyway. Do you want it installed?)\n\n[half]\![*]\q[Yes,installallfonts]     \![*]\q[No,installirkenonly]"
+	}
+	else
+	{
+		Select.installirkenonly
+	}
+}
+
+Select.nofont
+{
+	"(The Irken talks will be locked until it's installed for this user.)\n\n[half]"
+	--
+	OnFirstBootDialogue
+}
+
+Select.installallfonts
+{
+	_i = SAORI("saori\fontinstaller","install","INVADER-modified (TrueType)",balloonpath + "INVADER-modified.ttf")
+	_j = SAORI("saori\fontinstaller","install","Irken Normal (TrueType)",balloonpath + "Irken.ttf")
+	if "%(_i)" == "" && "%(_j)" == ""
+	{
+		"(Fonts installed.)\n\n[half]"
+	}
+	else
+	{
+		if "%(_i)" != ""
+		{
+			"(There has been an issue installing the Invader font : %(_i))\n(You can install it manually with the files in the Invader balloon.)\n"
+		}
+		if "%(_j)" != ""
+		{
+			"(There has been an issue installing the Irken font : %(_j))\n(You can install it manually with the files in the Invader balloon. The Irken talks will be locked until it's installed for this user.)\n\n[half]"
+			hastranslator = -1
+		}
+		else
+		{
+			hastranslator = 0
+			"\n[half]"
+		}
+		
+	}
+	--
+	if username == "TEMPUSER"
+	{
+		OnFirstBootDialogue
+	}
+}
+
+Select.installirkenonly
+{
+	_j = SAORI("saori\fontinstaller","install","Irken Normal (TrueType)",balloonpath + "Irken.ttf")
+
+	if "%(_j)" != ""
+	{
+		"(There has been an issue installing the Irken font : %(_j))\n(You can install it manually with the files in the Invader balloon. The Irken talks will be locked until it's installed for this user.)\n\n[half]"
+		hastranslator = -1
+	}
+	else
+	{
+		hastranslator = 0
+	}
+	--
+	if username == "TEMPUSER"
+	{
+		OnFirstBootDialogue
+	}
+}

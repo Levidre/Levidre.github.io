@@ -23,6 +23,25 @@ OnTranslate
 	{ //send input box : no event (ref2) , no special flag (ref1)
 		_talk = EVAL('"' + REPLACE(_talk,'"','" + CHR(0x22) + "') + '"')
 	}
+	
+	_temptalk = SPLIT(_talk,"[st]")
+	
+	if ARRAYSIZE(_temptalk) > 1
+	{
+		_talk = ""
+		for _i = 0; _i < ARRAYSIZE(_temptalk);_i++
+		{
+			if _i%2 == 1
+			{
+				_talk += simultanateTalk(_temptalk[_i])
+			}
+			else
+			{
+				_talk += _temptalk[_i]
+			}
+		}
+	}	
+	
    _talk
 }
 
@@ -40,7 +59,36 @@ OnAnchorSelect
 		case reference0 //case is a unique thing I've only really seen here in anchor.dic, and as far as I can tell it sets up reference0 for evaluation to see if matches any of the below criteria, which are all tagged with when. I wouldn't mess with much of this stuff unless you have a better grasp of this kind of thing than I do, haha. You can add as many things here as you want to set up above as long as you follow the basic format.
 		{
 			//It's if the user want to change the playing mode. This will reset the playlists already read except for randomly because if the user doesn't want to quit the random mode, the player will continue to play normally.
-			
+			when "Irkens"
+			{
+				"\0%(zfrontpose)%(zsatisfiedface)%(zexplainarms)\i[100]I'm an irken invader.\w7 %(zrelaxedarms)Irk's my homeworld.\e"
+				"\0%(zfrontpose)%(zsatisfiedface)%(zexplainarms)\i[100]Us Irkens like conquest."
+				"\0%(zfrontpose)%(zplotting)\i[100]Soon this planet will be part of the great Irken Empire."
+				askedirkens = 1
+			}
+			when "Dib"
+			{
+				if discovered == 1
+				{
+					"\0%(zpose)%(zboredeyes)%(zexplainarms)%(zsmile)\i[100]He goes to skool too. \w7He knows who I am and wants to stop me %(zsatisfiedsmile)but I'll always eventually success.\e"
+				}
+				"\0%(zpose)%(zboredeyes)%(zexplainarms)%(zsmile)\i[100]He is just a %(filthy) human going to school too."
+				"\0%(zpose)%(zboredeyes)%(zexplainarms)%(zsmile)\i[100]He is a %(filthy) human whose main activity is annoying me."
+				askeddib = 1
+			}
+			when "Gaz"
+			{
+				"\0%(zpose)%(zboredeyes)%(zexplainarms)%(zsmile)\i[100]She goes to skool too. \w7She is \_a[Dib]Dib\_a's sister.\e"
+				"\0%(zpose)%(zboredeyes)%(zexplainarms)%(zsmile)\i[100]She is a scary human,\w5 she goes to school too."
+				askedgaz = 1
+			}
+			when "Voot"
+			{
+				"\0%(zpose)%(zboredeyes)%(zexplainarms)%(zsmile)\i[100]The Voot Cruiser is my ship."
+				"\0%(zpose)%(zgreat)\i[100]It's an example of how superior Irken technologie is."
+				"\0%(zpose)%(zgreat)\i[100]There isn't anything comparable to it on Earth.\n\n[half]\i[2001](You wonder if it's true.)"
+				"\0%(zpose)%(zgreat)\i[100]There isn't anything comparable to it on Earth.\1\w8\i[92]%(gwonderingarms)%(gsatisfiedface)What about... ?\0%(zlookg)%(zangryeyes)\n\n[half]Nothing at all!"
+			}
 		}
 		
 		
@@ -103,34 +151,138 @@ OnAnchorSelect
 	}
 }
 
-InfoIrkens
+
+simultanateTalk
 {
-	if askedirkens == 1
+	_t = RE_GREP(_argv[0],"(\\0)|(\\1)")
+	_pos = RE_GETPOS()
+	_char = RE_GETSTR()
+	_index = 0
+	_sakura = ""
+	_kero = ""
+	_c = "\0"
+	_stalk = ztalkanim[0]
+	_ktalk = gtalkanim[0]
+	
+	for _i = 0; _i < ARRAYSIZE(_char) ; _i++
 	{
-		"\0%(zfrontpose)%(zsatisfiedface)%(zexplainarms)\i[100]Irkens invaders are preparing the planet to surrender to the armada."
-		"\0%(zfrontpose)%(zsatisfiedface)%(zexplainarms)\i[100]Once the irken armada ends definitely the Earth,\w5 I'll be free to leave this %(filthy) planet."
-		"\0%(zfrontpose)%(zsatisfiedface)%(zexplainarms)\i[100]I'm conquering this %(filthy) planet for my Tallest."
-		"\0%(zfrontpose)%(zsatisfiedface)%(zexplainarms)\i[100]The almighty Tallest are our leaders."
-		"\0%(zfrontpose)%(zhappy)\i[100]We will conquer the universe!"
+		_s = SUBSTR(_argv[0],_index,_pos[_i]-_index)
+		if _c == "\0" && _char[_i] == "\1" && RE_REPLACE(_s,"((\\(_)?([0-9ac-vx-zA-Z?!])(\[[0-9a-zA-Z,\\\.\(\)\[\]'\-;:_!?'*]+\])*)|(\\w[0-9])|(\\b[0-9]))+","") != ""
+		{
+			_sakura += _s
+			_c = "\1"
+		}
+		elseif _c == "\1" && _char[_i] == "\0" && RE_REPLACE(_s,"((\\(_)?([0-9ac-vx-zA-Z?!])(\[[0-9a-zA-Z,\\\.\(\)\[\]'\-;:_!?'*]+\])*)|(\\w[0-9])|(\\b[0-9]))+","") != ""
+		{
+			_kero += _s
+			_c = "\0"
+		}
+		elseif RE_REPLACE(_s,"(\\1)|(\\0)","") != ""
+		{
+			if _c == "\0" {_sakura += _s}
+			elseif _c == "\1" {_kero += _s}
+			_c = _char[_i]
+		}
+		else {_c = _char[_i]}
+		_index = _pos[_i] + 2
 	}
-	else
+	
+	if ARRAYSIZE(_char) > 1
 	{
-		"\0%(zfrontpose)%(zsatisfiedface)%(zexplainarms)\i[100]I'm an irken invader.\w7 %(zrelaxedarms)My homeworld is Irk.\e"
-		askedirkens = 1
+		_s = SUBSTR(_argv[0],_index,STRLEN(_argv[0])-_index)
+		if _c == "\0" &&  RE_REPLACE(_s,"((\\(_)?([0-9ac-vx-zA-Z?!])(\[[0-9a-zA-Z,\\\.\(\)\[\]'\-;:_!?'*]+\])*)|(\\w[0-9])|(\\b[0-9]))+","") != ""
+		{
+			_sakura +=  _s
+			_c = "\1"
+		}
+		elseif _c == "\1" && RE_REPLACE(_s,"((\\(_)?([0-9ac-vx-zA-Z?!])(\[[0-9a-zA-Z,\\\.\(\)\[\]'\-;:_!?'*]+\])*)|(\\w[0-9])|(\\b[0-9]))+","") != ""
+		{
+			_kero += _s
+			_c = "\0"
+		}
+		elseif RE_REPLACE(_s,"(\\1)|(\\0)","") != ""
+		{
+			if _c == "\0" {sakura += _s}
+			elseif _c == "\1" {_kero += _s}
+		}		
+		_whole += SUBSTR(_argv[0],_index,STRLEN(_argv[0])-_index)
+	}	
+	_t = RE_GREP(_sakura,"((\\(_)?([0-9ac-vx-zA-Z?!])(\[[0-9a-zA-Z,\\\.\(\)\[\]'\-;:_!?'*]+\])*)|(\\w[0-9])|(\\b[0-9]))+")
+	_spos = RE_GETPOS()
+	_schar = RE_GETSTR()
+	_slen = RE_GETLEN() 
+	_t = RE_GREP(_kero,"((\\(_)?([0-9ac-vx-zA-Z?!])(\[[0-9a-zA-Z,\\\.\(\)\[\]'\-;:_!?'*]+\])*)|(\\w[0-9])|(\\b[0-9]))+")
+	_kpos = RE_GETPOS()
+	_kchar = RE_GETSTR()
+	_klen = RE_GETLEN() 
+	_sindex = 0
+	_kindex = 0
+	_sgid = 0
+	_kgid = 0
+	
+	_stime = 0
+	_ktime = 0
+	_ttimer = 0
+	_finalstring = ""
+	
+	while _sindex < STRLEN(_sakura) && _kindex < STRLEN(_kero)
+	{
+		_finalstring += "\w1\_q"
+		if _sindex == _spos[_sgid]
+		{
+			_sindex += _slen[_sgid]
+			if "\w" _in_ _schar[_sgid]
+			{
+				_tempg = RE_GREP(_schar[_sgid],"\\w")
+				_tempp = RE_GETPOS()
+				foreach _tempp ; _p {_stime += TOINT(SUBSTR(_schar[_sgid],_p+2,1))}
+			}
+			else
+			{
+				foreach ztalkanim ; _a { if _a _in_ _schar[_sgid]{_stalk = _a} }
+				_finalstring += "\0" + _schar[_sgid]
+			}
+			_sgid++
+		}
+		if _kindex == _kpos[_kgid]
+		{
+			_kindex += _klen[_kgid]
+			if "\w" _in_ _kchar[_kgid]
+			{
+				_tempg = RE_GREP(_kchar[_kgid],"\\w")
+				_tempp = RE_GETPOS()
+				foreach _tempp ; _p {_ktime += TOINT(SUBSTR(_kchar[_kgid],_p+2,1))}				
+			}
+			else
+			{
+				foreach gtalkanim ; _a { if _a _in_ _kchar[_kgid] {_ktalk = _a} }
+				_finalstring += "\1" + _kchar[_kgid]
+			}
+			_kgid++
+		}
+		
+		if _stime == 0
+		{
+			_finalstring += "\0" + SUBSTR(_sakura,_sindex,1)
+			_sindex ++
+			if _ttimer >= 5 { _finalstring += _stalk }
+		}
+		else { _stime -- }
+		
+		if _ktime == 0
+		{
+			_finalstring += "\1" + SUBSTR(_kero,_kindex,1)
+			_kindex ++
+			if _ttimer >= 5 { _finalstring += _ktalk }
+		}
+		else { _ktime-- }
+		if _ttimer >= 5 { _ttimer = 0 }
+		_ttimer++
+		_finalstring += "\_q"		
 	}
+	_finalstring += "\0" + SUBSTR(_sakura,_sindex,STRLEN(_sakura)-sindex)
+	_finalstring += "\1" + SUBSTR(_kero,_kindex,STRLEN(_kero)-kindex)
+	--
+	"%(_finalstring)"
 }
 
-InfoDib
-{
-	if askeddib == 1
-	{
-		"\0%(zpose)%(zboredeyes)%(arms)%(zsmile)\i[100]He ruined one of my plans lately."
-		"\0%(zpose)%(zboredeyes)\i[143]\i[193]%(zsmile)\i[100]He is always annoying me."
-		"\0%(zpose)%(zboredeyes)%(arms)%(zsmile)\i[100]He has a sister."
-	}
-	else
-	{
-		"\0%(zpose)%(zboredeyes)%(zexplainarms)%(zsmile)\i[100]He goes to skool too. \w7He knows who I am and wants to stop me %(zsatisfiedsmile)but I'll always eventually success.\e"
-		askeddib = 1
-	}
-}

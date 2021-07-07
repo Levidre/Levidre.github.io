@@ -8,6 +8,7 @@
 320-360 : left arm
 360-400 : right arm
 400-440 : GIR's legs
+440-480 : other animations
 
 
 
@@ -43,20 +44,20 @@ GIR : 7000 : normal
 ///////////////////////Zim
 
 
-///Other
+Other
 40 : lightning
 41	round
 42	v
 49	empty
 	
-///Antennas
+Antennas
 50 : normal
 51	different
 52	half-down
 53	down
 54	up
 
-///Smiles
+Smiles
 60 : none
 61	beak
 62	big smile
@@ -72,7 +73,7 @@ GIR : 7000 : normal
 92-99 : talk interval
 
 
-///Eyes
+Eyes
 100 : eyes
 101	right
 102 left
@@ -80,7 +81,7 @@ GIR : 7000 : normal
 104	up right
 105	down
 
-///Eyebrows
+Eyebrows
 110 : stop the reduces
 111-112-113-114 : left up, left down, right up, right down
 down
@@ -100,6 +101,7 @@ up
 140 : left arm
 190 : rigth arm
 
+Arms
 140-190 normal
 141-191 side
 142-192 extended
@@ -135,7 +137,8 @@ up
 52	half-down
 53	down
 54	up
-///Smiles
+
+Smiles
 60 : none
 61	beak
 62	big smile
@@ -150,7 +153,7 @@ up
 91 : stop one talk interval
 92-99 : talk interval
 
-///Eyes
+Eyes
 100 : normal eyes
 101 : normal eyes too
 ///Eyebrows
@@ -174,6 +177,7 @@ up
 170 : legs
 190 : rigth arm
 
+Arms
 140-190 normal
 141-191 side
 142-192 extended
@@ -188,31 +192,73 @@ up
 151-201 shrug open
 152-202	closed
 153-203	on head
+154-204	facepalm
+
+189-239 stop arms
+
+299 stop all arms and smiles
+300 stop eating
+301 start eating
+302 eating
+303 part of eating
+
+304 opening the head
+305 close the head
+306 taking piggy
+307 leaving piggy
+308 taking cupcake
+309 leaving cupcake
+
+10,11,12,13,19
+20,21
+30,31
+40,41,48,49
+50,51,58,59
+60,61,68,69
+
+70,71			77
+80,81,82		87
 
 
-
+Free : 14,15,16,17
+Free : 83,84,85,86,87
 
 /// Envelopes : 
 
 defaultpose
 zrandompose
-zpose, gpose, zbackpose, zfrontpose, gdutypose
-zposefront
-zhappy, ghappy, zplotting, zsatisfied, zrelieved, zworried, zwondering,zgreat
+zpose, zbackpose, zfrontpose,zposefront
+znormalpose, znormalbackpose,znormalfrontpose
+zspiderose, zspiderbackpose,zspiderfrontpose
+
+gpose,gdutypose
+
+zhappy,zplotting, zsatisfied, zrelieved, zworried, zwondering, zgreat, zfacepalm
+ghappy, gsatisfied , gobey
 
 zeyes, geyes, zsmile, gsmile, arms
 
-zhappyface, zhappyeyes, ghappyface, zwonderingface, zwonderingeyes, zwonderingarms
+zhappyface, zhappyeyes, zhappyarms
+ghappyface, ghappyeyes, ghappyarms
+
+zwonderingface, zwonderingeyes, zwonderingarms
+gwondering, gwonderingface, gwonderingarms
 zsatisfiedface, zsatisfiedeyes, zsatisfiedsmile
+gsatisfiedface
 
-zangryeyes
-zboredface,zboredeyes, zrelaxedarms
-gsadface, gcryface, ghappyface, ghappyarms
+zfacepalmface,zfacepalmarms
+zangryface, zangryeyes,zangryarms
+zboredface,zboredeyes
+zgreatface,zgreatarms
+gobeyface, gobeyarms
+gsadface, gcryface
+
 zworriedface, zworriedeyes, zworriedarms
-zexplainarms, gcryface,genthusiastarms, grandomarms
+zexplainarms, zrelaxedarms, zpowerfularms
+genthusiastarms, grandomarms, garmsup
 
 
-
+hasspiderlegs,zspidertransition
 
 
 

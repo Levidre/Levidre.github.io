@@ -29,6 +29,7 @@ dic, zim-anchor.dic
 dic, zim-UInteractions.dic
 dic, zim-serikoparser.dic
 dic, zim-chain.dic
+dic, zim-plan.dic
 
 
 //---- Log Location -------------------------------------------------------------------------

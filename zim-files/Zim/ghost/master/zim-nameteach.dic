@@ -108,19 +108,7 @@ OnNameTeach
 		//Note that the final line here ends with \e instead of \n/, since it is the final option. If you're copying and pasting to add new options, don't use the final line. More on that in the box below.
 	}
 }
-	//*********************Advanced User Info*******************************
-	//Adding new titles for your users to use is simply a matter of copy and pasting creatively. You can see how the ghost puts together the title and your name in the Select. sections below. Above, you simply need to add a new option and link it to a new Select. For example, you could add "\![*]\q[Mistress,titlemistress]\n/" between Ms. and Lady up there, then write up a Select.titlemistress below that fits the pattern of the others.
-	
-	//If you are removing the pronoun system entirely, what you'd want to do is erase everything in that else statement above regarding titles and replace it with something like this.
-	//else
-	//{
-	//username = tempname
-	//"\0\s[0]The user is now called %(username).\e"
-	//}
-	//***********************************************************************
-	
-	//The following Select.title[word] functions add the title to the user's name, then go to the final step, NameDone. You don't have to touch any of these. Advanced users, notice how these match the linked functions in the choices above.
-	
+
 Select.titlenone
 {
 		username = tempname

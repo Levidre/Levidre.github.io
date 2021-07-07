@@ -111,7 +111,7 @@ MouseMoveKero
 					if worried == 0
 					{
 						"\0\i[92]Good totally normal dog."
-						"\0\i[92]\i[136]\i[137]Totally normal dog,\w5 isn'it?"
+						"\0\i[92]\i[136]\i[137]Totally normal dog,\w5 isn't it?"
 						""
 					}
 					
@@ -188,121 +188,129 @@ MouseDoubleClickSakura : nonoverlap
  {
  	if reference4 == "Head" || reference4 == "Face" //here, this is checking to see if the user is double clicking on either the character's head OR their face, which for our purposes means they're hitting the ghost. More about operators at the walkthrough.
 	{ 
-		"%(zpose)\i[100]"
-		--
-		"\0\i[53]\i[42]\i[96]\i[133]\i[134]\i[67]\i[150]\i[200]Ahow!!!\n"
-		"\0\i[53]\i[42]\i[133]\i[96]\i[134]\i[67]\i[150]\i[200]Owh!!!\n"
-		"\0\i[53]\i[42]\i[133]\i[96]\i[134]\i[67]\i[150]\i[200]Ouch!!!\n"
-		"\0\i[53]\i[42]\i[133]\i[96]\i[134]\i[67]\i[150]\i[200]Humph!!!\n"
-		--
-		if discovered != 1
+	
+		if zimpunched <= 0 && "%(_argv[0])" == ""
 		{
-			"\n[half]\1%(gsadface)\i[149]\i[199]"
-			--
-			"Master!!! "
-			"Master! "
-			"Master... "
-			"Mmh!!!"
-			""
-			--			
-			if zimpunched > 15
-			{
-				"\0\i[115]\i[116]\i[123]\i[124]You freak!"
-				"\0\i[117]\i[118]\i[117]\i[116](He shivers.)"
-				"\0\i[115]\i[116]\i[123]\i[124]Monstruosity."
-			}
-			elseif zimpunched > 10
-			{
-				"\0\i[92]"
-				--
-				"\i[141]\i[191]"
-				"\i[145]\i[195]"
-				--
-				"You're a very cruel human."
-				"\i[123]\i[124]\i[115]\i[116]What a cruel human."
-			}
-			elseif zimpunched > 6
-			{
-				"\0"
-				--
-				"\i[92]\i[141]\i[191]You're just as mean as the other humans."
-				"\i[75\i[116]\i[129]\i[130]\i[92]\i[141]\i[191]Dib already did worst."
-				"\i[112]\i[114]\i[123]\i[124]\i[92]\i[145]\i[195]I'll make you pay this!"
-				"\i[112]\i[114]\i[123]\i[124]\i[96]\i[145]\i[195]I'll destroy you!"
-			}
-			else
-			{
-				"\0\i[52]\i[112]\i[114]\i[123]\i[124]\i[96]"
-				--
-				"\i[150]\i[200]"
-				"\i[147]\i[197]"
-				--
-				"\i[112]\i[114]\i[123]\i[124]\i[96]You filthy human! How dare you hitting me!"
-				"\i[112]\i[114]\i[123]\i[124]\i[96]You filthy human! How dare you!"
-				"\i[112]\i[114]\i[123]\i[124]\i[96]How dare you!!!"
-			}
+			"\i[2001](Are you sure you wanna punch him?)\n\n[half]\![*]\q[Yes,yespunchzim]     \![*]\q[No,nopunchzim]"
 		}
 		else
 		{
-			"\n[half]\1"
-			"\n[half]\1Oh no! "
-			"\n[half]\1Oh! "
+			"%(zpose)\i[100]"
 			--
-			"Master!!! "
-			"Master! "
-			"Master... "
+			"\0\i[53]\i[42]\i[96]\i[133]\i[134]\i[67]\i[150]\i[200]Ahow!!!\n"
+			"\0\i[53]\i[42]\i[133]\i[96]\i[134]\i[67]\i[150]\i[200]Owh!!!\n"
+			"\0\i[53]\i[42]\i[133]\i[96]\i[134]\i[67]\i[150]\i[200]Ouch!!!\n"
+			"\0\i[53]\i[42]\i[133]\i[96]\i[134]\i[67]\i[150]\i[200]Humph!!!\n"
 			--
-			"Are you alright?"
-			"Are you ok?"
-			""
-			--
-			
-			if zimpunched > 15
+			if discovered != 1
 			{
-				"\0\i[115]\i[116]\i[129]\i[130](He doesn't respond.)"
-				"\0\i[115]\i[116]\i[129]\i[130]Are you sure to be human?"
-				"\0\i[115]\i[116]\i[123]\i[124]You freak!"
-				"\0\i[117]\i[118]\i[117]\i[116](He shivers.)"
-				"\0\i[115]\i[116]\i[123]\i[124]Monstruosity."
-			}
-			elseif zimpunched > 10
-			{
-				"\0\i[92]"
+				"\n[half]\1%(gsadface)\i[149]\i[199]"
 				--
-				"\i[141]\i[191]"
-				"\i[145]\i[195]"
-				--
-				"You're a very cruel human."
-				"\i[123]\i[124]\i[115]\i[116]What a cruel human."
-				"\i[115]\i[116]\i[129]\i[130]I didn't know humans could be so mean."
-			}
-			elseif zimpunched > 6
-			{
-				"\0"
-				--
-				"\i[150]\i[200]"
-				"\i[145]\i[195]"
-				--
-				"\i[92]You're just as mean as the other humans."
-				"\i[75\i[116]\i[129]\i[130]\i[92]Dib already did worst."
-				"\i[112]\i[114]\i[123]\i[124]\i[92]I'll make you pay this!"
-				"\i[112]\i[114]\i[123]\i[124]\i[96]I'll destroy you!"
+				"Master!!! "
+				"Master! "
+				"Master... "
+				"Mmh!!!"
+				""
+				--			
+				if zimpunched > 15
+				{
+					"\0\i[115]\i[116]\i[123]\i[124]You freak!"
+					"\0\i[117]\i[118]\i[117]\i[116](He shivers.)"
+					"\0\i[115]\i[116]\i[123]\i[124]Monstruosity."
+				}
+				elseif zimpunched > 10
+				{
+					"\0\i[92]"
+					--
+					"\i[141]\i[191]"
+					"\i[145]\i[195]"
+					--
+					"You're a very cruel human."
+					"\i[123]\i[124]\i[115]\i[116]What a cruel human."
+				}
+				elseif zimpunched > 6
+				{
+					"\0"
+					--
+					"\i[92]\i[141]\i[191]You're just as mean as the other humans."
+					"\i[75\i[116]\i[129]\i[130]\i[92]\i[141]\i[191]\_a[Dib]Dib\_a already did worst."
+					"\i[112]\i[114]\i[123]\i[124]\i[92]\i[145]\i[195]I'll make you pay this!"
+					"\i[112]\i[114]\i[123]\i[124]\i[96]\i[145]\i[195]I'll destroy you!"
+				}
+				else
+				{
+					"\0\i[52]\i[112]\i[114]\i[123]\i[124]\i[96]"
+					--
+					"\i[150]\i[200]"
+					"\i[147]\i[197]"
+					--
+					"\i[112]\i[114]\i[123]\i[124]\i[96]You filthy human! How dare you hitting me!"
+					"\i[112]\i[114]\i[123]\i[124]\i[96]You filthy human! How dare you!"
+					"\i[112]\i[114]\i[123]\i[124]\i[96]How dare you!!!"
+				}
 			}
 			else
 			{
-				"\0\i[52]\i[112]\i[114]\i[123]\i[124]\i[96]"
+				"\n[half]\1"
+				"\n[half]\1Oh no! "
+				"\n[half]\1Oh! "
 				--
-				"\i[150]\i[200]"
-				"\i[147]\i[197]"
+				"Master!!! "
+				"Master! "
+				"Master... "
 				--
-				"You filthy human! I'll destroy you and all your kind!"
-				"\i[112]\i[114]\i[123]\i[124]\i[96]You filthy human! How dare you hit me!"
-				"\i[112]\i[114]\i[123]\i[124]\i[96]You filthy human! How dare you!"
-				"\i[112]\i[114]\i[123]\i[124]\i[96]How dare you!!!"
+				"Are you alright?"
+				"Are you ok?"
+				""
+				--
+				
+				if zimpunched > 15
+				{
+					"\0\i[115]\i[116]\i[129]\i[130](He doesn't respond.)"
+					"\0\i[115]\i[116]\i[129]\i[130]Are you sure to be human?"
+					"\0\i[115]\i[116]\i[123]\i[124]You freak!"
+					"\0\i[117]\i[118]\i[117]\i[116](He shivers.)"
+					"\0\i[115]\i[116]\i[123]\i[124]Monstruosity."
+				}
+				elseif zimpunched > 10
+				{
+					"\0\i[92]"
+					--
+					"\i[141]\i[191]"
+					"\i[145]\i[195]"
+					--
+					"You're a very cruel human."
+					"\i[123]\i[124]\i[115]\i[116]What a cruel human."
+					"\i[115]\i[116]\i[129]\i[130]I didn't know humans could be so mean."
+				}
+				elseif zimpunched > 6
+				{
+					"\0"
+					--
+					"\i[150]\i[200]"
+					"\i[145]\i[195]"
+					--
+					"\i[92]You're just as mean as the other humans."
+					"\i[75\i[116]\i[129]\i[130]\i[92]\_a[Dib]Dib\_a already did worst."
+					"\i[112]\i[114]\i[123]\i[124]\i[92]I'll make you pay this!"
+					"\i[112]\i[114]\i[123]\i[124]\i[96]I'll destroy you!"
+				}
+				else
+				{
+					"\0\i[52]\i[112]\i[114]\i[123]\i[124]\i[96]"
+					--
+					"\i[150]\i[200]"
+					"\i[147]\i[197]"
+					--
+					"You filthy human! I'll destroy you and all your kind!"
+					"\i[112]\i[114]\i[123]\i[124]\i[96]You filthy human! How dare you hit me!"
+					"\i[112]\i[114]\i[123]\i[124]\i[96]You filthy human! How dare you!"
+					"\i[112]\i[114]\i[123]\i[124]\i[96]How dare you!!!"
+				}
 			}
+			zimpunched++
+			useraffection -= 5
 		}
-		zimpunched++
-		useraffection -= 5
 	}
 	else
  	{
@@ -320,40 +328,60 @@ MouseDoubleClickKero : nonoverlap
  {
 	if reference4 == "Head" || reference4 == "Face" //here, this is checking to see if the user is double clicking on either the character's head OR their face, which for our purposes means they're hitting the ghost. More about operators at the walkthrough.
 	{
-		"\1%(gsadface)\i[152]\i[202]Ow!!"
-		"\1\i[53]\i[136]\i[137]\i[152]\i[202]Aow aow aow!!"
-		"\1%(gsadface)\i[152]\i[202]Ouch!!"
-		"\1%(gsadface)\i[152]\i[202]Ahow!!"
-		--
-		"\n%(gcryface)"
-		--
-		"\w7Why?"
-		"\w7It hurts!"
-		"\w7Sob."
-		""
-		--
-		if worried != -1
+		if girpunched <= 0 && "%(_argv[0])" == ""
 		{
-			"\w8%(zrandompose)\i[100]%(zworriedface)\i[144]\i[194]Why have you done this?"
-			"\w8%(zrandompose)\i[100]%(zworriedface)\i[144]\i[194]Please don't hit him,\w7 it makes him cry."
-			if discovered != 1
-			{
-				"\w8%(zrandompose)\i[100]%(zwondering)Are human supposed to be violent with their pets?"
-				"\w8%(zrandompose)\i[100]%(zwondering)Are human supposed to be violent with dogs?"
-			}
-			else
-			{
-				"\w8%(zrandompose)\i[100]%(zboredface)%(zrelaxedarms)I would like keeping him intact."
-				"\w8%(zrandompose)\i[100]%(zboredface)%(zwonderingarms)Could you avoid hitting him? \w7%(zrelaxedarms)He could be useful."
-			}
-			
+			"\1\i[2001](Are you sure you wanna punch him?)\n\n[half]\![*]\q[Yes,yespunchgir]     \![*]\q[No,nopunchgir]"
 		}
-		useraffection -= 5
+		else
+		{
+			"\1%(gsadface)\i[152]\i[202]Ow!!"
+			"\1\i[53]\i[136]\i[137]\i[152]\i[202]Aow aow aow!!"
+			"\1%(gsadface)\i[152]\i[202]Ouch!!"
+			"\1%(gsadface)\i[152]\i[202]Ahow!!"
+			--
+			"\n%(gcryface)"
+			--
+			"\w7Why?"
+			"\w7It hurts!"
+			"\w7Sob."
+			""
+			--
+			if worried != -1
+			{
+				"\w8%(zrandompose)\i[100]%(zworriedface)\i[144]\i[194]Why have you done this?"
+				"\w8%(zrandompose)\i[100]%(zworriedface)\i[144]\i[194]Please don't hit him,\w7 it makes him cry."
+				if discovered != 1
+				{
+					"\w8%(zrandompose)\i[100]%(zwondering)Are human supposed to be violent with their pets?"
+					"\w8%(zrandompose)\i[100]%(zwondering)Are human supposed to be violent with dogs?"
+				}
+				else
+				{
+					"\w8%(zrandompose)\i[100]%(zboredface)%(zrelaxedarms)I would like keeping him intact."
+					"\w8%(zrandompose)\i[100]%(zboredface)%(zwonderingarms)Could you avoid hitting him? \w7%(zrelaxedarms)He could be useful."
+				}
+				
+			}
+			girpunched++
+			useraffection -= 5
+		}
 	}
 	else
 	{
 		OpenKeroMenu
 	}
-	
  }
+
+Select.yespunchzim
+{
+	reference4 = "Face"
+	MouseDoubleClickSakura("go")
+}
+
+Select.yespunchgir
+{
+	reference4 = "Face"
+	MouseDoubleClickKero("go")
+}
+
 

@@ -1,7 +1,5 @@
 ﻿//---------------------------Envelopes--------------------------
 
-
-
 defaultpose
 {
 	"%(gpose)"
@@ -31,13 +29,13 @@ defaultpose
 /// Poses
 zpose
 {
-	if disguised != 1
+	if hasspiderlegs
 	{
-		"\0\s[10]"
+		zspiderpose
 	}
 	else
 	{
-		"\0\s[11]"
+		znormalpose
 	}
 }
 gpose
@@ -53,6 +51,29 @@ gpose
 	else
 	{
 		"\1\s[81]"
+	}
+}
+
+znormalpose
+{
+	if disguised != 1
+	{
+		"\0\s[10]"
+	}
+	else
+	{
+		"\0\s[11]"
+	}
+}
+zspiderpose
+{
+	if disguised != 1
+	{
+		"\0\s[40]"
+	}
+	else
+	{
+		"\0\s[41]"
 	}
 }
 
@@ -74,6 +95,17 @@ gdutypose
 
 zposefront
 {
+	if hasspiderlegs
+	{
+		zspiderposefront
+	}
+	else
+	{
+		znormalposefront
+	}
+}
+znormalposefront
+{
 	if disguised != 1
 	{
 		"\0\s[12]"
@@ -83,8 +115,64 @@ zposefront
 		"\0\s[13]"
 	}
 }
+zspiderposefront
+{
+	if disguised != 1
+	{
+		"\0\s[60]"
+	}
+	else
+	{
+		"\0\s[61]"
+	}
+}
+
+zposenormal
+{
+	if hasspiderlegs
+	{
+		zspiderposenormal
+	}
+	else
+	{
+		znormalposenormal
+	}
+}
+znormalposenormal
+{
+	if disguised != 1
+	{
+		"\0\s[32]"
+	}
+	else
+	{
+		"\0\s[33]"
+	}
+}
+zspiderposenormal
+{
+	if disguised != 1
+	{
+		"\0\s[40]"
+	}
+	else
+	{
+		"\0\s[41]"
+	}
+}
 
 zbackpose
+{
+	if hasspiderlegs
+	{
+		zspiderbackpose
+	}
+	else
+	{
+		znormalbackpose
+	}
+}
+znormalbackpose
 {
 	if disguised != 1
 	{
@@ -95,8 +183,31 @@ zbackpose
 		"\0\s[21]"
 	}
 }
+zspiderbackpose
+{
+	if disguised != 1
+	{
+		"\0\s[50]"
+	}
+	else
+	{
+		"\0\s[51]"
+	}
+}
 
 zfrontpose
+{
+	if hasspiderlegs
+	{
+		zspiderfrontpose
+
+	}
+	else
+	{
+		znormalfrontpose
+	}
+}
+znormalfrontpose
 {
 	if disguised != 1
 	{
@@ -107,6 +218,18 @@ zfrontpose
 		"\0\s[31]"
 	}
 }
+zspiderfrontpose
+{
+	if disguised != 1
+	{
+		"\0\s[60]"
+	}
+	else
+	{
+		"\0\s[61]"
+	}
+}
+
 
 zrandompose
 {
@@ -115,24 +238,25 @@ zrandompose
 	"%(zposefront)"
 }
 
+zsidepose
+{
+	if hasspiderlegs
+	{
+		zspiderposenormal
+		zspidernormalpose
+	}
+	else
+	{
+		znormalposenormal
+		znormalnormalpose
+	}
+}
+
 /// Global poses
 
 zhappy
 {
-	"\0%(zhappyface)"
-	--
-	if RAND(4) == 0
-	{
-		"\i[145]\i[195]"
-	}
-	else
-	{
-		"\i[147]"
-		"\i[150]"
-		--
-		"\i[197]"
-		"\i[200]"
-	}
+	"\0%(zhappyface)%(zhappyarms)"
 	
 }
 ghappy
@@ -235,6 +359,21 @@ zworried
 	"%(zworriedface)%(zworriedarms)"
 }
 
+zgreat
+{
+	"%(zgreatface)\i[100]%(zgreatarms)"
+}
+
+zangry
+{
+	"%(zangryface)%(zangryarms)"
+}
+
+zfacepalm
+{
+	"\0%(zfacepalmface)%(zfacepalmarms)"
+}
+
 zwondering
 {
 	"%(zwonderingface)%(zwonderingarms)"
@@ -245,31 +384,14 @@ gwondering
 	"%(gwonderingface)%(gwonderingarms)"
 }
 
-zgreat
+gsatisfied
 {
-	"\0"
-	--
-	"\i[100]"
-	--
-	"\i[117]\i[118]\i[111]\i[113]"
-	"\i[115]\i[116]\i[127]\i[128]"
-	--
-	"\i[50]"
-	--
-	"\i[62]"
-	"\i[63]"
-	--
-	"\i[49]"
-	--
-	"\i[144]"
-	"\i[151]"
-	"\i[142]"
-	"\i[150]"
-	"\i[145]"
-	--
-	"\i[201]"
-	"\i[192]"
-	"\i[200]"
+	"%(gsatisfiedface)%(arms)"
+}
+
+gobey
+{
+	"%(gobeyface)%(gobeyarms)"
 }
 
 // Poses parts
@@ -341,6 +463,24 @@ zhappyeyes
 	--
 	"\i[49]"
 }
+zhappyarms
+{
+	"\0"
+	--
+	if RAND(4) == 0
+	{
+		"\i[145]\i[195]"
+	}
+	else
+	{
+		"\i[147]"
+		"\i[150]"
+		--
+		"\i[197]"
+		"\i[200]"
+	}
+}
+
 ghappyface
 {
 	"%(ghappyeyes)"
@@ -552,30 +692,6 @@ zworriedeyes
 	"\i[125]\i[126]\i[112]\i[114]"
 	
 }
-
-zangryeyes
-{
-	"\0"
-	--
-	"\i[40]"
-	"\i[42]"
-	--
-	"\i[52]"
-	"\i[53]"
-	--
-	"\i[123]"
-	"\i[127]"
-	--
-	"\i[124]"
-	"\i[128]"
-	--
-	"\i[112]"
-	"\i[115]"
-	--
-	"\i[114]"
-	"\i[116]"
-}
-
 zworriedarms
 {
 	"\0"
@@ -588,6 +704,137 @@ zworriedarms
 	"\i[191]"
 	"\i[199]"
 }
+
+zangryface
+{
+	"%(zangryeyes)"
+	--
+	"\i[64]"
+	"\i[67]"
+	"\i[65]"
+}
+zangryeyes
+{
+	"\0"
+	--
+	"\i[40]"
+	"\i[42]"
+	--
+	"\i[52]"
+	"\i[53]"
+	--
+	if RAND(3) == 0
+	{
+		"\i[128]\i[127]\i[115]\i[116]"
+	}
+	else
+	{
+		"\i[123]\i[128]"
+		"\i[124]\i[127]"
+		"\i[123]\i[124]"
+		--
+		"\i[112]\i[114]"
+		"\i[115]\i[116]"
+	}
+	
+}
+zangryarms
+{
+	"\0"
+	--
+	"\i[144]\i[194]"
+	"\i[145]\i[195]"
+	"\i[152]\i[202]"
+}
+
+zgreatface
+{
+	"\0"
+	--
+	"\i[117]\i[118]\i[111]\i[113]"
+	"\i[115]\i[116]\i[127]\i[128]"
+	--
+	"\i[50]"
+	--
+	"\i[62]"
+	"\i[63]"
+	--
+	"\i[49]"
+}
+zgreatarms
+{
+	"\0"
+	--
+	"\i[144]"
+	"\i[151]"
+	"\i[142]"
+	"\i[150]"
+	"\i[145]"
+	--
+	"\i[201]"
+	"\i[192]"
+	"\i[200]"
+}
+
+zfacepalmface
+{
+	"\0"
+	--
+	"\i[53]"
+	"\i[51]"
+	"\i[52]"
+	--
+	"\i[40]"
+	"\i[42]"
+	--
+	"\i[61]"
+	"\i[65]"
+	"\i[69]"
+	"\i[68]"
+	--
+	if RAND(5) == 0
+	{
+		"\i[133]\i[134]"
+	}
+	else
+	{
+		"\i[115]"
+		"\i[117]"
+		"\i[119]"
+		--
+		"\i[116]"
+		"\i[118]"
+		"\i[120]"
+		--
+		"\i[127]"
+		"\i[129]"
+		--
+		"\i[124]"
+		"\i[128]"
+		"\i[130]"
+		
+	}
+}
+zfacepalmarms
+{
+	"\0"
+	--
+	{
+		"\i[154]"
+		--
+		"\i[191]"
+		"\i[193]"
+		"\i[202]"
+	}
+	{
+		"\i[141]"
+		"\i[143]"
+		"\i[152]"
+		--
+		"\i[204]"
+	}
+}
+
 
 zrelaxedarms
 {
@@ -608,7 +855,6 @@ zrelaxedarms
 		"\i[190]"
 	}
 }
-
 zexplainarms
 {
 	"\0"
@@ -627,6 +873,67 @@ zexplainarms
 		"\i[141]"
 		"\i[143]"
 	}
+}
+
+zpowerfularms
+{
+	"\0"
+	--
+	"\i[144]"
+	"\i[145]"
+	"\i[150]"
+	--
+	"\i[194]"
+	"\i[195]"
+	"\i[200]"
+}
+
+zpointarms
+{
+	"\0"
+	--
+	{
+		"\i[155]"
+		--
+		"\i[190]"
+		"\i[191]"
+		"\i[193]"
+	}
+	{
+		"\i[140]"
+		"\i[141]"
+		"\i[143]"
+		--
+		"\i[205]"
+	}
+}
+
+zlookg
+{
+	"\0"
+	--
+	_height = surfacescoordinates[1] - surfacescoordinates[3]
+	_width = surfacescoordinates[0] - surfacescoordinates[2]
+	
+	if _width != 0
+	{
+		_tantog = _height*100/_width*lookdirection
+		if _tantog < -35 || _tantog > 85
+		{
+			if _height < 0
+			{
+				"\i[105]"
+			}
+			else
+			{
+				"\i[104]"
+			}
+			return
+		}
+			
+	}
+	--
+	"\i[101]"	
 }
 
 gsadface
@@ -672,6 +979,22 @@ gsatisfiedface
 	"\i[49]"
 }
 
+gobeyface
+{
+	"\1"
+	--
+	"\i[51]"
+	"\i[54]"
+	"\i[50]"
+	--
+	"\i[123]\i[124]"
+	--
+	"\i[60]"
+	"\i[65]"
+	"\i[69]"
+	"\i[67]"
+}
+
 genthusiastarms
 {
 	"\1"
@@ -696,7 +1019,112 @@ grandomarms
 	"\i[203]"
 }
 
+gobeyarms
+{
+	'\1'
+	--
+	{
+		"\i[153]"
+		--
+		"\i[190]"
+		"\i[191]"
+		"\i[202]"
+	}
+	{
+		"\i[203]"
+		--
+		"\i[140]"
+		"\i[141]"
+		"\i[152]"
+	}
+}
 
+garmsup
+{
+	"\1"
+	--
+	{
+		"\i[148]"
+		--
+		"\i[190]"
+		"\i[191]"
+		"\i[198]"
+	}
+	{
+		"\i[198]"
+		--
+		"\i[148]"
+		"\i[142]"
+		"\i[140]"
+		"\i[141]"
+	}
+}
+
+zspidertransition
+{
+	"\0"
+	--
+	if SHIORI3FW.LastSurface[0] == 10 || SHIORI3FW.LastSurface[0] == 12
+	{
+		"\s[48]\w5\w9\w9\s[40]"
+	}
+	elseif SHIORI3FW.LastSurface[0] == 11 || SHIORI3FW.LastSurface[0] == 13
+	{
+		"\s[49]\w5\w9\w9\s[41]"
+	}
+	elseif SHIORI3FW.LastSurface[0] == 20
+	{
+		"\s[48]\w5\w9\w9\s[50]"
+	}
+	elseif SHIORI3FW.LastSurface[0] == 21
+	{
+		"\s[49]\w5\w9\w9\s[51]"
+	}
+	elseif SHIORI3FW.LastSurface[0] == 30
+	{
+		"\s[68]\w5\w9\w9\s[60]"
+	}
+	elseif SHIORI3FW.LastSurface[0] == 31
+	{
+		"\s[69]\w5\w9\w9\s[61]"
+	}
+	elseif SHIORI3FW.LastSurface[0] == 40
+	{
+		"\i[0]\w5\w9\w9\s[10]"
+	}
+	elseif SHIORI3FW.LastSurface[0] == 41
+	{
+		"\i[0]\w5\w9\w9\s[11]"
+	}
+	elseif SHIORI3FW.LastSurface[0] == 50
+	{
+		"\i[0]\w5\w9\w9\s[20]"
+	}
+	elseif SHIORI3FW.LastSurface[0] == 51
+	{
+		"\i[0]\w5\w9\w9\s[21]"
+	}
+	elseif SHIORI3FW.LastSurface[0] == 60
+	{
+		"\i[0]\w5\w9\w9\s[30]"
+	}
+	elseif SHIORI3FW.LastSurface[0] == 61
+	{
+		"\i[0]\w5\w9\w9\s[31]"
+	}
+}
+
+hasspiderlegs
+{
+	if SHIORI3FW.LastSurface[0] < 40
+	{
+		0
+	}
+	else
+	{
+		1
+	}
+}
 
 filthy
 {
@@ -710,6 +1138,14 @@ filthy
 	--
 	""
 	" %(filthy)"
+}
+
+amazing
+{
+	"amazing"
+	"ingenious"
+	"wonderful"
+	"stunning"
 }
 
 badfood
@@ -731,15 +1167,55 @@ goodfood
 	"popcorns"
 }
 
+pak
+{
+	if askedpak != 1
+	{
+		"back thingy"
+		"backpack"
+	}
+	else
+	{
+		"PAK"
+	}
+}
+
 // Language
 irken
 {
-	"\f[name,Irken]"
+	if hastranslator == -1
+	{
+		"\e"
+	}
+	elseif hastranslator != 1
+	{
+		"\f[name,Irken]"
+	}
+	else
+	{
+		if istranslating != 1
+		{
+			"\i[2001](You use the translator.)\n\n[half]"
+			istranslating = 1
+		}
+		--
+		"\f[italic,true]"
+	}
+	
 }
 
 irkens
 {
-	"\f[name,default]"
+	if hastranslator != 1
+	{
+		"\f[name,default]"
+	}
+	else
+	{
+		istranslating = 0
+		"\f[italic,false]"
+	}
+	
 }
 
 fileextent
@@ -817,6 +1293,100 @@ prideflag
 	"pink, yellow and cyan"
 	"yellow, white, purple and black"
 }
+
+book
+{
+	"a fantasy book"
+	"some book about Earth plants"
+	"a book about plants"
+	"a recipe book"
+	"a book about human anatomy"
+	"a book about human behaviour"
+	"a book about love"
+	"a comic"
+	"a sci-fi book"
+	"a thriller book"
+	"a book for kids"
+	"something to read"
+	"your favorite book"
+	"some %(color) book"
+	"some scientific book"
+	"a school book"
+	"some book about animals"
+	"a book about space"
+}
+
+schoolstuff
+{
+	"a pen"
+	"a nice pen"
+	"some marbles"
+	"an ink cartridge"
+	"some glue"
+	"a %(color) pen"
+	"a %(color) felt-pen"
+}
+
+shirt
+{
+	"a space-themed shirt"
+	"a shirt with a galaxy on it"
+	"a %(color) shirt"
+	"a shirt with a music band logo"
+	"a video game themed shirt"
+	"a shirt with three triangles"
+	"a simple shirt"
+}
+
+color
+{
+	"green"
+	"lime"
+	"turquoise"
+	"purple"
+	"magenta"
+	"pink"
+	"blue"
+	"cyan"
+	"black"
+	"grey"
+	"yellow"
+	"white"
+	"brown"
+	"orange"
+	"red"
+}
+
+experimentanimal
+{
+	"chickens"
+	"bats"
+	"octopuses"
+	"squirrels"
+	
+}
+
+//Zim and GIR plans proposition
+zimplanpropositions
+{
+	"%(zimgoodplanproposition)\n%(zimneutralplanproposition)\n%(zimbadplanproposition)"
+	"%(zimbadplanproposition)\n%(zimneutralplanproposition)\n%(zimgoodplanproposition)"
+	"%(zimneutralplanproposition)\n%(zimgoodplanproposition)\n%(zimbadplanproposition)"
+	"%(zimneutralplanproposition)\n%(zimbadplanproposition)\n%(zimgoodplanproposition)"
+	"%(zimgoodplanproposition)\n%(zimbadplanproposition)\n%(zimneutralplanproposition)"
+	"%(zimbadplanproposition)\n%(zimgoodplanproposition)\n%(zimneutralplanproposition)"
+}
+
+girplanpropositions
+{
+	"%(girgoodplanproposition)%(girneutralplanproposition)%(girbadplanproposition)"
+	"%(girbadplanproposition)%(girneutralplanproposition)%(girgoodplanproposition)"
+	"%(girneutralplanproposition)%(girgoodplanproposition)%(girbadplanproposition)"
+	"%(girneutralplanproposition)%(girbadplanproposition)%(girgoodplanproposition)"
+	"%(girgoodplanproposition)%(girbadplanproposition)%(girneutralplanproposition)"
+	"%(girbadplanproposition)%(girgoodplanproposition)%(girneutralplanproposition)"
+}
+
 
 internalenvelope
 {

@@ -92,11 +92,15 @@ MenuRun
 //Would run whatever you want.
 Select.testfunction
 {
-	/*intervalslist =IARRAY
-	surfaceslist= IARRAY
-	ParseShell("\master")
-	Select.scanShellMenu*/
-	//"hello\e\s[20]"
+	//simultanateTalk("\1Hop a test\b2 at the same time. \w7Yay!!!\0\i[92]Hop a test at \i[96]%(zangryeyes)the same time. \w9\w9\w9\w9\w7Don't even start!\0")
+	//"Just before \w9\w9\w9[st]\1Hop a test at the same time. \w7Yay!!!\0\i[92]Hop a test at \i[96]%(zangryeyes)the same time. \w9\w9\w9\w9\w7Don't even start!\0[st]\1%(ghappy)Hahahaha this is fun!\w7 [st]\1Doom doom doom doom doom.\0Gir no again !"
+	//_i = SAORI("saori/fontinstaller.dll","install","Irken Normal (TrueType)",balloonpath+"Irken.ttf")
+	//_i = SAORI("saori/saori_test.dll","remove","Invader Modified")
+	//_i += SAORI("saori/saori_test.dll","remove","Invader Modified")
+	ARRAYSIZE(NeutralTalk)
+	//C:\Users\lisou\AppData\Local\Microsoft\Windows\Fonts\INVADER-modified.ttf
+	//UNLOADLIB("saori/saori_test.dll")
+	
 }
 
 Select.othertestfunction
@@ -706,8 +710,14 @@ Select.zimdosomething
 		\![*]\q[Empty recycle bin,zimChoiceGarbagecan]\n/
 		\![*]\q[Update Zim,zimupdatecheck]\n"
 		--
+		if hastranslator == -1
+		{
+			"\![*]\q[Install the irken font,installirkenonly]\n"
+		}
+		--
 		"\![*]\q[System information,zimChoiceSystemInformation]\n/
-		\![*]\q[Update information,AfterUpdate]\n/
+		\![*]\q[Update information,AfterUpdate]\n\n[half]/
+		\![*]\q[Reset him,resetZim] (WARNING : Cannot be undo)\n\n[half]/
  		\![*]\q[Back to main menu,BACKTOMENU]\e"
 	}
 	else
@@ -743,8 +753,14 @@ Select.girdosomething
 		\![*]\q[Empty recycle bin,girChoiceGarbagecan]\n/
 		\![*]\q[Update Zim,girupdatecheck]\n"
 		--
+		if hastranslator == -1
+		{
+			"\![*]\q[Install the irken font,installirkenonly]\n"
+		}
+		--
 		"\![*]\q[System information,girChoiceSystemInformation]\n/
 		\![*]\q[Update information,AfterUpdate]\n\n[half]/
+		\![*]\q[Reset them,resetZim] (WARNING : Cannot be undo)\n\n[half]/
  		\![*]\q[Back to main menu,BACKTOGIRMENU]\e"
 	}
 }
@@ -756,7 +772,7 @@ Select.zimCALENDAR
 }
 Select.girCALENDAR
 {
-	"\1\i[92]This?\![open,calendar]\0\i[92]\i[101]Good GIR.\1\i[119]\i[120]\i[66]\e"
+	"\1\i[92]This?\![open,calendar]\0\i[92]%(zlookg)Good GIR.\1\i[119]\i[120]\i[66]\e"
 }
 
 Select.zimsspconfig
@@ -766,7 +782,7 @@ Select.zimsspconfig
 
 Select.girsspconfig
 {
-	"\1\i[92]This?\![open,configurationdialog]\0\i[92]\i[101]Good GIR.\1\i[119]\i[120]\i[66]\e"
+	"\1\i[92]This?\![open,configurationdialog]\0\i[92]%(zlookg)Good GIR.\1\i[119]\i[120]\i[66]\e"
 }
 
 Select.zimChoiceGarbagecan
@@ -781,9 +797,8 @@ Select.zimChoiceGarbagecan
 	}
 	elseif _gomicheck >= 1 //If the recycle bin is full.
 	{
-		"\0\i[92]\i[68]\i[127]\i[128]\i[143]\i[193]\i[117]\i[118]I won't empty your garbage.\w7\i[98]\i[101] GIR!\w7 Go for it!\w8\1\i[92]\i[153]\i[123]\i[124]Yes master!\w8\w8\s[-1]\w8\w8\w8\w8\w8\![raise,OnGarbagecanEmpty]\w9\w9\w9\n\c%(defaultpose)\0There,\w5 it must be done.\e"}
+		"\0\i[92]\i[68]\i[127]\i[128]\i[143]\i[193]\i[117]\i[118]I won't empty your garbage.\w7\i[98]%(zlookg) GIR!\w7 Go for it!\w8\1\i[92]\i[153]\i[123]\i[124]Yes master!\w8\w8\s[-1]\w8\w8\w8\w8\w8\![raise,OnGarbagecanEmpty]\w9\w9\w9\n\c%(defaultpose)\0There,\w5 it must be done.\e"}
 }
-
 
 //This is for the SAORI, don't touch it.
 OnGarbagecanEmpty
