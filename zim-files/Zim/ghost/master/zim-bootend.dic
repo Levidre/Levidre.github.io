@@ -228,6 +228,8 @@ OnInitBootVariables
 	wasspiderbusy = 0
 	girfoundfood = 0
 	lookdirection = 1
+	currentanimations = IARRAY
+	currentanimations = ("\0","\1")
 }
 
 //--normalboottalk

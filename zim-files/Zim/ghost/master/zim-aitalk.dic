@@ -293,13 +293,13 @@ NeutralTalk
 		
 		if isally == 1
 		{
-			"\0%(irken)%(zlookg)\i[112]\i[114]\i[92]\i[125]\i[122]Did you let the cake on the fire?\w8\1%(irken)\i[117]\i[118]\i[62]I did.%(irkens)\0\f[italic,true]\w8\i[96]\n\n[half]\i[53]\i[153]\i[203]%(zsmile)\i[54]Whhaaaaaaattt???\f[italic,false]\n\w7\i[53]\i[92]\i[144]\i[194]\i[100]%(username) please I need to go right now. %(zlookg)\w7My base is in danger!!!\n\n[half]\![*]\q[Let him go,goworried]\n\![*]\q[Keep him here,nogoworried]"
+			"\0%(irken)%(zlookg)\i[112]\i[114]\i[92]\i[125]\i[122]Did you let the cake on the fire?\w8\1%(irken)\i[117]\i[118]\i[62]I did.%(irkens)\0\f[italic,true]\w8\i[96]\n\n[half]\i[53]\i[153]\i[203]%(zsmile)%(irkens)\i[54]Whhaaaaaaattt???\f[italic,false]\n\w7\i[53]\i[92]\i[144]\i[194]\i[100]%(username) please I need to go right now. %(zlookg)\w7My base is in danger!!!\n\n[half]\![*]\q[Let him go,goworried]\n\![*]\q[Keep him here,nogoworried]"
 			"\0%(irken)%(zlookg)\i[112]\i[114]\i[92]\i[125]\i[122]Did you let the cake on the fire?\w8\1%(irken)\i[117]\i[118]\i[62]\i[92]Nah,\w5 it was ready.\0\i[127]\i[128]\i[66]\n\n[half]Good.%(irkens)\i[2001]\n\n[half](He seems relieved.)"
 		
 		}
 		else
 		{
-			"\0%(irken)%(zlookg)\i[112]\i[114]\i[92]\i[125]\i[122]Did you let the cake on the fire?\w8\1%(irken)\i[117]\i[118]\i[62]I did.%(irkens)\0\f[italic,true]\w8\i[96]\n\n[half]\i[53]\i[153]\i[203]%(zsmile)\i[54]Whhaaaaaaattt???\f[italic,false]\n\w7\i[53]\i[92]\i[144]\i[194]\i[100]%(username) please I need to go right now.\n\n[half]\![*]\q[Let him go,goworried]\n\![*]\q[Keep him here,nogoworried]"
+			"\0%(irken)%(zlookg)\i[112]\i[114]\i[92]\i[125]\i[122]Did you let the cake on the fire?\w8\1%(irken)\i[117]\i[118]\i[62]I did.%(irkens)\0\f[italic,true]\w8\i[96]\n\n[half]\i[53]\i[153]\i[203]%(zsmile)%(irkens)\i[54]Whhaaaaaaattt???\f[italic,false]\n\w7\i[53]\i[92]\i[144]\i[194]\i[100]%(username) please I need to go right now.\n\n[half]\![*]\q[Let him go,goworried]\n\![*]\q[Keep him here,nogoworried]"
 			"\0%(irken)%(zlookg)\i[112]\i[114]\i[92]\i[125]\i[122]Did you let the cake on the fire?\w8\1%(irken)\i[117]\i[118]\i[62]\i[92]Nah,\w5 it was ready.\0\i[127]\i[128]\i[66]\n\n[half]At least I won't find the house on fire.%(irkens)"
 		
 		}
@@ -324,7 +324,7 @@ NeutralTalk
 		"\0\i[2001]%(zlookg)%(zboredeyes)(He is watching GIR.)"
 		//"\0\i[2001]()"
 		
-		"\0%(zsidepose)%(zwonderingeyes)%(zsmile)%(zlookg)%(zrelaxedarms)%(irken)Did you get the ingredients?%(irkens)\1\w8%(irken)\i[92]%(gsatisfiedface)%(irken)What ingredients?\0\w8%(zpose)%(zfacepalm)%(irken)\i[103]Urgh!\w7 %(zpowerfularms)%(zlookg)I gave you a list of ingredients to get!"
+		"\0%(zsidepose)%(zwonderingeyes)%(zsmile)%(zlookg)%(zrelaxedarms)%(irken)Did you get the ingredients?%(irkens)\1\w8%(irken)\i[92]%(gsatisfiedface)%(irken)What ingredients?\0\n\n[half]\w8%(zpose)%(zfacepalm)%(irken)\i[103]Urgh!\w7 %(zpowerfularms)%(zlookg)I gave you a list of ingredients to get!"
 		
 		"\0%(zpose)%(zboredface)\i[100]%(arms)For how long are you gonna keep us here?"
 		"\0%(irken)%(zpose)%(zeyes)%(zsmile)%(zwonderingarms)\i[101]Maybe I should report to my tallest?%(irkens)"
@@ -511,12 +511,49 @@ NotAllyTalk
 {
 	"\0%(zpose)\i[100]%(zplotting)You will never discover my %(amazing) plan."
 	"\0%(zpose)%(zgreat)\i[100]You will bow to my greatness!"
-	"\0%(zpose)%(zplotting)\i[100]You cannot stop me!"
+	"\0%(zpose)%(zplotting)\i[100]\i[99]You\i[96] cannot stop me!"
 	"\0%(zpose)%(zwondering)\i[100]Are you with \_a[Dib]Dib\_a?"
 	"\0%(zpose)%(zwondering)\i[100]Are you helping the \_a[Dib]Dib\_a human?"
 	"\0%(zpose)%(zwondering)\i[100]Why do you care about this %(filthy) planet?"
+	"\0%(zpose)%(zplotting)\i[102]%(irken)We should get some valuable information here.%(irkens)"
+	"\0\i[92]%(zlookg)%(irken)Keep observing %(himher),\w5 %(zsidepose)%(zplotting)\i[102]We must learn everything we can.%(irkens)\1%(ghappyface)"
+	"\0%(zpose)%(zplotting)\i[100]You computer will be mine soon!"
+	"\0%(zpose)%(zplotting)\i[100]\i[99]Soon\i[96] you will lay in despair!"
+	"\0%(zfrontpose)%(zgreat)\i[100]You can't face us!"
+	"\0%(zfrontpose)%(zgreat)\i[100]Nothing can face the \_a[Irkens]irken\_a armada!"
+	
+	
+	{
+		"\0%(zpose)%(zwondering)Should I conquer this place or the Earth in priority?"
+		--
+		""
+		"\1%(ghappyface)\i[92]Both!"
+	}
+	{
+		"\0\i[92]%(zplotting)%(zlookg)%(irken)What did you learn about %(himhere)?\w8"
+		--
+		"\1%(irken)%(gwondering)\i[92]Huh,\w5 %(ghappyface)%(arms)%(heshe) spends time here!"
+		"\1%(irken)%(gwondering)\i[92]Could we be friend?"
+		"\1%(irken)%(ghappyface)\i[92]It's weird here!"
+		"\1%(irken)%(gsatisfied)\i[92]I don't know!"
+		--
+		""
+		"\0\w8%(zboredface)Something valuable would be useful."
+		"\0\w8%(zboredface)Don't you have something useful?"
+	
+	}
+	{
+		"\0%(zsidepose)%(zplotting)%(irken)%(zlookg)Don't tell %(heshe) our new plan!%(irkens)"
+		"\0%(zsidepose)%(zplotting)%(irken)%(zlookg)Don't tell %(heshe) our %(amazing) plan!%(irkens)"
+		--
+		""
+		"\1\w8%(ghappyface)%(gsatisfiedarms)%(irken)\i[92]Okee dokee!%(irkens)"
+		"\1\w8%(gdutypose)%(gobey)%(irken)\i[92]Yes master!%(irkens)"
+	}
 	
 	"\1%(gsadface)%(arms)\i[92]I can't watch television here.\0%(zangry)%(zlookg)%(irken)Don't tell %(himher) your mission!%(irkens)"
+	--
+	"\e"
 }
 
 ContradictoryTalk
@@ -524,6 +561,18 @@ ContradictoryTalk
 	"\0%(zwondering)\i[92]What are you trying to achieve?"
 	"\0%(zpose)%(zboredface)\i[100]%(zrelaxedarms)You seem weird even by human standards."
 	"\0%(zrandompose)%(zwondering)\i[92]Is punching a demonstration of affection for you?"
+	"\0%(zrandompose)%(zwondering)\i[92]Do you punch all the people you appreciate?"
+	"\0%(zrandompose)%(zwondering)\i[92]If you're punching your friends,\w5 %(zexplainarms)then what are you doing to your enemies?"
+	"\0%(zfacepose)%(zwondering)\i[92]What do you consider a gesture of affection?"
+	
+	"\0%(zrandompose)\i[100]%(zwonderingarms)%(zboredface)\i[2001](He is giving you an unsure look.)"
+	"\0%(zrandompose)\i[100]%(zwonderingarms)%(zboredface)\i[2001](He seems perplexed.)"
+	"\0%(zrandompose)\i[100]%(zwonderingarms)%(zboredface)\i[2001](He looks puzzled.)"
+	
+	"\1\i[92]%(gwondering)%(irken)Can I tell %(himher) about the plan?%(irkens)\w8\0%(zangryface)%(zlookg)%(irken)No!%(irkens)"
+	--
+	"\e"
+	
 }
 
 ReactsOtherGhosts

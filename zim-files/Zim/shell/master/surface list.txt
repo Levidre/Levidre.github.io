@@ -117,8 +117,10 @@ Arms
 152-202	closed
 153-203	on head
 
-
-
+300 stop everything
+301 start writing
+302 writing
+303 stop writing
 
 
 ///////////////////////GIR
@@ -197,7 +199,7 @@ Arms
 189-239 stop arms
 
 299 stop all arms and smiles
-300 stop eating
+300 stop everything
 301 start eating
 302 eating
 303 part of eating
@@ -208,20 +210,23 @@ Arms
 307 leaving piggy
 308 taking cupcake
 309 leaving cupcake
+310 stop eating
+311 keeping piggy
+312 keeping cupcake
 
-10,11,12,13,19
+10,11,12,13,16,17,19
 20,21
-30,31
-40,41,48,49
+30,31,36,37
+40,41,46,47,48,49
 50,51,58,59
-60,61,68,69
+60,61,66,67,68,69
 
 70,71			77
 80,81,82		87
 
 
-Free : 14,15,16,17
-Free : 83,84,85,86,87
+Free : 14,15
+Free : 83,84,85
 
 /// Envelopes : 
 

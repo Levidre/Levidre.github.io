@@ -868,11 +868,11 @@ Select.givegirfood : nonoverlap
 			"%(ghappy)Yay!"
 			"%(ghappyface)%(genthusiastarms)Yay!\w7 Yum!"
 			--
-			"\n\n[half]\i[2001]\i[302](He shoved everything in his mouth.)"
-			"\n\n[half]\i[2001]\i[302](He already ate everything.)"
-			"\n\n[half]\i[2001]\i[302](Everything already disappear in his mouth.)"
+			"\n\n[half]\i[2001]\i[301](He shoved everything in his mouth.)"
+			"\n\n[half]\i[2001]\i[301](He already ate everything.)"
+			"\n\n[half]\i[2001]\i[301](Everything already disappear in his mouth.)"
 			--
-			"%(genthusiastarms)%(ghappyface)"
+			"\i[310]\w1%(genthusiastarms)%(ghappyface)"
 		}
 		{
 			"\1(You give him some %(badfood).)\n\n[half]\i[96]"
@@ -881,13 +881,13 @@ Select.givegirfood : nonoverlap
 			"%(ghappy)Yay!"
 			"%(ghappyface)%(genthusiastarms)Yay!\w7 Yum!"
 			--
-			"\i[302]"
+			"\i[301]"
 			--
 			"\n\n[half]\i[2001](He shoved everything in his mouth.)"
 			"\n\n[half]\i[2001](He already ate everything.)"
 			"\n\n[half]\i[2001](Everything already disappear in his mouth.)"
 			--
-			"%(genthusiastarms)%(ghappyface)"
+			"\i[310]\w1%(genthusiastarms)%(ghappyface)"
 			--
 			if worried != -1
 			{
@@ -909,9 +909,9 @@ Select.givegirfood : nonoverlap
 	}
 	else
 	{
-		"\1(You give him some %(goodfood).\i[302] He shoves everything in his mouth.)%(arms)%(ghappyface)"
+		"\1(You give him some %(goodfood).\i[301] He shoves everything in his mouth.)\i[310]\w1%(arms)%(ghappyface)"
 		{
-			"\1(You give him some %(badfood).\i[302] He shoves everything in his mouth.)%(arms)%(ghappyface)"
+			"\1(You give him some %(badfood).\i[301] He shoves everything in his mouth.)\i[310]\w1%(arms)%(ghappyface)"
 			--
 			if worried != -1
 			{
@@ -922,7 +922,7 @@ Select.givegirfood : nonoverlap
 			
 		}
 		{
-			"\1\i[302](You give him some %(goodfood).)%(arms)%(ghappyface)"
+			"\1\i[301](You give him some %(goodfood).)\i[310]\w1%(arms)%(ghappyface)"
 			--
 			if worried != -1
 			{
