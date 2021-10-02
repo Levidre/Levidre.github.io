@@ -241,7 +241,7 @@ MouseMoveSakura
 								
 							}
 							"\0\i[2001]\f[italic,true]\i[15]\i[49]\i[30]\i[31]She closes her eyes."
-							"\0\i[2001]\f[ialic,true]\i[30]\i[31]\i[49]She releases a little sigh."
+							"\0\i[2001]\f[italic,true]\i[30]\i[31]\i[49]She releases a little sigh."
 							"\0\i[2001]\f[italic,true]\i[45]\i[38]\i[39]She relaxes."
 						}
 						else
@@ -523,17 +523,9 @@ MouseMoveKero
 			stroke = 0
 			if reference4 == "Face" //Put in the name of your collision area you set up for your secondary character here.
  			{
-				"\1\s[1]This is a face touching dialogue.\e"
-				"\1\s[1]This is another face touching dialogue.\e"
-				"\1\s[1]This is yet another face touching dialogue.\e"
-				//Replace this dialogue with your secondary character's dialogue.
  			}
 			elseif reference4 == "Point" //Like above, put in the name of another collision you set up in surfaces.txt for the secondary character. You can keep adding more elseifs like this for any extra collisions you may have set up.
 			{
-				"\1\s[1]This is a point touching dialogue since I don't really have a head, being a triangle.\e"
-				"\1\s[1]This is another point touching dialogue.\e"
-				"\1\s[1]This is yet another point touching dialogue.\e"
-				//Replace this dialogue as appropriate.
 			}
 			
  		}
@@ -568,7 +560,15 @@ OnMouseDoubleClick
 	
  	if reference3 == 0 //if the character is 0, aka your main character
 	{
-		MouseDoubleClickSakura
+		if (reference4 == "Head" || reference4 == "Face") && azpunched <= 0
+		{
+			"%(lsta)Are you sure you wanna punch her ?\f[italic,false]\_q\n\n\n[half]\![*]\q[Yes,gopunchy]     \![*]\q[No,nopunch]"
+		}
+		else
+		{
+			MouseDoubleClickSakura
+		}
+		
  	}
 	elseif reference3 == 1 && nowshell == "Halloween shell"
  	{
@@ -580,6 +580,12 @@ OnMouseDoubleClick
 	{
 		MouseDoubleClickKero
 	}
+ }
+ 
+ Select.gopunchy
+ {
+	 reference4 = "Face"
+	 MouseDoubleClickSakura
  }
 
  //---- MouseDoubleClickSakura ----------------------------------------------------------
@@ -681,15 +687,6 @@ MouseDoubleClickSakura
  
 MouseDoubleClickKero
  {
-	 /*
- 	if reference4 == "Face" || reference4 == "Head" //Triangle doesn't have a separate head really, being a triangle, so this only happens if you doubleclick his face.
-	{
-		"\1\s[1]This is hitting dialogue.\w8ha ha\w8\n\n[half]Quiet.\e"
-		"\1\s[1]This is another hit dialogue.\e"
-		"\1\s[1]This is yet another hit dialogue.\e"
-		"\1\s[1]This is the fourth hitting dialogue.\e"
-		//Replace the dialogue here for the second character with whatever you want. What I said above about adding or trimming still holds here.
- 	}*/
 	_kero = "\1"
 	if nowshell == "Halloween shell"
 	{

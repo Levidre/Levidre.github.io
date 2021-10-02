@@ -1,6 +1,6 @@
 Charset,UTF-8
 __system_settings_version__,2
-balloon,C:\Users\lisou\Documents\Ukagakas\ssp_2_4_19f\balloon\z_undertale\
+balloon,C:\Users\lisou\Documents\Ukagakas\SSP\balloon\z_undertale\
 Char1.balloon.isleft,1
 inputbox.left,359
 balloon0.offset,241.141
@@ -9,7 +9,7 @@ Char0.centery,639
 Char2.centery,367
 balloon1.offset,-45.1
 Char0.balloon.isleft,0
-Char.VirtualDesktop,94ba8f2c-318b-42c6-8465-a90405cb6129
+Char.VirtualDesktop,b73a1b4d-a862-4463-a0d7-7906dd056f53
 Char2.center,1026
 Char0.center,665
 scriptbox.top,84

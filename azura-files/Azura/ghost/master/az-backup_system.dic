@@ -121,7 +121,7 @@ Select.BackupMenu
 		alreadybackup = 1
 		"\![enter,passivemode]\0\b2%(lsta)Since it's your first time here, let's explain some things.\n\n[half]You can choose two folders, one to save into an other. In case of a file present in both, it would be replaced depending of the folder settings (date or size is more important or you're asked which to keep). \nThere are three posibilities for the folders : the first is saved in the second, the second into the first, or both are synchronized (keep the same version of the files in both, the most recent). Of course this settings can be changed. Azura will let a little file with all this information into the first folder you picked up."
 		--
-		"\n\n[half]If you plug in a device, Azura can ask you if you want her to search folders to save. She would search them too each time you want to see them or to change their settings. By default, she won't do it depending on particular ports or directories, but it's \f[bold,true]highly advised she does one or the other\f[bold,false].If she check your whole main drive, she would freeze. A long time. This can be activated in the settings. If you do so, she would only check the port and/or the directories you chose.%(lsto)"
+		"\n\n[half]If you plug in a device, Azura can ask you if you want her to search folders to save. She would search them too each time you want to see them or to change their settings. By default, she won't do it depending on particular ports or directories, but it's \f[bold,true]highly advised she does one or the other\f[bold,false]. If she checks your whole main drive, she would freeze. A long time. This can be activated in the settings. If you do so, she would only check the port and/or the directories you chose.%(lsto)"
 		--
 		"\x\![leave,passivemode]\c%(Select.BackupMenu)"
 		
@@ -259,8 +259,6 @@ Select.removeBackupRepository
 		_name = REPLACE(_path,"\","/")
 		_list = _list + "\_a[%(_backup)]\_q\![*]%(_name)\_a"+"\_q\n"
 	}
-	--
-	"coucou%(_list)"
 }
 
 OnRemoveBackupRepository

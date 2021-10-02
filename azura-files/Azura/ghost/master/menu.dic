@@ -147,6 +147,7 @@ MenuRun
 	--
 	"\e"
 	--
+	test= 0
 	SAVEVAR
 	//These three lead to the Config Menu, the Function menu, and Cancel. You can leave these alone if you like. All the envelopes at the end (see word.dic) basically display the year, month, day, weekday, and time.
 }
@@ -154,13 +155,20 @@ MenuRun
 //Would run whatever you want.
 Select.testfunction
 {
-	_i = FENUM("C:/Users/lisou/Documents/TP info ensisa/\\2A\\")
-	"\_?%(_i)"
+	//_two = IARRAY
+	ChangeLastOccur("testtesttest","est","ost")
+	//--
+	//"\nhop"
 }
+
 Ontest2function
 {
-	"%(Select.testfunction)"
-
+	_one = IARRAY
+	_one ,= "one"
+	_one ,= "one"
+	_one ,= "one"
+	_one ,= "one"
+	_one
 }
 
 GetShells
@@ -1294,12 +1302,13 @@ Select.dosomething
 		--
 		if asleep != 1
 		{
+			//\![*]\q[Send a report,sendreport]\n
 			"\![*]\q[Open calendar,CALENDAR]\n/
 			\![*]\q[Check email,MailCheck]\n/
 			\![*]\q[Empty recycle bin,ChoiceGarbagecan]\n/
 			\![*]\q[Update Azura,keroupdatecheck]\n/
 			\![*]\q[Save the dictionary in a file,CreateUserLibrary]\n/
-			\![*]\q[Send a report,sendreport]\n"
+			"
 		}
 		--
 		"\![*]\q[System information,ChoiceSystemInformation]\n/

@@ -805,9 +805,9 @@ ReplyToGhost
 				}
 				if conversation[0] != "ready"
 				{
-					"* Hum,\w5 I didn't understand a lot.\w7\n"
-					"* Alright."
-					"* Ok."
+					"%(lsto)* Hum,\w5 I didn't understand a lot.\w7\n"
+					"%(lsto)* Alright."
+					"%(lsto)* Ok."
 					"%(lsta)%(conversation[1]) lost her attention.%(lsto)"
 					"%(lsta)She looks satisfied.%(lsto)"
 					nbconv++
@@ -1067,11 +1067,11 @@ ReplyToGhost
 				
 				if conversation[0] != "started"
 				{
-					"* Hum,\w5 I didn't understand a lot.\w7\n"
-					"* Alright."
-					"* Ok."
-					"%(lsta)%(conversation[1]) lost her attention.%(lsto)"
-					"%(lsta)She looks satisfied.%(lsto)"
+					"%(lsto)* Hum,\w5 I didn't understand a lot.\w7\n"
+					"%(lsto)* Alright."
+					"%(lsto)* Ok."
+					"%(lsta)%(conversation[1]) lost her attention."
+					"%(lsta)She looks satisfied."
 					nbconv++
 				}
 				if ASEARCH("Dusty",ghostsencountered)
@@ -1199,11 +1199,11 @@ ReplyToGhost
 				
 				if conversation[0] != "started"
 				{
-					"* Hum,\w5 I didn't understand a lot.\w7\n"
-					"* Alright."
-					"* Ok."
-					"%(lsta)%(conversation[1]) lost her attention.%(lsto)"
-					"%(lsta)She looks satisfied.%(lsto)"
+					"%(lsto)* Hum,\w5 I didn't understand a lot.\w7\n"
+					"%(lsto)* Alright."
+					"%(lsto)* Ok."
+					"%(lsta)%(conversation[1]) lost her attention."
+					"%(lsta)She looks satisfied."
 					nbconv++
 				}
 				conversation[0] =  "started"
@@ -1439,7 +1439,6 @@ ReplyWithPing
 		}
 	}
 }
-
 
 //The closing balloon functions
 OnBalloonBreak

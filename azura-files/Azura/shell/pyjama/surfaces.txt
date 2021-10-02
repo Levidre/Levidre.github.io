@@ -1762,8 +1762,10 @@ surface.append10-14
 	60pattern7,0,0,stop,91
 	60pattern8,0,0,stop,92
 	60pattern9,0,0,stop,62
-	60pattern10,0,0,stop,63
-	60pattern11,0,0,start,61
+	60pattern10,0,0,stop,73
+	60pattern11,0,0,stop,93
+	60pattern12,0,0,stop,63
+	60pattern13,0,0,start,61
 	//60pattern10,00,start,168
 	
 	
@@ -1784,8 +1786,10 @@ surface.append10-14
 	62pattern7,0,0,stop,91
 	62pattern8,0,0,stop,92
 	62pattern9,0,0,stop,60
-	62pattern10,0,0,stop,61
-	62pattern11,0,0,start,63
+	60pattern10,0,0,stop,73
+	60pattern11,0,0,stop,93
+	62pattern12,0,0,stop,61
+	62pattern13,0,0,start,63
 	
 	//62pattern10,00,start,169
 	
@@ -3325,9 +3329,11 @@ surface.append15-18
 	60pattern7,0,0,stop,91
 	60pattern8,0,0,stop,92
 	60pattern9,0,0,stop,62
-	60pattern10,0,0,stop,63
-	60pattern11,0,0,start,61
-	60pattern12,0,0,start,168
+	60pattern10,0,0,stop,73
+	60pattern11,0,0,stop,93
+	60pattern12,0,0,stop,63
+	60pattern13,0,0,start,61
+	60pattern14,0,0,start,168
 	
 	
 	61interval,random,3
@@ -3347,9 +3353,11 @@ surface.append15-18
 	62pattern7,0,0,stop,91
 	62pattern8,0,0,stop,92
 	62pattern9,0,0,stop,61
-	62pattern10,0,0,stop,60
-	62pattern11,0,0,start,63
-	62pattern12,0,0,start,169
+	60pattern10,0,0,stop,73
+	60pattern11,0,0,stop,93
+	62pattern12,0,0,stop,60
+	62pattern13,0,0,start,63
+	62pattern14,0,0,start,169
 	
 
 	63interval,never

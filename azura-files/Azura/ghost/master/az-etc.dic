@@ -48,7 +48,7 @@ OnFileDrop2
 			{
 				"%(lsto)* I add the musics of a playlist to our playlist.\n"
 				--
-				AddPlaylistDropped
+				AddPlaylistDropped(_ref0)
 			}
 			others //Any other file format. As a note here, if you drop something ghost-related on them that does not have an install.txt, then they won't install it and will just say this response. If you are testing your balloon or nar files and you get this response instead of a proper installation, you should check and make sure you have an install.txt in the file!
 			{
@@ -102,11 +102,10 @@ Select.SetWallpaper_Cancel
 //This add the musics of a playlist to our playlist and is the next step of loading a playlist. This only works if you already have a music in the current playlist. If not, only the last music will be added.
 AddPlaylistDropped
 {
-	_f=FOPEN (ref0,"r")
+	_f=FOPEN (_argv[0],"r")
 	_txt=0
 	_i=0
 	AllFilepath = IARRAY
-	--
 	if displaytest == 1
 	{
 		"\b2%(lsto)* I bring all the musics of the playlist.\n"
@@ -114,28 +113,23 @@ AddPlaylistDropped
 	--
 	while _txt != -1 && _i<5000 {
 		_i++
-		_txt = FREAD (ref0)
+		_txt = FREAD (_argv[0])
 		_d = _i-2
-		//先頭にFile*=がついてたらRemove_Song
 		if (STRSTR(_txt,"File%(_d)=",0))==0 
 		{
 			_txt = REPLACE(_txt, "File%(_d)=", "")
 		}
-		//先頭に#EXTM3Uや#EXTINFや[playlist]がついてなかったら○AllFilepathに追加
 		//Si # EXTM 3 U, # EXT NF ou [playlist] n'est pas attache au debut ○ ajoute a AllFilepath
 		if (STRSTR(_txt,"[playlist]",0))!=0 && (STRSTR(_txt,"#EXTM3U:",0))!=0 && (STRSTR(_txt,"#EXTINF:",0))!=0 && _txt!=-1 
 		{
 			AllFilepath = (AllFilepath,_txt)
-			--
-			//"Before, I want %(AllFilepath[0]) and %(AllFilepath[1])."
-			--
 		}
 	}
 	--
 	"* I add the playlist.\n"
 	--
 	addaplaylist = 1
-	FCLOSE (ref0)
+	FCLOSE (_argv[0])
 	if (ARRAYSIZE(AllFilepath)) >=1 {
 	addfiledropped(AllFilepath)
 	// Traitement du fichier de depot
@@ -259,7 +253,6 @@ addfiledropped
 			"\n\n[half]\![*]\q[Play a music,muinplaylist]    \![*]\q[Close,□close]"
 		}
 	}
-//Je ne pouvais pas ajouter de chansons
 //Can't add some musics to the playlist
 	else 
 	{
@@ -270,7 +263,6 @@ addfiledropped
 		//Nombre de chansons deja dans
 	}
 	//It was the final step of loading a playlist, so playlistload become 0 again. The playlist has been loaded.
-	playlistload = 0
 	//sauvegarder
 	SAVEVAR
 	--
@@ -307,7 +299,8 @@ Select.AfterUpdate
 	
 	"\0\f[italic,true]%(azpose)%(arms)\b2\w1\i[2001]"
 	--
-	"Birthday update !\n\n[half]There isn't a lot of new stuff. Beside... the AI now has almost all the responses ! What means you should now be able to say anything to Azura and she will responds accordingly. Only the normal questions are missing. So only the ones that requires a yes/no response. \nIf the AI doesn't work correctly, meaning if Azura isn't responding, try reinitialising her vocabulary in the config menu.\n\n[halt]The anniversary hat shouldn't disappear when Azura is changing her position anymore.\n\n[half]And that's all. It's just a milestone update."
+	"A normal update, there are more dialogues and now they shouldn't be repeated until at least 20 other dialogues have been said.\nThe timer for when she is asleep is fixed. The music player dashboard shouldn't disappear anymore when Azura is changing her outfit."
+	//"Birthday update !\n\n[half]There isn't a lot of new stuff. Beside... the AI now has almost all the responses ! What means you should now be able to say anything to Azura and she will responds accordingly. Only the normal questions are missing. So only the ones that requires a yes/no response. \nIf the AI doesn't work correctly, meaning if Azura isn't responding, try reinitialising her vocabulary in the config menu.\n\n[halt]The anniversary hat shouldn't disappear when Azura is changing her position anymore.\n\n[half]And that's all. It's just a milestone update."
 	//"Quite big update.\nA surface issue with the music dashboard has been solved, an other with the name teach dialogue too. There is a new pose and for once there aren't any error for the normal outfit in the log anymore ! The way the appearance is handled during events has changed. \n\n[half]The backups weren't working anymore, it's now solved.\nA bug where the arms holding Obsidian could appear was present, they shouldn't do it anymore. Azura putting Obsidian down when she was switching to an other ghost was interrupting the change of ghost so she is now forcing it to happen anyway.\n\n[half]A few responses have been made on the AI so there are some new responses in the 'how' and the 'what' questions. The propositions should now be handled correctly.\nAzura will always open her computer if you add songs and choose to play a music immediately.\n\n[half]You must have had to tell Azura to check her mirror for this update. Her usual update website went down so it has been fully transferred to github. From now she will check for updates there. Her report system will sadly stop working but you can still use tumblr, deviantart or discord to contact me."
 	//"Very small update. There was an issue with a surface of the previous update so this one should fix it and a few dialogues are added."
 	//"Quite an emergency update, there has been an issue with the website used for the updates so now there is an other update repository available on github. \nAzura will propose you to use it instead of the usual one if the update fails.\n\n[half]Otherwise there are two new arms and a few new animations, there aren't all integrated in the dialogues though. There are some new communication dialogues with other ghosts as well."
@@ -883,6 +876,7 @@ OnUpdateComplete
 			plateate = ""
 			alreadyeat = 1
 		}
+		lastdialogues = IARRAY
 		--
 		"\0%(lsto)%(azpose)%(arms)"
 		--
@@ -911,8 +905,6 @@ OnUpdateFailure
 	else //for other errors
  	{
  		"* The update could not be completed.\w8The error is '%(reference0)'.\n\n[half]\w7* Maybe you should wait a little. \w7Some errors can happen when Levidre is setting up an update."
-		--
-		"\n* Otherwise there is a mirror on github. \w7 Do you want me to check it ?\n\n\n[half]\![*]\q[Yes,yesupdatemirror]     \i[*]\q[No,noupdatemirror]"
 	}
  }
 

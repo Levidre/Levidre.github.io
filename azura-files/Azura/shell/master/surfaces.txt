@@ -10,8 +10,6 @@
 //Spaghettis, battle arms, crossed arms
 
 
-
-
 kero.tooltips
 {
 	Play,Play/Pause
@@ -114,6 +112,7 @@ surface2
 	9001pattern49,9164,9,overlay,0,0
 	9001pattern50,-1,9,overlay,0,0
 	
+	//turquoise
 	9002interval,never
 	9002pattern0,9189,9,overlay,0,0
 	9002pattern1,9188,9,overlay,0,0
@@ -724,23 +723,6 @@ surface10
 	83pattern8,1066,1,overlay,0,0
 }	
 
-// surface4000
-// {
-	// element0,overlay,surface4000.png,0,0
-	
-	// 2005interval,never
-	// 2005pattern0,0,-1,move,-2,0
-	
-	// 2006interval,never
-	// 2006pattern0,0,-1,move,2,0
-	
-	// 2007interval,never
-	// 2007pattern0,0,-1,move,0,-2
-	
-	// 2008interval,never
-	// 2008pattern0,0,-1,move,0,2
-// }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Battle pose
 surface11
 {
@@ -770,7 +752,7 @@ surface11
 	
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//With Obsidian
 surface12
 {
 	collision0,132,40,177,60,Head
@@ -1245,6 +1227,7 @@ surface13
 	83pattern8,1066,1,overlay,0,0
 }
 
+//Picked up
 surface14
 {
 	collision0,132,40,177,60,Head
@@ -1760,8 +1743,10 @@ surface.append10-14
 	60pattern7,0,0,stop,91
 	60pattern8,0,0,stop,92
 	60pattern9,0,0,stop,62
-	60pattern10,0,0,stop,63
-	60pattern11,0,0,start,61
+	60pattern10,0,0,stop,73
+	60pattern11,0,0,stop,93
+	60pattern12,0,0,stop,63
+	60pattern13,0,0,start,61
 	//60pattern10,00,start,168
 	
 	
@@ -1782,8 +1767,10 @@ surface.append10-14
 	62pattern7,0,0,stop,91
 	62pattern8,0,0,stop,92
 	62pattern9,0,0,stop,60
-	62pattern10,0,0,stop,61
-	62pattern11,0,0,start,63
+	60pattern10,0,0,stop,73
+	60pattern11,0,0,stop,93
+	62pattern12,0,0,stop,61
+	62pattern13,0,0,start,63
 	
 	//62pattern10,00,start,169
 	
@@ -2427,9 +2414,7 @@ surface.append10-14
 	193pattern13,0,0,start,90
 	
 	///Stuffs in plus---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	
-	200interval,never
-	200pattern0,15,0,overlay,0,0
+
 	
 	///To make Azura stop talking
 	2001interval,never
@@ -2456,7 +2441,7 @@ surface15
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+//With Obsidian
 surface17
 {
 	collision0,127,143,173,162,Head
@@ -3324,9 +3309,11 @@ surface.append15-18
 	60pattern7,0,0,stop,91
 	60pattern8,0,0,stop,92
 	60pattern9,0,0,stop,62
-	60pattern10,0,0,stop,63
-	60pattern11,0,0,start,61
-	60pattern12,0,0,start,168
+	60pattern10,0,0,stop,73
+	60pattern11,0,0,stop,93
+	60pattern12,0,0,stop,63
+	60pattern13,0,0,start,61
+	60pattern14,0,0,start,168
 	
 	
 	61interval,random,3
@@ -3346,9 +3333,11 @@ surface.append15-18
 	62pattern7,0,0,stop,91
 	62pattern8,0,0,stop,92
 	62pattern9,0,0,stop,61
-	62pattern10,0,0,stop,60
-	62pattern11,0,0,start,63
-	62pattern12,0,0,start,169
+	60pattern10,0,0,stop,73
+	60pattern11,0,0,stop,93
+	62pattern12,0,0,stop,60
+	62pattern13,0,0,start,63
+	62pattern14,0,0,start,169
 	
 
 	63interval,never
@@ -3889,3 +3878,20 @@ surface28
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// surface4000
+// {
+	// element0,overlay,surface4000.png,0,0
+	
+	// 2005interval,never
+	// 2005pattern0,0,-1,move,-2,0
+	
+	// 2006interval,never
+	// 2006pattern0,0,-1,move,2,0
+	
+	// 2007interval,never
+	// 2007pattern0,0,-1,move,0,-2
+	
+	// 2008interval,never
+	// 2008pattern0,0,-1,move,0,2
+// }

@@ -890,16 +890,16 @@ EnumerationOrList
 //Replace only the lasrt occurence of a character chain in a word
 ChangeLastOccur
 {
-	_word = _argv[0]
+	_tempword = _argv[0]
 	_currentend = _argv[1]
 	_newend = _argv[2]
-	word = SPLIT(_word,"%(_currentend)")
+	_word = SPLIT(_tempword,"%(_currentend)")
 	_newword = ""
 	_i = 0
-	while _i < ARRAYSIZE(word)-1
+	while _i < ARRAYSIZE(_word)-1
 	{
-		_newword += word[_i]
-		if _i == ARRAYSIZE(word)-2
+		_newword += _word[_i]
+		if _i == ARRAYSIZE(_word)-2
 		{
 			_newword += _newend
 		}
@@ -909,7 +909,7 @@ ChangeLastOccur
 		}
 		_i++
 	}
-	_newword += word[ARRAYSIZE(word)-1]
+	_newword += _word[ARRAYSIZE(_word)-1]
 	
 	"%(_newword)"
 }

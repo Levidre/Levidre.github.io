@@ -16,7 +16,6 @@ Select.Musicmenu
 		"\0\b2"
 		--
 		suppr = 0 //Because when the user go to erase a song or a playlist and go back in the menu without erasing anything, the suppr mode is still active so the next thing selected would be erased
-		--
 		if isdrawing == 1
 		{
 			"\![embed,OnDrawing]"
@@ -79,16 +78,164 @@ Select.Musicmenu
 	"\e"
 }
 
+ProcessMusicAnchors
+{
+	case reference0
+	{
+		//It's if the user want to change the playing mode. This will reset the playlists already read except for randomly because if the user doesn't want to quit the random mode, the player will continue to play normally.
+		when "onemu" //if the link is this value
+		{
+			"\![leave,passivemode]* One music will be played.\e"
+			playmode = reference0
+			muplayed = IARRAY
+			break
+		}
+		when "onemuloop" //if the link is this value
+		{
+			"\![leave,passivemode]* The same music will be played in loop.\e"
+			playmode = reference0
+			muplayed = IARRAY
+			break
+		}
+		when "oneplaylist" //if the link is this value
+		{
+			"\![leave,passivemode]* The whole playlist will be played.\e"
+			playmode = reference0
+			muplayed = IARRAY
+			break
+		}
+		when "playlistloop"
+		{
+			"\![leave,passivemode]* The playlist will be played in loop.\e"
+			playmode = reference0
+			muplayed = IARRAY
+			break
+		}
+		when "random"
+		{
+			"\![leave,passivemode]* The musics will be played randomly.\e"
+			playmode = reference0
+			break
+		}
+		when "prevplaylist"
+		{   
+			"\![leave,passivemode]\![raise,OnChoiceSelect,loadprevplaylist]"
+			break
+		}
+	}
+	
+	foreach totalsongs ; song 
+	{
+		//If the user selected a song
+		_name = "%((SPLITPATH(song[0]))[2])"
+		_name = REPLACE(_name,"[","t")
+		_name = REPLACE(_name,"]","t")
+		_name = REPLACE(_name,"(","t")
+		_name = REPLACE(_name,")","t")
+		_name = REPLACE(_name,"{","t")
+		_name = REPLACE(_name,"}","t")
+		_name = REPLACE(_name,",","t")
+		_name = REPLACE(_name,"\","t")
+		_name = REPLACE(_name,"!","t")
+		if reference0 == "%(_name)"
+		{
+			"\![leave,passivemode]"
+			//This music would be removed or played depending on what he wanted.
+			--
+			if rename == 1
+			{
+				if "%(song[1])" != ""
+				{
+					RenameSong(song[1])
+				}
+				else
+				{
+					RenameSong(_name)
+				}
+			}
+			elseif suppr != 1
+			{
+				isplayed = 0
+				songplayed = song
+				Select.playmu
+			}
+			else
+			{
+				suppr = 0
+				songremoved = song
+				Removesong
+			}
+			rename=0
+		}
+		
+	}
+	--
+	if reference0 == TOINT(reference0)
+	{
+		"\![leave,passivemode]"
+		//This music would be removed or played depending on what he wanted.
+		--
+		if suppr != 1
+		{
+			isplayed = 0
+			songplayed = TOINT(reference0)
+			if displaytest == 1
+			{
+				"* I want %(songplayed)"
+			}
+			Select.playmu
+		}
+		else
+		{
+			"* You cannot remove a song of a CD.\e"
+		}
+	}
+	--
+	foreach playlistlist ; playlist
+	{
+		//The same things than for the songs but for the playlists.
+		//The change is that instead of playing a music begin the processus for loading the playlist, so playlistload change to 1. This will change the use of the other functions called.
+		if reference0 == "%(playlist)"
+		{
+			"\![leave,passivemode]"
+			--
+			if suppr != 1
+			{
+				if displaytest == 1
+				{
+					"* I load a playlist so I will save first the one I already have.\n"
+				}
+				--
+				nbmudropped = 0
+				//The fist step in loading a playlist is saving the current one.
+				if currentplaylist != "newone" || ARRAYSIZE(songlist) < 1
+				{
+					currentplaylist = "%(playlist)"
+					Select.cleanplaylist("load","%(playlist)")
+				}
+				else
+				{
+					currentplaylist = "%(playlist)"
+					playlistname = "tempplaylist"
+					Select.saveplaylist
+					--
+					Select.cleanplaylist("load","%(playlist)")
+				}
+			}
+			else
+			{
+				//If the user want to remove a playlist. I have to do a function to erase the file too.
+				suppr = 0
+				playlistremoved = playlist
+				Removeplaylist
+			}
+		}
+	}
+}
+
+
 OnKeyPress
 {
-	//"You pressed %(reference0)"
-
-	/* if displaytest == 1
-	{
-		"*You pressed a key.\n"
-	} */
-	
-	--
 	if reference0 == "t"
 	{
 		OnAiTalk
@@ -101,93 +248,7 @@ OnKeyPress
 	{
 		
 		"\![open,readme]"
-	}/*
-	elseif reference0 == "left"
-	{
-		//if coordinateyl == 3
-		//{
-		if reference2 == 0
-		{
-			"\![move,--X=-30,--Y=0,--time=400,--base=me]"
-		}
-		else
-		{
-			"\![move,--X=-15,--Y=0,--time=20,--base=me]"
-		}
-			//coordinateyl = 0
-		//}
-		//else
-		//{
-			//coordinateyl += 1
-		//}
-		
-		//"\w1\p[2]\s[4000]\i[2005]"
-		
 	}
-	elseif reference0 == "right"
-	{
-		//if coordinateyr == 3
-		//{
-			
-		if reference2 == 0
-		{
-			"\![moveasync,--X=30,--Y=0,--time=600,--base=me]"
-		}
-		else
-		{
-			"\![moveasync,--X=15,--Y=0,--time=20,--base=me]"
-		}
-			//coordinateyr = 0
-		//}
-		//else
-		//{
-		//	coordinateyr += 1
-		//}
-		//"\w1\p[2]\s[4000]\i[2006]"
-		
-	}
-	elseif reference0 == "up"
-	{
-		//if coordinatext == 3
-		//{
-		if reference2 == 0
-		{
-			"\![moveasync,--X=0,--Y=-30,--time=600,--base=me]"
-		}
-		else
-		{
-			"\![moveasync,--X=0,--Y=-15,--time=20,--base=me]"
-		}
-		//	coordinatext = 0
-		//}
-		//else
-		//{
-		//	coordinatext += 1
-		//}
-		//"\w1\p[2]\s[4000]\i[2007]"
-		
-	}
-	elseif reference0 == "down"
-	{
-		//if coordinatexb == 3
-		//{
-		if reference2 == 0
-		{
-			"\![moveasync,--X=0,--Y=30,--time=600,--base=me]"
-		}
-		else
-		{
-			"\![moveasync,--X=0,--Y=15,--time=20,--base=me]"
-		}
-		//	coordinatexb = 0
-		//}
-		//else
-		//{
-		//	coordinatexb +=1
-		//}
-		//"\w1\p[2]\s[4000]\i[2008]"
-		
-	}*/
 	else
 	{	
 		//setkey if the command the user chose to change, if he didn't choose any command to change, setkey would be empty.
@@ -365,7 +426,6 @@ OnKeyPress
 	--
 	//Even if the user didn't want to change any command, always bring back setkey to empty to prevent any problem.
 	setkey = ""
-	--
 	//"\e"
 }
 
@@ -470,7 +530,6 @@ Select.setshowkey
 
 ///The functions to modify the playlist-------------------------------------------------------------------------------------------------------------------------------------------------
 
-//Θ = é Φ = è
 Select.muinplaylist
 {	
 	"\![enter,passivemode]\b2"
@@ -520,10 +579,7 @@ Select.loadprevplaylist
 	"* I load the songs non already saved in your playlists.\n"
 	--
 	currentplaylist = "newone"
-	playlistloaded = "tempplaylist"
-	playlistload = 1
-	--
-	Select.cleanplaylist
+	Select.cleanplaylist("load","tempplaylist")
 }
 //Go back to the music menu.
 Select.backmumenu
@@ -603,22 +659,18 @@ Removeplaylist
 			playlistlist = (playlistlist,playlist)
 		}
 	}
-	--
 	_f = FDEL("..\..\m3u_file\%(playlistremoved).m3u")
-	--
 	"* I removed %(playlistremoved).\e"
 }
 
 Select.cleanplaylist
 {
 	songlist = IARRAY
-	muplayed = IARRAy
-	--
+	muplayed = IARRAY
 	//If the user just wanted to clean the playlist, nothing else happen. But it will clean the whole playlist before adding the musics of a playlist loaded if we're loading a playlist.
-	if playlistload != 1
+	if _argv[0] != "load"//playlistload != 1
 	{
 		currentplaylist = "newone"
-		--
 		"* I have clean the playlist. \w5You can add new musics.\e"
 	}
 	else
@@ -628,8 +680,7 @@ Select.cleanplaylist
 			"* Cleanning the playlist before adding the musics of the playlist.\n"
 		}
 		--
-		ref0 = "..\..\m3u_file\%(playlistloaded).m3u"
-		AddPlaylistDropped
+		AddPlaylistDropped("..\..\m3u_file\%(_arv[1]).m3u")
 	}
 }
 
@@ -664,12 +715,12 @@ OnCheckplaylistname
 	{
 		"* You already have a playlist with this name,\w5 do you want to replace it ?\_q\n\n[half]"
 		--
-		"\![*]\q[Yes,Saveplaylist]    \![*]\q[No,nameplaylist]"
+		"\![*]\q[Yes,saveplaylist]    \![*]\q[No,nameplaylist]"
 	}
 	else
 	{
 		//If the name isn't already used by a playlist, it would directly save the playlist.
-		Select.Saveplaylist
+		Select.saveplaylist
 	}
 }
 //We already know the name of the playlist, so just go straight to the saving function
@@ -686,22 +737,20 @@ Select.savecurrent
 	//Define the name of the playlist that would be saved.
 	playlistname = "%(currentplaylist)"
 	--
-	Select.Saveplaylist
+	Select.saveplaylist
 }
 
 //This will save a playlist for the user. The user will be able after that to load the playlist when he want. If he is loading a playlist, this would save the current musics in an other file before loading the playlist.
-Select.Saveplaylist
+Select.saveplaylist
 {
 	//If a playlist is loading, or if the playlist is updating, we don't need to add the playlist to the list of playlist. If the playlist is updating, reference0 would be savecurrent because it's something selected.
-	if playlistload != 1 && reference0 != "savecurrent"
+	if _argv[0] != "load" && reference0 != "savecurrent"
 	{
 		if displaytest == 1
 		{
 			"* I save your playlist.\n"
 		}
-		--
 		currentplaylist = "%(playlistname)"
-		--
 		//If the user enter the name of a playlist already used, it wouldn't add the name in the list of playlist because we would replace the playlist.
 		if ASEARCH(playlistname,playlistlist) == -1
 		{
@@ -716,7 +765,6 @@ Select.Saveplaylist
 		}
 	}
 	path = "..\..\m3u_file\%(playlistname).m3u"
-	//truc = "%property[ghostlist(Azura).path]testplaylist.m3u"
 	
 	_di = (SPLITPATH(reference1)[0])+(SPLITPATH(reference1)[1])
 	_f = FDEL(_di+"\tmp.m3u")
@@ -757,7 +805,7 @@ Select.Saveplaylist
 	}
 	
 	--
-	if playlistload != 1
+	if _arv[0] != "load"
 	{
 		"* I have saved '%(playlistname)'.\e"
 	}
@@ -769,25 +817,20 @@ Select.Saveplaylist
 		}
 		--
 		//If the user is loading a playlist, after saving the current song, it would clean the playlist before loading the playlist he want.
-		Select.cleanplaylist
 	}
 }
 
 //The user chose the playlist he want to load.
 Select.Openplaylist
 {
-	"\![enter,passivemode]"
-	--
 	myplaylists = ""
-	--
-	"* Here are the playlists saved.\n\n[half]"
+	"\![enter,passivemode]* Here are the playlists saved.\n\n[half]"
 	--
 	//It creates the list of the playlists that would be displayed, each name would be an anchor word.
 	foreach playlistlist ; playlist
 	{
 		myplaylists = myplaylists + "\_a[%(playlist)]\_q\![*]%(playlist)\_a" + "\_q\n"
 	}
-	--
 	//It's the option to load the playlist that isn't saved.
 	if currentplaylist != "newone"
 	{
@@ -795,9 +838,7 @@ Select.Openplaylist
 	}
 	--
 	//It finally display all the name of the playlists.
-	"%myplaylists"
-	--
-	"\n\n[half]\![*]\q[Go back,backmumenu]    \![*]\q[Ok,close]"
+	"%myplaylists\n\n[half]\![*]\q[Go back,backmumenu]    \![*]\q[Ok,close]"
 }
 
 
@@ -907,10 +948,7 @@ Select.playmu
 		_i=SAORI("saori\mciaudior.dll", "play")
 		songpaused = ""
 		
-	}
-	--
-	
-	
+	}	
 }
 
 Select.pausemu
@@ -926,14 +964,14 @@ Select.previousmu
 	isplayed = 0
 	lastsong = totalsongs[ARRAYSIZE(totalsongs)-1]
 	//Determine the index of the song.
-	nb = ASEARCH(songplayed,totalsongs)
+	_nb = ASEARCH(songplayed,totalsongs)
 	--
 	//If the song isn't the first, it uses the index to play the previous one, if it's the first song, the last of the playlist would be played.
 	if playmode != "random"
 	{
-		if nb >= 1
+		if _nb >= 1
 		{
-			songplayed = totalsongs[nb-1]
+			songplayed = totalsongs[_nb-1]
 		}
 		else
 		{
@@ -943,8 +981,8 @@ Select.previousmu
 	}
 	else
 	{
-		nb = ASEARCH(songplayed,muplayed)
-		if nb == 0
+		_nb = ASEARCH(songplayed,muplayed)
+		if _nb == 0
 		{
 			songplayed = ANY(totalsongs)
 			if ARRAYSIZE(totalsongs) > ARRAYSIZE(muplayed)
@@ -971,7 +1009,6 @@ Select.previousmu
 			{
 				_e=SAORI("saori\mcidonut.dll", "play")
 			}
-			--
 			_i=SAORI("saori\mciaudior.dll", "play")
 			songpaused = ""
 			paused = 0
@@ -979,7 +1016,7 @@ Select.previousmu
 		}
 		else
 		{
-			songplayed = muplayed[nb-1]
+			songplayed = muplayed[_nb-1]
 			isplayed = 1
 			if boarddisplayed == 1
 			{
@@ -992,12 +1029,10 @@ Select.previousmu
 			{
 				_e=SAORI("saori\mcidonut.dll", "play")
 			}
-			--
 			_i=SAORI("saori\mciaudior.dll", "play")
 			songpaused = ""
 			paused = 0
 		}
-		
 	}
 	
 }
@@ -1016,15 +1051,14 @@ Select.nextmu
 		}
 		else
 		{
-			nb = ASEARCH(songplayed,totalsongs)
-			songplayed = totalsongs[nb+1]
-			
+			_nb = ASEARCH(songplayed,totalsongs)
+			songplayed = totalsongs[_nb+1]
 		}
 	}
 	else
 	{
-		nb = ASEARCH(songplayed,muplayed)
-		if nb== ARRAYSIZE(muplayed)-1
+		_nb = ASEARCH(songplayed,muplayed)
+		if _nb== ARRAYSIZE(muplayed)-1
 		{
 			songplayed = ANY(totalsongs)
 			while ASEARCH(songplayed,muplayed) != -1
@@ -1034,11 +1068,10 @@ Select.nextmu
 		}
 		else
 		{
-			songplayed = muplayed[nb+1]
+			songplayed = muplayed[_nb+1]
 		}
 	}
 	Select.playmu
-	
 }
 
 SelectableList
@@ -1094,7 +1127,7 @@ OnMAAPlayFinish
 {
 	_f = SAORI("saori\mcidonut.dll", "stop")
 	_f = SAORI("saori\mciaudior.dll","stop")
-	fs = 0
+	_fs = 0
 	isplayed = 0
 	
 	nbtracks = SAORI("saori\mcidonut.dll", "trackcount")
@@ -1117,17 +1150,17 @@ OnMAAPlayFinish
 				{
 					foreach totalsongs ; song
 					{
-						if fs !=1
+						if _fs !=1
 						{
 							if song == songplayed
 							{
-								fs = 1
+								_fs = 1
 							}
 						}
 						elseif songplayed != lastsong
 						{
 							songplayed = song
-							fs = 0
+							_fs = 0
 							Select.playmu
 						}
 					}
@@ -1149,31 +1182,27 @@ OnMAAPlayFinish
 	}
 	else
 	{
-		if chose == "right" 
+		if ARRAYSIZE(muplayed) <= 0
 		{
-			if ARRAYSIZE(muplayed) <= 0
-			{
-				muplayed = songplayed
-			}
-			else
-			{
-				muplayed = (muplayed, songplayed)
-			}
+			muplayed = songplayed
+		}
+		else
+		{
+			muplayed = (muplayed, songplayed)
 		}
 
 		if (ARRAYSIZE(muplayed)) < (ARRAYSIZE(songlist)+nbtracks)
 		{
-			chose = "other"
-			while chose != "right" || ARRAYSIZE(totalsongs)<=1
+			_chose = "other"
+			while _chose != "right" || ARRAYSIZE(totalsongs)<=1
 			{
 				song = ANY(totalsongs)
-				chose = "right"
-				--
+				_chose = "right"
 				foreach muplayed ; music
 				{
 					if music == song || song == songplayed
 					{
-						chose = "other"
+						_chose = "other"
 						//If the music has been played before, it would restart and chose a new music.
 					}
 					
@@ -1521,4 +1550,48 @@ Select.startrename
 {
 	rename = 1
 	Select.muinplaylist
+}
+
+RenameSong
+{
+	oldname=_argv[0]
+	"\![open,inputbox,OnRenameSong,-1,%(oldname)]"
+}
+
+OnRenameSong
+{
+	_newname = reference0
+	_size= ARRAYSIZE(songlist)
+	
+	for _i=0 ; _i<_size ; _i++
+	{
+		if "%(songlist[_i][1])" == "" && "%(songlist[_i][0])" != ""
+		{
+			_song = "%((SPLITPATH(songlist[_i][0]))[2])"
+			_song = REPLACE(_song,"[","t")
+			_song = REPLACE(_song,"]","t")
+			_song = REPLACE(_song,"(","t")
+			_song = REPLACE(_song,")","t")
+			_song = REPLACE(_song,"{","t")
+			_song = REPLACE(_song,"}","t")
+			_song = REPLACE(_song,"'","t")
+			_song = REPLACE(_song,",","t")
+			_song = REPLACE(_song,"\","t")
+			_song = REPLACE(_song,"!","t") 
+			if _song == oldname
+			{
+				songlist[_i] = "%(songlist[_i][0]),%(_newname)"
+				"\0* The song has been renamed. And I want %(oldname) and %(_newname)\e"
+				break
+			}
+		}
+		elseif songlist[_i][1] == oldname
+		{
+			songlist[_i] = "%(songlist[_i][0]),%(_newname)"
+			"\0* The song has been renamed. And I want %(oldname) and %(_newname)\e"
+			break
+		}
+	}
+	--
+	"\0* I didn't find the song to rename. And I want %(oldname) and %(_newname)\e"
 }

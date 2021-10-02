@@ -28,15 +28,8 @@ On_username
 
 On_homeurl
 {
-	if checkmirror == 1
-	{
-		"https://levidre.github.io/azura-files/Azura"
-	}
-	else
-	{
-		"https://azura-levidre.000webhostapp.com/azura-files/Azura"
-	}
-	
+	//"https://levidre.github.io/azura-files/Azura"	
+	"https://raw.githubusercontent.com/levidre/Azura/master/"
 }
 
 

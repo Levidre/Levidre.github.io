@@ -563,8 +563,6 @@ Select.reinivoc
 	{
 		verbslist ,= verb[0]
 	}
-	--
-	"\e"
 }
 
 

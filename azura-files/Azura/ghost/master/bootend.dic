@@ -49,15 +49,17 @@ OnFirstBoot
 	issat = 0
 	oncomputer = 0
 	isdrawing = 0
-	azpose="\0\s[10]"
+	azpose="\0\s[10]%(smile)"
 	rename = 0
 	holdobsidian = 0
 	
 	saw_dusk_dawn = 0 //Just to say hello to them
 	ghostsencountered = IARRAY
+	"\1\s[-1]\0"
+	--
 	if replacedGseen != ""
 	{
-		"\0\s[10]\i[45]* Hello %(username).\w7 I'm back."
+		"\0\s[10]%(arms)\i[45]* Hello %(username).\w7 I'm back."
 	}
 	else
 	{
@@ -93,7 +95,6 @@ OnFirstBoot
 		playlistlist = IARRAY
 		songlist = IARRAY
 		muhotkey = "OFF"
-		playlistload = 0
 		alreadyteach = 0
 		lovetrashanime = "unknown"
 		loveshojo = "unknown"
@@ -176,6 +177,7 @@ OnFirstBootStuff
 
 	_i=UNLOADLIB('saori\mciaudior.dll')
 	_i=LOADLIB('saori\mciaudior.dll')
+	Select.reinivoc
 }
 
 //Below are the choices that were defined at the end of the OnFirstBoot dialogue up there. These define the values your ghost will be using for pronouns according to what the user selected. On the whole, you should not need to touch these.
@@ -231,7 +233,7 @@ NameInput
 {
 	//Note that there's a \![leave,passivemode] tag in this dialogue! Don't forget about this! If you leave them in passivemode they won't talk at all and it'd sort of defeat the purpose, right? I actually forgot this for a while with Hunter and Smoker and didn't notice because OnFirstBoot only runs once, so it took me some testing to find out what was wrong. Always make sure to leave passivemode when you're done with it!
 	
-	"\0* Thank you, \w5I prefer ask because appearance can fool and I don't want to make a mistake. \![leave,passivemode]\w8\0\s[10]What is your name ? \![open,inputbox,OnNameTeach,-1]\e"
+	"\0* Thank you, \w5I prefer ask because appearance can fool and I don't want to make a mistake. \![leave,passivemode]\w8\0What is your name ? \![open,inputbox,OnNameTeach,-1]\e"
 	
 	//At the end of this dialogue there's a tag saying "\![open,inputbox,OnNameTeach,-1]". It basically leads to the naming function defined in nameteach.dic, so don't touch it. Make sure it's there though! Otherwise your user won't have a way to put in their name. :o
 	
@@ -308,7 +310,7 @@ OnBoot
  {	
 	OnInitBootVariables
 	
- 	"\1\s[1]\![set,otherghosttalk,true]\![set,otherghosttalk,before]\0" //This sets them up in their neutral pose for now.
+ 	"\1\s[-1]\![set,otherghosttalk,true]\![set,otherghosttalk,before]\0" //This sets them up in their neutral pose for now.
 	--
 	if nowshell == "Old shell"
 	{
@@ -327,6 +329,7 @@ OnBoot
 		}
 		else
 		{
+			"\1\s[1]"
 			azpose = "\0\s[30]%(smile)"
 		}
 	}
@@ -355,7 +358,7 @@ OnBoot
 		}
 		elseif nowshell != "Halloween shell"
 		{
-			"\![change,shell,Halloween shell]\e"
+			"\1\s[1]\![change,shell,Halloween shell]\e"
 			bootingchangeshell = 1
 		}
 		
@@ -395,7 +398,6 @@ OnInitBootVariables
 	isplayed = 0
 	boarddisplayed = 0
 	muplayed = IARRAY
-	playlistload = 0
 	AllFilepath = IARRAY
 	dayslot = GetDaySlot
 	timeslot = GetTimeSlot
@@ -406,6 +408,8 @@ OnInitBootVariables
 	saw_dusk_dawn = 0
 	checkmirror = 0
 	holdobsidian = 0
+	ghostcommunicated = IARRAY
+	lastdialogues = IARRAY
 }
 
 //--normalboottalk
@@ -802,15 +806,6 @@ RemindingStuff
 
 //--OnClose
 
-//OnClose runs when you close your ghost. Like OnBoot, this can be customized for times and days if you like, as you saw above. It can also be easily simplified down to
-//OnClose
-//{
-//[insert your dialogue here]
-//}
-//if you don't want to deal with the time slots. Although do note, close dialogue must end with a \- instead of \e. \- will close the program.
-//Like above with OnBoot, just replace all the following pieces of dialogue with your own. It feels a bit redundant for me to point out every single piece and say "replace this", you know? If you've read the SakuraScript walkthrough page, you should know what a piece of dialogue looks like by now within code. Just go through OnClose and replace each bit with dialogue more suited for your ghost.
-//Note though that each bit here ends with \w8 instead of \e. That's because the actual end statement to close the ghost is at the very end, one of the very very rare times you won't have to end a line with \e. Instead, end it with \w8 so there's a little bit of a pause for the user before your ghost closes so they can read the last message.
-
 OnClose
  {
 	timeslot = GetTimeSlot //as you saw above, it's checking the time.
@@ -1097,12 +1092,42 @@ OnShellChanged
 	 {
 		if resumingchangeshell == 1
 		{
-			"%(azpose)%(arms)"
+			if dayslot != "10month 31day"
+			{
+				"\1\s[-1]"
+			}
+			else
+			{
+				"\p[2]"
+			}
+			--
+			if boarddisplayed == 1
+			{
+				"\s[5]"
+			}
+			--
+			"\0%(azpose)%(arms)"
 			--
 			ResumeSystemDialogue
 		} 
 		elseif bootingchangeshell == 1
 		{
+			if dayslot != "10month 31day"
+			{
+				"\1\s[-1]"
+			}
+			else
+			{
+				"\p[2]"
+			}
+			--
+			if boarddisplayed == 1
+			{
+				"\s[5]"
+			}
+			--
+			"\0"
+			--
 			OnGreetingDialogue
 			bootingchangeshell = ""
 		}
@@ -1114,7 +1139,21 @@ OnShellChanged
 		}
 		elseif nowshell != reference0
 		{
-			"%(azpose)%(arms)* Here I am."
+			if dayslot != "10month 31day"
+			{
+				"\1\s[-1]"
+			}
+			else
+			{
+				"\p[2]"
+			}
+			--
+			if boarddisplayed == 1
+			{
+				"\s[5]"
+			}
+			--
+			"\0%(azpose)%(arms)* Here I am."
 		}
 	 }
 	resumingchangeshell = ""
@@ -1144,31 +1183,6 @@ OnDressupChanged
 			"\0\s[10]You took the clothing item off.\e"
 			}
 		}		
-	}
-	else //if reference0 isn't the main character, then it has to be the side character.
-	{
-	if reference1 == "some kind of clothing for triangle??" //The name of the item of clothing in the descript.txt file in your shell folder.
-		{
-			if reference2 == 1 //If you put it on
-			{
-			"\1\s[1]I'm wearing some kind of clothing.\w8Maybe a hat?\e"
-			}
-			else //When you take it off.
-			{
-			"\1\s[1]You took off some kind of clothing.\e"
-			}
-		}
-	elseif reference1 == "i'm gonna say a propeller beanie" //As you've seen above, you can use elseifs to expand the list if you have more than one item.
-		{
-			if reference2 == 1 //if you're putting it on
-			{
-			"\1\s[1]You put a hat on me.\w8lol.\w8\1\n\n[half]Shaddap.\e"
-			}
-			else //when you take it off
-			{
-			"\1\s[1]You took off the hat.\e"
-			}
-		}
 	}
 }
 
