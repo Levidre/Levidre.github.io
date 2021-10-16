@@ -1,6 +1,0 @@
-﻿charset,UTF-8
-type,ghost
-name,Invader Zim
-directory,Invader_Zim
-
-balloon.directory,irken_balloon
