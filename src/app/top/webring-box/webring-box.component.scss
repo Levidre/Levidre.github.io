@@ -1,0 +1,131 @@
+
+.webring-container {
+	font-size:0.80rem;
+	display:inline-block;
+	vertical-align:top;
+	border-radius: 8px;	
+}
+
+.webring-banner
+{
+	background-color:#d8d4e0;/*#0b0d6b;*/
+	border-radius: 8px;
+	color:#625380;
+}
+
+div .webring-banner 
+{
+	box-sizing: border-box;
+	border: 3px solid #DDD;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px 0 rgba(14, 30, 37, 0.12);
+	max-width:100%;
+	background-color:#d0c4e7;
+	padding:10px;
+	padding:0.3rem;
+	color:#625380;
+}
+
+div .webring-banner a 
+{
+	color: #4b1690;
+	text-decoration:none;
+	margin:0px;
+}
+
+div .webring-banner a:hover,.webring-banner a:focus 
+{
+	color: #6634a9;
+	text-decoration:underline;
+}
+
+div .webring-banner__header 
+{
+	display:flex;
+	align-items: center;
+	flex-wrap:wrap;
+	border-bottom: 1px solid #DDD;
+	color:#625380;
+	margin:0px;
+	padding:0px;
+	background-color:rgba(0,0,0,0);
+}
+
+div .webring-banner__description 
+{
+	flex: 1 0 0%;
+	margin:10px;
+	margin:0.3rem;
+	padding:0px;
+	background-color:rgba(0,0,0,0);
+	color:#625380;
+}
+
+.webring-banner__description span, .webring-banner__description span div
+{
+	color:#625380;
+}
+
+div .webring-banner__image 
+{
+	display:block;
+	width:70px;
+	width:4.5rem;
+	height:70px;
+	height:4.5rem;
+	border-radius:50%;
+	background-color:rgba(0,0,0,0);
+}
+
+.webring-banner__title 
+{
+	margin:0;
+	padding:0;
+	font-size:1.00rem;
+	font-weight: bold;
+	line-height:1.0rem;
+	background-color:rgba(0,0,0,0);
+	color:#625380;
+	border-bottom:none;
+}
+
+.webring-banner__title a
+{
+	padding:0;
+}
+
+.webring-banner__info 
+{
+	display:flex;
+	justify-content:center;
+	border-radius:50%;
+	border: 2px solid #DDD;
+	width:1rem;
+	height:1rem;
+	line-height: 1rem;
+	font-size: .75rem;
+	text-align:center;
+	color: #666;
+	text-decoration:none;
+}
+		  
+.webring-banner__links {
+	display:flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	padding: 0.3rem;
+}
+
+.webring-banner__link {
+	display:block;
+	text-decoration:none;
+	color: #3bc1b6;
+}
+
+.webring-banner__link--random {
+	text-align:center;
+}
+
+.webring-banner__link--next {
+	text-align:right;
+}

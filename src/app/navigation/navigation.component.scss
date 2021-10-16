@@ -1,0 +1,118 @@
+nav
+{
+	background-image:url("../../assets/pictures/fond.png");
+  margin:10px;
+  padding:10px;
+	text-decoration:none;
+	text-align:justify;
+	text-align-last:center;
+    display: flex;
+    justify-content:center;
+	flex-wrap:wrap;
+
+}
+
+nav a
+{
+	font-size:120%;
+	font-size:1.20rem;
+	font-family:"DTM-Sans";
+	display:inline-block;
+	margin-right:10px;
+	margin-right:0.75rem;
+	margin-left:10px;
+	margin-left:0.75rem;
+	padding-left:20px;
+	padding-left:1rem;
+	padding-right:20px;
+	padding-right:1rem;
+	margin-top:5px;
+	margin-top:0.5rem;
+	margin-bottom:5px;
+	margin-bottom:0.5rem;
+	color:#c5deff;
+	text-align:center;
+	background-color:rgba(0,0,0, 0.2);
+	border: 2px solid rgba(0,0,0, 0.3);
+	text-decoration:none;
+}
+
+
+nav a:visited
+{
+	color:#aec1ff;
+}
+
+.dropbtn {
+	position: relative;
+	font-size:120%;
+	font-size:1.20rem;
+	display:inline-block;
+	margin-right:10px;
+	margin-right:0.75rem;
+	margin-left:10px;
+	margin-left:0.75rem;
+	padding-left:20px;
+	padding-left:1rem;
+	padding-right:20px;
+	padding-right:1rem;
+	margin-top:5px;
+	margin-top:0.5rem;
+	margin-bottom:5px;
+	margin-bottom:0.5rem;
+	color:#c5deff;
+	text-align:center;
+	font-family:"DTM-Sans";
+	background-color:rgba(0,0,0, 0.2);
+	border: 2px solid rgba(0,0,0, 0.3);
+	text-decoration:none;
+}
+
+.dropdown {
+	background-color:rgba(0,0,0, 0);
+	margin:0px;
+	padding:0px;
+
+}
+
+.dropdown-content {
+	display: none;
+	position: absolute;
+	text-align:left;
+	background-image:url("../../assets/pictures/fond.png");
+	background-position: center;
+	/*min-width: 160px;*/
+	z-index: 1;
+	margin:0px;
+	padding:0px;
+	text-align-last:left;
+
+}
+
+.dropdown-content a {
+	font-size:115%;
+	font-size:1.15rem;
+	margin:0px;
+	display: block;
+	padding-left:20px;
+	padding-left:1rem;
+	padding-right:20px;
+	padding-right:1rem;
+	padding-top:10px;
+	padding-top:0.5rem;
+	padding-bottom:10px;
+	padding-bottom:0.5rem;
+	text-align-last:left;
+	color:#c5deff;
+	text-align:left;
+	font-family:"DTM-Sans";
+	background-color:rgba(0,0,0, 0.2);
+	border: 2px solid rgba(0,0,0, 0.3);
+	text-decoration:none;
+}
+
+.dropdown-content a:hover {
+	text-decoration:underline;
+}
+
+.dropdown:hover .dropdown-content {display: block;}

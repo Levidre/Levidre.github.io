@@ -1,0 +1,51 @@
+/* You can add global styles to this file, and also import other style files */
+@font-face
+{
+	font-family:"DTM-Mono";
+	src:url(assets/fonts/DTM-Mono.otf) format("opentype");
+
+}
+
+@font-face
+{
+	font-family:"DTM-Sans";
+	src:url(assets/fonts/DTM-Sans.otf) format("opentype");
+}
+:root {
+    font-size:100%;
+    background-color:#0c0e4d;
+}
+
+html
+{
+	font-size:1rem;
+}
+
+*
+{
+	font-family:DTM-Mono,Arial;
+	background-color:rgba(0,0,0,0);/*#0b0d6b;*/
+	color:#caf5ff;/*#74c0e3;/*#c6f9ff;*/
+	text-size-adjust: none;
+	margin:0px;
+    padding:0px;
+}
+
+a
+{
+	font-family:"DTM-Sans";
+	text-decoration:none;
+  color:#c5deff;/*#6e9dda;/*#598fd6;*/
+}
+
+
+a:hover
+{
+	text-decoration:underline;
+}
+
+a:visited
+{
+	text-decoration:none;
+	color:#aec1ff;/*#4b74cf;#5ad0de;*/
+}

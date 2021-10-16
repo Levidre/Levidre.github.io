@@ -1,0 +1,35 @@
+.section-inside
+{
+	display:flex;
+	justify-content:space-between;
+	margin: 10px;
+}
+
+.icon
+{
+	flex-grow:2;
+}
+
+.title
+{
+	flex-grow:4;
+}
+
+.box
+{
+	max-width: 35%;
+	flex-shrink: 4;
+}
+
+@media only screen and (max-width: 600px)
+{
+  .section-inside
+  {
+    flex-wrap: wrap;
+  }
+
+  .box
+  {
+    max-width: fit-content;
+  }
+}
