@@ -206,7 +206,7 @@ addfiledropped
 			{
 				//Add songs that aren't in the list
 				//Ajouter des chansons qui ne sont pas incluses dans la liste
-				if nbsong <=0 
+				if _nbsong <=0 
 				{
 					songlist = _Filename
 				}
@@ -299,7 +299,8 @@ Select.AfterUpdate
 	
 	"\0\f[italic,true]%(azpose)%(arms)\b2\w1\i[2001]"
 	--
-	"A normal update, there are more dialogues and now they shouldn't be repeated until at least 20 other dialogues have been said.\nThe timer for when she is asleep is fixed. The music player dashboard shouldn't disappear anymore when Azura is changing her outfit."
+	"Small bugfixe update, the changes done the previous one broke the music player. It's now fixed."
+	//"A normal update, there are more dialogues and now they shouldn't be repeated until at least 20 other dialogues have been said.\nThe timer for when she is asleep is fixed. The music player dashboard shouldn't disappear anymore when Azura is changing her outfit."
 	//"Birthday update !\n\n[half]There isn't a lot of new stuff. Beside... the AI now has almost all the responses ! What means you should now be able to say anything to Azura and she will responds accordingly. Only the normal questions are missing. So only the ones that requires a yes/no response. \nIf the AI doesn't work correctly, meaning if Azura isn't responding, try reinitialising her vocabulary in the config menu.\n\n[halt]The anniversary hat shouldn't disappear when Azura is changing her position anymore.\n\n[half]And that's all. It's just a milestone update."
 	//"Quite big update.\nA surface issue with the music dashboard has been solved, an other with the name teach dialogue too. There is a new pose and for once there aren't any error for the normal outfit in the log anymore ! The way the appearance is handled during events has changed. \n\n[half]The backups weren't working anymore, it's now solved.\nA bug where the arms holding Obsidian could appear was present, they shouldn't do it anymore. Azura putting Obsidian down when she was switching to an other ghost was interrupting the change of ghost so she is now forcing it to happen anyway.\n\n[half]A few responses have been made on the AI so there are some new responses in the 'how' and the 'what' questions. The propositions should now be handled correctly.\nAzura will always open her computer if you add songs and choose to play a music immediately.\n\n[half]You must have had to tell Azura to check her mirror for this update. Her usual update website went down so it has been fully transferred to github. From now she will check for updates there. Her report system will sadly stop working but you can still use tumblr, deviantart or discord to contact me."
 	//"Very small update. There was an issue with a surface of the previous update so this one should fix it and a few dialogues are added."

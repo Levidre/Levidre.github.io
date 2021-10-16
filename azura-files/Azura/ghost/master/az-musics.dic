@@ -680,7 +680,7 @@ Select.cleanplaylist
 			"* Cleanning the playlist before adding the musics of the playlist.\n"
 		}
 		--
-		AddPlaylistDropped("..\..\m3u_file\%(_arv[1]).m3u")
+		AddPlaylistDropped("..\..\m3u_file\%(_argv[1]).m3u")
 	}
 }
 
