@@ -14,7 +14,7 @@
           "strict": true
         }
       },
-      "root": "",
+      "root": "https://levidre.github.io/",
       "sourceRoot": "src",
       "prefix": "app",
       "architect": {
