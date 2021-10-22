@@ -93,8 +93,8 @@ ul
 	padding-top:0.5rem;
 	padding-bottom:5px;
 	padding-bottom:0.5rem;
-	margin-left:60px;
-	margin-left:4rem;
+	margin-left:40px;
+	margin-left:3rem;
 	margin-right:60px;
 	margin-right:4rem;
 	vertical-align:top;
@@ -120,6 +120,13 @@ li
   padding: 0px;
   display:flex;
   justify-content:center;
+}
+
+.download
+{
+  padding:30px;
+  padding:2.5rem;
+  font-size: larger;
 }
 
 @media only screen and (max-width: 600px)

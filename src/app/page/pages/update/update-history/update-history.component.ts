@@ -10,6 +10,7 @@ import { NoticeService } from 'src/app/service/notice.service';
 export class UpdateHistoryComponent implements OnInit {
 
   notices! : Notices;
+
   constructor(private noticeService : NoticeService) { }
 
   ngOnInit(): void {

@@ -6,8 +6,8 @@
 <h3>The notices list</h3>
 <div>
 	<p>Let's see the list (the top one is the more recent) :</p>
-	<ul *ngFor="let notice of notices.notices">
-    <li [innerHTML]="notice"></li>
+	<ul>
+    <li *ngFor="let notice of notices.notices" [innerHTML]="notice"></li>
 </ul>
 
 </div>

@@ -8,6 +8,8 @@ import { MySaoriComponent } from './page/pages/saori/my-saori/my-saori.component
 import { SaoriCreationComponent } from './page/pages/saori/saori-creation/saori-creation.component';
 import { UpdateComponent } from './page/pages/update/update/update.component';
 import { UpdateHistoryComponent } from './page/pages/update/update-history/update-history.component';
+import { UkagakaComponent } from './page/pages/ukagaka/ukagaka/ukagaka.component';
+import { InstallationOfGhostsComponent } from './page/pages/ukagaka/installation-of-ghosts/installation-of-ghosts.component';
 
 
 const routes: Routes = [
@@ -24,6 +26,16 @@ const routes: Routes = [
   {
     path: 'levidre',
     component: LevidreComponent,
+    pathMatch: 'full'
+  },
+  {
+    path: 'ukagaka',
+    component: UkagakaComponent,
+    pathMatch: 'full'
+  },
+  {
+    path: 'ukagaka/installation',
+    component: InstallationOfGhostsComponent,
     pathMatch: 'full'
   },
   {
