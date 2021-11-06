@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { IndexComponent } from "./pages/index/index.component";
-import { AzuraComponent } from './pages/azura/azura.component';
+import { AzuraComponent } from './pages/my-ghosts/azura/azura.component';
 import { LevidreComponent } from './pages/levidre/levidre.component';
 import { SaoriComponent } from './pages/saori/saori/saori.component';
 import { InstallationOfGhostsComponent } from './pages/ukagaka/installation-of-ghosts/installation-of-ghosts.component';
@@ -10,6 +10,7 @@ import { SaoriCreationComponent } from './pages/saori/saori-creation/saori-creat
 import { UkagakaComponent } from './pages/ukagaka/ukagaka/ukagaka.component';
 import { UpdateComponent } from './pages/update/update/update.component';
 import { UpdateHistoryComponent } from './pages/update/update-history/update-history.component';
+import { ZimComponent } from './pages/my-ghosts/zim/zim.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { UpdateHistoryComponent } from './pages/update/update-history/update-his
     SaoriCreationComponent,
     UkagakaComponent,
     UpdateComponent,
-    UpdateHistoryComponent
+    UpdateHistoryComponent,
+    ZimComponent
   ],
   imports: [
     BrowserModule,

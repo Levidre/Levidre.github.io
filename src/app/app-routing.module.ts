@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { IndexComponent } from './page/pages/index/index.component';
-import { AzuraComponent } from './page/pages/azura/azura.component';
+import { AzuraComponent } from './page/pages/my-ghosts/azura/azura.component';
 import { LevidreComponent } from './page/pages/levidre/levidre.component';
 import { SaoriComponent } from './page/pages/saori/saori/saori.component';
 import { MySaoriComponent } from './page/pages/saori/my-saori/my-saori.component';
@@ -10,17 +10,13 @@ import { UpdateComponent } from './page/pages/update/update/update.component';
 import { UpdateHistoryComponent } from './page/pages/update/update-history/update-history.component';
 import { UkagakaComponent } from './page/pages/ukagaka/ukagaka/ukagaka.component';
 import { InstallationOfGhostsComponent } from './page/pages/ukagaka/installation-of-ghosts/installation-of-ghosts.component';
+import { ZimComponent } from './page/pages/my-ghosts/zim/zim.component';
 
 
 const routes: Routes = [
   {
     path: '',
     component: IndexComponent,
-    pathMatch: 'full'
-  },
-  {
-    path: 'azura',
-    component: AzuraComponent,
     pathMatch: 'full'
   },
   {
@@ -36,6 +32,16 @@ const routes: Routes = [
   {
     path: 'ukagaka/installation',
     component: InstallationOfGhostsComponent,
+    pathMatch: 'full'
+  },
+  {
+    path: 'ukagaka/azura',
+    component: AzuraComponent,
+    pathMatch: 'full'
+  },
+  {
+    path: 'ukagaka/zim-and-gir',
+    component: ZimComponent,
     pathMatch: 'full'
   },
   {
