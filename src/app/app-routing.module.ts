@@ -11,6 +11,7 @@ import { UpdateHistoryComponent } from './page/pages/update/update-history/updat
 import { UkagakaComponent } from './page/pages/ukagaka/ukagaka/ukagaka.component';
 import { InstallationOfGhostsComponent } from './page/pages/ukagaka/installation-of-ghosts/installation-of-ghosts.component';
 import { ZimComponent } from './page/pages/my-ghosts/zim/zim.component';
+import { GhostJamsComponent } from './page/pages/ghost-jams/ghost-jams.component';
 
 
 const routes: Routes = [
@@ -42,6 +43,11 @@ const routes: Routes = [
   {
     path: 'ukagaka/zim-and-gir',
     component: ZimComponent,
+    pathMatch: 'full'
+  },
+  {
+    path: 'ukagaka/ghost-jams',
+    component: GhostJamsComponent,
     pathMatch: 'full'
   },
   {

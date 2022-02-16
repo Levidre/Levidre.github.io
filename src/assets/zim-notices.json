@@ -1,0 +1,8 @@
+{
+  "notices" : [
+    "New bugfixe update. A bug with some unlockable dialogues has been fixed, some typos and general appearance issues have been fixed too.\nThe ghost name has been changed to 'Zim and GIR'.",
+	  "Bugfixe update, this is only fixing some bugs and adding a new variable to lock common actions during events such as first boot.",
+	  "Zim can now blow up his cover. The event isn't randomized so if all the conditions are present, he will blow up his cover. There are now the dialogues for when he has been discovered. Some animations have been added to dialogues too. \nThe relationship system is complete.",
+    "Surfaces fixed and a few dialogues are added."
+  ]
+}

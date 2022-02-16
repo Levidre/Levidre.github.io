@@ -6,9 +6,34 @@
 <h3>The notices list</h3>
 <div>
 	<p>Let's see the list (the top one is the more recent) :</p>
-	<ul>
-    <li *ngFor="let notice of notices.notices" [innerHTML]="notice"></li>
-</ul>
+
+  <mat-tab-group mat-stretch-tabs class="example-stretched-tabs" [selectedIndex]="0" (selectedTabChange)="handleTabChange($event)">
+    <mat-tab label="Azura">
+      <ul>
+        <li *ngFor="let notice of this.azuraNotices.currentPage" [innerHTML]="notice"></li>
+
+        <mat-paginator (page)="handlePageChange($event)"
+          [length]="azuraNotices.notices.length"
+          [pageSize]="azuraNotices.size"
+          [pageSizeOptions]="[5, 10, 25, 100]"
+          aria-label="Select page">
+
+        </mat-paginator>
+      </ul>
+    </mat-tab>
+    <mat-tab label="Zim and GIR">
+        <ul>
+          <li *ngFor="let notice of this.zimNotices.currentPage" [innerHTML]="notice"></li>
+
+          <mat-paginator (page)="handlePageChange($event)"
+            [length]="zimNotices.notices.length"
+            [pageSize]="zimNotices.size"
+            [pageSizeOptions]="[5, 10, 25, 100]"
+            aria-label="Select page">
+          </mat-paginator>
+        </ul>
+    </mat-tab>
+  </mat-tab-group>
 
 </div>
 

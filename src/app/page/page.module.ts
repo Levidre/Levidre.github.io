@@ -11,6 +11,8 @@ import { UkagakaComponent } from './pages/ukagaka/ukagaka/ukagaka.component';
 import { UpdateComponent } from './pages/update/update/update.component';
 import { UpdateHistoryComponent } from './pages/update/update-history/update-history.component';
 import { ZimComponent } from './pages/my-ghosts/zim/zim.component';
+import { GhostJamsComponent } from './pages/ghost-jams/ghost-jams.component';
+import { MaterialModule } from "../material/material.module";
 
 @NgModule({
   declarations: [
@@ -24,13 +26,16 @@ import { ZimComponent } from './pages/my-ghosts/zim/zim.component';
     UkagakaComponent,
     UpdateComponent,
     UpdateHistoryComponent,
-    ZimComponent
+    ZimComponent,
+    GhostJamsComponent
   ],
   imports: [
     BrowserModule,
+    MaterialModule
   ],
   exports: [
     IndexComponent,
+    MaterialModule
   ],
   providers: []
 })

@@ -16,11 +16,6 @@
     background-color:#0c0e4d;
 }
 
-html
-{
-	font-size:1rem;
-}
-
 *
 {
 	font-family:DTM-Mono,Arial;
@@ -28,7 +23,8 @@ html
 	color:#caf5ff;/*#74c0e3;/*#c6f9ff;*/
 	text-size-adjust: none;
 	margin:0px;
-    padding:0px;
+  padding:0px;
+  font-size:1rem;
 }
 
 a
@@ -48,4 +44,13 @@ a:visited
 {
 	text-decoration:none;
 	color:#aec1ff;/*#4b74cf;#5ad0de;*/
+}
+
+.mat-paginator {
+  background-color: rgba(0,0,0,0);
+}
+
+.mat-select-panel {
+  background-color: #3d40a6;
+  font-size:1rem;
 }

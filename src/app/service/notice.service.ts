@@ -1,20 +1,26 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Notices } from '../model/notices.model';
+import { NoticesPage } from '../model/notices-page.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NoticeService {
 
-  noticesPath = "/assets/notices.json";
+  azuraNoticesPath = "/assets/azura-notices.json";
+  zimNoticesPath = "/assets/zim-notices.json";
 
   constructor(private httpClient: HttpClient) { }
 
-  getAll() : Observable<Notices>
+  getAzuraNotices() : Observable<NoticesPage>
   {
-    return this.httpClient.get<Notices>(this.noticesPath);
+    return this.httpClient.get<NoticesPage>(this.azuraNoticesPath);
+  }
+
+  getZimNotices() : Observable<NoticesPage>
+  {
+    return this.httpClient.get<NoticesPage>(this.zimNoticesPath);
   }
 
 }
