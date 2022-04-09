@@ -1,5 +1,6 @@
 {
   "notices" : [
+    "It's a bugfix and content update.\nA bug with an unlockable feature has been fixed and new dialogues have been added for the menu options.\nA new balloon for Zim and GIR is being released at the same time as this update. It's a simplified version of their balloon, supposed to be easier to read.",
     "New bugfixe update. A bug with some unlockable dialogues has been fixed, some typos and general appearance issues have been fixed too.\nThe ghost name has been changed to 'Zim and GIR'.",
 	  "Bugfixe update, this is only fixing some bugs and adding a new variable to lock common actions during events such as first boot.",
 	  "Zim can now blow up his cover. The event isn't randomized so if all the conditions are present, he will blow up his cover. There are now the dialogues for when he has been discovered. Some animations have been added to dialogues too. \nThe relationship system is complete.",
