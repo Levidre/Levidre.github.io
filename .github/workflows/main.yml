@@ -37,4 +37,9 @@ jobs:
       - name: Setting up the 404 page
         run: \cp docs/index.html docs/404.html
       - name: Pushing the built website
-        run: git commit -m "Building the website" && git push
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "Building the website"
+          git push
